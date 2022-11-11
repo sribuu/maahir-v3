@@ -16,15 +16,15 @@ export default function FaqHighlightHome(props: IFaqHighlightHomeProps) {
   return (
     <div
       className={clsx(
-        "grid justify-center content-start justify-items-center",
+        "grid justify-center content-start justify-items-center w-full grid-cols-1",
         "pt-[694px] pb-[5rem] gap-y-12 min-h-[68.625rem]",
         "bg-gradient-to-r from-white to-mint-cream"
       )}
     >
       <div
         className={clsx(
-          "grid justify-start content-start justify-items-start",
-          "max-[56.25rem]",
+          "grid grid-cols-1 justify-start content-start justify-items-start",
+          "max-w-[62.25rem] w-full",
           "gap-y-12"
         )}
       >

@@ -6,6 +6,7 @@ import {
   fetchMaahirMenu,
   fetchMaahirSocialMedia,
 } from "../core/lib/api";
+import { fetchTopThreeViralProducts } from "../core/lib/api/dynamic";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -16,6 +17,10 @@ export async function getStaticProps() {
     await queryClient.prefetchQuery(
       ["maahir-social-media"],
       fetchMaahirSocialMedia
+    );
+    await queryClient.prefetchQuery(
+      ["maahir-top-three-viral-products"],
+      fetchTopThreeViralProducts
     );
   } catch (e) {
     isError = true;

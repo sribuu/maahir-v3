@@ -33,7 +33,7 @@ const initialState: InitialStateType = {
     headline: "Siap Jualan Produk Viral Dari Mana Aja, Kapan Aja!",
     description: "Mau mulai jualan sekarang?",
     cta_button: {
-      label: "Gabung grup jualan African",
+      label: "Gabung grup jualan Di Maahir",
     },
   },
 };

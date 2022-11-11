@@ -5,9 +5,11 @@ import clsx from "clsx";
 
 export interface INavigationBarComponentProps {
   menus: { name: string; link: string }[];
+  variant: "transparent" | "normal";
 }
 NavigationBarComponent.defaultProps = {
   menus: [],
+  variant: "normal",
 };
 
 export default function NavigationBarComponent(
@@ -15,11 +17,15 @@ export default function NavigationBarComponent(
 ) {
   return (
     <nav
-      className={clsx("flex justify-center fixed top-0 right-0 left-0 z-10")}
+      className={clsx("flex justify-center fixed top-0 right-0 left-0 z-50")}
     >
       <div className={clsx("flex justify-between max-w-screen-xl w-full py-6")}>
         <img
-          src={"/logo/maahir-white.svg"}
+          src={
+            props.variant === "normal"
+              ? "/logo/maahir-grey.svg"
+              : "/logo/maahir-white.svg"
+          }
           width={130}
           height={70}
           loading={"lazy"}
@@ -30,7 +36,14 @@ export default function NavigationBarComponent(
             props.menus.map((item, index) => (
               <Link key={index} href={item.link} target={"_blank"}>
                 <button key={index} className={clsx("px-4 py-2 rounded-lg")}>
-                  <p className={clsx("font-medium text-sm", "text-white")}>
+                  <p
+                    className={clsx(
+                      "font-medium text-sm",
+                      props.variant === "normal"
+                        ? "text-charleston-green"
+                        : "text-white"
+                    )}
+                  >
                     {item.name}
                   </p>
                 </button>

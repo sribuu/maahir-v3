@@ -11,6 +11,7 @@ export const buttonStyles = cva(
     // default styles
     "rounded-xl",
     "font-bold",
+    "normal-case",
   ],
   {
     variants: {
@@ -25,7 +26,7 @@ export const buttonStyles = cva(
       },
       size: {
         small: ["text-sm", "py-1", "px-2"],
-        medium: ["text-base", "py-4", "px-4"],
+        medium: ["text-[0.875rem]", "py-4", "px-4"],
       },
     },
     // TODO: need rethinking compound
@@ -33,7 +34,7 @@ export const buttonStyles = cva(
       {
         intent: "primary",
         size: "medium",
-        class: "uppercase",
+        class: "normal-case",
       },
     ],
     defaultVariants: {

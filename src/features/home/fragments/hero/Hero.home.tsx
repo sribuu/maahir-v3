@@ -1,16 +1,22 @@
 import { useContext } from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import HighlightProductCard from "@/src/core/ui/components/highlight_product_card/HighlightProductCard.component";
 import { HomeContext } from "../../contexts/Home.context";
 import { PRODUCT_LINK } from "@/src/core/lib/constants";
+import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
+import { IProducts } from "@/src/core/lib/models";
 
 export interface IHeroHomeProps {}
 
 export default function HeroHome(props: IHeroHomeProps) {
   const { state } = useContext(HomeContext);
-
+  const { data: topThreeViralProductsData } = useQuery<IProducts[]>({
+    queryKey: ["maahir-top-three-viral-products"],
+    queryFn: fetchTopThreeViralProducts,
+  });
   return (
     <section
       className={clsx(
@@ -78,7 +84,6 @@ export default function HeroHome(props: IHeroHomeProps) {
             "text-base font-bold text-center",
             "text-ocean-boat-blue",
             "absolute bottom-[-30rem] left-[50%] translate-x-[-50%]"
-
           )}
         >
           {"Lihat Semua Produk"}
@@ -87,13 +92,21 @@ export default function HeroHome(props: IHeroHomeProps) {
 
       <div
         className={clsx(
-          "grid grid-cols-3 gap-x-8",
+          "grid justify-center justify-items-center gap-x-8",
+          topThreeViralProductsData.length >= 3
+            ? "grid-cols-3"
+            : `grid-cols-${topThreeViralProductsData.length}`,
           "absolute bottom-[-380px] z-10"
         )}
       >
-        <HighlightProductCard />
-        <HighlightProductCard />
-        <HighlightProductCard />
+        {topThreeViralProductsData.map((item, index) => (
+          <HighlightProductCard
+            key={index}
+            name={item.title}
+            productSrc={item.image}
+            description={item.description}
+          />
+        ))}
       </div>
 
       <p
