@@ -8,6 +8,7 @@ import { HomeContext } from "../../contexts/Home.context";
 import { PRODUCT_LINK } from "@/src/core/lib/constants";
 import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
 import { IProducts } from "@/src/core/lib/models";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 
 export interface IHeroHomeProps {}
 
@@ -96,7 +97,7 @@ export default function HeroHome(props: IHeroHomeProps) {
           topThreeViralProductsData.length >= 3
             ? "grid-cols-3"
             : `grid-cols-${topThreeViralProductsData.length}`,
-          "absolute bottom-[-380px] z-10"
+          "absolute bottom-[-420px] z-10"
         )}
       >
         {topThreeViralProductsData.map((item, index) => (
@@ -105,6 +106,7 @@ export default function HeroHome(props: IHeroHomeProps) {
             name={item.title}
             productSrc={item.image}
             description={item.description}
+            price={thousandSeparator(item.price)}
           />
         ))}
       </div>

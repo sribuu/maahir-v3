@@ -40,6 +40,7 @@ module.exports = {
       "charleston-green": "#232931",
       wenge: "#63605A",
       "mint-cream": "#F3FAFA",
+      "bright-gray": "#EBF0F4",
     },
 
     extend: {

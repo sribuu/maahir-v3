@@ -2,6 +2,7 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 export interface IButtonComponentProps {
+  id?: string;
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -55,7 +56,11 @@ export default function ButtonComponent({ intent, size, ...props }: Props) {
   };
 
   return (
-    <button className={buttonStyles({ intent, size })} onClick={handleClick}>
+    <button
+      id={props.id}
+      className={buttonStyles({ intent, size })}
+      onClick={handleClick}
+    >
       {props.children}
     </button>
   );

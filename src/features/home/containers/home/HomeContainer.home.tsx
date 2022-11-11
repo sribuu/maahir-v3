@@ -8,11 +8,6 @@ import { HomeProvider } from "../../contexts/Home.context";
 export interface IHomeContainerProps {}
 
 export default function HomeContainer(props: IHomeContainerProps) {
-  const {
-    isLoading: isLoadingHighlightProducts,
-    error: errorHighlightProducts,
-    data: highlightProducts,
-  } = useGetHighlightProducts();
   return (
     <MainLayout>
       <HomeProvider>

@@ -2,16 +2,21 @@ import * as React from "react";
 import clsx from "clsx";
 import ButtonComponent from "../button/Button.component";
 
-export interface IHighlightProductCardProps {
+export interface IProductCardComponentProps {
+  id?: string;
   name?: string;
   description?: string;
   price?: string;
   advantage?: string;
   productSrc?: string;
   productAlt?: string;
+  productRef?: (node?: Element) => void;
+  //   ref?: React.RefObject<HTMLDivElement> | null;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-HighlightProductCard.defaultProps = {
+ProductCardComponent.defaultProps = {
+  id: "",
   name: "Paket Reseller Setelan Rayon",
   description: "Potensi keuntungan mulai dari Rp20.000",
   price: "Rp49.999",
@@ -19,17 +24,25 @@ HighlightProductCard.defaultProps = {
   productSrc: "/images/sample-product.png",
 };
 
-export default function HighlightProductCard(
-  props: IHighlightProductCardProps
+export default function ProductCardComponent(
+  props: IProductCardComponentProps
 ) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClick) {
+      props.onClick(e);
+    }
+  };
   return (
-    <div className={clsx("grid gap-y-5 p-6 rounded-2xl shadow-1", "bg-white")}>
+    <div
+      ref={props.productRef}
+      className={clsx("grid gap-y-5 p-6 rounded-2xl shadow-1", "bg-white")}
+    >
       <img
         src={props.productSrc}
-        width={312}
-        height={312}
+        width={244}
+        height={180}
         loading={"lazy"}
-        className={clsx("object-cover rounded-lg w-[312px] h-[312px]")}
+        className={clsx("object-cover rounded-lg w-[244px] h-[180px]")}
       />
 
       <div className={clsx("grid gap-y-1.5")}>
@@ -51,7 +64,12 @@ export default function HighlightProductCard(
         <p>{props.description}</p>
       </div>
 
-      <ButtonComponent intent={"secondary"} size={"medium"}>
+      <ButtonComponent
+        id={props.id}
+        intent={"secondary"}
+        size={"medium"}
+        onClick={handleClick}
+      >
         {"Beli Sekarang"}
       </ButtonComponent>
     </div>

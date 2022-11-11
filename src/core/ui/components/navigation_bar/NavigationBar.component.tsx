@@ -17,7 +17,14 @@ export default function NavigationBarComponent(
 ) {
   return (
     <nav
-      className={clsx("flex justify-center fixed top-0 right-0 left-0 z-50")}
+      className={clsx(
+        "flex justify-center fixed top-0 right-0 left-0 z-50",
+        props.variant === "transparent" ? "bg-transparent" : "bg-white",
+        props.variant === "transparent" ? "border-b-0" : "border-b",
+        props.variant === "transparent"
+          ? "border-b-transparent"
+          : "border-b-bright-gray"
+      )}
     >
       <div className={clsx("flex justify-between max-w-screen-xl w-full py-6")}>
         <img
