@@ -7,26 +7,47 @@ module.exports = {
     "./src/core/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontSize: {
-      // sm: "0.8rem",
-      // base: "1rem",
-      // xl: "1.25rem",
-      // "2xl": "1.563rem",
-      // "3xl": "34px",
-      // "4xl": "2.441rem",
-      // "5xl": "3.052rem",
+    animation: {
+      fadeIn: "fadeIn 2s ease-in-out",
+      slideRight: "slideRight 1s ease-in-out",
+      slideLeft: "slideLeft 1s ease-in-out",
     },
+
+    keyframes: (theme) => ({
+      fadeIn: {
+        "0%": { opacity: 0 },
+        "100%": { opacity: 1 },
+      },
+      slideRight: {
+        "0%": { left: -200 },
+        "100%": { left: 0 },
+      },
+      slideLeft: {
+        "0%": { right: -200 },
+        "100%": { right: 0 },
+      },
+    }),
+
     colors: {
-      // verdigris: {
-      //   DEFAULT: "#59c4af",
-      //   light: "#59c4af",
-      //   dark: "#59c4af",
-      // },
       verdigris: "#59c4af",
+      "caribbean-green": "#00D6A1",
+      mauve: "#D8A7FF",
+      white: "#FFFFFF",
+      "ocean-boat-blue": "#0077C1",
+      "dark-charcoal": "#333333",
+      independence: "#4F5A66",
+      "cetacean-blue": "#0D1140",
+      "charleston-green": "#232931",
+      wenge: "#63605A",
+      "mint-cream": "#F3FAFA",
     },
+
     extend: {
+      boxShadow: {
+        1: "0px 16px 48px rgba(0, 0, 0, 0.08)",
+      },
       fontFamily: {
-        Montserrat: ["Montserrat", ...defaultTheme.fontFamily.sans],
+        DMSans: ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
     },
   },

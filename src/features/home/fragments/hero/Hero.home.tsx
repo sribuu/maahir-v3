@@ -1,6 +1,10 @@
 import { useContext } from "react";
+import Link from "next/link";
+import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
+import HighlightProductCard from "@/src/core/ui/components/highlight_product_card/HighlightProductCard.component";
 import { HomeContext } from "../../contexts/Home.context";
+import { PRODUCT_LINK } from "@/src/core/lib/constants";
 
 export interface IHeroHomeProps {}
 
@@ -8,14 +12,99 @@ export default function HeroHome(props: IHeroHomeProps) {
   const { state } = useContext(HomeContext);
 
   return (
-    <section className={"grid justify-center gap-y-2"}>
-      <h1>{state.hero.message}</h1>
-      <h1>{state.hero.headline}</h1>
+    <section
+      className={clsx(
+        "grid justify-center content-start justify-items-center",
+        "relative",
+        "py-[252px] gap-y-12 min-h-[68.625rem]",
+        "bg-gradient-to-r from-caribbean-green to-mauve"
+      )}
+    >
+      {/* lines */}
+      <img
+        className={clsx("absolute top-32 left-0")}
+        src={"/lines/left-curve.svg"}
+      />
 
-      <p>{state.hero.description}</p>
-      <ButtonComponent className={"bg-verdigris"}>
+      <img
+        className={clsx("absolute top-28 right-0")}
+        src={"/lines/right-curve.svg"}
+      />
+      {/* products */}
+      <img
+        className={clsx("animate-slideRight", "absolute top-[15rem] left-0")}
+        src={"/images/maahir-product-1.svg"}
+      />
+      <img
+        className={clsx(
+          "animate-slideLeft",
+          "absolute top-[20.125rem] right-0"
+        )}
+        src={"/images/maahir-product-2.svg"}
+      />
+      {/* content */}
+      <div
+        className={clsx(
+          "grid justify-center justify-items-center max-w-[48rem] gap-y-8"
+        )}
+      >
+        <h1
+          className={clsx(
+            "animate-fadeIn",
+            "text-[3.75rem] font-bold text-center",
+            "text-white"
+          )}
+        >
+          {state.hero.headline}
+        </h1>
+
+        <p
+          className={clsx(
+            "animate-fadeIn",
+            "text-[1.5rem] font-regular text-center",
+            "text-white"
+          )}
+        >
+          {state.hero.description}
+        </p>
+      </div>
+      <ButtonComponent intent={"primary"} size={"medium"}>
         {state.hero.cta_button.label}
       </ButtonComponent>
+
+      <Link href={PRODUCT_LINK}>
+        <p
+          className={clsx(
+            "text-base font-bold text-center",
+            "text-ocean-boat-blue",
+            "absolute bottom-[-30rem] left-[50%] translate-x-[-50%]"
+
+          )}
+        >
+          {"Lihat Semua Produk"}
+        </p>
+      </Link>
+
+      <div
+        className={clsx(
+          "grid grid-cols-3 gap-x-8",
+          "absolute bottom-[-380px] z-10"
+        )}
+      >
+        <HighlightProductCard />
+        <HighlightProductCard />
+        <HighlightProductCard />
+      </div>
+
+      <p
+        className={clsx(
+          "text-[2.25rem] font-bold text-center",
+          "text-white",
+          "absolute bottom-[10rem]"
+        )}
+      >
+        {"Product jualan paling viral buat kamu"}
+      </p>
     </section>
   );
 }

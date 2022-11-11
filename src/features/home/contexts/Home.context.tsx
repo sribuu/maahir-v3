@@ -16,7 +16,6 @@ type InitialStateType = {
   //   products: ProductType[];
   //   shoppingCart: number;
   hero: {
-    message: string;
     headline: string;
     description: string;
     cta_button: {
@@ -31,8 +30,7 @@ const initialState: InitialStateType = {
 
   //  hero
   hero: {
-    message: "Siap Jualan Produk Viral",
-    headline: "Dari Mana Aja, Kapan Aja!",
+    headline: "Siap Jualan Produk Viral Dari Mana Aja, Kapan Aja!",
     description: "Mau mulai jualan sekarang?",
     cta_button: {
       label: "Gabung grup jualan African",
@@ -60,7 +58,7 @@ const mainReducer = (
   ...initialState,
 });
 
-const AppProvider = (props: { children: React.ReactNode }) => {
+const HomeProvider = (props: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
 
   return (
@@ -70,4 +68,4 @@ const AppProvider = (props: { children: React.ReactNode }) => {
   );
 };
 
-export { AppProvider, HomeContext };
+export { HomeProvider, HomeContext };

@@ -2,8 +2,8 @@ import * as React from "react";
 import { useGetHighlightProducts } from "@/src/core/hooks/useGetHighlightProducts";
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import HeroHome from "../../fragments/hero/Hero.home";
-import ProductHighlightHome from "../../fragments/product_highlight/ProductHighlight.home";
-import { AppProvider } from "../../contexts/Home.context";
+import FaqHighlightHome from "../../fragments/faq_highlight/FaqHighlight.home";
+import { HomeProvider } from "../../contexts/Home.context";
 
 export interface IHomeContainerProps {}
 
@@ -13,13 +13,12 @@ export default function HomeContainer(props: IHomeContainerProps) {
     error: errorHighlightProducts,
     data: highlightProducts,
   } = useGetHighlightProducts();
-  
   return (
     <MainLayout>
-      <AppProvider>
+      <HomeProvider>
         <HeroHome />
-        <ProductHighlightHome />
-      </AppProvider>
+        <FaqHighlightHome />
+      </HomeProvider>
     </MainLayout>
   );
 }

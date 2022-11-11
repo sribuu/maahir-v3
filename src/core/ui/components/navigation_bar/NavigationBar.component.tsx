@@ -1,50 +1,41 @@
 import * as React from "react";
-import Link from "next/link";
 
-export interface INavigationBarComponentProps {}
+import Link from "next/link";
+import clsx from "clsx";
+
+export interface INavigationBarComponentProps {
+  menus: { name: string; link: string }[];
+}
+NavigationBarComponent.defaultProps = {
+  menus: [],
+};
 
 export default function NavigationBarComponent(
   props: INavigationBarComponentProps
 ) {
-  const menus = [
-    {
-      name: "FAQ",
-      link: "/faq",
-    },
-    {
-      name: "Lihat Semua Produk",
-      link: "/products",
-    },
-    {
-      name: "Cek Orders",
-      link: "/orders",
-    },
-  ];
   return (
-    <nav>
-      <div className={"flex justify-between"}>
+    <nav
+      className={clsx("flex justify-center fixed top-0 right-0 left-0 z-10")}
+    >
+      <div className={clsx("flex justify-between max-w-screen-xl w-full py-6")}>
         <img
-          src={
-            "https://sribuu.id/wp-content/uploads/2022/06/Logo-sribuu-gradient-01-768x178.png"
-          }
+          src={"/logo/maahir-white.svg"}
           width={130}
           height={70}
           loading={"lazy"}
         />
 
-        <div className={"flex gap-16"}>
-          {menus.map((item, index) => (
-            <Link href={item.link} target={"_blank"}>
-              <button
-                key={index}
-                className={
-                  "px-4 py-2 border-green-700 border bg-yellow-300 rounded-lg"
-                }
-              >
-                <p>{item.name}</p>
-              </button>
-            </Link>
-          ))}
+        <div className={clsx("flex gap-16")}>
+          {props.menus.length > 0 &&
+            props.menus.map((item, index) => (
+              <Link key={index} href={item.link} target={"_blank"}>
+                <button key={index} className={clsx("px-4 py-2 rounded-lg")}>
+                  <p className={clsx("font-medium text-sm", "text-white")}>
+                    {item.name}
+                  </p>
+                </button>
+              </Link>
+            ))}
         </div>
       </div>
     </nav>
