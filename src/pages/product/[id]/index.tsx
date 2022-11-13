@@ -1,16 +1,23 @@
+import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import ProductsContainer from "@/src/features/products/containers/Products.container";
-import { fetchMaahirMenu, fetchMaahirSocialMedia } from "../core/lib/api";
+import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
+import ProductOrderContainer from "@/src/features/orders/containers/product/Product.order";
+import { fetchProductById } from "@/src/core/lib/api/dynamic";
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
   let isError = false;
+
   try {
     await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
     await queryClient.prefetchQuery(
       ["maahir-social-media"],
       fetchMaahirSocialMedia
+    );
+
+    await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
+      fetchProductById(context.params.id)
     );
   } catch (e) {
     isError = true;
@@ -24,12 +31,13 @@ export async function getStaticProps() {
   };
 }
 
-export default function ProductsPage() {
-  const header = {
-    title: "Maahir | Products",
-    description: "Maahir Products",
-  };
+export interface IProductPageProps {}
 
+export default function ProductPage(props: IProductPageProps) {
+  const header = {
+    title: "Maahir | Product",
+    description: "Maahir Product",
+  };
   return (
     <>
       <Head>
@@ -37,7 +45,7 @@ export default function ProductsPage() {
         <meta name="description" content={header.description} />
       </Head>
 
-      <ProductsContainer />
+      <ProductOrderContainer />
     </>
   );
 }

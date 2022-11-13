@@ -7,7 +7,6 @@ export interface IProductCardComponentProps {
   name?: string;
   description?: string;
   price?: string;
-  advantage?: string;
   productSrc?: string;
   productAlt?: string;
   productRef?: (node?: Element) => void;
@@ -20,7 +19,6 @@ ProductCardComponent.defaultProps = {
   name: "Paket Reseller Setelan Rayon",
   description: "Potensi keuntungan mulai dari Rp20.000",
   price: "Rp49.999",
-  advantage: "Potensi keuntungan mulai dari Rp20.000",
   productSrc: "/images/sample-product.png",
 };
 

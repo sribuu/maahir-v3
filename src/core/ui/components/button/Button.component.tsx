@@ -3,6 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 export interface IButtonComponentProps {
   id?: string;
+  disabled?: boolean;
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -17,7 +18,13 @@ export const buttonStyles = cva(
   {
     variants: {
       intent: {
-        primary: ["bg-ocean-boat-blue", "text-white", "border-transparent"],
+        primary: [
+          "bg-ocean-boat-blue",
+          "disabled:opacity-40",
+          "text-white",
+          "border-transparent",
+        ],
+
         secondary: [
           "bg-white",
           "text-ocean-boat-blue",
@@ -44,7 +51,10 @@ export const buttonStyles = cva(
     },
   }
 );
-ButtonComponent.defaultProps = {};
+ButtonComponent.defaultProps = {
+  id: "",
+  disabled: false,
+};
 
 export interface Props extends IButtonComponentProps, IButtonStylesProps {}
 
@@ -58,6 +68,7 @@ export default function ButtonComponent({ intent, size, ...props }: Props) {
   return (
     <button
       id={props.id}
+      disabled={props.disabled}
       className={buttonStyles({ intent, size })}
       onClick={handleClick}
     >

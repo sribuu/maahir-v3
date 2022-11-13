@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import ProductCardComponent from "@/src/core/ui/components/product_card/ProductCard.component";
 import { fetchInfinityListProducts } from "@/src/core/lib/api/dynamic";
@@ -33,7 +32,10 @@ export default function SectionListProducts(props: ISectionListsProductsProps) {
   );
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // router.push('/')
+    router.push({
+      pathname: "/product/[id]",
+      query: { id: parseInt(e.currentTarget.id) },
+    });
   };
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function SectionListProducts(props: ISectionListsProductsProps) {
     }
   }, [inView]);
 
+  //   TODO: need to be refactor
   if (isFetching) {
     return <div />;
   }

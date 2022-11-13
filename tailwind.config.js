@@ -41,11 +41,15 @@ module.exports = {
       wenge: "#63605A",
       "mint-cream": "#F3FAFA",
       "bright-gray": "#EBF0F4",
+      "taupe-gray": "#85888B",
+      gainsboro: "#D6DAE0",
+      "ocean-boat-blue-4": "rgba(0, 119, 193, 0.04)",
     },
 
     extend: {
       boxShadow: {
         1: "0px 16px 48px rgba(0, 0, 0, 0.08)",
+        2: "0px 2px 12px rgba(0, 0, 0, 0.08)",
       },
       fontFamily: {
         DMSans: ["DM Sans", ...defaultTheme.fontFamily.sans],
