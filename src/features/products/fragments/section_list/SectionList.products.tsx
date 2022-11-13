@@ -33,8 +33,8 @@ export default function SectionListProducts(props: ISectionListsProductsProps) {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: "/product/[id]",
-      query: { id: parseInt(e.currentTarget.id) },
+      pathname: "/orders/your-orders",
+      query: { productId: parseInt(e.currentTarget.id) },
     });
   };
 

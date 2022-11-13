@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -13,11 +14,19 @@ import { thousandSeparator } from "@/src/core/utils/formatters";
 export interface IHeroHomeProps {}
 
 export default function HeroHome(props: IHeroHomeProps) {
+  const router = useRouter();
   const { state } = useContext(HomeContext);
   const { data: topThreeViralProductsData } = useQuery<IProducts[]>({
     queryKey: ["maahir-top-three-viral-products"],
     queryFn: fetchTopThreeViralProducts,
   });
+
+  const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push({
+      pathname: "/orders/your-orders",
+      query: { productId: parseInt(e.currentTarget.id) },
+    });
+  };
   return (
     <section
       className={clsx(
@@ -103,10 +112,12 @@ export default function HeroHome(props: IHeroHomeProps) {
         {topThreeViralProductsData.map((item, index) => (
           <HighlightProductCard
             key={index}
+            id={String(item.id)}
             name={item.title}
             productSrc={item.image}
             description={item.description}
             price={thousandSeparator(item.price)}
+            onClick={handleClickBuyNow}
           />
         ))}
       </div>

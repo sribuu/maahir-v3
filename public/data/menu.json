@@ -5,7 +5,7 @@
   },
   {
     "name": "LIHAT SEMUA PRODUK",
-    "link": "/produk"
+    "link": "/products"
   },
   {
     "name": "FAQ",
@@ -13,6 +13,6 @@
   },
   {
     "name": "CEK ORDER",
-    "link": "/cek-order"
+    "link": "/order/check-order"
   }
 ]

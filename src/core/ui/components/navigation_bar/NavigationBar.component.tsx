@@ -27,21 +27,23 @@ export default function NavigationBarComponent(
       )}
     >
       <div className={clsx("flex justify-between max-w-screen-xl w-full py-6")}>
-        <img
-          src={
-            props.variant === "normal"
-              ? "/logo/maahir-grey.svg"
-              : "/logo/maahir-white.svg"
-          }
-          width={130}
-          height={70}
-          loading={"lazy"}
-        />
+        <Link href={"/"}>
+          <img
+            src={
+              props.variant === "normal"
+                ? "/logo/maahir-grey.svg"
+                : "/logo/maahir-white.svg"
+            }
+            width={130}
+            height={70}
+            loading={"lazy"}
+          />
+        </Link>
 
         <div className={clsx("flex gap-16")}>
           {props.menus.length > 0 &&
             props.menus.map((item, index) => (
-              <Link key={index} href={item.link} target={"_blank"}>
+              <Link key={index} href={item.link}>
                 <button key={index} className={clsx("px-4 py-2 rounded-lg")}>
                   <p
                     className={clsx(

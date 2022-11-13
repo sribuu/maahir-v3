@@ -53,10 +53,10 @@ export default function ProductOrderContainer(
 
   const handleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: "/product/[id]/quantity/[quantity]/order",
+      pathname: "/orders/fill-detail-order",
       query: {
-        id: parseInt(String(router.query.id)),
-        quantity: state.quantity,
+        productId: parseInt(String(router.query.id)),
+        productQuantity: state.quantity,
       },
     });
   };

@@ -3,12 +3,14 @@ import clsx from "clsx";
 import ButtonComponent from "../button/Button.component";
 
 export interface IHighlightProductCardProps {
+  id?: string;
   name?: string;
   description?: string;
   price?: string;
   advantage?: string;
   productSrc?: string;
   productAlt?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 HighlightProductCard.defaultProps = {
@@ -22,6 +24,11 @@ HighlightProductCard.defaultProps = {
 export default function HighlightProductCard(
   props: IHighlightProductCardProps
 ) {
+  const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClick) {
+      props.onClick(e);
+    }
+  };
   return (
     <div className={clsx("grid gap-y-5 p-6 rounded-2xl shadow-1", "bg-white")}>
       <img
@@ -51,7 +58,12 @@ export default function HighlightProductCard(
         <p>{props.description}</p>
       </div>
 
-      <ButtonComponent intent={"secondary"} size={"medium"}>
+      <ButtonComponent
+        id={props.id}
+        intent={"secondary"}
+        size={"medium"}
+        onClick={handleClickBuyNow}
+      >
         {"Beli Sekarang"}
       </ButtonComponent>
     </div>

@@ -26,7 +26,7 @@ export default function DetailOrderContainer(
 ) {
   const router = useRouter();
 
-  const quantity = parseInt(String(router.query?.quantity));
+  const quantity = parseInt(String(router.query?.productQuantity));
   const { data: productByIdData, isLoading: isLoadingProductByIdData } =
     useQuery<IProducts>({
       queryKey: ["maahir-product-by-id"],
@@ -104,8 +104,8 @@ export default function DetailOrderContainer(
     router.push({
       pathname: `/product/[id]/quantity/[quantity]/order/summary`,
       query: {
-        id: String(router.query.id),
-        quantity: String(router.query.quantity),
+        id: String(router.query.productId),
+        quantity: String(router.query.productQuantity),
         name: state.name,
         email: state.email,
       },

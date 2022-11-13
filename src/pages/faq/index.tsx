@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
     // DYNAMIC
     // product
     await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.id)
+      fetchProductById(context.params.productId)
     );
     // payment-method
     await queryClient.prefetchQuery(["maahir-payment-method"], () =>
@@ -41,12 +41,12 @@ export async function getServerSideProps(context) {
   };
 }
 
-export interface IOrderPageProps {}
+export interface IFAQPageProps {}
 
-export default function OrderPage(props: IOrderPageProps) {
+export default function FAQPage(props: IFAQPageProps) {
   const header = {
-    title: "Maahir | Isi Detail Pesanan",
-    description: "Maahir | Isi Detail Pesanan",
+    title: "Maahir | FAQ",
+    description: "Maahir | FAQ",
   };
   return (
     <>
