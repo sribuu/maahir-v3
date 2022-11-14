@@ -11,6 +11,7 @@ import {
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
 import FAQContainer from "@/src/features/faq/containers/FAQ.container";
+import { ReactQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -18,10 +19,10 @@ export async function getServerSideProps(context) {
 
   try {
     // STATIC
-    await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
-    await queryClient.prefetchQuery(["maahir-faq"], fetchMaahirFAQ);
+    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
+    await queryClient.prefetchQuery([ReactQueryKey.GetFAQ], fetchMaahirFAQ);
     await queryClient.prefetchQuery(
-      ["maahir-social-media"],
+      [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
   } catch (e) {

@@ -10,7 +10,9 @@ export interface IChoiceOfPaymentMethodCardComponentProps {
     logo: string;
     name: string;
   }[];
+  save?: boolean;
   onSelect?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onSave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 ChoiceOfPaymentMethodCardComponent.defaultProps = {
@@ -29,10 +31,19 @@ export default function ChoiceOfPaymentMethodCardComponent(
         "bg-white shadow-2"
       )}
     >
-      <p className={clsx("text-base text-dark-charcoal font-bold")}>
-        {props.title}
-      </p>
+      <div className={clsx("flex justify-between items-center", "w-full")}>
+        <p className={clsx("text-base text-dark-charcoal font-bold")}>
+          {props.title}
+        </p>
 
+        {props.save && (
+          <button onClick={props.onSave}>
+            <p className={clsx("text-base text-ocean-boat-blue font-bold")}>
+              {"SIMPAN"}
+            </p>
+          </button>
+        )}
+      </div>
       {props.paymentItems !== undefined &&
         props.paymentItems.length > 0 &&
         props.paymentItems.map((paymentItem, index) => {

@@ -14,70 +14,145 @@ import {
 import ChoiceOfPaymentMethodCardComponent from "@/src/core/ui/components/choice_of_payment_method_card/ChoiceOfPaymentMethodCard.component";
 import DeliveryAddressFormCardComponent from "@/src/core/ui/components/delivery_address_form_card/DeliveryAddressFormCard.component";
 import DeliveryAddressListCardComponent from "@/src/core/ui/components/delivery_address_list_card/DeliveryAddressListCard.component";
-import { numberFormatters } from "@/src/core/utils/formatters";
+import SummaryYourOrderModalComponent from "@/src/core/ui/components/summary_your_order_modal/SummaryYourOrderModal.component";
+import YourOrderCardSummary from "../../fragments/your_order_card/YourOrderCard.summary";
+import {
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
+import useEmailForm from "@/src/core/hooks/form/useEmailForm";
+import usePhoneNumberForm from "@/src/core/hooks/form/usePhoneNumberForm";
+import useAddressForm from "@/src/core/hooks/form/useAddressForm";
+import useProvinceForm from "@/src/core/hooks/form/useProvinceForm";
+import useDistrictForm from "@/src/core/hooks/form/useDistrictForm";
+import usePostalCodeForm from "@/src/core/hooks/form/usePostalCodeForm";
+import usePaymentMethodForm from "@/src/core/hooks/form/usePaymentMethodForm";
+import useNameForm from "@/src/core/hooks/form/useNameForm";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 export interface IPaymentSummaryOrderProps {}
 
 export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
   const router = useRouter();
-  const [paymentMethodState, setPaymentMethodState] = useState({
-    change_detail_mode: false,
-    payment_method: "",
-  });
-  const [deliveryAddressState, setDeliveryAddressState] = useState({
-    change_detail_mode: false,
-    name: "",
-    name_validation: false,
-    email: "",
-    email_validation: false,
-    phone_number: "",
-    phone_number_validation: false,
-    address: "",
-    address_validation: false,
-    province: "",
-    province_validation: false,
-    district: "",
-    district_validation: false,
-    postal_code: "",
-    postal_code_validation: false,
-    payment_method: "",
-    payment_method_validation: false,
-  });
+  const productQuantity =
+    router.query[RouterQueryKey.ProductQuantity] !== undefined &&
+    router.query[RouterQueryKey.ProductQuantity].length > 0
+      ? parseInt(String(router.query[RouterQueryKey.ProductQuantity]))
+      : 0;
+
   const { data: productByIdData, isLoading: isLoadingProductByIdData } =
     useQuery<IProducts>({
-      queryKey: ["maahir-product-by-id"],
+      queryKey: [ReactQueryKey.GetProductById],
       queryFn: () =>
-        fetchProductById(parseInt(String(router.query["productId"]))),
+        fetchProductById(
+          parseInt(String(router.query[RouterQueryKey.ProductId]))
+        ),
     });
   const { data: paymentMethodData, isLoading: isLoadingPaymentMethodData } =
     useQuery<IPaymentMethodItems>({
-      queryKey: ["maahir-payment-method"],
+      queryKey: [ReactQueryKey.GetPaymentMethod],
       queryFn: () => fetchPaymentMethod(),
     });
+  const [paymentMethodState, setPaymentMethodState] = useState({
+    change_detail_mode: false,
+  });
+  const [deliveryAddressState, setDeliveryAddressState] = useState({
+    change_detail_mode: false,
+  });
+  const [yourOrderState, setYourOrderState] = useState({
+    change_detail_mode: false,
+    quantity: productQuantity,
+    openModal: false,
+    totalPrice: productByIdData.price * productQuantity,
+  });
+  const {
+    value: name,
+    validation: nameValidation,
+    onChange: onChangeName,
+  } = useNameForm(String(router.query[RouterQueryKey.OrderName]));
+  const {
+    value: email,
+    validation: emailValidation,
+    onChange: onChangeEmail,
+  } = useEmailForm(String(router.query[RouterQueryKey.OrderEmail]));
+  const {
+    value: phoneNumber,
+    validation: phoneNumberValidation,
+    onChange: onChangePhoneNumber,
+  } = usePhoneNumberForm(String(router.query[RouterQueryKey.OrderPhoneNumber]));
+  const {
+    value: address,
+    validation: addressValidation,
+    onChange: onChangeAddress,
+  } = useAddressForm(String(router.query[RouterQueryKey.OrderAddress]));
+  const {
+    value: province,
+    validation: provinceValidation,
+    onChange: onChangeProvince,
+  } = useProvinceForm(String(router.query[RouterQueryKey.OrderProvince]));
+  const {
+    value: district,
+    validation: districtValidation,
+    onChange: onChangeDistrict,
+  } = useDistrictForm(String(router.query[RouterQueryKey.OrderDistrict]));
+  const {
+    value: postalCode,
+    validation: postalCodeValidation,
+    onChange: onChangePostalCode,
+  } = usePostalCodeForm(String(router.query[RouterQueryKey.OrderPostalCode]));
 
-  const paymentMethodId =
-    router.query.paymentMethodId !== undefined &&
-    router.query.paymentMethodId.length > 0
-      ? parseInt(String(router.query["paymentMethodId"]))
-      : -1;
+  const {
+    value: editPaymentMethodId,
+    validation: editPaymentMethodIdValidation,
+    onChange: onChangeEditPaymentMethodId,
+  } = usePaymentMethodForm(
+    String(router.query[RouterQueryKey.PaymentMethodId])
+  );
+
+  const {
+    value: paymentMethodId,
+    validation: paymentMethodIdValidation,
+    onChange: onChangePaymentMethodId,
+  } = usePaymentMethodForm(
+    String(router.query[RouterQueryKey.PaymentMethodId])
+  );
 
   const paymentMethodLogo = !paymentMethodData.items.filter(
-    (item) => item.id === paymentMethodId
+    (item) => item.id === parseInt(paymentMethodId)
   ).length
     ? ""
-    : paymentMethodData.items.filter((item) => item.id === paymentMethodId)[0]
-        .pic;
+    : paymentMethodData.items.filter(
+        (item) => item.id === parseInt(paymentMethodId)
+      )[0].pic;
   const paymentMethodName = !paymentMethodData.items.filter(
-    (item) => item.id === paymentMethodId
+    (item) => item.id === parseInt(paymentMethodId)
   ).length
     ? ""
-    : paymentMethodData.items.filter((item) => item.id === paymentMethodId)[0]
-        .provider_name;
+    : paymentMethodData.items.filter(
+        (item) => item.id === parseInt(paymentMethodId)
+      )[0].provider_name;
+  const paymentMethodFee = !paymentMethodData.items.filter(
+    (item) => item.id === parseInt(paymentMethodId)
+  ).length
+    ? 0
+    : paymentMethodData.items.filter(
+        (item) => item.id === parseInt(paymentMethodId)
+      )[0].fee_amount;
 
   const handleClickEditPaymentMethod = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     setPaymentMethodState(
       (state) => (state = { ...state, change_detail_mode: true })
+    );
+  };
+
+  const handleClickSavePaymentMethod = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    onChangePaymentMethodId(editPaymentMethodId);
+    setPaymentMethodState(
+      (state) => (state = { ...state, change_detail_mode: false })
     );
   };
   const paymentItems = paymentMethodData.items.map((item) => {
@@ -89,121 +164,34 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
     };
   });
 
+  //   delivery address identity
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryAddressState(
-      (state) => (state = { ...state, name: e.target.value })
-    );
+    onChangeName(e.target.value);
   };
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryAddressState(
-      (state) => (state = { ...state, email: e.target.value })
-    );
+    onChangeEmail(e.target.value);
   };
   const handleChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let PHONE_NUMBER = e.target.value;
-    PHONE_NUMBER = numberFormatters.replaceCharWithEmptyString(e.target.value);
-    setDeliveryAddressState(
-      (state) => (state = { ...state, phone_number: PHONE_NUMBER })
-    );
+    onChangePhoneNumber(e.target.value);
   };
   const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryAddressState(
-      (state) => (state = { ...state, address: e.target.value })
-    );
+    onChangeAddress(e.target.value);
   };
   const handleSelectProvince = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setDeliveryAddressState(
-      (state) => (state = { ...state, province: e.currentTarget.id })
-    );
+    onChangeProvince(e.currentTarget.id);
   };
   const handleSelectDistrict = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setDeliveryAddressState(
-      (state) => (state = { ...state, district: e.currentTarget.id })
-    );
+    onChangeDistrict(e.currentTarget.id);
   };
 
   const handleChangePostalCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let POSTAL_CODE = e.target.value;
-    POSTAL_CODE = numberFormatters.replaceCharWithEmptyString(e.target.value);
-    setDeliveryAddressState(
-      (state) => (state = { ...state, postal_code: POSTAL_CODE })
-    );
+    onChangePostalCode(e.target.value);
   };
   const handleSelectPaymentMethod = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
-    setDeliveryAddressState(
-      (state) =>
-        (state = { ...state, payment_method: String(e.currentTarget.id) })
-    );
+    onChangeEditPaymentMethodId(e.currentTarget.id);
   };
-
-  //   TODO: refactor to custom hooks
-  //   name validation
-  //   useEffect(() => {
-  //     if (REGEX.NAME.test(state.name) && !REGEX.TRAILING_SLASH.test(state.name)) {
-  //       setDeliveryAddressState({ ...state, name_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, name_validation: true });
-  //     }
-  //   }, [state.name]);
-
-  //   //   email validation
-  //   useEffect(() => {
-  //     if (
-  //       REGEX.EMAIL.test(state.email) &&
-  //       !REGEX.TRAILING_SLASH.test(state.email)
-  //     ) {
-  //       setDeliveryAddressState({ ...state, email_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, email_validation: true });
-  //     }
-  //   }, [state.email]);
-
-  //   //   phone number validation
-  //   useEffect(() => {
-  //     if (REGEX.INDONESIA_PHONE_NUMBER.test(state.phone_number)) {
-  //       setDeliveryAddressState({ ...state, phone_number_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, phone_number_validation: true });
-  //     }
-  //   }, [state.phone_number]);
-
-  //   //   address validation
-  //   useEffect(() => {
-  //     if (state.address.length > 0) {
-  //       setDeliveryAddressState({ ...state, address_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, address_validation: true });
-  //     }
-  //   }, [state.address]);
-
-  //   //   province validation
-  //   useEffect(() => {
-  //     if (state.province.length > 0) {
-  //       setDeliveryAddressState({ ...state, province_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, province_validation: true });
-  //     }
-  //   }, [state.province]);
-
-  //   //   district validation
-  //   useEffect(() => {
-  //     if (state.district.length > 0) {
-  //       setDeliveryAddressState({ ...state, district_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, district_validation: true });
-  //     }
-  //   }, [state.district]);
-
-  //   //   postal_code validation
-  //   useEffect(() => {
-  //     if (state.postal_code.length > 0) {
-  //       setDeliveryAddressState({ ...state, postal_code_validation: false });
-  //     } else {
-  //       setDeliveryAddressState({ ...state, postal_code_validation: true });
-  //     }
-  //   }, [state.postal_code]);
 
   const handleEditDeliveryAddress = (
     e: React.MouseEvent<HTMLButtonElement>
@@ -213,6 +201,74 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
     );
   };
 
+  //   your order
+  const handleAddProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setYourOrderState(
+      (state) => (state = { ...state, quantity: state.quantity + 1 })
+    );
+  };
+  const handleSubstractProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setYourOrderState(
+      (state) =>
+        (state = {
+          ...state,
+          quantity: state.quantity > 0 ? state.quantity - 1 : state.quantity,
+        })
+    );
+  };
+
+  const handleClickYourSummaryProduct = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setYourOrderState((state) => (state = { ...state, openModal: true }));
+  };
+  const handleCloseModalYourSummaryProduct = () => {
+    setYourOrderState((state) => (state = { ...state, openModal: false }));
+  };
+  const handleSaveEditYourSummaryProduct = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setYourOrderState(
+      (state) =>
+        (state = {
+          ...state,
+          openModal: false,
+          totalPrice: state.quantity * productByIdData.price,
+        })
+    );
+  };
+
+  const handleSaveEditDeliveryAddress = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setDeliveryAddressState(
+      (state) =>
+        (state = {
+          ...state,
+          change_detail_mode: false,
+        })
+    );
+  };
+
+  const handleClickBuy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push({
+      pathname: RouterPathName.OrderFinishPayment,
+      query: {
+        [RouterQueryKey.ProductId]: String(
+          router.query[RouterQueryKey.ProductId]
+        ),
+        [RouterQueryKey.ProductQuantity]: String(yourOrderState.quantity),
+        [RouterQueryKey.OrderName]: name,
+        [RouterQueryKey.OrderEmail]: email,
+        [RouterQueryKey.OrderAddress]: address,
+        [RouterQueryKey.OrderPhoneNumber]: phoneNumber,
+        [RouterQueryKey.OrderProvince]: province,
+        [RouterQueryKey.OrderDistrict]: district,
+        [RouterQueryKey.OrderPostalCode]: postalCode,
+        [RouterQueryKey.PaymentMethodId]: paymentMethodId,
+      },
+    });
+  };
   return (
     <MainLayout>
       <div
@@ -259,35 +315,38 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
 
               {paymentMethodState.change_detail_mode && (
                 <ChoiceOfPaymentMethodCardComponent
+                  save={true}
                   paymentItems={paymentItems}
-                  selected={String(paymentMethodId)}
+                  selected={String(editPaymentMethodId)}
                   onSelect={handleSelectPaymentMethod}
+                  onSave={handleClickSavePaymentMethod}
                 />
               )}
 
               {/* delivery address */}
               {!deliveryAddressState.change_detail_mode && (
                 <DeliveryAddressListCardComponent
-                  name={deliveryAddressState.name}
-                  email={deliveryAddressState.email}
-                  phone_number={deliveryAddressState.phone_number}
-                  address={deliveryAddressState.address}
-                  province={deliveryAddressState.province}
-                  district={deliveryAddressState.district}
-                  postal_code={deliveryAddressState.postal_code}
+                  name={name}
+                  email={email}
+                  phone_number={phoneNumber}
+                  address={address}
+                  province={province}
+                  district={district}
+                  postal_code={postalCode}
                   onEdit={handleEditDeliveryAddress}
                 />
               )}
 
               {deliveryAddressState.change_detail_mode && (
                 <DeliveryAddressFormCardComponent
-                  name={deliveryAddressState.name}
-                  email={deliveryAddressState.email}
-                  phone_number={deliveryAddressState.phone_number}
-                  address={deliveryAddressState.address}
-                  province={deliveryAddressState.province}
-                  district={deliveryAddressState.district}
-                  postal_code={deliveryAddressState.postal_code}
+                  name={name}
+                  email={email}
+                  phone_number={phoneNumber}
+                  address={address}
+                  province={province}
+                  district={district}
+                  postal_code={postalCode}
+                  save={true}
                   onChangeName={handleChangeName}
                   onChangeEmail={handleChangeEmail}
                   onChangePhoneNumber={handleChangePhoneNumber}
@@ -295,11 +354,40 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
                   onChangeProvince={handleSelectProvince}
                   onChangeDistrict={handleSelectDistrict}
                   onChangePostalCode={handleChangePostalCode}
+                  onSave={handleSaveEditDeliveryAddress}
                 />
               )}
             </div>
 
             {/* right */}
+            <div>
+              <YourOrderCardSummary
+                disabled={false}
+                productSrc={productByIdData.image}
+                name={productByIdData.title}
+                price={thousandSeparator(productByIdData.price)}
+                quantity={yourOrderState.quantity}
+                totalPrice={thousandSeparator(yourOrderState.totalPrice)}
+                deliveryPrice={thousandSeparator(paymentMethodFee)}
+                onEdit={handleClickYourSummaryProduct}
+                onSubmit={handleClickBuy}
+              />
+              {yourOrderState.openModal && (
+                <SummaryYourOrderModalComponent
+                  open={yourOrderState.openModal}
+                  productSrc={productByIdData.image}
+                  name={productByIdData.title}
+                  price={thousandSeparator(productByIdData.price)}
+                  maxPrice={thousandSeparator(productByIdData.retail_price_max)}
+                  minPrice={thousandSeparator(productByIdData.retail_price_min)}
+                  quantity={yourOrderState.quantity}
+                  onSubstract={handleSubstractProduct}
+                  onAdd={handleAddProduct}
+                  onClose={handleCloseModalYourSummaryProduct}
+                  onSave={handleSaveEditYourSummaryProduct}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

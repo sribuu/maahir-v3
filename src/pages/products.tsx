@@ -2,14 +2,15 @@ import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ProductsContainer from "@/src/features/products/containers/Products.container";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "../core/lib/api";
+import { ReactQueryKey } from "../core/lib/constants";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
   let isError = false;
   try {
-    await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
+    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
     await queryClient.prefetchQuery(
-      ["maahir-social-media"],
+      [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
   } catch (e) {

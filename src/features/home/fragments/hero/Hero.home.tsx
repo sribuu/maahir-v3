@@ -6,7 +6,12 @@ import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import HighlightProductCard from "@/src/core/ui/components/highlight_product_card/HighlightProductCard.component";
 import { HomeContext } from "../../contexts/Home.context";
-import { PRODUCT_LINK } from "@/src/core/lib/constants";
+import {
+  PRODUCT_LINK,
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
 import { IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
@@ -17,14 +22,14 @@ export default function HeroHome(props: IHeroHomeProps) {
   const router = useRouter();
   const { state } = useContext(HomeContext);
   const { data: topThreeViralProductsData } = useQuery<IProducts[]>({
-    queryKey: ["maahir-top-three-viral-products"],
+    queryKey: [ReactQueryKey.GetTopThreeViralProducts],
     queryFn: fetchTopThreeViralProducts,
   });
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: "/orders/your-orders",
-      query: { ["productId"]: parseInt(e.currentTarget.id) },
+      pathname: RouterPathName.OrderProduct,
+      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
     });
   };
   return (

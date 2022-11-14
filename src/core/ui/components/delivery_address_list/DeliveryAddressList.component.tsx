@@ -25,7 +25,9 @@ export default function DeliveryAddressListComponent(
         {props.label}
       </p>
 
-      <p className={clsx("text-[1.25rem] font-bold", "text-charleston-green")}>
+      <p
+        className={clsx("text-[1.25rem] font-regular", "text-charleston-green")}
+      >
         {props.value}
       </p>
     </div>

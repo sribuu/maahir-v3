@@ -9,7 +9,12 @@ import OrderSummaryCardComponent from "@/src/core/ui/components/order_summary_ca
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
 import { IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
-import { PRODUCT_LINK } from "@/src/core/lib/constants";
+import {
+  PRODUCT_LINK,
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 
 export interface IProductOrderContainerProps {}
 
@@ -24,8 +29,11 @@ export default function ProductOrderContainer(
   const router = useRouter();
 
   const { data: productByIdData, isLoading } = useQuery<IProducts>({
-    queryKey: ["maahir-product-by-id"],
-    queryFn: () => fetchProductById(parseInt(String(router.query.productId))),
+    queryKey: [ReactQueryKey.GetProductById],
+    queryFn: () =>
+      fetchProductById(
+        parseInt(String(router.query[RouterQueryKey.ProductId]))
+      ),
   });
 
   if (isLoading) {
@@ -53,10 +61,12 @@ export default function ProductOrderContainer(
 
   const handleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: "/orders/fill-detail-order",
+      pathname: RouterPathName.OrderFillDetail,
       query: {
-        ["productId"]: parseInt(String(router.query.productId)),
-        ["productQuantity"]: state.quantity,
+        [RouterQueryKey.ProductId]: parseInt(
+          String(router.query[RouterQueryKey.ProductId])
+        ),
+        [RouterQueryKey.ProductQuantity]: state.quantity,
       },
     });
   };

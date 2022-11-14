@@ -8,19 +8,25 @@ useOrderIdForm.defaultProps = {
   value: "",
 };
 
-export default function useOrderIdForm(props: IuseOrderIdFormProps) {
+export default function useOrderIdForm(defaultValue?: string) {
   const [value, setValue] = useState("");
+  const [validation, setValidation] = useState(false);
 
   useEffect(() => {
-    if (props.value !== undefined) {
-      setValue((state) => (state = props.value));
+    if (defaultValue !== undefined) {
+      setValue((state) => (state = defaultValue));
     }
-  }, [props.value]);
-  const onChange = (name: string) => {
-    setValue((state) => (state = name));
+  }, [defaultValue]);
+  const onChange = (data: string) => {
+    setValue((state) => (state = data));
   };
+  //   validation criteria
+  useEffect(() => {
+    setValidation((state) => (state = value.length > 0));
+  }, [value]);
   return {
     value,
+    validation,
     onChange,
   };
 }

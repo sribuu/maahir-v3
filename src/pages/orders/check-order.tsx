@@ -4,6 +4,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 
 import SearchOrderContainer from "@/src/features/orders/containers/search/Search.order";
+import { ReactQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -11,17 +12,11 @@ export async function getServerSideProps(context) {
 
   try {
     // STATIC
-    await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
+    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
     await queryClient.prefetchQuery(
-      ["maahir-social-media"],
+      [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
-
-    // DYNAMIC
-    // product
-    // await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-    //   fetchProductById(context.params.productId)
-    // );
   } catch (e) {
     isError = true;
   }

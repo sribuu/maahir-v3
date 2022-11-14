@@ -50,7 +50,7 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
       {/* dropdown */}
       <button
         className={clsx(
-          "flex justify-between items-center",
+          "flex justify-between items-center w-full",
           "p-4",
           "border border-gainsboro rounded-[0.625rem]"
         )}
@@ -82,7 +82,7 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
                 id={list}
                 key={index}
                 className={clsx(
-                  "flex content-start items-center",
+                  "flex content-start items-center w-full",
                   "bg-white",
                   "p-4 rounded-[0.625rem] max-h-[3.5rem] box-border"
                 )}

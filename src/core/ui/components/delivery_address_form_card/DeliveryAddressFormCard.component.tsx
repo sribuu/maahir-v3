@@ -13,6 +13,7 @@ export interface IDeliveryAddressFormCardComponentProps {
   province?: string;
   district?: string;
   postal_code?: string;
+  save?: boolean;
   onChangeName?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePhoneNumber?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -20,6 +21,7 @@ export interface IDeliveryAddressFormCardComponentProps {
   onChangeProvince?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onChangeDistrict?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onChangePostalCode?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 DeliveryAddressFormCardComponent.defaultProps = {
   title: "Alamat Pengantaran",
@@ -43,9 +45,20 @@ export default function DeliveryAddressFormCardComponent(
         "bg-white shadow-2"
       )}
     >
-      <p className={clsx("text-base text-dark-charcoal font-bold")}>
-        {props.title}
-      </p>
+      <div className={clsx("flex justify-between items-center", "w-full")}>
+        <p className={clsx("text-base text-dark-charcoal font-bold")}>
+          {props.title}
+        </p>
+
+        {props.save && (
+          <button onClick={props.onSave}>
+            <p className={clsx("text-base text-ocean-boat-blue font-bold")}>
+              {"SIMPAN"}
+            </p>
+          </button>
+        )}
+      </div>
+
       <div className={clsx("grid grid-cols-1 justify-start", "w-full")}>
         <TextfieldComponent
           value={props.name}

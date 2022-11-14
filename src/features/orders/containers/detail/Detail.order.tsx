@@ -18,6 +18,19 @@ import {
   thousandSeparator,
 } from "@/src/core/utils/formatters";
 import { REGEX } from "@/src/core/lib/constants/regex";
+import useNameForm from "@/src/core/hooks/form/useNameForm";
+import {
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
+import useEmailForm from "@/src/core/hooks/form/useEmailForm";
+import usePhoneNumberForm from "@/src/core/hooks/form/usePhoneNumberForm";
+import useAddressForm from "@/src/core/hooks/form/useAddressForm";
+import useProvinceForm from "@/src/core/hooks/form/useProvinceForm";
+import useDistrictForm from "@/src/core/hooks/form/useDistrictForm";
+import usePostalCodeForm from "@/src/core/hooks/form/usePostalCodeForm";
+import usePaymentMethodForm from "@/src/core/hooks/form/usePaymentMethodForm";
 
 export interface IDetailOrderContainerProps {}
 
@@ -25,38 +38,68 @@ export default function DetailOrderContainer(
   props: IDetailOrderContainerProps
 ) {
   const router = useRouter();
+  const {
+    value: name,
+    validation: nameValidation,
+    onChange: onChangeName,
+  } = useNameForm();
+  const {
+    value: email,
+    validation: emailValidation,
+    onChange: onChangeEmail,
+  } = useEmailForm();
+  const {
+    value: phoneNumber,
+    validation: phoneNumberValidation,
+    onChange: onChangePhoneNumber,
+  } = usePhoneNumberForm();
+  const {
+    value: address,
+    validation: addressValidation,
+    onChange: onChangeAddress,
+  } = useAddressForm();
+  const {
+    value: province,
+    validation: provinceValidation,
+    onChange: onChangeProvince,
+  } = useProvinceForm();
+  const {
+    value: district,
+    validation: districtValidation,
+    onChange: onChangeDistrict,
+  } = useDistrictForm();
+  const {
+    value: postalCode,
+    validation: postalCodeValidation,
+    onChange: onChangePostalCode,
+  } = usePostalCodeForm();
 
-  const quantity = parseInt(String(router.query?.productQuantity));
+  const {
+    value: paymentMethod,
+    validation: paymentMethodValidation,
+    onChange: onChangePaymentMethod,
+  } = usePaymentMethodForm();
+
+  const quantity = parseInt(
+    String(router.query[RouterQueryKey.ProductQuantity])
+  );
+
   const { data: productByIdData, isLoading: isLoadingProductByIdData } =
     useQuery<IProducts>({
-      queryKey: ["maahir-product-by-id"],
+      queryKey: [ReactQueryKey.GetProductById],
       queryFn: () =>
-        fetchProductById(parseInt(String(router.query["productId"]))),
+        fetchProductById(
+          parseInt(String(router.query[RouterQueryKey.ProductId]))
+        ),
     });
+
   const { data: paymentMethodData, isLoading: isLoadingPaymentMethodData } =
     useQuery<IPaymentMethodItems>({
-      queryKey: ["maahir-payment-method"],
+      queryKey: [ReactQueryKey.GetPaymentMethod],
       queryFn: () => fetchPaymentMethod(),
     });
 
   const [state, setState] = useState({
-    name: "",
-    name_validation: false,
-    email: "",
-    email_validation: false,
-    phone_number: "",
-    phone_number_validation: false,
-    address: "",
-    address_validation: false,
-    province: "",
-    province_validation: false,
-    district: "",
-    district_validation: false,
-    postal_code: "",
-    postal_code_validation: false,
-    payment_method: "",
-    payment_method_validation: false,
-
     // button
     continue_payment: false,
   });
@@ -71,131 +114,78 @@ export default function DetailOrderContainer(
   });
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState((state) => (state = { ...state, name: e.target.value }));
+    onChangeName(e.target.value);
   };
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState((state) => (state = { ...state, email: e.target.value }));
+    onChangeEmail(e.target.value);
   };
   const handleChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let PHONE_NUMBER = e.target.value;
-    PHONE_NUMBER = numberFormatters.replaceCharWithEmptyString(e.target.value);
-    setState((state) => (state = { ...state, phone_number: PHONE_NUMBER }));
+    onChangePhoneNumber(e.target.value);
   };
   const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState((state) => (state = { ...state, address: e.target.value }));
+    onChangeAddress(e.target.value);
   };
   const handleSelectProvince = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setState((state) => (state = { ...state, province: e.currentTarget.id }));
+    onChangeProvince(e.currentTarget.id);
   };
   const handleSelectDistrict = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setState((state) => (state = { ...state, district: e.currentTarget.id }));
+    onChangeDistrict(e.currentTarget.id);
   };
 
   const handleChangePostalCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let POSTAL_CODE = e.target.value;
-    POSTAL_CODE = numberFormatters.replaceCharWithEmptyString(e.target.value);
-    setState((state) => (state = { ...state, postal_code: POSTAL_CODE }));
+    onChangePostalCode(e.target.value);
   };
   const handleSelectPaymentMethod = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
-    setState({ ...state, payment_method: String(e.currentTarget.id) });
+    onChangePaymentMethod(e.currentTarget.id);
   };
-
-  //   TODO: refactor to custom hooks
-  //   name validation
-  useEffect(() => {
-    if (REGEX.NAME.test(state.name) && !REGEX.TRAILING_SLASH.test(state.name)) {
-      setState({ ...state, name_validation: false });
-    } else {
-      setState({ ...state, name_validation: true });
-    }
-  }, [state.name]);
-
-  //   email validation
-  useEffect(() => {
-    if (
-      REGEX.EMAIL.test(state.email) &&
-      !REGEX.TRAILING_SLASH.test(state.email)
-    ) {
-      setState({ ...state, email_validation: false });
-    } else {
-      setState({ ...state, email_validation: true });
-    }
-  }, [state.email]);
-
-  //   phone number validation
-  useEffect(() => {
-    if (REGEX.INDONESIA_PHONE_NUMBER.test(state.phone_number)) {
-      setState({ ...state, phone_number_validation: false });
-    } else {
-      setState({ ...state, phone_number_validation: true });
-    }
-  }, [state.phone_number]);
-
-  //   address validation
-  useEffect(() => {
-    if (state.address.length > 0) {
-      setState({ ...state, address_validation: false });
-    } else {
-      setState({ ...state, address_validation: true });
-    }
-  }, [state.address]);
-
-  //   province validation
-  useEffect(() => {
-    if (state.province.length > 0) {
-      setState({ ...state, province_validation: false });
-    } else {
-      setState({ ...state, province_validation: true });
-    }
-  }, [state.province]);
-
-  //   district validation
-  useEffect(() => {
-    if (state.district.length > 0) {
-      setState({ ...state, district_validation: false });
-    } else {
-      setState({ ...state, district_validation: true });
-    }
-  }, [state.district]);
-
-  //   postal_code validation
-  useEffect(() => {
-    if (state.postal_code.length > 0) {
-      setState({ ...state, postal_code_validation: false });
-    } else {
-      setState({ ...state, postal_code_validation: true });
-    }
-  }, [state.postal_code]);
-
-  //   payment_method validation
-  useEffect(() => {
-    if (state.payment_method.length > 0) {
-      setState({ ...state, payment_method_validation: false });
-    } else {
-      setState({ ...state, payment_method_validation: true });
-    }
-  }, [state.payment_method]);
 
   //    global validation
   useEffect(() => {
-    if (state.name_validation && state.email_validation) {
+    if (
+      nameValidation &&
+      emailValidation &&
+      addressValidation &&
+      phoneNumberValidation &&
+      provinceValidation &&
+      districtValidation &&
+      postalCodeValidation &&
+      paymentMethodValidation
+    ) {
       setState({ ...state, continue_payment: true });
     } else {
       setState({ ...state, continue_payment: false });
     }
-  }, [state.name_validation, state.email_validation]);
+  }, [
+    name,
+    email,
+    phoneNumber,
+    address,
+    province,
+    district,
+    postalCode,
+    paymentMethodValidation,
+  ]);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: `/orders/summary`,
+      pathname: RouterPathName.OrderSummary,
       query: {
-        ["productId"]: String(router.query.productId),
-        ["productQuantity"]: String(router.query.productQuantity),
-        ["name"]: state.name,
-        ["email"]: state.email,
-        ["paymentMethodId"]: state.payment_method,
+        [RouterQueryKey.ProductId]: String(
+          router.query[RouterQueryKey.ProductId]
+        ),
+        [RouterQueryKey.ProductQuantity]: String(
+          router.query[RouterQueryKey.ProductQuantity]
+        ),
+        [RouterQueryKey.OrderName]: name,
+        [RouterQueryKey.OrderEmail]: email,
+        [RouterQueryKey.OrderAddress]: address,
+        [RouterQueryKey.OrderPhoneNumber]: phoneNumber,
+        [RouterQueryKey.OrderProvince]: province,
+        [RouterQueryKey.OrderDistrict]: district,
+        [RouterQueryKey.OrderPostalCode]: postalCode,
+        [RouterQueryKey.PaymentMethodId]: paymentMethod,
       },
     });
   };
@@ -234,13 +224,13 @@ export default function DetailOrderContainer(
             )}
           >
             <DeliveryAddressFormCardComponent
-              name={state.name}
-              email={state.email}
-              phone_number={state.phone_number}
-              address={state.address}
-              province={state.province}
-              district={state.district}
-              postal_code={state.postal_code}
+              name={name}
+              email={email}
+              phone_number={phoneNumber}
+              address={address}
+              province={province}
+              district={district}
+              postal_code={postalCode}
               onChangeName={handleChangeName}
               onChangeEmail={handleChangeEmail}
               onChangePhoneNumber={handleChangePhoneNumber}
@@ -256,8 +246,8 @@ export default function DetailOrderContainer(
               maxPrice={thousandSeparator(productByIdData.retail_price_max)}
               price={thousandSeparator(productByIdData.price)}
               quantity={quantity}
-              //   disabled={!state.continue_payment}
-              disabled={false}
+              disabled={!state.continue_payment}
+              //   disabled={false}
               onSubmit={handleSubmit}
             />
           </div>
@@ -270,7 +260,7 @@ export default function DetailOrderContainer(
           >
             <ChoiceOfPaymentMethodCardComponent
               paymentItems={paymentItems}
-              selected={state.payment_method}
+              selected={paymentMethod}
               onSelect={handleSelectPaymentMethod}
             />
           </div>

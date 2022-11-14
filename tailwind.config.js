@@ -43,6 +43,7 @@ module.exports = {
       "bright-gray": "#EBF0F4",
       "taupe-gray": "#85888B",
       gainsboro: "#D6DAE0",
+      "dark-charcoal": "#333333",
       "ocean-boat-blue-4": "rgba(0, 119, 193, 0.04)",
     },
 

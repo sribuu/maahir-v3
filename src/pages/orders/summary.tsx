@@ -7,6 +7,7 @@ import {
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
 import PaymentSummaryOrder from "@/src/features/orders/containers/payment_summary/PaymentSummary.order";
+import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -14,19 +15,21 @@ export async function getServerSideProps(context) {
 
   try {
     // STATIC
-    await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
+    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
     await queryClient.prefetchQuery(
-      ["maahir-social-media"],
+      [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
 
     // DYNAMIC
     // product
-    await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(parseInt(String(context.query["productId"])))
+    await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
+      fetchProductById(
+        parseInt(String(context.query[RouterQueryKey.ProductId]))
+      )
     );
     // payment-method
-    await queryClient.prefetchQuery(["maahir-payment-method"], () =>
+    await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
       fetchPaymentMethod()
     );
   } catch (e) {

@@ -7,6 +7,11 @@ import ProductCardComponent from "@/src/core/ui/components/product_card/ProductC
 import { fetchInfinityListProducts } from "@/src/core/lib/api/dynamic";
 import { IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import {
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 export interface ISectionListsProductsProps {}
 
 export default function SectionListProducts(props: ISectionListsProductsProps) {
@@ -19,7 +24,7 @@ export default function SectionListProducts(props: ISectionListsProductsProps) {
     IProducts[],
     string[]
   >(
-    ["maahir-infinity-list-products"],
+    [ReactQueryKey.GetInfinityProductList],
 
     async ({ pageParam = 1 }) => {
       return fetchInfinityListProducts(pageParam);
@@ -33,8 +38,8 @@ export default function SectionListProducts(props: ISectionListsProductsProps) {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
-      pathname: "/orders/your-orders",
-      query: { productId: parseInt(e.currentTarget.id) },
+      pathname: RouterPathName.OrderProduct,
+      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
     });
   };
 

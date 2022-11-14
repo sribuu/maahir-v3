@@ -3,10 +3,12 @@ import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 import {
+  fetchBuyProduct,
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/detail/Detail.order";
+import FinishPaymentOrderContainer from "@/src/features/orders/containers/finish_payment/FinishPayment.order";
+import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -14,20 +16,41 @@ export async function getServerSideProps(context) {
 
   try {
     // STATIC
-    await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
+    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
     await queryClient.prefetchQuery(
-      ["maahir-social-media"],
+      [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
 
     // DYNAMIC
     // product
-    await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.productId)
+    await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
+      fetchProductById(
+        parseInt(String(context.query[RouterQueryKey.ProductId]))
+      )
     );
     // payment-method
-    await queryClient.prefetchQuery(["maahir-payment-method"], () =>
+    await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
       fetchPaymentMethod()
+    );
+    // create-order
+    await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
+      fetchBuyProduct({
+        name: String(context.query[RouterQueryKey.OrderName]),
+        email: String(context.query[RouterQueryKey.OrderEmail]),
+        phone_number: String(context.query[RouterQueryKey.OrderPhoneNumber]),
+        product_id: parseInt(String(context.query[RouterQueryKey.ProductId])),
+        quantity: parseInt(
+          String(context.query[RouterQueryKey.ProductQuantity])
+        ),
+        kecamatan: String(context.query[RouterQueryKey.OrderDistrict]),
+        address: String(context.query[RouterQueryKey.OrderAddress]),
+        province: String(context.query[RouterQueryKey.OrderProvince]),
+        postal_code: String(context.query[RouterQueryKey.OrderPostalCode]),
+        payment_method_id: parseInt(
+          String(context.query[RouterQueryKey.PaymentMethodId])
+        ),
+      })
     );
   } catch (e) {
     isError = true;
@@ -57,7 +80,7 @@ export default function FinishPaymentOrderPage(
         <meta name="description" content={header.description} />
       </Head>
 
-      <DetailOrderContainer />
+      <FinishPaymentOrderContainer />
     </>
   );
 }

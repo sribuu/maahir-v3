@@ -1,26 +1,38 @@
 import { useEffect, useState } from "react";
+import { REGEX } from "../../lib/constants/regex";
 
 export interface IuseNameFormProps {
-  name?: string;
+  value?: string;
 }
 
 useNameForm.defaultProps = {
-  name: "",
+  value: "",
 };
 
-export default function useNameForm(props: IuseNameFormProps) {
-  const [name, setName] = useState("");
+export default function useNameForm(defaultValue?: string) {
+  const [value, setValue] = useState("");
+  const [validation, setValidation] = useState(false);
 
   useEffect(() => {
-    if (props.name !== undefined) {
-      setName((state) => (state = props.name));
+    if (defaultValue !== undefined) {
+      setValue((state) => (state = defaultValue));
     }
-  }, [props.name]);
-  const onChangeName = (name: string) => {
-    setName((state) => (state = props.name));
+  }, [defaultValue]);
+
+  const onChange = (data: string) => {
+    setValue((state) => (state = data));
   };
+
+  //   validation criteria
+  useEffect(() => {
+    setValidation(
+      (state) =>
+        (state = REGEX.NAME.test(value) && !REGEX.TRAILING_SLASH.test(value))
+    );
+  }, [value]);
   return {
-    name,
-    onChangeName,
+    value,
+    validation,
+    onChange,
   };
 }
