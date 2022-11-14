@@ -6,7 +6,7 @@ import {
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/detail/Detail.order";
+import PaymentSummaryOrder from "@/src/features/orders/containers/payment_summary/PaymentSummary.order";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
     // DYNAMIC
     // product
     await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.productId)
+      fetchProductById(parseInt(String(context.query["productId"])))
     );
     // payment-method
     await queryClient.prefetchQuery(["maahir-payment-method"], () =>
@@ -55,7 +55,7 @@ export default function SummaryOrderPage(props: ISummaryOrderPageProps) {
         <meta name="description" content={header.description} />
       </Head>
 
-      <DetailOrderContainer />
+      <PaymentSummaryOrder />
     </>
   );
 }

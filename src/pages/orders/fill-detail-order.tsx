@@ -23,7 +23,7 @@ export async function getServerSideProps(context) {
     // DYNAMIC
     // product
     await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.productId)
+      fetchProductById(parseInt(String(context.query.productId)))
     );
     // payment-method
     await queryClient.prefetchQuery(["maahir-payment-method"], () =>

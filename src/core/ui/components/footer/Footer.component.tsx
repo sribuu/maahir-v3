@@ -39,7 +39,7 @@ export default function FooterComponent(props: IFooterComponentProps) {
           <div className={clsx("flex gap-16 content-center items-center")}>
             {props.menus.length > 0 &&
               props.menus.map((item, index) => (
-                <Link key={index} href={item.link} target={"_blank"}>
+                <Link key={index} href={item.link}>
                   <button key={index} className={clsx("px-4 py-2 rounded-lg")}>
                     <p
                       className={clsx(

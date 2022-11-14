@@ -1,12 +1,16 @@
 import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
+import {
+  fetchMaahirFAQ,
+  fetchMaahirMenu,
+  fetchMaahirSocialMedia,
+} from "@/src/core/lib/api";
 import {
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/detail/Detail.order";
+import FAQContainer from "@/src/features/faq/containers/FAQ.container";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -15,19 +19,10 @@ export async function getServerSideProps(context) {
   try {
     // STATIC
     await queryClient.prefetchQuery(["maahir-menu"], fetchMaahirMenu);
+    await queryClient.prefetchQuery(["maahir-faq"], fetchMaahirFAQ);
     await queryClient.prefetchQuery(
       ["maahir-social-media"],
       fetchMaahirSocialMedia
-    );
-
-    // DYNAMIC
-    // product
-    await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.productId)
-    );
-    // payment-method
-    await queryClient.prefetchQuery(["maahir-payment-method"], () =>
-      fetchPaymentMethod()
     );
   } catch (e) {
     isError = true;
@@ -55,7 +50,7 @@ export default function FAQPage(props: IFAQPageProps) {
         <meta name="description" content={header.description} />
       </Head>
 
-      <DetailOrderContainer />
+      <FAQContainer />
     </>
   );
 }

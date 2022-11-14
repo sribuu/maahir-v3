@@ -18,6 +18,7 @@ export async function getStaticProps() {
       ["maahir-social-media"],
       fetchMaahirSocialMedia
     );
+    // dynamic
     await queryClient.prefetchQuery(
       ["maahir-top-three-viral-products"],
       fetchTopThreeViralProducts

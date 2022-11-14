@@ -3,7 +3,7 @@ import clsx from "clsx";
 import TextfieldComponent from "../textfield/Textfield.component";
 import DropdownComponent from "../dropdown/Dropdown.component";
 
-export interface IDeliveryAddressCardComponentProps {
+export interface IDeliveryAddressFormCardComponentProps {
   title?: string;
   name?: string;
   email?: string;
@@ -21,7 +21,7 @@ export interface IDeliveryAddressCardComponentProps {
   onChangeDistrict?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onChangePostalCode?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-DeliveryAddressCardComponent.defaultProps = {
+DeliveryAddressFormCardComponent.defaultProps = {
   title: "Alamat Pengantaran",
   name: "",
   email: "",
@@ -32,8 +32,8 @@ DeliveryAddressCardComponent.defaultProps = {
   postal_code: "",
 };
 
-export default function DeliveryAddressCardComponent(
-  props: IDeliveryAddressCardComponentProps
+export default function DeliveryAddressFormCardComponent(
+  props: IDeliveryAddressFormCardComponentProps
 ) {
   return (
     <div

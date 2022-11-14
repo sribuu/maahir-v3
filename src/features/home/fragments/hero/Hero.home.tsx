@@ -24,7 +24,7 @@ export default function HeroHome(props: IHeroHomeProps) {
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
       pathname: "/orders/your-orders",
-      query: { productId: parseInt(e.currentTarget.id) },
+      query: { ["productId"]: parseInt(e.currentTarget.id) },
     });
   };
   return (

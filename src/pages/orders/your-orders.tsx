@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
     );
 
     await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.query?.productId)
+      fetchProductById(parseInt(String(context.query.productId)))
     );
   } catch (e) {
     isError = true;

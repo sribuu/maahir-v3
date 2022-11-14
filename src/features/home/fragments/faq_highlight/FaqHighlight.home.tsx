@@ -4,14 +4,17 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { fetchMaahirFAQ } from "@/src/core/lib/api";
 import { FAQ_LINK } from "@/src/core/lib/constants";
+import { IFAQ } from "@/src/core/lib/models/faq";
 
 export interface IFaqHighlightHomeProps {}
 
 export default function FaqHighlightHome(props: IFaqHighlightHomeProps) {
-  const { data: faqData } = useQuery({
+  const { data: faqData } = useQuery<IFAQ[]>({
     queryKey: ["maahir-faq"],
     queryFn: fetchMaahirFAQ,
   });
+
+  const faqTopThreeData = faqData.filter((_, index) => index < 3);
 
   return (
     <div
@@ -36,7 +39,7 @@ export default function FaqHighlightHome(props: IFaqHighlightHomeProps) {
         >
           {"Pertanyaan yang sering diajukan"}
         </p>
-        {faqData.map((item, index) => (
+        {faqTopThreeData.map((item, index) => (
           <div
             key={index}
             className={clsx(

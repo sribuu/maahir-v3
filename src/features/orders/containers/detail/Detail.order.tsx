@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import ChoiceOfPaymentMethodCardComponent from "@/src/core/ui/components/choice_of_payment_method_card/ChoiceOfPaymentMethodCard.component";
-import DeliveryAddressCardComponent from "@/src/core/ui/components/delivery_address_card/DeliveryAddressCard.component";
+import DeliveryAddressFormCardComponent from "@/src/core/ui/components/delivery_address_form_card/DeliveryAddressFormCard.component";
 import YourOrderCardComponent from "@/src/core/ui/components/your_order_card/YourOrderCard.component";
 import {
   fetchPaymentMethod,
@@ -30,7 +30,8 @@ export default function DetailOrderContainer(
   const { data: productByIdData, isLoading: isLoadingProductByIdData } =
     useQuery<IProducts>({
       queryKey: ["maahir-product-by-id"],
-      queryFn: () => fetchProductById(parseInt(String(router.query.id))),
+      queryFn: () =>
+        fetchProductById(parseInt(String(router.query["productId"]))),
     });
   const { data: paymentMethodData, isLoading: isLoadingPaymentMethodData } =
     useQuery<IPaymentMethodItems>({
@@ -99,17 +100,6 @@ export default function DetailOrderContainer(
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     setState({ ...state, payment_method: String(e.currentTarget.id) });
-  };
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push({
-      pathname: `/product/[id]/quantity/[quantity]/order/summary`,
-      query: {
-        id: String(router.query.productId),
-        quantity: String(router.query.productQuantity),
-        name: state.name,
-        email: state.email,
-      },
-    });
   };
 
   //   TODO: refactor to custom hooks
@@ -196,6 +186,22 @@ export default function DetailOrderContainer(
       setState({ ...state, continue_payment: false });
     }
   }, [state.name_validation, state.email_validation]);
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push({
+      pathname: `/orders/summary`,
+      query: {
+        ["productId"]: String(router.query.productId),
+        ["productQuantity"]: String(router.query.productQuantity),
+        ["name"]: state.name,
+        ["email"]: state.email,
+        ["paymentMethodId"]: state.payment_method,
+      },
+    });
+  };
+  if (isLoadingPaymentMethodData || isLoadingProductByIdData) {
+    return <div />;
+  }
   return (
     <MainLayout>
       <div
@@ -227,7 +233,7 @@ export default function DetailOrderContainer(
               "gap-x-[3rem] w-full"
             )}
           >
-            <DeliveryAddressCardComponent
+            <DeliveryAddressFormCardComponent
               name={state.name}
               email={state.email}
               phone_number={state.phone_number}
@@ -250,7 +256,8 @@ export default function DetailOrderContainer(
               maxPrice={thousandSeparator(productByIdData.retail_price_max)}
               price={thousandSeparator(productByIdData.price)}
               quantity={quantity}
-              disabled={!state.continue_payment}
+              //   disabled={!state.continue_payment}
+              disabled={false}
               onSubmit={handleSubmit}
             />
           </div>

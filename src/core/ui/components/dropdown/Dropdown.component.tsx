@@ -60,7 +60,10 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
           ? props.placeholder
           : props.value}
 
-        <img src={"/icons/chevron-down.svg"} />
+        <img
+          src={"/icons/chevron-down.svg"}
+          className={clsx(open ? "rotate-180" : "rotate-0")}
+        />
       </button>
 
       {open && (

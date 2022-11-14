@@ -25,7 +25,7 @@ export default function ProductOrderContainer(
 
   const { data: productByIdData, isLoading } = useQuery<IProducts>({
     queryKey: ["maahir-product-by-id"],
-    queryFn: () => fetchProductById(parseInt(String(router.query.id))),
+    queryFn: () => fetchProductById(parseInt(String(router.query.productId))),
   });
 
   if (isLoading) {
@@ -55,8 +55,8 @@ export default function ProductOrderContainer(
     router.push({
       pathname: "/orders/fill-detail-order",
       query: {
-        productId: parseInt(String(router.query.id)),
-        productQuantity: state.quantity,
+        ["productId"]: parseInt(String(router.query.productId)),
+        ["productQuantity"]: state.quantity,
       },
     });
   };
