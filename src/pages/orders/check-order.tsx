@@ -2,11 +2,8 @@ import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
-import {
-  fetchPaymentMethod,
-  fetchProductById,
-} from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/detail/Detail.order";
+
+import SearchOrderContainer from "@/src/features/orders/containers/search/Search.order";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -22,13 +19,9 @@ export async function getServerSideProps(context) {
 
     // DYNAMIC
     // product
-    await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
-      fetchProductById(context.params.productId)
-    );
-    // payment-method
-    await queryClient.prefetchQuery(["maahir-payment-method"], () =>
-      fetchPaymentMethod()
-    );
+    // await queryClient.prefetchQuery(["maahir-product-by-id"], () =>
+    //   fetchProductById(context.params.productId)
+    // );
   } catch (e) {
     isError = true;
   }
@@ -55,7 +48,7 @@ export default function OrderPage(props: IOrderPageProps) {
         <meta name="description" content={header.description} />
       </Head>
 
-      <DetailOrderContainer />
+      <SearchOrderContainer />
     </>
   );
 }

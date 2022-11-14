@@ -1,4 +1,3 @@
-import * as React from "react";
 import clsx from "clsx";
 
 export interface ITextfieldComponentProps {
@@ -6,6 +5,7 @@ export interface ITextfieldComponentProps {
   placeholder?: string;
   value?: string;
   maxLength?: number;
+  endAddornment?: React.ReactNode;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 TextfieldComponent.defaultProps = {
@@ -26,16 +26,23 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
         {props.label}
       </p>
 
-      <input
+      <div
         className={clsx(
+          "flex justify-between",
           "w-full p-4",
+          "gap-4",
           "border border-gainsboro rounded-[0.625rem]"
         )}
-        value={props.value}
-        maxLength={props.maxLength}
-        placeholder={props.placeholder}
-        onChange={handleChange}
-      />
+      >
+        <input
+          className={clsx("w-full", "bg-white bg-opacity-0 outline-0")}
+          value={props.value}
+          maxLength={props.maxLength}
+          placeholder={props.placeholder}
+          onChange={handleChange}
+        />
+        {props.endAddornment && props.endAddornment}
+      </div>
     </div>
   );
 }

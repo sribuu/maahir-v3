@@ -13,6 +13,6 @@
   },
   {
     "name": "CEK ORDER",
-    "link": "/order/check-order"
+    "link": "/orders/check-order"
   }
 ]
