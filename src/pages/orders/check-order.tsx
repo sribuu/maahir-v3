@@ -21,16 +21,16 @@ export async function getServerSideProps(context: NextPageContext) {
       fetchMaahirSocialMedia
     );
 
-    if (context.query[RouterQueryKey.OrderCode] !== undefined) {
-      await queryClient.prefetchQuery(
-        ['teuing'],
-        () => fetchOrderById(String(context.query[RouterQueryKey.OrderCode])),
-        {
-          staleTime: 0,
-          cacheTime: 0,
-        }
-      );
-    }
+    // if (context.query[RouterQueryKey.OrderCode] !== undefined) {
+    //   await queryClient.prefetchQuery(
+    //     ['teuing'],
+    //     () => fetchOrderById(String(context.query[RouterQueryKey.OrderCode])),
+    //     {
+    //       staleTime: 0,
+    //       cacheTime: 0,
+    //     }
+    //   );
+    // }
   } catch (e) {
     console.log(e,'error prefetch')
     isError = true;

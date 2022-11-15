@@ -49,11 +49,13 @@ export default function SearchOrderContainer(
     isStale: isStaleOrderData,
     isRefetching: isRefetchingOrderData,
   } = useQuery<IOrder>({
-    queryKey: ["teuing"],
-    queryFn: () => fetchOrderById(orderId),
-    enabled: !initialState,
+    queryKey: ["teuing", String(router.query[RouterQueryKey.OrderCode])],
+    queryFn: () =>
+      fetchOrderById(String(router.query[RouterQueryKey.OrderCode])),
+    enabled: !!router.query[RouterQueryKey.OrderCode],
     staleTime: 0,
     cacheTime: 0,
+    retry: 0,
   });
 
   const {
@@ -66,20 +68,34 @@ export default function SearchOrderContainer(
     mutationFn: (data: string) => {
       return fetchOrderById(data);
     },
-    onSettled(){
-      queryClient.invalidateQueries(['teuing'])
-    }
+    onSettled() {
+      queryClient.invalidateQueries(["teuing"]);
+    },
   });
 
   const handleChangeOrderId = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeOrderId(e.target.value);
   };
   const handleClickSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-    orderMutate(orderId);
+    // orderMutate(orderId);
+    router.push({
+      pathname: RouterPathName.OrderCheckByCode,
+      query: {
+        [RouterQueryKey.OrderCode]: orderId,
+      },
+    });
   };
 
-  console.log("ini mutation", orderMutationIsError, orderMutationData);
-  // console.log("ini order", orderData);
+  // console.log("ini mutation", orderMutationIsError, orderMutationData);
+  console.log(
+    "ini order",
+    isErrorOrderData,
+    "error",
+    isLoadingOrderData,
+    "loading",
+    isSuccessOrderData,
+    "success"
+  );
   return (
     <MainLayout>
       <div
@@ -128,10 +144,30 @@ export default function SearchOrderContainer(
             )}
           >
             {/* start */}
-
-            {!orderMutationIsError &&
+            {/* {!orderMutationIsError &&
               !orderMutationIsLoading &&
               !orderMutationIsSuccess && (
+                <HeroSearchOrder
+                  illustration={"/illustrations/start-search-order.svg"}
+                  message={"Mulai pencarian mu dengan mengetikkan keyboard"}
+                  description={
+                    'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
+                  }
+                />
+              )} */}
+
+            {initialState && (
+              <HeroSearchOrder
+                illustration={"/illustrations/start-search-order.svg"}
+                message={"Mulai pencarian mu dengan mengetikkan keyboard"}
+                description={
+                  'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
+                }
+              />
+            )}
+            {!isErrorOrderData &&
+              !isLoadingOrderData &&
+              !isSuccessOrderData && (
                 <HeroSearchOrder
                   illustration={"/illustrations/start-search-order.svg"}
                   message={"Mulai pencarian mu dengan mengetikkan keyboard"}
@@ -142,7 +178,7 @@ export default function SearchOrderContainer(
               )}
 
             {/* not empty */}
-            {orderMutationIsSuccess && (
+            {/* {orderMutationIsSuccess && (
               <CheckOrderCardComponent
                 name={orderMutationData.product.title}
                 productImage={orderMutationData.product.image}
@@ -167,10 +203,37 @@ export default function SearchOrderContainer(
                   orderMutationData.payment.payment_method.created_at
                 ).format("DD MMMM YYYY - hh:mm")} WIB`}
               />
+            )} */}
+            {isSuccessOrderData && (
+              <CheckOrderCardComponent
+                name={orderData.product.title}
+                productImage={orderData.product.image}
+                price={thousandSeparator(orderData.price)}
+                maxPrice={thousandSeparator(orderData.product.retail_price_max)}
+                minPrice={thousandSeparator(orderData.product.retail_price_min)}
+                orderId={orderData.order_code}
+                statusColor={orderStatusFormatters.statusColor(
+                  orderData.status
+                )}
+                orderStatus={orderStatusFormatters.statusName(orderData.status)}
+                statusIcon={orderStatusFormatters.statusIcon(orderData.status)}
+                orderDate={`${moment(
+                  orderData.payment.payment_method.created_at
+                ).format("DD MMMM YYYY - hh:mm")} WIB`}
+              />
             )}
 
             {/* empty */}
-            {orderMutationIsError && (
+            {/* {orderMutationIsError && (
+              <HeroSearchOrder
+                illustration={"/illustrations/search-not-found-order.svg"}
+                message={"Tidak ada produk yang ditemukan"}
+                description={
+                  "Coba sesuaikan ID pencarianmu untuk menemukan apa yang kamu cari"
+                }
+              />
+            )} */}
+            {isErrorOrderData && (
               <HeroSearchOrder
                 illustration={"/illustrations/search-not-found-order.svg"}
                 message={"Tidak ada produk yang ditemukan"}

@@ -39,5 +39,5 @@ export const fetchBuyProduct = async (data: IRequestCreateOrder) =>
     )
     .then((res) => res.data)
     .catch((err) => {
-      throw err;
+      throw Error("hallo");
     });
