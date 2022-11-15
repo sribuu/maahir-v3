@@ -9,7 +9,10 @@ import { fetchOrderById } from "@/src/core/lib/api/dynamic";
 import CheckOrderCardComponent from "@/src/core/ui/components/check_order_card/CheckOrderCard.component";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import { IOrder } from "@/src/core/lib/models";
-import { thousandSeparator } from "@/src/core/utils/formatters";
+import {
+  orderStatusFormatters,
+  thousandSeparator,
+} from "@/src/core/utils/formatters";
 import moment from "moment";
 
 export interface ISearchOrderContainerProps {}
@@ -41,7 +44,6 @@ export default function SearchOrderContainer(
     searchOrder(orderId);
   };
 
-  console.log(isErrorOrderData, "ini error order data");
   return (
     <MainLayout>
       <div
@@ -109,7 +111,11 @@ export default function SearchOrderContainer(
                 maxPrice={thousandSeparator(orderData.product.retail_price_max)}
                 minPrice={thousandSeparator(orderData.product.retail_price_min)}
                 orderId={orderData.order_code}
-                orderStatus={orderData.status}
+                statusColor={orderStatusFormatters.statusColor(
+                  orderData.status
+                )}
+                orderStatus={orderStatusFormatters.statusName(orderData.status)}
+                statusIcon={orderStatusFormatters.statusIcon(orderData.status)}
                 orderDate={`${moment(
                   orderData.payment.payment_method.created_at
                 ).format("DD MMMM YYYY - hh:mm")} WIB`}

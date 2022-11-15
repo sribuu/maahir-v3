@@ -11,6 +11,8 @@ export interface ICheckOrderCardComponentProps {
   maxPrice?: string;
   quantity?: number;
   orderStatus?: string;
+  statusIcon?: string;
+  statusColor?: string;
 }
 
 CheckOrderCardComponent.defaultProps = {
@@ -18,11 +20,13 @@ CheckOrderCardComponent.defaultProps = {
   orderDate: "26 Oktober 2022 - 22:12 WIB",
   name: "Paket Reseller Parfum",
   productImage: "",
+  statusIcon: "",
   price: "Rp177.997",
   minPrice: "Rp 8.000",
   maxPrice: "10.000",
   quantity: 0,
   orderStatus: "Menunggu Pembayaran",
+  statusColor: "dark-charcoal",
 };
 
 export default function CheckOrderCardComponent(
@@ -32,6 +36,7 @@ export default function CheckOrderCardComponent(
   const quantity = `Qty: ${props.quantity} ${
     props.quantity > 1 ? "items" : "item"
   }`;
+  console.log(props.statusColor, "ini apa");
   return (
     <div
       className={clsx(
@@ -103,8 +108,13 @@ export default function CheckOrderCardComponent(
                 "gap-x-[0.75rem]"
               )}
             >
-              <img src={"/icons/watch-later.svg"} className={clsx("w-6 h-6")} />
-              <p className={clsx("text-base text-charleston-green font-bold")}>
+              <img src={props.statusIcon} className={clsx("w-6 h-6")} />
+              <p
+                className={clsx(
+                  "text-base font-bold",
+                  `text-${props.statusColor}`
+                )}
+              >
                 {props.orderStatus}
               </p>
             </div>
