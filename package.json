@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "develop:localhost": "env-cmd -f ./.env.localhost next dev -p 4001",
+    "develop:staging": "env-cmd -f ./.env.localhost next dev -p 4001",
     "develop:production": "env-cmd -f ./.env.production next dev -p 4001",
     "build:localhost": "env-cmd -f ./.env.localhost next build",
+    "build:staging": "env-cmd -f ./.env.localhost next build",
     "build:production": "env-cmd -f ./.env.production next build",
     "start": "next start -p 4001",
     "lint": "next lint"
