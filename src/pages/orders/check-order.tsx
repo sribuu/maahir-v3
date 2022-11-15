@@ -6,8 +6,10 @@ import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 import SearchOrderContainer from "@/src/features/orders/containers/search/Search.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
+import { NextPageContext } from "next";
 
-export async function getServerSideProps(context) {
+// export async function getStaticProps() {
+export async function getServerSideProps(context: NextPageContext) {
   const queryClient = new QueryClient();
   let isError = false;
 
@@ -18,19 +20,27 @@ export async function getServerSideProps(context) {
       [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
+
     if (context.query[RouterQueryKey.OrderCode] !== undefined) {
-      await queryClient.prefetchQuery([ReactQueryKey.GetOrderByOrderCode], () =>
-        fetchOrderById(String(context.query[RouterQueryKey.OrderCode]))
+      await queryClient.prefetchQuery(
+        ['teuing'],
+        () => fetchOrderById(String(context.query[RouterQueryKey.OrderCode])),
+        {
+          staleTime: 0,
+          cacheTime: 0,
+        }
       );
     }
   } catch (e) {
+    console.log(e,'error prefetch')
     isError = true;
+    // throw e;
   }
-
+  console.log(isError, "ini error prefetch");
   return {
     props: {
       isErrorPrefetch: isError,
-      dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 }

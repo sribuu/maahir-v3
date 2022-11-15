@@ -28,8 +28,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Hydrate>
 
-      {/* not hydrate */}
-      {/* <Component {...pageProps} /> */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
