@@ -11,5 +11,5 @@ scp -i ~/.ssh/ilyaskprsribuu.pem -r ./next-env.d.ts ubuntu@11.0.33.51:/home/ubun
 scp -i ~/.ssh/ilyaskprsribuu.pem -r ./next.config.js ubuntu@11.0.33.51:/home/ubuntu/next_maahir
 scp -i ~/.ssh/ilyaskprsribuu.pem -r ./package.json ubuntu@11.0.33.51:/home/ubuntu/next_maahir
 scp -i ~/.ssh/ilyaskprsribuu.pem -r ./tsconfig.json ubuntu@11.0.33.51:/home/ubuntu/next_maahir
-scp -i ~/.ssh/ilyaskprsribuu.pem -r ./build.sh ubuntu@11.0.33.51:/home/ubuntu/next_maahir
 scp -i ~/.ssh/ilyaskprsribuu.pem -r ./tailwind.config.js ubuntu@11.0.33.51:/home/ubuntu/next_maahir
+scp -i ~/.ssh/ilyaskprsribuu.pem -r ./postcss.config.js ubuntu@11.0.33.51:/home/ubuntu/next_maahir

@@ -21,6 +21,7 @@ export default function AccordionComponent(props: IAccordionComponentProps) {
 
   useEffect(() => {
     if (props.open !== undefined) {
+     
       setOpen(props.open);
     }
   }, [props.open]);
@@ -35,8 +36,9 @@ export default function AccordionComponent(props: IAccordionComponentProps) {
       <button
         className={clsx("flex justify-between items-center", "gap-y-6 w-full")}
         onClick={handleClick}
+        
       >
-        <p className={clsx("text-base text-dark-charcoal font-bold")}>
+        <p className={clsx("text-base text-dark-charcoal font-bold")} >
           {props.question}
         </p>
 
