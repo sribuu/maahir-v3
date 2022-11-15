@@ -38,7 +38,6 @@ export async function getStaticProps() {
   return {
     props: {
       isErrorPrefetch: isError,
-
       dehydratedState: dehydrate(queryClient),
     },
   };
@@ -50,7 +49,10 @@ export default function HomePage({ isErrorPrefetch }) {
     queryFn: () => fetchMaahirHeaders(),
   });
 
-  const headerData = headersData.filter((item) => item.id === PageKey.Home)[0];
+  const headerData =
+    headersData !== undefined
+      ? headersData.filter((item) => item.id === PageKey.Home)[0]
+      : { title: "", description: "" };
 
   return (
     <>

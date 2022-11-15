@@ -3,18 +3,19 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { fetchMaahirFAQ } from "@/src/core/lib/api";
-import { FAQ_LINK } from "@/src/core/lib/constants";
+import { FAQ_LINK, ReactQueryKey } from "@/src/core/lib/constants";
 import { IFAQ } from "@/src/core/lib/models/faq";
 
 export interface IFaqHighlightHomeProps {}
 
 export default function FaqHighlightHome(props: IFaqHighlightHomeProps) {
   const { data: faqData } = useQuery<IFAQ[]>({
-    queryKey: ["maahir-faq"],
+    queryKey: [ReactQueryKey.GetFAQ],
     queryFn: fetchMaahirFAQ,
   });
 
-  const faqTopThreeData = faqData.filter((_, index) => index < 3);
+  const faqTopThreeData =
+    faqData !== undefined ? faqData.filter((_, index) => index < 3) : [];
 
   return (
     <div
