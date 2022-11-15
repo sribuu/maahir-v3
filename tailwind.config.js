@@ -46,6 +46,8 @@ module.exports = {
       "dark-charcoal": "#333333",
       "ocean-boat-blue-4": "rgba(0, 119, 193, 0.04)",
       strawberry: "#FF5C8F",
+      "alice-blue": "#F2F8FC",
+      "tart-orange": "#FF4B4B",
     },
 
     extend: {

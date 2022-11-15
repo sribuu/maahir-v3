@@ -2,11 +2,7 @@ import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
-import {
-  fetchBuyProduct,
-  fetchPaymentMethod,
-  fetchProductById,
-} from "@/src/core/lib/api/dynamic";
+import { fetchOrderById, fetchPaymentMethod } from "@/src/core/lib/api/dynamic";
 import FinishPaymentOrderContainer from "@/src/features/orders/containers/finish_payment/FinishPayment.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
@@ -24,33 +20,18 @@ export async function getServerSideProps(context) {
 
     // DYNAMIC
     // product
-    await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
-      fetchProductById(
-        parseInt(String(context.query[RouterQueryKey.ProductId]))
-      )
-    );
+    // await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
+    //   fetchProductById(
+    //     parseInt(String(context.query[RouterQueryKey.ProductId]))
+    //   )
+    // );
     // payment-method
     await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
       fetchPaymentMethod()
     );
-    // create-order
-    await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
-      fetchBuyProduct({
-        name: String(context.query[RouterQueryKey.OrderName]),
-        email: String(context.query[RouterQueryKey.OrderEmail]),
-        phone_number: String(context.query[RouterQueryKey.OrderPhoneNumber]),
-        product_id: parseInt(String(context.query[RouterQueryKey.ProductId])),
-        quantity: parseInt(
-          String(context.query[RouterQueryKey.ProductQuantity])
-        ),
-        kecamatan: String(context.query[RouterQueryKey.OrderDistrict]),
-        address: String(context.query[RouterQueryKey.OrderAddress]),
-        province: String(context.query[RouterQueryKey.OrderProvince]),
-        postal_code: String(context.query[RouterQueryKey.OrderPostalCode]),
-        payment_method_id: parseInt(
-          String(context.query[RouterQueryKey.PaymentMethodId])
-        ),
-      })
+
+    await queryClient.prefetchQuery([ReactQueryKey.GetOrderByOrderCode], () =>
+      fetchOrderById(String(context.query[RouterQueryKey.OrderCode]))
     );
   } catch (e) {
     isError = true;

@@ -36,7 +36,7 @@ export default function CheckOrderCardComponent(
   const quantity = `Qty: ${props.quantity} ${
     props.quantity > 1 ? "items" : "item"
   }`;
-  console.log(props.statusColor, "ini apa");
+
   return (
     <div
       className={clsx(

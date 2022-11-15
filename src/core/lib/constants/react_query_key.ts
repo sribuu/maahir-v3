@@ -9,4 +9,6 @@ export enum ReactQueryKey {
   GetInfinityProductList = "maahir-infinity-list-products",
   GetProductById = "maahir-product-by-id",
   GetPaymentMethod = "maahir-payment-method",
+  PostBuyProduct = "maahir-buy-product",
+  GetOrderByOrderCode = "maahir-get-order",
 }

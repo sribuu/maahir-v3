@@ -4,7 +4,8 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 
 import SearchOrderContainer from "@/src/features/orders/containers/search/Search.order";
-import { ReactQueryKey } from "@/src/core/lib/constants";
+import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
+import { fetchOrderById } from "@/src/core/lib/api/dynamic";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -17,6 +18,11 @@ export async function getServerSideProps(context) {
       [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
+    if (context.query[RouterQueryKey.OrderCode] !== undefined) {
+      await queryClient.prefetchQuery([ReactQueryKey.GetOrderByOrderCode], () =>
+        fetchOrderById(String(context.query[RouterQueryKey.OrderCode]))
+      );
+    }
   } catch (e) {
     isError = true;
   }

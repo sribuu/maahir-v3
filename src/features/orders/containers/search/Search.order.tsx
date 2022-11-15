@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
@@ -14,34 +15,60 @@ import {
   thousandSeparator,
 } from "@/src/core/utils/formatters";
 import moment from "moment";
+import {
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 
 export interface ISearchOrderContainerProps {}
 
 export default function SearchOrderContainer(
   props: ISearchOrderContainerProps
 ) {
+  const router = useRouter();
   const queryClient = useQueryClient();
-
   const {
     data: orderData,
-    mutate: searchOrder,
+    isLoading: isLoadingOrderData,
     isError: isErrorOrderData,
-  } = useMutation<IOrder | undefined, unknown, string, unknown>({
-    mutationFn: (data: string) => {
-      return fetchOrderById(data);
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData(["posts"], data);
-    },
+  } = useQuery<IOrder>({
+    queryKey: [ReactQueryKey.GetProductById],
+    queryFn: () =>
+      fetchOrderById(String(router.query[RouterQueryKey.OrderCode])),
+    enabled: router.query[RouterQueryKey.OrderCode] !== undefined,
   });
+  // const {
+  //   data: orderData,
+  //   mutate: searchOrder,
+  //   isError: isErrorOrderData,
+  // } = useMutation<IOrder | undefined, unknown, string, unknown>({
+  //   mutationFn: (data: string) => {
+  //     return fetchOrderById(data);
+  //   },
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData([ReactQueryKey.GetOrderByOrderCode], data);
+  //   },
+  // });
 
-  const { value: orderId, onChange: onChangeOrderId } = useOrderIdForm();
+  const initialOrderId =
+    router.query[RouterQueryKey.OrderCode] !== undefined
+      ? String(router.query[RouterQueryKey.OrderCode])
+      : "";
+  const { value: orderId, onChange: onChangeOrderId } =
+    useOrderIdForm(initialOrderId);
 
   const handleChangeOrderId = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeOrderId(e.target.value);
   };
   const handleClickSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-    searchOrder(orderId);
+    // searchOrder(orderId);
+    router.push({
+      pathname: RouterPathName.OrderCheckByCode,
+      query: {
+        [RouterQueryKey.OrderCode]: orderId,
+      },
+    });
   };
 
   return (
@@ -92,6 +119,15 @@ export default function SearchOrderContainer(
             )}
           >
             {/* start */}
+            {/* {orderData === undefined && !isErrorOrderData && (
+              <HeroSearchOrder
+                illustration={"/illustrations/start-search-order.svg"}
+                message={"Mulai pencarian mu dengan mengetikkan keyboard"}
+                description={
+                  'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
+                }
+              />
+            )} */}
             {orderData === undefined && !isErrorOrderData && (
               <HeroSearchOrder
                 illustration={"/illustrations/start-search-order.svg"}
