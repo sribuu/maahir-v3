@@ -7,4 +7,5 @@ export enum RouterPathName {
   OrderFillDetail = "/orders/fill-detail-order",
   OrderCheckByCode = "/orders/check-order",
   OrderFinishPayment = "/orders/finish-payment",
+  AllCartItems = "/cart",
 }

@@ -11,7 +11,7 @@ import {
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
-import { IProducts } from "@/src/core/lib/models";
+import { IDistrict, IProducts, IProvince } from "@/src/core/lib/models";
 import { IPaymentMethodItems } from "@/src/core/lib/models/payment_method";
 import {
   numberFormatters,
@@ -31,6 +31,7 @@ import useProvinceForm from "@/src/core/hooks/form/useProvinceForm";
 import useDistrictForm from "@/src/core/hooks/form/useDistrictForm";
 import usePostalCodeForm from "@/src/core/hooks/form/usePostalCodeForm";
 import usePaymentMethodForm from "@/src/core/hooks/form/usePaymentMethodForm";
+import { fetchMaahirDistrict, fetchMaahirProvince } from "@/src/core/lib/api";
 
 export interface IDetailOrderContainerProps {}
 
@@ -99,19 +100,34 @@ export default function DetailOrderContainer(
       queryFn: () => fetchPaymentMethod(),
     });
 
+  const { data: districtData, isLoading: isLoadingDistrictData } = useQuery<
+    IDistrict[]
+  >({
+    queryKey: [ReactQueryKey.GetDistrict],
+    queryFn: () => fetchMaahirDistrict(),
+  });
+
+  const { data: provinceData, isLoading: isLoadingProvinceData } = useQuery<
+    IProvince[]
+  >({
+    queryKey: [ReactQueryKey.GetProvince],
+    queryFn: () => fetchMaahirProvince(),
+  });
+
   const [state, setState] = useState({
-    // button
     continue_payment: false,
   });
 
-  const paymentItems = paymentMethodData.items.map((item) => {
-    return {
-      id: String(item.id),
-      name: item.provider_name,
-      logo: item.pic,
-      selected: false,
-    };
-  });
+  const paymentItems = paymentMethodData.items
+    .filter((item) => item.status === "ACTIVE")
+    .map((item) => {
+      return {
+        id: String(item.id),
+        name: item.provider_name,
+        logo: item.pic,
+        selected: false,
+      };
+    });
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeName(e.target.value);
@@ -231,6 +247,8 @@ export default function DetailOrderContainer(
               province={province}
               district={district}
               postal_code={postalCode}
+              districtList={districtData.map((item) => item.name)}
+              provinceList={provinceData.map((item) => item.name)}
               onChangeName={handleChangeName}
               onChangeEmail={handleChangeEmail}
               onChangePhoneNumber={handleChangePhoneNumber}

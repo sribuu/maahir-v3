@@ -33,8 +33,8 @@ export const fetchCartItem = async () =>
 
 export const fetchRemoveAllItemInCart = async () => {
   return await localforage
-    .getItem<ICart[] | null>(StorageQueryKey.ItemCart)
-    .then((res: ICart[] | null) => res);
+    .removeItem(StorageQueryKey.ItemCart)
+    .then((_: null) => null);
 };
 
 export const fetchRemoveItemCartById = async () => {

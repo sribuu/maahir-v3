@@ -41,6 +41,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     },
     onSuccess: (data) => {
       queryClient.setQueryData([ReactQueryKey.AddCart], data);
+      queryClient.invalidateQueries([ReactQueryKey.GetCart]);
     },
   });
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {

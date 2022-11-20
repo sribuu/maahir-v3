@@ -14,6 +14,8 @@ export interface IDeliveryAddressFormCardComponentProps {
   district?: string;
   postal_code?: string;
   save?: boolean;
+  districtList?: string[];
+  provinceList?: string[];
   onChangeName?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeEmail?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePhoneNumber?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -32,6 +34,8 @@ DeliveryAddressFormCardComponent.defaultProps = {
   province: "",
   district: "",
   postal_code: "",
+  districtList: [],
+  provinceList: [],
 };
 
 export default function DeliveryAddressFormCardComponent(
@@ -94,6 +98,7 @@ export default function DeliveryAddressFormCardComponent(
           label={"Provinsi"}
           placeholder={"Provinsi"}
           value={props.province}
+          lists={props.provinceList}
           onSelect={props.onChangeProvince}
         />
       </div>
@@ -103,6 +108,7 @@ export default function DeliveryAddressFormCardComponent(
           label={"Kecamatan"}
           placeholder={"Jakarta Pusat"}
           value={props.district}
+          lists={props.districtList}
           onSelect={props.onChangeDistrict}
         />
         <TextfieldComponent

@@ -81,6 +81,7 @@ export default function YourOrderCardComponent(
       <ButtonComponent
         disabled={props.disabled}
         intent={"primary"}
+        size={"large"}
         onClick={handleSubmit}
       >
         {"Lanjutkan Pembayaran"}

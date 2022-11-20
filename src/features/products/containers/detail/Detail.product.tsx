@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -6,7 +6,11 @@ import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import ItemImageCardProduct from "../../fragments/item_image_card/ItemImageCard.product";
 import ItemDescriptionCardProduct from "../../fragments/item_description_card/ItemDescriptionCard.product";
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
-import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
+import {
+  ReactQueryKey,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 import { ICart, IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { fetchAddToCart } from "@/src/core/lib/storage";
@@ -39,14 +43,15 @@ export default function DetailProductContainer(
     },
     onSuccess: (data) => {
       queryClient.setQueryData([ReactQueryKey.AddCart], data);
+      queryClient.invalidateQueries([ReactQueryKey.GetCart]);
     },
   });
+
   if (isLoadingProductByIdData) {
     return <div />;
   }
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // router.push("/cart");
     const payload: ICart = {
       amount: itemNumber,
       ...productByIdData,
@@ -65,6 +70,12 @@ export default function DetailProductContainer(
     const result = itemNumber <= 0 ? itemNumber - 1 : 0;
     setItemNumber(result);
   };
+
+  useEffect(() => {
+    if (isSuccessAddToCart) {
+      router.push(RouterPathName.AllCartItems);
+    }
+  }, [isSuccessAddToCart]);
 
   return (
     <MainLayout>

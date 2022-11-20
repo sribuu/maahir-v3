@@ -1,7 +1,12 @@
 import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
+import {
+  fetchMaahirDistrict,
+  fetchMaahirMenu,
+  fetchMaahirProvince,
+  fetchMaahirSocialMedia,
+} from "@/src/core/lib/api";
 import {
   fetchPaymentMethod,
   fetchProductById,
@@ -19,6 +24,14 @@ export async function getServerSideProps(context) {
     await queryClient.prefetchQuery(
       [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
+    );
+    await queryClient.prefetchQuery(
+      [ReactQueryKey.GetProvince],
+      fetchMaahirProvince
+    );
+    await queryClient.prefetchQuery(
+      [ReactQueryKey.GetDistrict],
+      fetchMaahirDistrict
     );
 
     // DYNAMIC

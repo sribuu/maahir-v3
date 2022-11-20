@@ -6,3 +6,4 @@ export * from "./create_order";
 export * from "./product_category";
 export * from "./price_category";
 export * from "./cart";
+export * from "./region";

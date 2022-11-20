@@ -1,12 +1,15 @@
 import * as React from "react";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
 import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
 import { ICart } from "@/src/core/lib/models";
 import { ReactQueryKey } from "@/src/core/lib/constants";
-import { fetchCartItem } from "@/src/core/lib/storage";
+import {
+  fetchCartItem,
+  fetchRemoveAllItemInCart,
+} from "@/src/core/lib/storage";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 
 export interface IListItemCardCartProps {
@@ -23,6 +26,7 @@ ListItemCardCart.defaultProps = {
   productSrc: "/images/sample-product.png",
 };
 export default function ListItemCardCart(props: IListItemCardCartProps) {
+  const queryClient = useQueryClient();
   const {
     data: cartData,
     isLoading: isLoadingCartData,
@@ -33,8 +37,27 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
     enabled: typeof window !== "undefined",
   });
 
+  const {
+    data: removedData,
+    isSuccess: isSuccessRemoveData,
+    isLoading: isLoadingRemoveData,
+    mutate: mutateDeleteAllCart,
+  } = useMutation<ICart[], unknown, void, unknown>({
+    mutationFn: () => {
+      return fetchRemoveAllItemInCart();
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData([ReactQueryKey.DeleteAllCart], data);
+      queryClient.invalidateQueries([ReactQueryKey.GetCart]);
+    },
+  });
+
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     //
+  };
+
+  const handleDeleteAll = (e: React.MouseEvent<HTMLButtonElement>) => {
+    mutateDeleteAllCart();
   };
 
   return (
@@ -46,11 +69,23 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
       )}
     >
       <div className={clsx("grid grid-cols-1", "gap-y-[1.25rem] w-full")}>
-        <CheckboxComponent
-          name={"Pilih Semua"}
-          checked={false}
-          onChange={handleSelectAll}
-        />
+        <div className={clsx("flex w-full justify-between items-center")}>
+          <CheckboxComponent
+            name={"Pilih Semua"}
+            checked={false}
+            onChange={handleSelectAll}
+          />
+
+          <button onClick={handleDeleteAll}>
+            <p
+              className={clsx(
+                "text-[0.875rem] text-ocean-boat-blue font-regular"
+              )}
+            >
+              {"Hapus"}
+            </p>
+          </button>
+        </div>
 
         <hr className={clsx("border border-bright-gray")} />
 

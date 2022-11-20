@@ -22,7 +22,7 @@ export default function ProductOrderContainer(
   props: IProductOrderContainerProps
 ) {
   const [state, setState] = useState({
-    quantity: 0,
+    quantity: 1,
     totalPrice: "Rp0",
     subTotalPrice: "Rp0",
   });

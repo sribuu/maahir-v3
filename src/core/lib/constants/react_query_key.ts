@@ -18,4 +18,5 @@ export enum ReactQueryKey {
   // STORAGE
   GetCart = "maahir-cart",
   AddCart = "maahir-add-cart",
+  DeleteAllCart = "maahir-delete-all-cart",
 }

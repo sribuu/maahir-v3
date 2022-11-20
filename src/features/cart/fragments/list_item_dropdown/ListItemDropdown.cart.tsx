@@ -5,6 +5,7 @@ import clsx from "clsx";
 import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
 import { ICart } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import { RouterPathName } from "@/src/core/lib/constants";
 
 export interface IListItemDropdownCartProps {
   variant?: "transparent" | "normal";
@@ -30,7 +31,7 @@ export default function ListItemDropdownCart(
     setOpen(false);
   };
   const handleMouseClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
-    router.push("/cart");
+    router.push(RouterPathName.AllCartItems);
   };
 
   return (
@@ -89,48 +90,52 @@ export default function ListItemDropdownCart(
           </p>
 
           {/* items */}
-          {props.cartData.map((item, index) => (
-            <div
-              key={index}
-              className={clsx(
-                "flex gap-x-[1.5rem] items-center content-start",
-                "w-full"
-              )}
-            >
-              <img
-                src={item.image}
-                className={clsx(
-                  "object-cover",
-                  "w-[5rem] h-[5rem] rounded-[0.5rem]"
-                )}
-              />
-
-              {/* description */}
+          {props.cartData
+            .filter((_, index) => index < 3)
+            .map((item, index) => (
               <div
-                className={clsx("grid grid-cols-1", "w-full gap-y-[0.5rem]")}
+                key={index}
+                className={clsx(
+                  "flex gap-x-[1.5rem] items-center content-start",
+                  "w-full"
+                )}
               >
-                <div className={clsx("grid grid-cols-1", "w-full")}>
-                  <p
-                    className={clsx(
-                      "text-[0.75rem] text-taupe-gray font-regular"
-                    )}
-                  >
-                    {"Kecantikan"}
-                  </p>
+                <img
+                  src={item.image}
+                  className={clsx(
+                    "object-cover",
+                    "w-[5rem] h-[5rem] rounded-[0.5rem]"
+                  )}
+                />
 
-                  {/* TODO: techdebt ellipsis */}
-                  <div
-                    className={clsx("h-[1.5rem] overflow-hidden text-ellipsis")}
-                  >
+                {/* description */}
+                <div
+                  className={clsx("grid grid-cols-1", "w-full gap-y-[0.5rem]")}
+                >
+                  <div className={clsx("grid grid-cols-1", "w-full")}>
                     <p
                       className={clsx(
-                        "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis"
+                        "text-[0.75rem] text-taupe-gray font-regular"
                       )}
                     >
-                      {item.title}
+                      {"Kecantikan"}
                     </p>
-                  </div>
-                  {/* <p
+
+                    {/* TODO: techdebt ellipsis */}
+                    <div
+                      className={clsx(
+                        "h-[1.5rem] overflow-hidden text-ellipsis"
+                      )}
+                    >
+                      <p
+                        className={clsx(
+                          "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis"
+                        )}
+                      >
+                        {item.title}
+                      </p>
+                    </div>
+                    {/* <p
                        className={clsx(
                          "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis overflow-hidden",
                        )}
@@ -139,27 +144,27 @@ export default function ListItemDropdownCart(
                          "Paket Reseller Parfum Wanita Botol Kaca Paket Reseller Parfum Wanita Botol Kaca"
                        }
                      </p> */}
-                </div>
+                  </div>
 
-                <div
-                  className={clsx(
-                    "flex justify-between items-center",
-                    "w-full"
-                  )}
-                >
-                  <p
+                  <div
                     className={clsx(
-                      "text-[1rem] text-charleston-green font-bold"
+                      "flex justify-between items-center",
+                      "w-full"
                     )}
                   >
-                    {thousandSeparator(item.price)}
-                  </p>
-                  <CounterComponent quantity={item.amount} />
+                    <p
+                      className={clsx(
+                        "text-[1rem] text-charleston-green font-bold"
+                      )}
+                    >
+                      {thousandSeparator(item.price)}
+                    </p>
+                    <CounterComponent quantity={item.amount} />
+                  </div>
                 </div>
+                {/* end description */}
               </div>
-              {/* end description */}
-            </div>
-          ))}
+            ))}
 
           {/* end items */}
 
