@@ -37,7 +37,4 @@ export const fetchBuyProduct = async (data: IRequestCreateOrder) =>
       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.PostBuyProduct}`,
       data
     )
-    .then((res) => res.data)
-    .catch((err) => {
-      throw Error("hallo");
-    });
+    .then((res) => res.data);

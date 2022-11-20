@@ -42,35 +42,21 @@ export default function SearchOrderContainer(
   const initialState = router.query[RouterQueryKey.OrderCode] === undefined;
   const {
     data: orderData,
-    isLoading: isLoadingOrderData,
-    error,
-    isError: isErrorOrderData,
-    isSuccess: isSuccessOrderData,
-    isStale: isStaleOrderData,
-    isRefetching: isRefetchingOrderData,
+    isLoading: isLoadingOrder,
+    error: errorOrder,
+    isError: isErrorOrder,
+    isSuccess: isSuccessOrder,
   } = useQuery<IOrder>({
-    queryKey: ["teuing", String(router.query[RouterQueryKey.OrderCode])],
+    queryKey: [
+      ReactQueryKey.GetOrderByOrderCode,
+      String(router.query[RouterQueryKey.OrderCode]),
+    ],
     queryFn: () =>
       fetchOrderById(String(router.query[RouterQueryKey.OrderCode])),
     enabled: !!router.query[RouterQueryKey.OrderCode],
     staleTime: 0,
     cacheTime: 0,
     retry: 0,
-  });
-
-  const {
-    data: orderMutationData,
-    isError: orderMutationIsError,
-    isSuccess: orderMutationIsSuccess,
-    isLoading: orderMutationIsLoading,
-    mutate: orderMutate,
-  } = useMutation<IOrder | undefined, unknown, string, unknown>({
-    mutationFn: (data: string) => {
-      return fetchOrderById(data);
-    },
-    onSettled() {
-      queryClient.invalidateQueries(["teuing"]);
-    },
   });
 
   const handleChangeOrderId = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,16 +72,10 @@ export default function SearchOrderContainer(
     });
   };
 
-  // console.log("ini mutation", orderMutationIsError, orderMutationData);
-  console.log(
-    "ini order",
-    isErrorOrderData,
-    "error",
-    isLoadingOrderData,
-    "loading",
-    isSuccessOrderData,
-    "success"
-  );
+  const hasOrderCode =
+    router.query !== undefined
+      ? !String(router.query[RouterQueryKey.OrderCode])?.length
+      : true;
   return (
     <MainLayout>
       <div
@@ -144,19 +124,8 @@ export default function SearchOrderContainer(
             )}
           >
             {/* start */}
-            {/* {!orderMutationIsError &&
-              !orderMutationIsLoading &&
-              !orderMutationIsSuccess && (
-                <HeroSearchOrder
-                  illustration={"/illustrations/start-search-order.svg"}
-                  message={"Mulai pencarian mu dengan mengetikkan keyboard"}
-                  description={
-                    'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
-                  }
-                />
-              )} */}
 
-            {initialState && (
+            {(initialState || hasOrderCode) && (
               <HeroSearchOrder
                 illustration={"/illustrations/start-search-order.svg"}
                 message={"Mulai pencarian mu dengan mengetikkan keyboard"}
@@ -165,46 +134,18 @@ export default function SearchOrderContainer(
                 }
               />
             )}
-            {!isErrorOrderData &&
-              !isLoadingOrderData &&
-              !isSuccessOrderData && (
-                <HeroSearchOrder
-                  illustration={"/illustrations/start-search-order.svg"}
-                  message={"Mulai pencarian mu dengan mengetikkan keyboard"}
-                  description={
-                    'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
-                  }
-                />
-              )}
-
-            {/* not empty */}
-            {/* {orderMutationIsSuccess && (
-              <CheckOrderCardComponent
-                name={orderMutationData.product.title}
-                productImage={orderMutationData.product.image}
-                price={thousandSeparator(orderMutationData.price)}
-                maxPrice={thousandSeparator(
-                  orderMutationData.product.retail_price_max
-                )}
-                minPrice={thousandSeparator(
-                  orderMutationData.product.retail_price_min
-                )}
-                orderId={orderMutationData.order_code}
-                statusColor={orderStatusFormatters.statusColor(
-                  orderMutationData.status
-                )}
-                orderStatus={orderStatusFormatters.statusName(
-                  orderMutationData.status
-                )}
-                statusIcon={orderStatusFormatters.statusIcon(
-                  orderMutationData.status
-                )}
-                orderDate={`${moment(
-                  orderMutationData.payment.payment_method.created_at
-                ).format("DD MMMM YYYY - hh:mm")} WIB`}
+            {/* start */}
+            {!isErrorOrder && !isLoadingOrder && !isSuccessOrder && (
+              <HeroSearchOrder
+                illustration={"/illustrations/start-search-order.svg"}
+                message={"Mulai pencarian mu dengan mengetikkan keyboard"}
+                description={
+                  'Misalnya, ketik "ID023456" untuk mencari semua yang terkait dengannya'
+                }
               />
-            )} */}
-            {isSuccessOrderData && (
+            )}
+
+            {isSuccessOrder && (
               <CheckOrderCardComponent
                 name={orderData.product.title}
                 productImage={orderData.product.image}
@@ -224,16 +165,8 @@ export default function SearchOrderContainer(
             )}
 
             {/* empty */}
-            {/* {orderMutationIsError && (
-              <HeroSearchOrder
-                illustration={"/illustrations/search-not-found-order.svg"}
-                message={"Tidak ada produk yang ditemukan"}
-                description={
-                  "Coba sesuaikan ID pencarianmu untuk menemukan apa yang kamu cari"
-                }
-              />
-            )} */}
-            {isErrorOrderData && (
+
+            {isErrorOrder && (
               <HeroSearchOrder
                 illustration={"/illustrations/search-not-found-order.svg"}
                 message={"Tidak ada produk yang ditemukan"}

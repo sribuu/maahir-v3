@@ -1,5 +1,5 @@
 export enum RouterQueryKey {
-  ProductId = "product-id",
+  ProductId = "productId",
   ProductQuantity = "product-quantity",
   OrderId = "order-id",
   OrderCode = "order-code",

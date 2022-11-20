@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useInView } from "react-intersection-observer";
 import HomeContainer from "@/src/features/home/containers/home/HomeContainer.home";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import {

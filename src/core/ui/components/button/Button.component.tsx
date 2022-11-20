@@ -5,6 +5,7 @@ export interface IButtonComponentProps {
   id?: string;
   disabled?: boolean;
   children?: React.ReactNode;
+  className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 export type IButtonStylesProps = VariantProps<typeof buttonStyles>;
@@ -14,6 +15,11 @@ export const buttonStyles = cva(
     "rounded-xl",
     "font-bold",
     "normal-case",
+    "inline-flex",
+    "text-center",
+    "items-center",
+    "justify-center",
+    "gap-x-[10px]",
   ],
   {
     variants: {
@@ -34,7 +40,8 @@ export const buttonStyles = cva(
       },
       size: {
         small: ["text-sm", "py-1", "px-2"],
-        medium: ["text-[0.875rem]", "py-4", "px-4"],
+        medium: ["text-[0.875rem]", "py-[0.5rem]", "px-[1rem]"],
+        large: ["text-[0.875rem]", "py-4", "px-4"],
       },
     },
     // TODO: need rethinking compound
@@ -69,7 +76,7 @@ export default function ButtonComponent({ intent, size, ...props }: Props) {
     <button
       id={props.id}
       disabled={props.disabled}
-      className={buttonStyles({ intent, size })}
+      className={`${buttonStyles({ intent, size })} ${props.className}`}
       onClick={handleClick}
     >
       {props.children}

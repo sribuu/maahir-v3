@@ -21,22 +21,16 @@ export async function getServerSideProps(context: NextPageContext) {
       fetchMaahirSocialMedia
     );
 
-    // if (context.query[RouterQueryKey.OrderCode] !== undefined) {
-    //   await queryClient.prefetchQuery(
-    //     ['teuing'],
-    //     () => fetchOrderById(String(context.query[RouterQueryKey.OrderCode])),
-    //     {
-    //       staleTime: 0,
-    //       cacheTime: 0,
-    //     }
-    //   );
-    // }
+    if (context.query[RouterQueryKey.OrderCode] !== undefined) {
+      await queryClient.prefetchQuery([ReactQueryKey.GetOrderByOrderCode], () =>
+        fetchOrderById(String(context.query[RouterQueryKey.OrderCode]))
+      );
+    }
   } catch (e) {
-    console.log(e,'error prefetch')
     isError = true;
     // throw e;
   }
-  console.log(isError, "ini error prefetch");
+
   return {
     props: {
       isErrorPrefetch: isError,

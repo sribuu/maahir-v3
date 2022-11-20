@@ -1,19 +1,30 @@
-import * as React from "react";
-import { useGetHighlightProducts } from "@/src/core/hooks/useGetHighlightProducts";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
-import HeroHome from "../../fragments/hero/Hero.home";
-import FaqHighlightHome from "../../fragments/faq_highlight/FaqHighlight.home";
+import { useEffect, useState } from "react";
+import HomeLayout from "@/src/core/ui/layouts/home/Home.layout";
 import { HomeProvider } from "../../contexts/Home.context";
+import { useInView } from "react-intersection-observer";
+import HeroSectionHome from "../../fragments/hero_section/HeroSection.home";
+import FAQSectionHome from "../../fragments/faq_section/FAQSection.home";
 
 export interface IHomeContainerProps {}
 
 export default function HomeContainer(props: IHomeContainerProps) {
+  const { ref, inView } = useInView();
+  const [navbarVariant, setNavbarVariant] = useState<"transparent" | "normal">(
+    "transparent"
+  );
+  useEffect(() => {
+    if (inView) {
+      setNavbarVariant("transparent");
+    } else {
+      setNavbarVariant("normal");
+    }
+  }, [inView]);
   return (
-    <MainLayout>
+    <HomeLayout variant={navbarVariant}>
       <HomeProvider>
-        <HeroHome />
-        <FaqHighlightHome />
+        <HeroSectionHome heroRef={ref} />
+        <FAQSectionHome />
       </HomeProvider>
-    </MainLayout>
+    </HomeLayout>
   );
 }

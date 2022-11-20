@@ -82,14 +82,14 @@ export default function OrderSummaryCardComponent(
         <div className={clsx("grid grid-cols-2", "gap-x-6 w-full")}>
           <ButtonComponent
             intent={"secondary"}
-            size={"medium"}
+            size={"large"}
             onClick={handleClickCancel}
           >
             {"Batalkan"}
           </ButtonComponent>
           <ButtonComponent
             intent={"primary"}
-            size={"medium"}
+            size={"large"}
             onClick={handleClickSubmit}
           >
             {"Pilih Metode Pembayaran"}

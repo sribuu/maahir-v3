@@ -11,6 +11,7 @@ module.exports = {
       fadeIn: "fadeIn 2s ease-in-out",
       slideRight: "slideRight 1s ease-in-out",
       slideLeft: "slideLeft 1s ease-in-out",
+      pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
     },
 
     keyframes: (theme) => ({
@@ -25,6 +26,14 @@ module.exports = {
       slideLeft: {
         "0%": { right: -200 },
         "100%": { right: 0 },
+      },
+      pulse: {
+        "0%, 100%": {
+          opacity: 1,
+        },
+        "50%": {
+          opacity: 0.5,
+        },
       },
     }),
 
@@ -45,6 +54,7 @@ module.exports = {
       gainsboro: "#D6DAE0",
       "dark-charcoal": "#333333",
       "ocean-boat-blue-4": "rgba(0, 119, 193, 0.04)",
+      "ocean-boat-blue-8": "rgba(0, 119, 193, 0.08)",
       strawberry: "#FF5C8F",
       "alice-blue": "#F2F8FC",
       "tart-orange": "#FF4B4B",

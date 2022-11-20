@@ -4,6 +4,10 @@ export enum ReactQueryKey {
   GetSocialMedia = "maahir-social-media",
   GetFAQ = "maahir-faq",
   GetHeaders = "maahir-headers",
+  GetProductCategory = "maahir-product-category",
+  GetPriceCategory = "maahir-price-category",
+  GetProvince = "maahir-province",
+  GetDistrict = "maahir-district",
   //   DYNAMIC
   GetTopThreeViralProducts = "maahir-top-three-viral-products",
   GetInfinityProductList = "maahir-infinity-list-products",
@@ -11,4 +15,7 @@ export enum ReactQueryKey {
   GetPaymentMethod = "maahir-payment-method",
   PostBuyProduct = "maahir-buy-product",
   GetOrderByOrderCode = "maahir-get-order",
+  // STORAGE
+  GetCart = "maahir-cart",
+  AddCart = "maahir-add-cart",
 }
