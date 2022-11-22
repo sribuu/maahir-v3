@@ -9,3 +9,11 @@ export interface IProducts {
   is_priority: boolean;
   description: string;
 }
+export interface IProductsRequest {
+  limit?: number;
+  offset?: number;
+  category_id?: number;
+  max_price?: number;
+  min_price?: number;
+  is_priority?: boolean;
+}

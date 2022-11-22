@@ -1,41 +1,45 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
-import { IPriceCategory, IProductCategory } from "@/src/core/lib/models";
-import { ReactQueryKey } from "@/src/core/lib/constants";
-import {
-  fetchMaahirPriceCategory,
-  fetchMaahirProductCategory,
-} from "@/src/core/lib/api";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
 
-export interface IFilterCardProductProps {}
+import { useProductCategoryQuery } from "../../hooks/useProductCategory";
+import { usePriceCategoryQuery } from "../../hooks/usePriceCategory";
+
+export interface IFilterCardProductProps {
+  onChangeProductCategory?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePriceCategory?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
 export default function FilterCardProduct(props: IFilterCardProductProps) {
   const [activeProductCategory, setActiveProductCategory] = useState("");
   const [activePriceCategory, setActivePriceCategory] = useState("");
+
   const { data: productCategoryData, isSuccess: isSuccessProductCategoryData } =
-    useQuery<IProductCategory[]>({
-      queryKey: [ReactQueryKey.GetProductCategory],
-      queryFn: fetchMaahirProductCategory,
-    });
+    useProductCategoryQuery();
 
   const { data: priceCategoryData, isSuccess: isSuccessPriceCategoryData } =
-    useQuery<IPriceCategory[]>({
-      queryKey: [ReactQueryKey.GetPriceCategory],
-      queryFn: fetchMaahirPriceCategory,
-    });
+    usePriceCategoryQuery();
 
   const handleChangeProductCategory = (
     e?: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setActiveProductCategory(e.currentTarget.id);
+    const result =
+      activeProductCategory === e.currentTarget.id ? "" : e.currentTarget.id;
+    setActiveProductCategory(result);
+    if (props.onChangeProductCategory) {
+      props.onChangeProductCategory(e);
+    }
   };
 
   const handleChangePriceCategory = (
     e?: React.MouseEvent<HTMLButtonElement>
   ) => {
-    setActivePriceCategory(e.currentTarget.id);
+    const result =
+      activePriceCategory === e.currentTarget.id ? "" : e.currentTarget.id;
+    setActivePriceCategory(result);
+    if (props.onChangePriceCategory) {
+      props.onChangePriceCategory(e);
+    }
   };
   return (
     <div
@@ -103,10 +107,10 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
           {isSuccessProductCategoryData &&
             productCategoryData.map((item, index) => (
               <CheckboxComponent
-                id={String(index)}
+                id={String(item.id)}
                 key={index}
-                name={item.name}
-                checked={String(index) === activeProductCategory}
+                name={item.option_name}
+                checked={String(item.id) === activeProductCategory}
                 onChange={handleChangeProductCategory}
               />
             ))}

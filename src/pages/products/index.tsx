@@ -8,6 +8,7 @@ import {
   fetchMaahirSocialMedia,
 } from "../../core/lib/api";
 import { ReactQueryKey } from "../../core/lib/constants";
+import { fetchProductCategory } from "@/src/core/lib/api/dynamic";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -19,12 +20,14 @@ export async function getStaticProps() {
       fetchMaahirSocialMedia
     );
     await queryClient.prefetchQuery(
-      [ReactQueryKey.GetProductCategory],
-      fetchMaahirProductCategory
-    );
-    await queryClient.prefetchQuery(
       [ReactQueryKey.GetPriceCategory],
       fetchMaahirPriceCategory
+    );
+
+    // DYNAMIC
+    await queryClient.prefetchQuery(
+      [ReactQueryKey.GetProductCategory],
+      fetchProductCategory
     );
   } catch (e) {
     isError = true;

@@ -14,4 +14,5 @@ export enum APIUrlPath {
   GetPaymentMethod = "/api/v1/payments/methods",
   PostBuyProduct = "/api/v1/maahir/orders/buy",
   GetOrder = "/api/v1/maahir/orders/view",
+  GetOptions = "/api/v1/maahir/options",
 }
