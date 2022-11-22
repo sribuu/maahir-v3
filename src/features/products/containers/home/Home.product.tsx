@@ -87,8 +87,7 @@ export default function HomeProductContainer(
     if (
       filterPriceCategoryData.name !== "Lebih dari Rp1.000.000" &&
       payload.min_price === filterPriceCategoryData.min &&
-      payload.max_price &&
-      filterPriceCategoryData.max
+      payload.max_price === filterPriceCategoryData.max
     ) {
       const newPayload = payload;
       delete newPayload.max_price;
