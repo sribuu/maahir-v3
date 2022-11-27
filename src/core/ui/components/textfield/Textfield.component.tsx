@@ -1,30 +1,26 @@
 import clsx from "clsx";
+import React from "react";
 
-export interface ITextfieldComponentProps {
+export interface ITextfieldComponentProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  placeholder?: string;
-  value?: string;
-  maxLength?: number;
   endAddornment?: React.ReactNode;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 TextfieldComponent.defaultProps = {
   label: "",
-  value: "",
-  placeholder: "",
 };
 
 export default function TextfieldComponent(props: ITextfieldComponentProps) {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
-      props.onChange(e);
-    }
-  };
+  const { className, ...restProps } = props;
+
   return (
     <div className={clsx("grid grid-cols-1", "gap-x-1 w-full")}>
-      <p className={clsx("text-[0.875rem] text-charleston-green font-regular")}>
+      <label
+        className={clsx("text-[0.875rem] text-charleston-green font-regular")}
+        htmlFor={props.id}
+      >
         {props.label}
-      </p>
+      </label>
 
       <div
         className={clsx(
@@ -35,11 +31,13 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
         )}
       >
         <input
-          className={clsx("w-full", "bg-white bg-opacity-0 outline-0")}
-          value={props.value}
-          maxLength={props.maxLength}
-          placeholder={props.placeholder}
-          onChange={handleChange}
+          className={clsx(
+            "w-full",
+            "bg-white bg-opacity-0 outline-0",
+            "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[1rem]",
+            className
+          )}
+          {...restProps}
         />
         {props.endAddornment && props.endAddornment}
       </div>

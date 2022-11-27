@@ -2,7 +2,7 @@ import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
-import ProductOrderContainer from "@/src/features/orders/containers/product/Product.order";
+import YourOrderContainer from "@/src/features/orders/containers/your_order/YourOrder.order";
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
@@ -48,7 +48,7 @@ export default function YourOrderPage(props: IYourOrderPageProps) {
         <meta name="description" content={header.description} />
       </Head>
 
-      <ProductOrderContainer />
+      <YourOrderContainer />
     </>
   );
 }

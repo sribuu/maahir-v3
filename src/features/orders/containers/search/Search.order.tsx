@@ -14,7 +14,7 @@ import HeroSearchOrder from "../../fragments/hero_search/HeroSearch.order";
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
 import CheckOrderCardComponent from "@/src/core/ui/components/check_order_card/CheckOrderCard.component";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
-import { IOrder } from "@/src/core/lib/models";
+import { IOrderResponse } from "@/src/features/orders/models";
 import {
   orderStatusFormatters,
   thousandSeparator,
@@ -46,7 +46,7 @@ export default function SearchOrderContainer(
     error: errorOrder,
     isError: isErrorOrder,
     isSuccess: isSuccessOrder,
-  } = useQuery<IOrder>({
+  } = useQuery<IOrderResponse>({
     queryKey: [
       ReactQueryKey.GetOrderByOrderCode,
       String(router.query[RouterQueryKey.OrderCode]),

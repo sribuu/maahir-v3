@@ -18,12 +18,11 @@ export const useProductsQuery = (params: IProductsQueryParams) =>
       queryKey,
     }: QueryFunctionContext<[string, IProductsQueryParams]>) => {
       const [_, data] = queryKey;
-      console.log(data, "ini data query harusnya");
+
       return fetchInfinityListProducts(params);
     },
-    
+
     getNextPageParam: (_: IProducts[], pages: IProducts[][]) => {
-      console.log(pages.length, "ini apa");
       return pages.length + 1;
     },
   });

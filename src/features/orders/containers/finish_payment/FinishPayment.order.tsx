@@ -9,7 +9,7 @@ import {
   RouterQueryKey,
 } from "@/src/core/lib/constants";
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
-import { IOrder } from "@/src/core/lib/models";
+import { IOrderResponse } from "@/src/features/orders/models";
 import ConfirmationOrderCardComponent from "@/src/core/ui/components/confirmation_order_card/ConfirmationOrderCard.component";
 import DeliveryAddressListCardComponent from "@/src/core/ui/components/delivery_address_list_card/DeliveryAddressListCard.component";
 import VAPaymentInstructionCardComponent from "@/src/core/ui/components/va_payment_instruction_card/VAPaymentInstructionCard.component";
@@ -24,11 +24,12 @@ export default function FinishPaymentOrderContainer(
   props: IFinishPaymentOrderContainerProps
 ) {
   const router = useRouter();
-  const { data: orderData, isLoading: isLoadingOrderData } = useQuery<IOrder>({
-    queryKey: [ReactQueryKey.GetOrderByOrderCode],
-    queryFn: () =>
-      fetchOrderById(String(router.query[RouterQueryKey.OrderCode])),
-  });
+  const { data: orderData, isLoading: isLoadingOrderData } =
+    useQuery<IOrderResponse>({
+      queryKey: [ReactQueryKey.GetOrderByOrderCode],
+      queryFn: () =>
+        fetchOrderById(String(router.query[RouterQueryKey.OrderCode])),
+    });
 
   const handleConfirmPayment = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({

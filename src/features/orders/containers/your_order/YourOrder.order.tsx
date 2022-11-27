@@ -15,18 +15,25 @@ import {
   RouterPathName,
   RouterQueryKey,
 } from "@/src/core/lib/constants";
+import {
+  useDeleteOrderItemQuery,
+  useMutateOrderItem,
+} from "../../hooks/useOrderItem";
 
-export interface IProductOrderContainerProps {}
+export interface IYourOrderContainerProps {}
 
-export default function ProductOrderContainer(
-  props: IProductOrderContainerProps
-) {
+export default function YourOrderContainer(props: IYourOrderContainerProps) {
+  useDeleteOrderItemQuery();
+  const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
+    useMutateOrderItem();
+
   const [state, setState] = useState({
     quantity: 1,
     totalPrice: "Rp0",
     subTotalPrice: "Rp0",
   });
   const router = useRouter();
+  const { id } = router.query;
 
   const { data: productByIdData, isLoading } = useQuery<IProducts>({
     queryKey: [ReactQueryKey.GetProductById],
@@ -60,16 +67,28 @@ export default function ProductOrderContainer(
   };
 
   const handleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push({
-      pathname: RouterPathName.OrderFillDetail,
-      query: {
-        [RouterQueryKey.ProductId]: parseInt(
-          String(router.query[RouterQueryKey.ProductId])
-        ),
-        [RouterQueryKey.ProductQuantity]: state.quantity,
-      },
+    mutateOrderItem({
+      orders: [
+        {
+          product_id: parseInt(String(router.query[RouterQueryKey.ProductId])),
+          quantity: state.quantity,
+        },
+      ],
     });
   };
+
+  useEffect(() => {
+    if (isSuccessMutateOrderItem) {
+      router.replace({
+        pathname: RouterPathName.FillOrderDetail,
+        query: {
+          [RouterQueryKey.ProductId]: parseInt(
+            String(router.query[RouterQueryKey.ProductId])
+          ),
+        },
+      });
+    }
+  }, [isSuccessMutateOrderItem]);
 
   return (
     <MainLayout>

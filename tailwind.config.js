@@ -58,12 +58,16 @@ module.exports = {
       strawberry: "#FF5C8F",
       "alice-blue": "#F2F8FC",
       "tart-orange": "#FF4B4B",
+      "ghost-white": "#F5FAFD",
+      "ghost-white-2": "#F8F9FB",
+      mauve: "#D8A7FF",
     },
 
     extend: {
       boxShadow: {
         1: "0px 16px 48px rgba(0, 0, 0, 0.08)",
         2: "0px 2px 12px rgba(0, 0, 0, 0.08)",
+        3: "0px 4px 12px rgba(0, 0, 0, 0.06)",
       },
       fontFamily: {
         DMSans: ["DM Sans", ...defaultTheme.fontFamily.sans],

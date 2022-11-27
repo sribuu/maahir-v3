@@ -5,14 +5,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import PaymentMethodSummary from "../../fragments/summary_payment_method/PaymentMethod.summary";
-import {
-  IProducts,
-  IRequestCreateOrder,
-  IResponseCreateOrder,
-} from "@/src/core/lib/models";
+import { IProducts } from "@/src/core/lib/models";
+import { IOrderRequest, IOrderResponse } from "../../models";
 import { IPaymentMethodItems } from "@/src/core/lib/models/payment_method";
 import {
-  fetchBuyProduct,
+  // fetchBuyProduct,
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
@@ -256,51 +253,46 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
     );
   };
 
-  const {
-    data: buyProductData,
-    isSuccess: isSuccessBuyProduct,
-    isError: isErrorBuyProduct,
-    isLoading: isLoadingBuyProduct,
-    mutate: buyProduct,
-  } = useMutation<
-    IResponseCreateOrder | undefined,
-    unknown,
-    IRequestCreateOrder,
-    unknown
-  >({
-    mutationFn: (data: IRequestCreateOrder) => {
-      return fetchBuyProduct(data);
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData([ReactQueryKey.PostBuyProduct], data);
-    },
-  });
+  // const {
+  //   data: buyProductData,
+  //   isSuccess: isSuccessBuyProduct,
+  //   isError: isErrorBuyProduct,
+  //   isLoading: isLoadingBuyProduct,
+  //   mutate: buyProduct,
+  // } = useMutation<IOrderResponse | undefined, unknown, IOrderRequest, unknown>({
+  //   mutationFn: (data: IOrderRequest) => {
+  //     return fetchBuyProduct(data);
+  //   },
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData([ReactQueryKey.PostBuyProduct], data);
+  //   },
+  // });
 
   const handleClickBuy = (e: React.MouseEvent<HTMLButtonElement>) => {
-    buyProduct({
-      name: name,
-      email: email,
-      phone_number: phoneNumber,
-      product_id: parseInt(String(router.query[RouterQueryKey.ProductId])),
-      quantity: productQuantity,
-      kecamatan: district,
-      address: address,
-      province: province,
-      postal_code: postalCode,
-      payment_method_id: parseInt(paymentMethodId),
-    });
+    // buyProduct({
+    //   name: name,
+    //   email: email,
+    //   phone_number: phoneNumber,
+    //   // product_id: parseInt(String(router.query[RouterQueryKey.ProductId])),
+    //   // quantity: productQuantity,
+    //   kecamatan: district,
+    //   address: address,
+    //   province: province,
+    //   postal_code: postalCode,
+    //   payment_method_id: parseInt(paymentMethodId),
+    // });
   };
 
-  useEffect(() => {
-    if (isSuccessBuyProduct) {
-      router.push({
-        pathname: RouterPathName.OrderFinishPayment,
-        query: {
-          [RouterQueryKey.OrderCode]: buyProductData.order_code,
-        },
-      });
-    }
-  }, [isSuccessBuyProduct]);
+  // useEffect(() => {
+  //   if (isSuccessBuyProduct) {
+  //     router.push({
+  //       pathname: RouterPathName.OrderFinishPayment,
+  //       query: {
+  //         [RouterQueryKey.OrderCode]: buyProductData.order_code,
+  //       },
+  //     });
+  //   }
+  // }, [isSuccessBuyProduct]);
   return (
     <MainLayout>
       <div

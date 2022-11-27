@@ -1,4 +1,4 @@
-export interface IOrder {
+export interface IOrderResponse {
   address_id: number;
   address: {
     postal_code: string;

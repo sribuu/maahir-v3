@@ -13,11 +13,7 @@ import {
 } from "@/src/core/lib/api/dynamic";
 import { IDistrict, IProducts, IProvince } from "@/src/core/lib/models";
 import { IPaymentMethodItems } from "@/src/core/lib/models/payment_method";
-import {
-  numberFormatters,
-  thousandSeparator,
-} from "@/src/core/utils/formatters";
-import { REGEX } from "@/src/core/lib/constants/regex";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 import useNameForm from "@/src/core/hooks/form/useNameForm";
 import {
   ReactQueryKey,
@@ -32,6 +28,11 @@ import useDistrictForm from "@/src/core/hooks/form/useDistrictForm";
 import usePostalCodeForm from "@/src/core/hooks/form/usePostalCodeForm";
 import usePaymentMethodForm from "@/src/core/hooks/form/usePaymentMethodForm";
 import { fetchMaahirDistrict, fetchMaahirProvince } from "@/src/core/lib/api";
+import {
+  useFilterOrderItem,
+  useFilterOrderItemQuantity,
+  useOrderItemQuery,
+} from "../../hooks/useOrderItem";
 
 export interface IDetailOrderContainerProps {}
 
@@ -81,9 +82,13 @@ export default function DetailOrderContainer(
     onChange: onChangePaymentMethod,
   } = usePaymentMethodForm();
 
-  const quantity = parseInt(
-    String(router.query[RouterQueryKey.ProductQuantity])
+  const orderItem = useFilterOrderItem(
+    parseInt(String(router.query[RouterQueryKey.ProductId]))
   );
+
+  
+
+  console.log(orderItem, "ini order item");
 
   const { data: productByIdData, isLoading: isLoadingProductByIdData } =
     useQuery<IProducts>({
@@ -258,13 +263,9 @@ export default function DetailOrderContainer(
               onChangePostalCode={handleChangePostalCode}
             />
             <YourOrderCardComponent
-              name={productByIdData.title}
-              productSrc={productByIdData.image}
-              minPrice={thousandSeparator(productByIdData.retail_price_min)}
-              maxPrice={thousandSeparator(productByIdData.retail_price_max)}
               price={thousandSeparator(productByIdData.price)}
-              quantity={quantity}
               disabled={!state.continue_payment}
+              // itemList={}
               //   disabled={false}
               onSubmit={handleSubmit}
             />

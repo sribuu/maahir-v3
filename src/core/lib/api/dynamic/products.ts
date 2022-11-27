@@ -1,6 +1,6 @@
 import axios from "axios";
 import { APIUrlPath } from "@/src/core/lib/constants";
-import { IRequestCreateOrder } from "../../models";
+// import { IOrderRequest } from "@/src/features/orders/models";
 export const fetchTopThreeViralProducts = async () =>
   await axios
     .get(
@@ -57,10 +57,10 @@ export const fetchProductById = async (id: number) =>
     )
     .then((res) => res.data);
 
-export const fetchBuyProduct = async (data: IRequestCreateOrder) =>
-  await axios
-    .post(
-      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.PostBuyProduct}`,
-      data
-    )
-    .then((res) => res.data);
+// export const fetchBuyProduct = async (data: IOr) =>
+//   await axios
+//     .post(
+//       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.PostBuyProduct}`,
+//       data
+//     )
+//     .then((res) => res.data);

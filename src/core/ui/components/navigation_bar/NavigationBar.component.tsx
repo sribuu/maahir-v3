@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
 import clsx from "clsx";
@@ -20,6 +21,9 @@ NavigationBarComponent.defaultProps = {
 export default function NavigationBarComponent(
   props: INavigationBarComponentProps
 ) {
+  const router = useRouter();
+  const pathname = router.pathname;
+
   return (
     <nav
       className={clsx(
@@ -51,13 +55,30 @@ export default function NavigationBarComponent(
           {props.menus.length > 0 &&
             props.menus.map((item, index) => (
               <Link key={index} href={item.link}>
-                <button key={index} className={clsx("px-4 py-2 rounded-lg")}>
+                <button
+                  key={index}
+                  className={clsx(
+                    "px-4 py-2 rounded-lg",
+                    pathname === item.link && props.variant === "transparent"
+                      ? "bg-white"
+                      : pathname !== item.link &&
+                        props.variant === "transparent"
+                      ? "bg-white"
+                      : "bg-ocean-boat-blue",
+                    pathname === item.link ? "bg-opacity-100" : "bg-opacity-0"
+                  )}
+                >
                   <p
                     className={clsx(
                       "font-medium text-sm",
-                      props.variant === "normal"
-                        ? "text-charleston-green hover:text-ocean-boat-blue"
-                        : "text-white hover:text-ocean-boat-blue"
+                      props.variant === "normal" && pathname === item.link
+                        ? "text-white"
+                        : props.variant === "normal" && pathname !== item.link
+                        ? "text-charleston-green"
+                        : props.variant === "transparent" &&
+                          pathname === item.link
+                        ? "text-ocean-boat-blue"
+                        : "text-white"
                     )}
                   >
                     {item.name}

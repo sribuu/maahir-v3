@@ -101,8 +101,20 @@ export default function HomeProductContainer(
         min_price: filterPriceCategoryData.min,
         max_price: filterPriceCategoryData.max,
       });
+    } else if (
+      filterPriceCategoryData.name === "Lebih dari Rp1.000.000" &&
+      payload.min_price === filterPriceCategoryData.min
+    ) {
+      const newPayload = payload;
+      delete newPayload.min_price;
+      setPayload({
+        ...newPayload,
+      });
     } else {
-      // setPayload()
+      setPayload({
+        ...payload,
+        min_price: filterPriceCategoryData.min,
+      });
     }
   };
   const handleChangeProductCategory = (

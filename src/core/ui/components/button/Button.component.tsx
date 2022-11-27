@@ -1,13 +1,9 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
-export interface IButtonComponentProps {
-  id?: string;
-  disabled?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}
+export interface IButtonComponentProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
 export type IButtonStylesProps = VariantProps<typeof buttonStyles>;
 export const buttonStyles = cva(
   [
@@ -65,21 +61,19 @@ ButtonComponent.defaultProps = {
 
 export interface Props extends IButtonComponentProps, IButtonStylesProps {}
 
-export default function ButtonComponent({ intent, size, ...props }: Props) {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onClick) {
-      props.onClick(e);
-    }
-  };
-
+export default function ButtonComponent({
+  intent,
+  size,
+  className,
+  children,
+  ...restProps
+}: Props) {
   return (
     <button
-      id={props.id}
-      disabled={props.disabled}
-      className={`${buttonStyles({ intent, size })} ${props.className}`}
-      onClick={handleClick}
+      className={`${buttonStyles({ intent, size })} ${className}`}
+      {...restProps}
     >
-      {props.children}
+      {children}
     </button>
   );
 }

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IProducts } from "../lib/models";
-import { IOrder } from "../lib/models/order";
+import { IOrderResponse } from "../../features/orders/models";
 
 export const useGetOrderById = (params: { order_code: string }) => {
-  return useQuery<IOrder, Error>(
+  return useQuery<IOrderResponse, Error>(
     ["getOrderById"],
     () =>
       axios
@@ -12,7 +12,7 @@ export const useGetOrderById = (params: { order_code: string }) => {
           headers: { Authorization: "8QhbYqB9X2w9px9c" },
           params: params,
         })
-        .then((res) => res.data),
+        .then((res) => res.data)
     // {}
   );
 };
