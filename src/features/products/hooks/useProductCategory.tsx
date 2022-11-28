@@ -1,4 +1,4 @@
-import { fetchProductCategory } from "@/src/core/lib/api/dynamic";
+import { fetchProductCategoryList } from "@/src/core/lib/api/dynamic";
 import { ReactQueryKey } from "@/src/core/lib/constants";
 import { IOptions } from "@/src/core/lib/models";
 import { useQuery } from "@tanstack/react-query";
@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useProductCategoryQuery = () =>
   useQuery<IOptions[]>(
     [ReactQueryKey.GetProductCategory],
-    fetchProductCategory
+    fetchProductCategoryList
   );
 
 //   export const useTodosQuery = (select) =>

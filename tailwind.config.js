@@ -61,6 +61,7 @@ module.exports = {
       "ghost-white": "#F5FAFD",
       "ghost-white-2": "#F8F9FB",
       mauve: "#D8A7FF",
+      "pastel-orange": "#FFB74A",
     },
 
     extend: {

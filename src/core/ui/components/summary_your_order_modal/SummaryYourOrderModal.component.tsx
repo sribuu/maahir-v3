@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import ModalComponent from "../modal/Modal.component";
-import OrderProductCardComponent from "../order_product_card/OrderProductCard.component";
+import OrderProductCardComponent from "../../../../features/orders/fragments/buy_now_item_card/BuyNowItemCard.order";
 import ButtonComponent from "../button/Button.component";
 
 export interface ISummaryYourOrderModalComponentProps {
@@ -12,8 +12,8 @@ export interface ISummaryYourOrderModalComponentProps {
   maxPrice?: string;
   price?: string;
   quantity?: number;
-  onSubstract?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onAdd?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onSubstract?: (data: number) => void;
+  onAdd?: (data: number) => void;
   onClose?: () => void;
   onSave?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -53,8 +53,6 @@ export default function SummaryYourOrderModalComponent(
         <OrderProductCardComponent
           quantity={props.quantity}
           name={props.name}
-          maxPrice={props.maxPrice}
-          minPrice={props.minPrice}
           price={props.price}
           productSrc={props.productSrc}
           onAdd={props.onAdd}

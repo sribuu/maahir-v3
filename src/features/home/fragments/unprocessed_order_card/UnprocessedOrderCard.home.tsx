@@ -2,6 +2,8 @@ import * as React from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import UnprocessedOrderTableHome from "../unprocessed_order_table/UnprocessedOrderTable.home";
+import Link from "next/link";
+import { RouterPathName } from "@/src/core/lib/constants";
 
 export interface IUnprocessedOrderCardHomeProps {}
 
@@ -30,9 +32,13 @@ export default function UnprocessedOrderCardHome(
               {"Total Pesanan belum di proses:"}
             </p>
           </div>
-          <p className={clsx("text-[0.875rem] text-ocean-boat-blue font-bold")}>
-            {"See all"}
-          </p>
+          <Link href={RouterPathName.SupplierOrderManagement}>
+            <p
+              className={clsx("text-[0.875rem] text-ocean-boat-blue font-bold")}
+            >
+              {"See all"}
+            </p>
+          </Link>
         </div>
 
         {/* tabel */}

@@ -29,7 +29,7 @@ export default function ManagementCardProduct(
 
           {/* right */}
           <div className={clsx("flex justify-end items-center gap-x-[1rem]")}>
-            <SearchInputComponent />
+            <SearchInputComponent placeholder={"Cari Produk ID disini"} />
             <button
               className={clsx(
                 "bg-ocean-boat-blue",

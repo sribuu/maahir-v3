@@ -34,9 +34,9 @@ export async function getServerSideProps(context) {
     // DYNAMIC
     // product
     await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
-      fetchProductById(
-        parseInt(String(context.query[RouterQueryKey.ProductId]))
-      )
+      fetchProductById({
+        id: parseInt(String(context.query[RouterQueryKey.ProductId])),
+      })
     );
   } catch (e) {
     isError = true;

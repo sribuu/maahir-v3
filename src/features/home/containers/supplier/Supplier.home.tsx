@@ -4,6 +4,7 @@ import clsx from "clsx";
 import BalanceCardHome from "../../fragments/balance_card/BalanceCard.home";
 import OrderStatisticsCardHome from "../../fragments/order_statistics_card/OrderStatisticCard.home";
 import UnprocessedOrderCardHome from "../../fragments/unprocessed_order_card/UnprocessedOrderCard.home";
+import { useGetSupplierStatisticQuery } from "../../hooks/useSupplierStatistic";
 export interface ISupplierHomeContainerProps {}
 
 export default function SupplierHomeContainer(

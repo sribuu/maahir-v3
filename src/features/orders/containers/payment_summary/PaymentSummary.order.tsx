@@ -47,9 +47,9 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
     useQuery<IProducts>({
       queryKey: [ReactQueryKey.GetProductById],
       queryFn: () =>
-        fetchProductById(
-          parseInt(String(router.query[RouterQueryKey.ProductId]))
-        ),
+        fetchProductById({
+          id: parseInt(String(router.query[RouterQueryKey.ProductId])),
+        }),
     });
   const { data: paymentMethodData, isLoading: isLoadingPaymentMethodData } =
     useQuery<IPaymentMethodItems>({
@@ -205,12 +205,12 @@ export default function PaymentSummaryOrder(props: IPaymentSummaryOrderProps) {
   };
 
   //   your order
-  const handleAddProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddProduct = (data: number) => {
     setYourOrderState(
       (state) => (state = { ...state, quantity: state.quantity + 1 })
     );
   };
-  const handleSubstractProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubstractProduct = (data: number) => {
     setYourOrderState(
       (state) =>
         (state = {

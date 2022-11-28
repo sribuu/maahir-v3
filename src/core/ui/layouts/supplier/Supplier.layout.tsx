@@ -2,7 +2,7 @@ import * as React from "react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import ButtonComponent from "../../components/button/Button.component";
-
+import MenuDropdownComponent from "../../components/menu_dropdown/MenuDropdown.component";
 export interface ISupplierLayoutProps
   extends React.BaseHTMLAttributes<HTMLDivElement> {
   header?: {
@@ -148,7 +148,8 @@ export default function SupplierLayout(props: ISupplierLayoutProps) {
             <p className={"text-[1rem] font-bold text-independence"}>
               {"PT. Lorem Ipsum"}
             </p>
-            <button
+            <MenuDropdownComponent />
+            {/* <button
               className={clsx("flex justify-end items-center gap-x-[0.5rem]")}
             >
               <div
@@ -169,7 +170,7 @@ export default function SupplierLayout(props: ISupplierLayoutProps) {
                 width={20}
                 height={20}
               />
-            </button>
+            </button> */}
           </div>
         </div>
 

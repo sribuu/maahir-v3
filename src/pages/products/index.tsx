@@ -8,7 +8,7 @@ import {
   fetchMaahirSocialMedia,
 } from "../../core/lib/api";
 import { ReactQueryKey } from "../../core/lib/constants";
-import { fetchProductCategory } from "@/src/core/lib/api/dynamic";
+import { fetchProductCategoryList } from "@/src/core/lib/api/dynamic";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -27,7 +27,7 @@ export async function getStaticProps() {
     // DYNAMIC
     await queryClient.prefetchQuery(
       [ReactQueryKey.GetProductCategory],
-      fetchProductCategory
+      fetchProductCategoryList
     );
   } catch (e) {
     isError = true;

@@ -27,9 +27,9 @@ export default function DetailProductContainer(
     useQuery<IProducts>({
       queryKey: [ReactQueryKey.GetProductById],
       queryFn: () =>
-        fetchProductById(
-          parseInt(String(router.query[RouterQueryKey.ProductId]))
-        ),
+        fetchProductById({
+          id: parseInt(String(router.query[RouterQueryKey.ProductId])),
+        }),
     });
 
   const {
@@ -59,14 +59,12 @@ export default function DetailProductContainer(
     mutateAddToCart(payload);
   };
 
-  const handleAddItemNumber = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddItemNumber = (data: number) => {
     const result = itemNumber + 1;
     setItemNumber(result);
   };
 
-  const handleSubstractItemNumber = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleSubstractItemNumber = (data: number) => {
     const result = itemNumber <= 0 ? itemNumber - 1 : 0;
     setItemNumber(result);
   };

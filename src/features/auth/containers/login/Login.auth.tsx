@@ -1,7 +1,5 @@
-import * as React from "react";
 import clsx from "clsx";
-import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
-import ButtonComponent from "@/src/core/ui/components/button/Button.component";
+import LoginFormValidationAuth from "../../components/login_form_validation/LoginFormValidation.auth";
 
 export interface ILoginAuthContainerProps {}
 
@@ -78,30 +76,8 @@ export default function LoginAuthContainer(props: ILoginAuthContainerProps) {
           >
             {"Masuk ke Supplier Center"}
           </title>
-
-          <form
-            className={clsx(
-              "grid grid-cols-1 gap-y-[1.5rem]",
-              "items-start content-start",
-              "w-full"
-            )}
-          >
-            <div className={clsx("grid grid-cols-1 gap-y-[0.25rem]", "w-full")}>
-              <TextfieldComponent
-                label={"Email"}
-                placeholder={"Masukkan Email"}
-              />
-            </div>
-
-            <div className={clsx("grid grid-cols-1 gap-y-[0.25rem]", "w-full")}>
-              <TextfieldComponent
-                label={"Kata Sandi"}
-                placeholder={"Masukkan Kata Sandi"}
-              />
-            </div>
-
-            <ButtonComponent disabled={true}>{"Masuk"}</ButtonComponent>
-          </form>
+          <LoginFormValidationAuth />
+         
 
           <div>
             <p
@@ -110,7 +86,7 @@ export default function LoginAuthContainer(props: ILoginAuthContainerProps) {
               )}
             >
               {"Login Anda bermasalah "}
-            
+
               <span
                 className={clsx(
                   "text-ocean-boat-blue font-bold text-[0.875rem]"

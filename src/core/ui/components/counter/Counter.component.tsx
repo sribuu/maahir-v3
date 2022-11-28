@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 export interface ICounterComponentProps {
   quantity?: number;
-  onSubstract?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onSummation?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onSubstract?: (data: number) => void;
+  onSummation?: (data: number) => void;
 }
 
 CounterComponent.defaultProps = {
@@ -17,15 +17,21 @@ export default function CounterComponent(props: ICounterComponentProps) {
   const handleClickMinus = (e: React.MouseEvent<HTMLButtonElement>) => {
     setCounter((count) => (count > 0 ? count - 1 : 0));
     if (props.onSubstract) {
-      props.onSubstract(e);
+      props.onSubstract(counter > 0 ? counter - 1 : 0);
     }
   };
   const handleClickPlus = (e: React.MouseEvent<HTMLButtonElement>) => {
     setCounter((count) => count + 1);
     if (props.onSummation) {
-      props.onSummation(e);
+      props.onSummation(counter + 1);
     }
   };
+
+  useEffect(() => {
+    if (props.quantity) {
+      setCounter(props.quantity);
+    }
+  }, [props.quantity]);
   return (
     <div className={clsx("flex items-center", "gap-x-2")}>
       <button onClick={handleClickMinus}>

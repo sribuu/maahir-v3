@@ -15,8 +15,8 @@ export interface IItemDescriptionCardProductProps {
   maxPrice?: string;
   itemNumber?: number;
   onAddToCart?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onAddItemNumber?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onSubstractItemNumber?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onAddItemNumber?: (data: number) => void;
+  onSubstractItemNumber?: (data: number) => void;
 }
 ItemDescriptionCardProduct.defaultProps = {
   name: "Paket Reseller Parfum Wanita Botol Kaca",

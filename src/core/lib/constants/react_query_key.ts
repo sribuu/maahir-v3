@@ -4,8 +4,10 @@ export enum ReactQueryKey {
   GetSocialMedia = "maahir-social-media",
   GetFAQ = "maahir-faq",
   GetHeaders = "maahir-headers",
-  GetProductCategory = "maahir-product-category",
+
   GetPriceCategory = "maahir-price-category",
+  // TODO: remove this 3 items
+  GetProductCategory = "maahir-product-category",
   GetProvince = "maahir-province",
   GetDistrict = "maahir-district",
   //   DYNAMIC
@@ -15,6 +17,14 @@ export enum ReactQueryKey {
   GetPaymentMethod = "maahir-payment-method",
   PostBuyProduct = "maahir-buy-product",
   GetOrderByOrderCode = "maahir-get-order",
+  PostLogin = "maahir-login",
+  GetRefreshToken = "maahir-get-refresh-token",
+  GetSupplierStatistic = "maahir-get-supplier-statistic",
+  GetBankList = "maahir-get-bank-list",
+  GetProvinceList = "maahir-get-province-list",
+  GetDistrictList = "maahir-get-district-list",
+  PutUpdateSupplierProfile = "maahi-put-update-profile",
+  GetSupplierProfile = "maahir-get-supplier-profile",
   // STORAGE
   // cart
   GetCart = "maahir-cart",
@@ -24,4 +34,8 @@ export enum ReactQueryKey {
   SaveOrderItem = "maahir-save-order-item",
   GetOrderItem = "maahir-get-order-item",
   DeleteOrderItem = "maahir-delete-order-item",
+  // credentials
+  SaveSupplierCredentials = "maahir-save-supplier-credentials",
+  GetSupplierCredentials = "maahir-get-supplier-credentials",
+  RemoveSupplierCredentials = "maahir-remove-supplier-credentials",
 }

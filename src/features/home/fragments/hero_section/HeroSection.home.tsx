@@ -44,7 +44,7 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
         "grid justify-center content-start justify-items-center",
         "relative",
         "py-[252px] gap-y-12 min-h-[68.625rem]",
-        "bg-gradient-to-r from-caribbean-green to-mauve"
+        "bg-gradient-to-r from-mauve to-caribbean-green"
       )}
     >
       {/* lines */}

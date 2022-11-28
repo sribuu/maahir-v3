@@ -1,6 +1,6 @@
 import axios from "axios";
 import { APIUrlPath } from "@/src/core/lib/constants";
-export const fetchProductCategory = async () =>
+export const fetchProductCategoryList = async () =>
   await axios
     .get(
       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetOptions}`,
@@ -12,7 +12,7 @@ export const fetchProductCategory = async () =>
     )
     .then((res) => res.data);
 
-export const fetchProvince = async () =>
+export const fetchProvinceList = async () =>
   await axios
     .get(
       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetOptions}`,
@@ -24,13 +24,25 @@ export const fetchProvince = async () =>
     )
     .then((res) => res.data);
 
-export const fetchDistrict = async () =>
+export const fetchDistrictList = async () =>
   await axios
     .get(
       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetOptions}`,
       {
         params: {
           option_type: "KECAMATAN",
+        },
+      }
+    )
+    .then((res) => res.data);
+
+export const fetchBankList = async () =>
+  await axios
+    .get(
+      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetOptions}`,
+      {
+        params: {
+          option_type: "BANK",
         },
       }
     )

@@ -9,4 +9,11 @@ export enum RouterPathName {
   OrderCheckByCode = "/orders/check-order",
   OrderFinishPayment = "/orders/finish-payment",
   AllCartItems = "/cart",
+
+  // supplier
+  Login = "/login",
+  HomeSupplier = "/supplier/beranda",
+  SupplierOrderManagement = "/supplier/kelola-pesanan",
+  SupplierProductManagement = "/supplier/kelola-produk",
+  SupplierBalanceManagement = "/supplier/kelola-saldo",
 }

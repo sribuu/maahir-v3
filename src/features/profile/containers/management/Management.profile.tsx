@@ -1,5 +1,6 @@
 import * as React from "react";
 import SupplierLayout from "@/src/core/ui/layouts/supplier/Supplier.layout";
+import EditProfileCardProfile from "../../components/edit_profile_card/EditProfileCard.profile";
 
 export interface IManagementProfileContainerProps {}
 
@@ -12,7 +13,7 @@ export default function ManagementProfileContainer(
   };
   return (
     <SupplierLayout header={header}>
-      <div></div>
+      <EditProfileCardProfile />
     </SupplierLayout>
   );
 }

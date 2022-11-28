@@ -5,16 +5,20 @@ export interface ITextfieldComponentProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   endAddornment?: React.ReactNode;
+  invalid?: string;
+  helpertext?: string;
 }
 TextfieldComponent.defaultProps = {
   label: "",
+  invalid: "false",
+  helpertext: "",
 };
 
 export default function TextfieldComponent(props: ITextfieldComponentProps) {
   const { className, ...restProps } = props;
 
   return (
-    <div className={clsx("grid grid-cols-1", "gap-x-1 w-full")}>
+    <div className={clsx("grid grid-cols-1", "gap-y-[0.25rem] w-full")}>
       <label
         className={clsx("text-[0.875rem] text-charleston-green font-regular")}
         htmlFor={props.id}
@@ -24,10 +28,13 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
 
       <div
         className={clsx(
-          "flex justify-between",
-          "w-full p-4",
-          "gap-4",
-          "border border-gainsboro rounded-[0.625rem]"
+          "flex justify-between gap-4",
+          "w-full p-4 h-[3.5rem]",
+          "rounded-[0.625rem]",
+          "box-border",
+          props.invalid === "true"
+            ? "border border-tart-orange"
+            : "border border-gainsboro "
         )}
       >
         <input
@@ -41,6 +48,17 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
         />
         {props.endAddornment && props.endAddornment}
       </div>
+
+      {props.helpertext !== undefined && props.helpertext.length > 0 && (
+        <p
+          className={clsx(
+            props.invalid === "true" ? "text-tart-orange" : "text-taupe-gray",
+            "text-[0.75rem] font-regular"
+          )}
+        >
+          {props.helpertext}
+        </p>
+      )}
     </div>
   );
 }

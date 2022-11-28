@@ -6,14 +6,14 @@ import BackdropComponent from "../backdrop/Backdrop.component";
 export interface IModalComponentProps {
   children?: React.ReactNode;
   onClose?: () => void;
-  open: boolean;
+  open?: boolean;
 }
 ModalComponent.defaultProps = {
   open: false,
 };
 
 export default function ModalComponent(props: IModalComponentProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, () => {
     if (props.onClose) {

@@ -29,7 +29,7 @@ export default function NavigationBarComponent(
       className={clsx(
         "flex justify-center fixed top-0 right-0 left-0 z-50",
         props.variant === "transparent"
-          ? "bg-gradient-to-r from-caribbean-green to-mauve"
+          ? "bg-gradient-to-r from-mauve to-caribbean-green"
           : "bg-white",
         props.variant === "transparent" ? "border-b-0" : "border-b",
         props.variant === "transparent"

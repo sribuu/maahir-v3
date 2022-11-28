@@ -21,21 +21,22 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
   const [open, setOpen] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setOpen((open) => (open = !open));
+    e.preventDefault();
+    setOpen(!open);
   };
 
   const handleClickOption = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onSelect) {
       props.onSelect(e);
     }
-    setOpen((open) => (open = !open));
+    setOpen(!open);
   };
   useOnClickOutside(ref, () => setOpen(false));
 
   return (
     <div
       ref={ref}
-      className={clsx("relative", "grid grid-cols-1", "gap-y-[0.75rem] w-full")}
+      className={clsx("relative", "grid grid-cols-1", "gap-y-[0.25rem] w-full")}
     >
       {String(props.label).length > 0 && (
         <p
@@ -50,9 +51,14 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
       {/* dropdown */}
       <button
         className={clsx(
-          "flex justify-between items-center w-full",
-          "p-4",
-          "border border-gainsboro rounded-[0.625rem]"
+          "flex justify-between items-center",
+          "p-4 w-full h-[3.5rem]",
+          "box-border",
+          "border border-gainsboro rounded-[0.625rem]",
+          props.value !== undefined && !props.value.length
+            ? "text-taupe-gray"
+            : "text-charleston-green",
+          "font-regular text-[1rem]"
         )}
         onClick={handleClick}
       >
@@ -66,33 +72,32 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
         />
       </button>
 
-      {open && (
-        <div
-          className={clsx(
-            "absolute",
-            "top-[6.5rem] left-0 right-0 z-10 rounded-[0.625rem]",
-            "bg-white",
-            "border border-gainsboro",
-            "max-h-[17.5rem] overflow-scroll"
-          )}
-        >
-          {props.lists !== undefined &&
-            props.lists.map((list, index) => (
-              <button
-                id={list}
-                key={index}
-                className={clsx(
-                  "flex content-start items-center w-full",
-                  "bg-white",
-                  "p-4 rounded-[0.625rem] max-h-[3.5rem] box-border"
-                )}
-                onClick={handleClickOption}
-              >
-                {list}
-              </button>
-            ))}
-        </div>
-      )}
+      <div
+        className={clsx(
+          "absolute",
+          "top-[6.5rem] left-0 right-0 z-10 rounded-[0.625rem]",
+          "bg-white",
+          "border border-gainsboro",
+          "max-h-[17.5rem] overflow-scroll",
+          open ? "inline-block" : "hidden"
+        )}
+      >
+        {props.lists !== undefined &&
+          props.lists.map((list, index) => (
+            <button
+              id={list}
+              key={index}
+              className={clsx(
+                "flex content-start items-center w-full",
+                "bg-white",
+                "p-4 rounded-[0.625rem] max-h-[3.5rem] box-border"
+              )}
+              onClick={handleClickOption}
+            >
+              {list}
+            </button>
+          ))}
+      </div>
     </div>
   );
 }

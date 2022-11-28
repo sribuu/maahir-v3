@@ -26,8 +26,8 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
             "w-full"
           )}
         >
-          <p className={clsx("text-[1.25rem] text-dark-charcoal font-bold")}>
-            {"Kirim Permintaan Tarik Saldo"}
+          <p className={clsx("text-[1rem] text-dark-charcoal font-medium")}>
+            {"Rekening Tujuan Pengiriman"}
           </p>
           <div
             className={clsx(

@@ -13,8 +13,6 @@ type ProductType = {
 };
 
 type InitialStateType = {
-  //   products: ProductType[];
-  //   shoppingCart: number;
   hero: {
     headline: string;
     description: string;

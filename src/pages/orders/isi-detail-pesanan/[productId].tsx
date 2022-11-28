@@ -11,7 +11,7 @@ import {
   fetchPaymentMethod,
   fetchProductById,
 } from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/detail/Detail.order";
+import DetailOrderContainer from "@/src/features/orders/containers/fill_detail/FillDetail.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {
@@ -37,9 +37,9 @@ export async function getServerSideProps(context) {
     // DYNAMIC
     // product
     await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
-      fetchProductById(
-        parseInt(String(context.query[RouterQueryKey.ProductId]))
-      )
+      fetchProductById({
+        id: parseInt(String(context.query[RouterQueryKey.ProductId])),
+      })
     );
     // payment-method
     await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
