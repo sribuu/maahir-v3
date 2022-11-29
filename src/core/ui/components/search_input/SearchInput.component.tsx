@@ -1,10 +1,10 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 export interface ISearchInputComponentProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  onSearch?: () => void;
+  onSearch?: (data: string) => void;
 }
 SearchInputComponent.defaultProps = {
   label: "",
@@ -12,12 +12,22 @@ SearchInputComponent.defaultProps = {
 export default function SearchInputComponent(
   props: ISearchInputComponentProps
 ) {
-  const { className, ...restProps } = props;
-  const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onSearch) {
-      props.onSearch();
+  const [data, setData] = useState("");
+  const { className, onSearch, value, ...restProps } = props;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData(e.currentTarget.value);
+  };
+
+  const handleSearch = () => {
+    if (onSearch) {
+      onSearch(data);
     }
   };
+
+  useEffect(() => {
+    setData(String(value));
+  }, [value]);
   return (
     <div
       className={clsx(
@@ -29,11 +39,12 @@ export default function SearchInputComponent(
     >
       <input
         className={clsx(
-          //   "w-full",
           "bg-white bg-opacity-0 outline-0",
           "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[1rem]",
           className
         )}
+        value={data}
+        onChange={handleChange}
         {...restProps}
       />
       <button

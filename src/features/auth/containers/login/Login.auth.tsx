@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import LoginFormValidationAuth from "../../components/login_form_validation/LoginFormValidation.auth";
+import LoginHelpAuth from "../../components/login_help/LoginHelp.auth";
 
 export interface ILoginAuthContainerProps {}
 
@@ -77,25 +78,8 @@ export default function LoginAuthContainer(props: ILoginAuthContainerProps) {
             {"Masuk ke Supplier Center"}
           </title>
           <LoginFormValidationAuth />
-         
 
-          <div>
-            <p
-              className={clsx(
-                "text-[0.875rem] font-regular text-charleston-green"
-              )}
-            >
-              {"Login Anda bermasalah "}
-
-              <span
-                className={clsx(
-                  "text-ocean-boat-blue font-bold text-[0.875rem]"
-                )}
-              >
-                {"Klik Disini"}
-              </span>
-            </p>
-          </div>
+          <LoginHelpAuth />
         </section>
       </div>
       {/* end right side */}

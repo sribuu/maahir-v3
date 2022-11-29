@@ -25,7 +25,7 @@ export default function BalanceCardBalance(props: IBalanceCardBalanceProps) {
     <CardComponent className={clsx("p-[1rem]")}>
       <div
         className={clsx(
-          "grid grid-cols-1 justify-start gap-y-[1rem]",
+          "grid grid-cols-1 place-content-start place-items-start gap-y-[1rem]",
           "w-full"
         )}
       >
@@ -35,8 +35,8 @@ export default function BalanceCardBalance(props: IBalanceCardBalanceProps) {
 
         <div
           className={clsx(
-            "grid grid-cols-1 justify-start gap-y-[1.5rem]",
-            "w-full"
+            "grid grid-cols-1 place-content-start place-items-start gap-y-[1.5rem] ",
+            "w-full",
           )}
         >
           {list.map((item, index) => (

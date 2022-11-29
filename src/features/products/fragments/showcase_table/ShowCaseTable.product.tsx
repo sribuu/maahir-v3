@@ -1,11 +1,20 @@
-import * as React from "react";
+import { useState } from "react";
 import clsx from "clsx";
+import { ISupplierProductItem } from "../../models";
+import ProductNotFoundSectionHome from "../product_not_found_section/ProductNotFoundSection";
 
-export interface IShowCaseTableProductProps {}
+export interface IShowCaseTableProductProps {
+  list?: ISupplierProductItem[];
+}
+
+ShowCaseTableProduct.defaultProps = {
+  list: [],
+};
 
 export default function ShowCaseTableProduct(
   props: IShowCaseTableProductProps
 ) {
+  const { list } = props;
   const headList = [
     "Gambar",
     "Produk ID",
@@ -15,30 +24,10 @@ export default function ShowCaseTableProduct(
     "Kategori",
     "Pilihan Aksi",
   ];
-  const rowList = [
-    {
-      image:
-        "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/segari-logo.png",
-      id: "PTLI-001",
-      name: "Paket Reseller Parfum Wanita Botol Kaca",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Digasdanissim doloyr id adi Digniasssim dolor id adi...",
-      stock: 1,
-      category: "Kecantikan",
-      action: "",
-    },
-    {
-      image:
-        "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/segari-logo.png",
-      id: "PTLI-001",
-      name: "Paket Reseller Beraneka Macam Frozen Food",
-      description:
-        "Lorem ipsum dolor sit amet consectetur. Dignissim dolor id adi...",
-      stock: 100,
-      category: "Makanan & Minuman",
-      action: "",
-    },
-  ];
+  if (!list.length) {
+    return <ProductNotFoundSectionHome />;
+  }
+
   return (
     <table className={"w-full"}>
       <thead>
@@ -62,13 +51,13 @@ export default function ShowCaseTableProduct(
       </thead>
 
       <tbody>
-        {rowList.map((item, index) => {
+        {list?.map((item, index) => {
           return (
             <tr
               key={index}
               className={clsx(
                 "text-center",
-                index < rowList.length - 1 &&
+                index < list.length - 1 &&
                   "pb-[4px] border-b border-b-bright-gray"
               )}
             >

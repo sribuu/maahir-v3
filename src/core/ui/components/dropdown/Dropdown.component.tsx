@@ -7,16 +7,22 @@ export interface IDropdownComponentProps {
   value?: string;
   placeholder?: string;
   lists?: string[];
+  disabled?: boolean;
+  defaultValue?: string;
   onSelect?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 DropdownComponent.defaultProps = {
   label: "",
   value: "",
   placeholder: "Pilih Provinsi",
+  disabled: false,
+  defaultValue: "",
   lists: ["hallo", "opsi2", "hallo", "opsi2", "hallo", "opsi2"],
 };
 
 export default function DropdownComponent(props: IDropdownComponentProps) {
+  const { disabled, label, value, placeholder, lists, onSelect, defaultValue } =
+    props;
   const ref = useRef();
   const [open, setOpen] = useState(false);
 
@@ -26,8 +32,8 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
   };
 
   const handleClickOption = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onSelect) {
-      props.onSelect(e);
+    if (onSelect) {
+      onSelect(e);
     }
     setOpen(!open);
   };
@@ -38,14 +44,14 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
       ref={ref}
       className={clsx("relative", "grid grid-cols-1", "gap-y-[0.25rem] w-full")}
     >
-      {String(props.label).length > 0 && (
+      {String(label).length > 0 && (
         <p
           className={clsx(
             "text-[0.875rem] font-regular",
-            "text-charleston-green"
+            !disabled ? "text-charleston-green" : "text-taupe-gray"
           )}
         >
-          {props.label}
+          {label}
         </p>
       )}
       {/* dropdown */}
@@ -55,16 +61,19 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
           "p-4 w-full h-[3.5rem]",
           "box-border",
           "border border-gainsboro rounded-[0.625rem]",
-          props.value !== undefined && !props.value.length
+          value !== undefined && !value.length && !defaultValue.length
             ? "text-taupe-gray"
             : "text-charleston-green",
-          "font-regular text-[1rem]"
+          "font-regular text-[1rem]",
+          !disabled ? "bg-white" : "bg-bright-gray"
         )}
         onClick={handleClick}
       >
-        {props.value !== undefined && !props.value.length
-          ? props.placeholder
-          : props.value}
+        {value !== undefined && !value.length && defaultValue?.length > 0
+          ? defaultValue
+          : value !== undefined && !value.length && placeholder?.length > 0
+          ? placeholder
+          : value}
 
         <img
           src={"/icons/chevron-down.svg"}
@@ -82,8 +91,8 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
           open ? "inline-block" : "hidden"
         )}
       >
-        {props.lists !== undefined &&
-          props.lists.map((list, index) => (
+        {lists !== undefined &&
+          lists.map((list, index) => (
             <button
               id={list}
               key={index}

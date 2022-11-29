@@ -25,6 +25,8 @@ export enum ReactQueryKey {
   GetDistrictList = "maahir-get-district-list",
   PutUpdateSupplierProfile = "maahi-put-update-profile",
   GetSupplierProfile = "maahir-get-supplier-profile",
+  GetSupplierProduct = "maahir-get-supplier-product",
+  PostWithdrawBalance = "maahir-post-withdraw-balance",
   // STORAGE
   // cart
   GetCart = "maahir-cart",

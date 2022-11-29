@@ -6,3 +6,4 @@ export * from "./router_path_name";
 export * from "./page_key";
 export * from "./storage_query_key";
 export * from "./error_message";
+export * from "./external_link";

@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { fetchLogin } from "@/src/features/auth/services";
 import { ReactQueryKey } from "@/src/core/lib/constants";
 import {
   IUpdateSupplierProfileRequest,
@@ -8,7 +7,7 @@ import {
 } from "../models";
 import { fetchUpdateSupplierProfile } from "../services";
 
-export const useMutateLoginQuery = () =>
+export const useUpdateSupplierProfileQuery = () =>
   useMutation<
     IUpdateSupplierProfileSuccessResponse,
     IUpdateSupplierProfileErrorResponse,

@@ -91,7 +91,8 @@ export default function LoginFormAuth(props: ILoginFormAuthProps) {
         className={clsx(
           "p-[0.875rem] w-full rounded-[0.75rem]",
           "bg-ocean-boat-blue",
-          "text-white text-[1rem] font-bold"
+          "text-white text-[1rem] font-bold",
+          "cursor-pointer"
         )}
         type={"submit"}
         value={"Login"}

@@ -15,12 +15,15 @@ TextfieldComponent.defaultProps = {
 };
 
 export default function TextfieldComponent(props: ITextfieldComponentProps) {
-  const { className, ...restProps } = props;
+  const { className, disabled, ...restProps } = props;
 
   return (
     <div className={clsx("grid grid-cols-1", "gap-y-[0.25rem] w-full")}>
       <label
-        className={clsx("text-[0.875rem] text-charleston-green font-regular")}
+        className={clsx(
+          "text-[0.875rem] font-regular",
+          !disabled ? "text-charleston-green" : "text-taupe-gray"
+        )}
         htmlFor={props.id}
       >
         {props.label}
@@ -32,6 +35,7 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
           "w-full p-4 h-[3.5rem]",
           "rounded-[0.625rem]",
           "box-border",
+          !disabled ? "bg-white" : "bg-bright-gray",
           props.invalid === "true"
             ? "border border-tart-orange"
             : "border border-gainsboro "
@@ -40,7 +44,8 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
         <input
           className={clsx(
             "w-full",
-            "bg-white bg-opacity-0 outline-0",
+            !disabled ? "bg-white bg-opacity-0" : "bg-bright-gray",
+            "outline-0",
             "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[1rem]",
             className
           )}

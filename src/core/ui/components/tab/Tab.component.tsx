@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 export interface ITabComponentProps {
   list?: string[];
+  onSelect?: (data: number) => void;
 }
 TabComponent.defaultProps = {
   list: [],
@@ -13,12 +14,16 @@ export default function TabComponent(props: ITabComponentProps) {
 
   const handleClickTab = (e: React.MouseEvent<HTMLButtonElement>) => {
     setActive(parseInt(e.currentTarget.id));
+    if (props.onSelect) {
+      props.onSelect(parseInt(e.currentTarget.id));
+    }
   };
   return (
     <div className={clsx("flex items-start justify-start gap-x-[2rem]")}>
       {props.list !== undefined &&
         props.list.map((item, index) => (
           <button
+            key={index}
             id={String(index)}
             className={clsx(
               "pb-[0.75rem]",

@@ -20,4 +20,6 @@ export enum APIUrlPath {
   GetSupplierStatistic = "/api/v1/maahir/supplier/balances/statistic",
   PutUpdateSupplierProfile = "/api/v1/maahir/supplier/profile",
   GetSupplierProfile = "/api/v1/maahir/supplier/profile",
+  GetSupplierProduct = "/api/v1/maahir/supplier/products",
+  PostWithdrawBalance = "/api/v1/maahir/supplier/balances/withdrawal",
 }

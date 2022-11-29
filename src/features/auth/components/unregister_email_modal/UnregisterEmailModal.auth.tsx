@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import clsx from "clsx";
 import ModalComponent, {
   IModalComponentProps,
@@ -6,6 +7,7 @@ import ModalComponent, {
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import useOpenModalComponent from "@/src/core/ui/components/modal/useOpenModal.hook";
+import { ExternalLink } from "@/src/core/lib/constants";
 export interface IUnregisterEmailModalProps extends IModalComponentProps {}
 
 export default function UnregisterEmailModal(
@@ -56,7 +58,7 @@ export default function UnregisterEmailModal(
 
           <div
             className={clsx(
-              "flex items-center justify-between gap-x-[1.25rem]",
+              "grid grid-cols-2 justify-between justify-items-start items-center content-center gap-x-[1.25rem]",
               "w-full"
             )}
           >
@@ -67,13 +69,15 @@ export default function UnregisterEmailModal(
             >
               {"Coba Lagi"}
             </ButtonComponent>
-            <ButtonComponent
-              intent={"primary"}
-              className={clsx("w-full")}
-              onClick={handleClickContactUs}
-            >
-              {"Hubungi Maahir"}
-            </ButtonComponent>
+            <Link href={ExternalLink.WhatsApp} target={"_blank"}>
+              <ButtonComponent
+                intent={"primary"}
+                className={clsx("w-full")}
+                onClick={handleClickContactUs}
+              >
+                {"Hubungi Maahir"}
+              </ButtonComponent>
+            </Link>
           </div>
         </div>
       </CardComponent>
