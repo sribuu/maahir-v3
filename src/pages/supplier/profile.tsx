@@ -1,5 +1,5 @@
 import * as React from "react";
-import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
 import ManagementProfileContainer from "@/src/features/profile/containers/management/Management.profile";
 import { ReactQueryKey } from "@/src/core/lib/constants";
@@ -11,9 +11,6 @@ export async function getStaticProps() {
   const queryClient = new QueryClient();
   let isError = false;
   try {
-    // static
-
-    // dynamic
     await queryClient.prefetchQuery([ReactQueryKey.GetBankList], fetchBankList);
   } catch (e) {
     isError = true;
@@ -29,8 +26,8 @@ export async function getStaticProps() {
 
 export default function SupplierBalanceManagementPage({ isErrorPrefetch }) {
   const header = {
-    title: "Maahir | Beranda",
-    description: "Maahir Beranda",
+    title: "Maahir | Profile",
+    description: "Maahir Supplier Profile",
   };
   return (
     <>

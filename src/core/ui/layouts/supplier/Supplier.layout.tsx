@@ -29,11 +29,11 @@ export default function SupplierLayout(props: ISupplierLayoutProps) {
       link: "/supplier/beranda",
     },
     {
-      id: "kelola-produk",
+      id: "produk",
       name: "Kelola Produk",
       defaultIcon: "/icons/shopping-bag-inactive.svg",
       activeIcon: "/icons/shopping-bag-active.svg",
-      link: "/supplier/kelola-produk",
+      link: "/supplier/produk",
     },
     {
       id: "kelola-pesanan",
@@ -93,7 +93,7 @@ export default function SupplierLayout(props: ISupplierLayoutProps) {
             >
               <img
                 src={
-                  item.link.includes(router.pathname)
+                  router.pathname.includes(item.id)
                     ? item.activeIcon
                     : item.defaultIcon
                 }
@@ -101,10 +101,10 @@ export default function SupplierLayout(props: ISupplierLayoutProps) {
               <p
                 className={clsx(
                   "text-[1rem]",
-                  item.link.includes(router.pathname)
+                  router.pathname.includes(item.id)
                     ? "font-bold"
                     : "font-regular",
-                  item.link.includes(router.pathname)
+                  router.pathname.includes(item.id)
                     ? "text-ocean-boat-blue"
                     : "text-taupe-gray"
                 )}

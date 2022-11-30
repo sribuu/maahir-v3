@@ -1,20 +1,20 @@
 import clsx from "clsx";
 import React from "react";
 
-export interface ITextfieldComponentProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface ITextareaComponentProps
+  extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   endAddornment?: React.ReactNode;
   invalid?: string;
   helpertext?: string;
 }
-TextfieldComponent.defaultProps = {
+TextareaComponent.defaultProps = {
   label: "",
   invalid: "false",
   helpertext: "",
 };
 
-export default function TextfieldComponent(props: ITextfieldComponentProps) {
+export default function TextareaComponent(props: ITextareaComponentProps) {
   const { className, disabled, ...restProps } = props;
 
   return (
@@ -32,7 +32,7 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
       <div
         className={clsx(
           "flex justify-between gap-4",
-          "w-full p-4 h-[3.5rem]",
+          "w-full p-4 h-[138px]",
           "rounded-[0.625rem]",
           "box-border",
           !disabled ? "bg-white" : "bg-bright-gray",
@@ -41,7 +41,7 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
             : "border border-gainsboro "
         )}
       >
-        <input
+        <textarea
           className={clsx(
             "w-full",
             !disabled ? "bg-white bg-opacity-0" : "bg-bright-gray",

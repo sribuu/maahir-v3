@@ -17,9 +17,11 @@ export enum APIUrlPath {
   GetOptions = "/api/v1/maahir/options",
   PostLogin = "/api/v1/maahir/supplier/login",
   RefreshToken = "/v2/session",
+  // supplier
   GetSupplierStatistic = "/api/v1/maahir/supplier/balances/statistic",
   PutUpdateSupplierProfile = "/api/v1/maahir/supplier/profile",
   GetSupplierProfile = "/api/v1/maahir/supplier/profile",
   GetSupplierProduct = "/api/v1/maahir/supplier/products",
+  PostChangeSupplierProductShow = "/api/v1/maahir/supplier/products/change-show",
   PostWithdrawBalance = "/api/v1/maahir/supplier/balances/withdrawal",
 }

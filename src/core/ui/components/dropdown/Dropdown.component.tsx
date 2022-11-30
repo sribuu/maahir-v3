@@ -9,6 +9,7 @@ export interface IDropdownComponentProps {
   lists?: string[];
   disabled?: boolean;
   defaultValue?: string;
+  helperText?: string;
   onSelect?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 DropdownComponent.defaultProps = {
@@ -17,7 +18,9 @@ DropdownComponent.defaultProps = {
   placeholder: "Pilih Provinsi",
   disabled: false,
   defaultValue: "",
-  lists: ["hallo", "opsi2", "hallo", "opsi2", "hallo", "opsi2"],
+  helperText: "",
+  lists: [],
+  // lists: ["hallo", "opsi2", "hallo", "opsi2", "hallo", "opsi2"],
 };
 
 export default function DropdownComponent(props: IDropdownComponentProps) {
@@ -80,6 +83,12 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
           className={clsx(open ? "rotate-180" : "rotate-0")}
         />
       </button>
+
+      {props.helperText !== undefined && props.helperText.length > 0 && (
+        <p className={clsx("text-taupe-gray", "text-[0.75rem] font-regular")}>
+          {props.helperText}
+        </p>
+      )}
 
       <div
         className={clsx(

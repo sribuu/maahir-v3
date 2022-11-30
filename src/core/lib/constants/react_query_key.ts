@@ -26,6 +26,8 @@ export enum ReactQueryKey {
   PutUpdateSupplierProfile = "maahi-put-update-profile",
   GetSupplierProfile = "maahir-get-supplier-profile",
   GetSupplierProduct = "maahir-get-supplier-product",
+  GetSupplierProductCategory = "maahir-get-supplier-product-category",
+  PostChangeSupplierProductShow = "maahir-post-change-supplier-product-show",
   PostWithdrawBalance = "maahir-post-withdraw-balance",
   // STORAGE
   // cart
