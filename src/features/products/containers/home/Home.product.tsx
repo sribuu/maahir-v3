@@ -38,6 +38,7 @@ export default function HomeProductContainer(
   const {
     data: productsData,
     fetchNextPage,
+    refetch,
     isSuccess: isSuccessProductsData,
     isLoading: isLoadingProductDatas,
   } = useProductsQuery(payload);
@@ -58,7 +59,7 @@ export default function HomeProductContainer(
 
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchNextPage({});
     }
   }, [inView]);
 

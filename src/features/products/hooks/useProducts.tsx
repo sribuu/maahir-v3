@@ -15,14 +15,18 @@ export const useProductsQuery = (params: IProductsQueryParams) =>
   useInfiniteQuery<IProducts[], IProductsQueryParams>({
     queryKey: [ReactQueryKey.GetInfinityProductList, params],
     queryFn: ({
-      queryKey,
+      // queryKey,
+      pageParam = 1,
     }: QueryFunctionContext<[string, IProductsQueryParams]>) => {
-      const [_, data] = queryKey;
+      // const [query, params] = queryKey;
 
-      return fetchInfinityListProducts(params);
+      // use pageparam from infinitequery react query
+      const data: IProductsQueryParams = { ...params, page_param: pageParam };
+
+      return fetchInfinityListProducts(data);
     },
 
-    getNextPageParam: (_: IProducts[], pages: IProducts[][]) => {
+    getNextPageParam: (data: IProducts[], pages: IProducts[][]) => {
       return pages.length + 1;
     },
   });
