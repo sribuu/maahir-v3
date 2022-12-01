@@ -9,8 +9,10 @@ import { ReactQueryKey } from "@/src/core/lib/constants";
 import {
   fetchCartItem,
   fetchRemoveAllItemInCart,
+  fetchUpdateNoteItemCartById,
 } from "@/src/core/lib/storage";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import localforage from "localforage";
 
 export interface IListItemCardCartProps {
   category?: string;
@@ -52,12 +54,33 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
     },
   });
 
+
+  const {
+    data: updatedData,
+    isSuccess: isSuccessUpdatedata,
+    isLoading: isLoadingUpdatedata,
+    mutate: mutateUpdateCart,
+  } = useMutation({
+    mutationFn: (data: ICart) => {
+      return fetchUpdateNoteItemCartById(data);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData([ReactQueryKey.UpdateCart], data);
+      queryClient.invalidateQueries([ReactQueryKey.GetCart]);
+    },
+  });
+
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     //
   };
 
   const handleDeleteAll = (e: React.MouseEvent<HTMLButtonElement>) => {
     mutateDeleteAllCart();
+  };
+
+  const handleAddNote = (product: ICart, note: string) => {
+    product.note = note;
+    fetchUpdateNoteItemCartById(product);
   };
 
   return (
@@ -90,8 +113,11 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
         <hr className={clsx("border border-bright-gray")} />
 
         {isSuccessCartData &&
-          cartData.map((item) => (
-            <div className={clsx("flex gap-x-[1.25rem] w-full")}>
+          cartData.map((item, index) => (
+            <div
+              key={index} // nambahin index
+              className={clsx("flex gap-x-[1.25rem] w-full")}
+            >
               <CheckboxComponent />
               <img
                 src={item.image}
@@ -160,8 +186,8 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
                     "hover: border hover:border-ocean-boat-blue",
                     "focus: border focus:border-ocean-boat-blue"
                   )}
-                  placeholder={"Tulis Catatan Disini"}
-                  onChange={props.onChangeNotes}
+                  placeholder={item.note ? item.note : "Tulis Catatan Disini"}
+                  onChange={(e) => handleAddNote(item, e.target.value)} 
                 />
               </div>
 

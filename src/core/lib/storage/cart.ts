@@ -42,3 +42,18 @@ export const fetchRemoveItemCartById = async () => {
     .getItem<ICart[] | null>(StorageQueryKey.ItemCart)
     .then((res: ICart[] | null) => res);
 };
+
+export const fetchUpdateNoteItemCartById = async (product: ICart) =>
+  await localforage
+    .getItem<ICart[]>(StorageQueryKey.ItemCart)
+    .then((res: ICart[] | null) => {
+      if (res === null) {
+        return;
+      }
+      // find index of item to be updated
+      const cartItem = res.findIndex((item) => item.id === product.id);
+      // update cart notes
+      res[cartItem].note = product.note;
+
+      localforage.setItem(StorageQueryKey.ItemCart, res);
+    });
