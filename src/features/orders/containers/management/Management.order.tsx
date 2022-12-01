@@ -8,8 +8,8 @@ export default function ManagementOrderContainer(
   props: IManagementOrderContainerProps
 ) {
   const header = {
-    name: "Kelola Saldo",
-    description: "Cek dan tarik saldo kamu",
+    name: "Kelola Pesanan",
+    description: "Cek semua pesanan kamu",
   };
   return (
     <SupplierLayout header={header}>

@@ -3,10 +3,12 @@ import clsx from "clsx";
 
 export interface ITabComponentProps {
   list?: string[];
+  length?: number;
   onSelect?: (data: number) => void;
 }
 TabComponent.defaultProps = {
   list: [],
+  number: 0,
 };
 
 export default function TabComponent(props: ITabComponentProps) {
@@ -38,7 +40,7 @@ export default function TabComponent(props: ITabComponentProps) {
                 index === active ? "text-ocean-boat-blue" : "text-taupe-gray"
               )}
             >
-              {item}
+             {length !== 0 ?`${item}  (${length})` : item}
             </p>
           </button>
         ))}
