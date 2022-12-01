@@ -34,6 +34,7 @@ export enum ReactQueryKey {
   GetCart = "maahir-cart",
   AddCart = "maahir-add-cart",
   DeleteAllCart = "maahir-delete-all-cart",
+  UpdateCart = "maahir-update-all-cart",
   // order
   SaveOrderItem = "maahir-save-order-item",
   GetOrderItem = "maahir-get-order-item",
