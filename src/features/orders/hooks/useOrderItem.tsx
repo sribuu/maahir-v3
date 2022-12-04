@@ -2,10 +2,22 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   fetchGetOrderItem,
   fetchRemoveOrderItem,
+  fetchSaveOrderProduct,
   fetchSaveOrderItem,
 } from "../service";
 import { IOrderRequest, IOrderResponse } from "../models";
 import { ReactQueryKey } from "@/src/core/lib/constants";
+
+export const useRemoveOrderItem = () =>
+  useQuery<IOrderRequest>([ReactQueryKey.DeleteOrderItem], () =>
+    fetchRemoveOrderItem()
+  );
+
+export const useMutateOrderProduct = () =>
+  useMutation<IOrderRequest, IOrderRequest, IOrderRequest>(
+    [ReactQueryKey.SaveOrderProduct],
+    (data: IOrderRequest) => fetchSaveOrderProduct(data)
+  );
 
 export const useMutateOrderItem = () =>
   useMutation<IOrderRequest, IOrderRequest, IOrderRequest>(
@@ -14,14 +26,11 @@ export const useMutateOrderItem = () =>
   );
 
 export const useOrderItemQuery = () =>
-  useQuery<IOrderRequest>([ReactQueryKey.GetOrderItem], fetchGetOrderItem);
+  useQuery<IOrderRequest>([ReactQueryKey.GetOrderItem], () =>
+    fetchGetOrderItem()
+  );
 
-export const useFilterOrderItem = (id: number) =>
-  useOrderItemQuery().data?.orders?.filter((item) => item?.product_id === id);
-
-export const useFilterOrderItemQuantity = (id: number) =>
-  useOrderItemQuery().data?.orders?.filter((item) => item.product_id === id)[0]
-    ?.quantity;
+export const useOrderItemData = () => useOrderItemQuery().data;
 
 export const useDeleteOrderItemQuery = () =>
   useQuery<IOrderRequest[]>(

@@ -7,11 +7,3 @@ export const fetchMaahirProvince = async () => {
 
   return result;
 };
-
-export const fetchMaahirDistrict = async () => {
-  const result = await axios
-    .get(`${process.env.NEXT_PUBLIC_WEB_URL}${APIUrlPath.GetDistrict}`)
-    .then((res) => res.data);
-
-  return result;
-};

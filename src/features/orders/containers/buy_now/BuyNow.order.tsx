@@ -9,6 +9,7 @@ import ShoppingSummaryCardOrder from "@/src/features/orders/fragments/shopping_s
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
 import { IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import { v4 as uuid } from "uuid";
 import {
   PRODUCT_LINK,
   ReactQueryKey,
@@ -17,25 +18,22 @@ import {
 } from "@/src/core/lib/constants";
 import {
   useDeleteOrderItemQuery,
-  useMutateOrderItem,
+  useMutateOrderProduct,
+  useRemoveOrderItem,
 } from "../../hooks/useOrderItem";
+import { useBuyItemNow, useShoppingSummary } from "../../hooks/useBuyNowState";
 
 export interface IBuyNowContainerProps {}
 
 export default function BuyNowContainer(props: IBuyNowContainerProps) {
-  useDeleteOrderItemQuery();
+  const router = useRouter();
+
+  const { isSuccess } = useRemoveOrderItem();
+
+  const orderId = String(uuid());
+
   const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
-    useMutateOrderItem();
-
-  const [shoppingSummary, setShoppingSummary] = useState({
-    totalPrice: 0,
-    subTotalPrice: 0,
-  });
-
-  const [buyNowItem, setBuyNowItem] = useState({
-    quantity: 1,
-    notes: "",
-  });
+    useMutateOrderProduct();
 
   const { data: productByIdData, isLoading } = useQuery<IProducts>({
     queryKey: [ReactQueryKey.GetProductById],
@@ -45,31 +43,11 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
       }),
   });
 
-  if (isLoading) {
-    return <div />;
-  }
-
-  // buy now
-  const handleSubstract = (data: number) => {
-    setBuyNowItem((state) => (state = { ...state, quantity: data }));
-  };
-  const handleAdd = (data: number) => {
-    setBuyNowItem((state) => (state = { ...state, quantity: data }));
-  };
-  const handleChangeNotes = (data: string) => {
-    setBuyNowItem((state) => (state = { ...state, notes: data }));
-  };
-
-  // shopping summary
-  useEffect(() => {
-    setShoppingSummary({
-      ...shoppingSummary,
-      subTotalPrice: buyNowItem.quantity * productByIdData.price,
-      totalPrice: buyNowItem.quantity * productByIdData.price,
-    });
-  }, [buyNowItem.quantity]);
-
-  const router = useRouter();
+  const { buyNowItem, onSubstract, onAdd, onChangeNotes } = useBuyItemNow();
+  const { shoppingSummary } = useShoppingSummary({
+    quantity: buyNowItem.quantity,
+    price: productByIdData.price,
+  });
 
   const handleClickCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push(PRODUCT_LINK);
@@ -77,24 +55,29 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
 
   const handleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     mutateOrderItem({
+      order_id: orderId,
       orders: [
         {
+          name: productByIdData.title,
           product_id: parseInt(String(router.query[RouterQueryKey.ProductId])),
           quantity: buyNowItem.quantity,
           notes: buyNowItem.notes,
+          price: productByIdData.price,
         },
       ],
     });
   };
+
+  if (isLoading) {
+    return <div />;
+  }
 
   useEffect(() => {
     if (isSuccessMutateOrderItem) {
       router.replace({
         pathname: RouterPathName.FillOrderDetail,
         query: {
-          [RouterQueryKey.ProductId]: parseInt(
-            String(router.query[RouterQueryKey.ProductId])
-          ),
+          [RouterQueryKey.ProductId]: orderId,
         },
       });
     }
@@ -136,9 +119,9 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
                 productSrc={productByIdData.image}
                 price={thousandSeparator(productByIdData.price)}
                 quantity={buyNowItem.quantity}
-                onSubstract={handleSubstract}
-                onAdd={handleAdd}
-                onChangeNotes={handleChangeNotes}
+                onSubstract={onSubstract}
+                onAdd={onAdd}
+                onChangeNotes={onChangeNotes}
               />
             </div>
 

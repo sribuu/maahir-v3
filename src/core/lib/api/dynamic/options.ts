@@ -24,18 +24,6 @@ export const fetchProvinceList = async () =>
     )
     .then((res) => res.data);
 
-export const fetchDistrictList = async () =>
-  await axios
-    .get(
-      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetOptions}`,
-      {
-        params: {
-          option_type: "KECAMATAN",
-        },
-      }
-    )
-    .then((res) => res.data);
-
 export const fetchBankList = async () =>
   await axios
     .get(

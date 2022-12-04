@@ -18,7 +18,7 @@ export default function TotalPaymentListComponent(
   props: ITotalPaymentListComponentProps
 ) {
   const priceTotalItem = props.itemList.reduce((acc, item) => {
-    return acc + item.quantity;
+    return acc + item.price;
   }, 0);
 
   const totalPayment = thousandSeparator(

@@ -69,6 +69,7 @@ module.exports = {
         1: "0px 16px 48px rgba(0, 0, 0, 0.08)",
         2: "0px 2px 12px rgba(0, 0, 0, 0.08)",
         3: "0px 4px 12px rgba(0, 0, 0, 0.06)",
+        4: "0px 8px 12px rgba(0, 0, 0, 0.08)",
       },
       fontFamily: {
         DMSans: ["DM Sans", ...defaultTheme.fontFamily.sans],

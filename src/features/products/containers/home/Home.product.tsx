@@ -7,6 +7,7 @@ import FilterCardProduct from "../../fragments/filter_card/FilterCard.product";
 import SkeletonItemCardProduct from "../../fragments/skeleton_item_card/SkeletonItemCard.product";
 import ItemCardProduct from "../../fragments/item_card/ItemCard.product";
 import SkeletonFilterCardProduct from "../../fragments/skeleton_filter_card/SkeletonFilterCard.product";
+import ItemNotFoundProduct from "../../fragments/item_not_found/ItemNotFound.product";
 import {
   IProductsQueryParams,
   useProductsQuery,
@@ -38,7 +39,6 @@ export default function HomeProductContainer(
   const {
     data: productsData,
     fetchNextPage,
-    refetch,
     isSuccess: isSuccessProductsData,
     isLoading: isLoadingProductDatas,
   } = useProductsQuery(payload);
@@ -132,6 +132,9 @@ export default function HomeProductContainer(
       setPayload({ ...payload, category_id: parseInt(e.currentTarget.id) });
     }
   };
+
+  const isProductDataNotFound = !productsData?.pages[0]?.length;
+
   return (
     <MainLayout>
       <div
@@ -202,7 +205,7 @@ export default function HomeProductContainer(
             </div>
           )}
 
-          {isSuccessProductsData && (
+          {isSuccessProductsData && !isProductDataNotFound && (
             <div
               className={clsx(
                 "grid grid-cols-1 justify-center content-start justify-items-center",
@@ -240,6 +243,10 @@ export default function HomeProductContainer(
                 )}
               </div>
             </div>
+          )}
+
+          {isSuccessProductsData && isProductDataNotFound && (
+            <ItemNotFoundProduct />
           )}
         </div>
       </div>

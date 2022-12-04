@@ -2,7 +2,7 @@ import localforage from "localforage";
 import { StorageQueryKey } from "@/src/core/lib/constants";
 import { IOrderRequest } from "@/src/features/orders/models";
 
-export const fetchSaveOrderItem = async (data: IOrderRequest) => {
+export const fetchSaveOrderProduct = async (data: IOrderRequest) => {
   const orderRequestData: IOrderRequest = await localforage
     .getItem(StorageQueryKey.OrderItem)
     .then((res: IOrderRequest | null) => {
@@ -33,6 +33,12 @@ export const fetchSaveOrderItem = async (data: IOrderRequest) => {
 
   return await localforage
     .setItem(StorageQueryKey.OrderItem, orderRequestData)
+    .then((res: IOrderRequest) => res);
+};
+
+export const fetchSaveOrderItem = async (data: IOrderRequest) => {
+  return await localforage
+    .setItem(StorageQueryKey.OrderItem, data)
     .then((res: IOrderRequest) => res);
 };
 

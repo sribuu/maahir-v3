@@ -9,7 +9,7 @@ export enum ReactQueryKey {
   // TODO: remove this 3 items
   GetProductCategory = "maahir-product-category",
   GetProvince = "maahir-province",
-  GetDistrict = "maahir-district",
+
   //   DYNAMIC
   GetTopThreeViralProducts = "maahir-top-three-viral-products",
   GetInfinityProductList = "maahir-infinity-list-products",
@@ -22,7 +22,6 @@ export enum ReactQueryKey {
   GetSupplierStatistic = "maahir-get-supplier-statistic",
   GetBankList = "maahir-get-bank-list",
   GetProvinceList = "maahir-get-province-list",
-  GetDistrictList = "maahir-get-district-list",
   PutUpdateSupplierProfile = "maahi-put-update-profile",
   GetSupplierProfile = "maahir-get-supplier-profile",
   GetSupplierProduct = "maahir-get-supplier-product",
@@ -36,6 +35,7 @@ export enum ReactQueryKey {
   DeleteAllCart = "maahir-delete-all-cart",
   UpdateCart = "maahir-update-all-cart",
   // order
+  SaveOrderProduct = "maahir-save-order-product",
   SaveOrderItem = "maahir-save-order-item",
   GetOrderItem = "maahir-get-order-item",
   DeleteOrderItem = "maahir-delete-order-item",

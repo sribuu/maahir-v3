@@ -1,6 +1,6 @@
 import * as React from "react";
 import Head from "next/head";
-import ManagementOrderContainer from "@/src/features/orders/containers/management/Management.order";
+import ManagementOrderContainer from "@/src/features/manage_orders/containers/management/Management.order";
 
 export interface ISupplierOrderManagementPageProps {}
 

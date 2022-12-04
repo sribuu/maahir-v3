@@ -8,7 +8,6 @@ export enum RouterQueryKey {
   OrderAddress = "order-address",
   OrderPhoneNumber = "order-phone-number",
   OrderProvince = "order-province",
-  OrderDistrict = "order-district",
   OrderPostalCode = "order-postal-code",
   PaymentMethodId = "payment-method-id",
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import useOnClickOutside from "@/src/core/hooks/ui/useOnClickOutside";
 
@@ -42,6 +42,12 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
   };
   useOnClickOutside(ref, () => setOpen(false));
 
+  const selectionValue =
+    value !== undefined && !value.length && defaultValue?.length > 0
+      ? defaultValue
+      : value !== undefined && !value.length && placeholder?.length > 0
+      ? placeholder
+      : value;
   return (
     <div
       ref={ref}
@@ -58,6 +64,7 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
         </p>
       )}
       {/* dropdown */}
+
       <button
         className={clsx(
           "flex justify-between items-center",
@@ -72,11 +79,7 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
         )}
         onClick={handleClick}
       >
-        {value !== undefined && !value.length && defaultValue?.length > 0
-          ? defaultValue
-          : value !== undefined && !value.length && placeholder?.length > 0
-          ? placeholder
-          : value}
+        {selectionValue}
 
         <img
           src={"/icons/chevron-down.svg"}
@@ -110,6 +113,7 @@ export default function DropdownComponent(props: IDropdownComponentProps) {
                 "bg-white",
                 "p-4 rounded-[0.625rem] max-h-[3.5rem] box-border"
               )}
+              value={list}
               onClick={handleClickOption}
             >
               {list}

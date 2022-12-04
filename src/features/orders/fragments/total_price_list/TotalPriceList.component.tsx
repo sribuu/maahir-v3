@@ -16,6 +16,9 @@ export default function TotalPriceListComponent(
     return acc + item.quantity;
   }, 0);
 
+  const formattedTotalQuantity =
+    totalQuantity > 1 ? `${totalQuantity} items` : `${totalQuantity} item`;
+
   const totalPrice = props.itemList.reduce((acc, item) => {
     return acc + item.quantity * item.price;
   }, 0);
@@ -29,7 +32,7 @@ export default function TotalPriceListComponent(
           {"Total Harga"}
         </p>
         <p className={clsx("text-[0.75rem] text-independence font-regular")}>
-          {totalQuantity}
+          {formattedTotalQuantity}
         </p>
       </div>
       <p className={clsx("text-base text-charleston-green font-bold")}>

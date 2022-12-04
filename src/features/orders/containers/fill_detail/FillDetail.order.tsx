@@ -1,216 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
 
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
-import ChoiceOfPaymentMethodCardComponent from "@/src/core/ui/components/choice_of_payment_method_card/ChoiceOfPaymentMethodCard.component";
-import DeliveryAddressFormCardComponent from "@/src/core/ui/components/delivery_address_form_card/DeliveryAddressFormCard.component";
-import YourOrderCardComponent from "@/src/core/ui/components/your_order_card/YourOrderCard.component";
-import {
-  fetchPaymentMethod,
-  fetchProductById,
-} from "@/src/core/lib/api/dynamic";
-import { IDistrict, IProducts, IProvince } from "@/src/core/lib/models";
-import { IPaymentMethodItems } from "@/src/core/lib/models/payment_method";
-import { thousandSeparator } from "@/src/core/utils/formatters";
-import useNameForm from "@/src/core/hooks/form/useNameForm";
-import {
-  ReactQueryKey,
-  RouterPathName,
-  RouterQueryKey,
-} from "@/src/core/lib/constants";
-import useEmailForm from "@/src/core/hooks/form/useEmailForm";
-import usePhoneNumberForm from "@/src/core/hooks/form/usePhoneNumberForm";
-import useAddressForm from "@/src/core/hooks/form/useAddressForm";
-import useProvinceForm from "@/src/core/hooks/form/useProvinceForm";
-import useDistrictForm from "@/src/core/hooks/form/useDistrictForm";
-import usePostalCodeForm from "@/src/core/hooks/form/usePostalCodeForm";
-import usePaymentMethodForm from "@/src/core/hooks/form/usePaymentMethodForm";
-import { fetchMaahirDistrict, fetchMaahirProvince } from "@/src/core/lib/api";
-import {
-  useFilterOrderItem,
-  useFilterOrderItemQuantity,
-  useOrderItemQuery,
-} from "../../hooks/useOrderItem";
 
+import FillDetailProductOrder from "@/src/features/orders/fragments/fill_detail_product_card/FillDetailProductCard.order";
+
+import { useMutateOrderItem, useOrderItemData } from "../../hooks/useOrderItem";
+import { useFillDetailOrderContext } from "../../contexts/useFillDetailContext";
+import FillDetailDropshipperCardOrder from "../../fragments/fill_detail_dropshipper_card/FillDetailDropshipperCard.order";
+import FillDetailCustomerCardOrder from "../../fragments/fill_detail_customer_card/FillDetailCustomerCard.order";
+import FillDetailPaymentCardOrder from "@/src/features/orders/fragments/fill_detail_payment_card/FillDetailPaymentCard.order";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 export interface IFillDetailOrderContainerProps {}
 
 export default function FillDetailOrderContainer(
   props: IFillDetailOrderContainerProps
 ) {
   const router = useRouter();
-  const {
-    value: name,
-    validation: nameValidation,
-    onChange: onChangeName,
-  } = useNameForm();
-  const {
-    value: email,
-    validation: emailValidation,
-    onChange: onChangeEmail,
-  } = useEmailForm();
-  const {
-    value: phoneNumber,
-    validation: phoneNumberValidation,
-    onChange: onChangePhoneNumber,
-  } = usePhoneNumberForm();
-  const {
-    value: address,
-    validation: addressValidation,
-    onChange: onChangeAddress,
-  } = useAddressForm();
-  const {
-    value: province,
-    validation: provinceValidation,
-    onChange: onChangeProvince,
-  } = useProvinceForm();
-  const {
-    value: district,
-    validation: districtValidation,
-    onChange: onChangeDistrict,
-  } = useDistrictForm();
-  const {
-    value: postalCode,
-    validation: postalCodeValidation,
-    onChange: onChangePostalCode,
-  } = usePostalCodeForm();
-
-  const {
-    value: paymentMethod,
-    validation: paymentMethodValidation,
-    onChange: onChangePaymentMethod,
-  } = usePaymentMethodForm();
-
-  const orderItem = useFilterOrderItem(
-    parseInt(String(router.query[RouterQueryKey.ProductId]))
-  );
-
-  console.log(orderItem, "ini order item");
-
-  const { data: productByIdData, isLoading: isLoadingProductByIdData } =
-    useQuery<IProducts>({
-      queryKey: [ReactQueryKey.GetProductById],
-      queryFn: () =>
-        fetchProductById({
-          id: parseInt(String(router.query[RouterQueryKey.ProductId])),
-        }),
-    });
-
-  const { data: paymentMethodData, isLoading: isLoadingPaymentMethodData } =
-    useQuery<IPaymentMethodItems>({
-      queryKey: [ReactQueryKey.GetPaymentMethod],
-      queryFn: () => fetchPaymentMethod(),
-    });
-
-  const { data: districtData, isLoading: isLoadingDistrictData } = useQuery<
-    IDistrict[]
-  >({
-    queryKey: [ReactQueryKey.GetDistrict],
-    queryFn: () => fetchMaahirDistrict(),
-  });
-
-  const { data: provinceData, isLoading: isLoadingProvinceData } = useQuery<
-    IProvince[]
-  >({
-    queryKey: [ReactQueryKey.GetProvince],
-    queryFn: () => fetchMaahirProvince(),
-  });
-
-  const [state, setState] = useState({
-    continue_payment: false,
-  });
-
-  const paymentItems = paymentMethodData.items
-    .filter((item) => item.status === "ACTIVE")
-    .map((item) => {
-      return {
-        id: String(item.id),
-        name: item.provider_name,
-        logo: item.pic,
-        selected: false,
-      };
-    });
-
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeName(e.target.value);
-  };
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeEmail(e.target.value);
-  };
-  const handleChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangePhoneNumber(e.target.value);
-  };
-  const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeAddress(e.target.value);
-  };
-  const handleSelectProvince = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onChangeProvince(e.currentTarget.id);
-  };
-  const handleSelectDistrict = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onChangeDistrict(e.currentTarget.id);
-  };
-
-  const handleChangePostalCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangePostalCode(e.target.value);
-  };
-  const handleSelectPaymentMethod = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    onChangePaymentMethod(e.currentTarget.id);
-  };
-
-  //    global validation
-  useEffect(() => {
-    if (
-      nameValidation &&
-      emailValidation &&
-      addressValidation &&
-      phoneNumberValidation &&
-      provinceValidation &&
-      districtValidation &&
-      postalCodeValidation &&
-      paymentMethodValidation
-    ) {
-      setState({ ...state, continue_payment: true });
-    } else {
-      setState({ ...state, continue_payment: false });
+  const { validate, name, email, phonenumber, address, paymentMethod } =
+    useFillDetailOrderContext();
+  const orderItem = useOrderItemData();
+  const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
+    useMutateOrderItem();
+  const handleSubmit = () => {
+    if (validate) {
+      mutateOrderItem({
+        name: name,
+        email: email,
+        phone_number: phonenumber,
+        address: address,
+        orders: orderItem.orders,
+        order_id: orderItem.order_id,
+        payment_method: paymentMethod,
+      });
     }
-  }, [
-    name,
-    email,
-    phoneNumber,
-    address,
-    province,
-    district,
-    postalCode,
-    paymentMethodValidation,
-  ]);
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push({
-      pathname: RouterPathName.OrderSummary,
-      query: {
-        [RouterQueryKey.ProductId]: String(
-          router.query[RouterQueryKey.ProductId]
-        ),
-        [RouterQueryKey.ProductQuantity]: String(
-          router.query[RouterQueryKey.ProductQuantity]
-        ),
-        [RouterQueryKey.OrderName]: name,
-        [RouterQueryKey.OrderEmail]: email,
-        [RouterQueryKey.OrderAddress]: address,
-        [RouterQueryKey.OrderPhoneNumber]: phoneNumber,
-        [RouterQueryKey.OrderProvince]: province,
-        [RouterQueryKey.OrderDistrict]: district,
-        [RouterQueryKey.OrderPostalCode]: postalCode,
-        [RouterQueryKey.PaymentMethodId]: paymentMethod,
-      },
-    });
   };
-  if (isLoadingPaymentMethodData || isLoadingProductByIdData) {
-    return <div />;
-  }
+
+  useEffect(() => {
+    if (isSuccessMutateOrderItem) {
+      router.replace({
+        pathname: RouterPathName.OrderSummary,
+        query: {
+          [RouterQueryKey.ProductId]: String(router.query?.productId),
+        },
+      });
+    }
+  }, [isSuccessMutateOrderItem]);
+
+  console.log(orderItem, "ini apa");
   return (
     <MainLayout>
       <div
@@ -242,44 +80,20 @@ export default function FillDetailOrderContainer(
               "gap-x-[3rem] w-full"
             )}
           >
-            <DeliveryAddressFormCardComponent
-              name={name}
-              email={email}
-              phone_number={phoneNumber}
-              address={address}
-              province={province}
-              district={district}
-              postal_code={postalCode}
-              districtList={districtData.map((item) => item.name)}
-              provinceList={provinceData.map((item) => item.name)}
-              onChangeName={handleChangeName}
-              onChangeEmail={handleChangeEmail}
-              onChangePhoneNumber={handleChangePhoneNumber}
-              onChangeAddress={handleChangeAddress}
-              onChangeProvince={handleSelectProvince}
-              onChangeDistrict={handleSelectDistrict}
-              onChangePostalCode={handleChangePostalCode}
-            />
-            <YourOrderCardComponent
-              price={thousandSeparator(productByIdData.price)}
-              disabled={!state.continue_payment}
-              // itemList={}
-              //   disabled={false}
-              onSubmit={handleSubmit}
-            />
-          </div>
-          {/* choice of payment  */}
-          <div
-            className={clsx(
-              "grid grid-cols-[674px_478px] justify-start content-start justify-items-start items-start",
-              "gap-x-[3rem] w-full"
-            )}
-          >
-            <ChoiceOfPaymentMethodCardComponent
-              paymentItems={paymentItems}
-              selected={paymentMethod}
-              onSelect={handleSelectPaymentMethod}
-            />
+            <div
+              className={clsx(
+                "grid grid-cols-1 place-content-start place-items-start gap-y-[2.25rem]",
+                "w-full"
+              )}
+            >
+              <FillDetailCustomerCardOrder />
+
+              <FillDetailDropshipperCardOrder />
+
+              <FillDetailPaymentCardOrder />
+            </div>
+
+            <FillDetailProductOrder onSubmit={handleSubmit} />
           </div>
         </div>
       </div>

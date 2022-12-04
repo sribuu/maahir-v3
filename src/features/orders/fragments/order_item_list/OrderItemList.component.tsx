@@ -17,6 +17,8 @@ export default function OrderItemListComponent(
   props: IOrderItemListComponentProps
 ) {
   const priceItem = thousandSeparator(props.price);
+  const formattedQuantity =
+    props.quantity > 1 ? `${props.quantity} items` : `${props.quantity} item`;
   return (
     <div className={clsx("flex gap-x-[0.125rem] items-center justify-between")}>
       <div>
@@ -29,7 +31,7 @@ export default function OrderItemListComponent(
           <span
             className={clsx("text-[0.875rem] text-taupe-gray font-regular")}
           >{`Qty: `}</span>
-          {props.quantity}
+          {formattedQuantity}
         </p>
       </div>
       <p className={clsx("text-base text-charleston-green font-bold")}>
