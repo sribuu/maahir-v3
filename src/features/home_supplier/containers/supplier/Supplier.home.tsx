@@ -1,9 +1,9 @@
 import * as React from "react";
 import SupplierLayout from "@/src/core/ui/layouts/supplier/Supplier.layout";
 import clsx from "clsx";
-import BalanceCardHome from "../../../home/fragments/balance_card/BalanceCard.home";
-import OrderStatisticsCardHome from "../../../home/fragments/order_statistics_card/OrderStatisticCard.home";
-import UnprocessedOrderCardHome from "../../../home/fragments/unprocessed_order_card/UnprocessedOrderCard.home";
+import BalanceCardHome from "../../fragments/balance_card/BalanceCard.home";
+import OrderStatisticsCardHome from "../../fragments/order_statistics_card/OrderStatisticCard.home";
+import UnprocessedOrderCardHome from "../../fragments/unprocessed_order_card/UnprocessedOrderCard.home";
 import { useGetSupplierStatisticQuery } from "../../../home/hooks/useSupplierStatistic";
 export interface ISupplierHomeContainerProps {}
 

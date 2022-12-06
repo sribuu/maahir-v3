@@ -2,7 +2,7 @@ import * as React from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import BalanceListHome from "../balance_list/BalanceList.home";
-import { useBalanceList } from "../../hooks/useBalanceList";
+import { useBalanceList } from "../../../home/hooks/useBalanceList";
 
 export interface IBalanceCardHomeProps {}
 

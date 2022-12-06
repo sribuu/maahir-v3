@@ -3,8 +3,8 @@ import CardComponent from "@/src/core/ui/components/card/Card.component";
 import clsx from "clsx";
 import OrderStatisticListHome from "../order_statistic_list/OrderStatisticList.home";
 import { thousandSeparator } from "@/src/core/utils/formatters";
-import { useUnauthorizedGetSupplierStatisticQuery } from "../../hooks/useSupplierStatistic";
-import { useOrderStatisticList } from "../../hooks/useOrderStatisticList";
+import { useUnauthorizedGetSupplierStatisticQuery } from "../../../home/hooks/useSupplierStatistic";
+import { useOrderStatisticList } from "../../../home/hooks/useOrderStatisticList";
 
 export interface IOrderStatisticsCardHomeProps {}
 
