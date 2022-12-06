@@ -1,6 +1,6 @@
 import * as React from "react";
 import SupplierLayout from "@/src/core/ui/layouts/supplier/Supplier.layout";
-import ManagementCardOrder from "../../../orders/fragments/management_card/ManagementCard.order";
+import ManagementCardOrder from "../../components/management_card/ManagementCard.order";
 
 export interface IManagementOrderContainerProps {}
 

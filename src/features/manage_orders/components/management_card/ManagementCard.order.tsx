@@ -3,7 +3,7 @@ import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import SearchInputComponent from "@/src/core/ui/components/search_input/SearchInput.component";
 import TabComponent from "@/src/core/ui/components/tab/Tab.component";
-import UnprocessedOrderTableOrder from "../unprocessed_table/UnprocessedTable.order";
+import UnprocessedOrderTableOrder from "../../../orders/fragments/unprocessed_table/UnprocessedTable.order";
 
 export interface IManagementCardOrderProps {}
 

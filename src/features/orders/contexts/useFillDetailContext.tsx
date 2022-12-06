@@ -18,6 +18,8 @@ export interface IFillDetailOrder {
   // dropship
   dropship: { name: string; phonenumber: string };
   setDropship: (data: { name: string; phonenumber: string }) => void;
+  setDropshipperName: (data: string) => void;
+  setDropshipperPhonenumber: (data: string) => void;
 
   // validation
   errorName: { status: boolean; message: string };
@@ -54,6 +56,8 @@ export const FillDetailOrder = createContext<IFillDetailOrder>({
 
   dropship: { name: "", phonenumber: "" },
   setDropship: () => {},
+  setDropshipperName: () => {},
+  setDropshipperPhonenumber: () => {},
 
   //  validation
   errorName: { status: true, message: "" },
@@ -140,6 +144,13 @@ export const FillDetailOrderContextProvider = ({ children }) => {
     setPaymentMethod(filterData);
   };
 
+  // dropshipper
+  const setDropshipperName = (data: string) => {
+    setDropship({ ...dropship, name: data });
+  };
+  const setDropshipperPhonenumber = (data: string) => {
+    setDropship({ ...dropship, phonenumber: data });
+  };
   return (
     <FillDetailOrder.Provider
       value={{
@@ -155,6 +166,8 @@ export const FillDetailOrderContextProvider = ({ children }) => {
         handlePaymentMethod,
         dropship,
         setDropship,
+        setDropshipperName,
+        setDropshipperPhonenumber,
 
         errorName,
         setErrorName,

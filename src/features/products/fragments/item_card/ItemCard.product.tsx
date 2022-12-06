@@ -5,6 +5,7 @@ import ButtonComponent from "../../../../core/ui/components/button/Button.compon
 import { fetchAddToCart } from "@/src/core/lib/storage";
 import { ICart, IProducts } from "@/src/core/lib/models";
 import { ReactQueryKey } from "@/src/core/lib/constants";
+import { CartReactQueryKey } from "@/src/features/cart/constants";
 
 export interface IItemCardProductProps {
   id?: string;
@@ -42,10 +43,11 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     onSuccess: (data) => {
       queryClient.setQueryData([ReactQueryKey.AddCart], data);
       queryClient.invalidateQueries([ReactQueryKey.GetCart]);
+      queryClient.invalidateQueries([CartReactQueryKey.GetCartItems]);
     },
   });
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const payload: ICart = { ...props.data, amount: 1 };
+    const payload: ICart = { ...props.data, amount: 1, note: "" };
 
     mutateAddToCart(payload);
   };
@@ -123,7 +125,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
           onClick={handleAddToCart}
         >
           <img
-            src={"/icons/shopping-cart-blue.svg"}
+            src={"/icons/shopping-cart-blue-plus.svg"}
             className={clsx("w-[1.25rem] h-1.25rem")}
           />
         </button>

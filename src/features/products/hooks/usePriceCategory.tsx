@@ -1,12 +1,12 @@
-import { fetchMaahirPriceCategory } from "@/src/core/lib/api";
-import { ReactQueryKey } from "@/src/core/lib/constants";
-import { IPriceCategory } from "@/src/core/lib/models";
 import { useQuery } from "@tanstack/react-query";
+import { ProductReactQueryKey } from "../constants";
+import { IProductGetPriceCategory } from "../models";
+import { fetchProductGetPriceCategory } from "../services";
 
 export const usePriceCategoryQuery = () =>
-  useQuery<IPriceCategory[]>(
-    [ReactQueryKey.GetPriceCategory],
-    fetchMaahirPriceCategory
+  useQuery<IProductGetPriceCategory[]>(
+    [ProductReactQueryKey.GetPriceCategory],
+    fetchProductGetPriceCategory
   );
 
-export const usePriceCategoryData = () => usePriceCategoryQuery().data;
+export const usePriceCategoryData = () => usePriceCategoryQuery()?.data;

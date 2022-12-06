@@ -6,6 +6,7 @@ export interface ICheckboxComponentProps {
   checked?: boolean;
   name?: string;
   id?: string;
+  value?: string;
 }
 
 CheckboxComponent.defaultProps = {
@@ -22,6 +23,7 @@ export default function CheckboxComponent(props: ICheckboxComponentProps) {
         id={props.id}
         className={clsx("sr-only")}
         type="checkbox"
+        value={props.value}
         onChange={props.onChange}
         checked={props.checked}
       />

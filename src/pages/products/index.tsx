@@ -1,14 +1,13 @@
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import ProductsContainer from "@/src/features/products/containers/home/Home.product";
-import {
-  fetchMaahirMenu,
-  fetchMaahirPriceCategory,
-  fetchMaahirProductCategory,
-  fetchMaahirSocialMedia,
-} from "../../core/lib/api";
+import { fetchMaahirMenu, fetchMaahirSocialMedia } from "../../core/lib/api";
 import { ReactQueryKey } from "../../core/lib/constants";
-import { fetchProductCategoryList } from "@/src/core/lib/api/dynamic";
+import {
+  fetchProductGetPriceCategory,
+  fetchProductGetProductCategory,
+} from "@/src/features/products/services";
+import { ProductReactQueryKey } from "@/src/features/products/constants";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -20,14 +19,14 @@ export async function getStaticProps() {
       fetchMaahirSocialMedia
     );
     await queryClient.prefetchQuery(
-      [ReactQueryKey.GetPriceCategory],
-      fetchMaahirPriceCategory
+      [ProductReactQueryKey.GetPriceCategory],
+      fetchProductGetPriceCategory
     );
 
     // DYNAMIC
     await queryClient.prefetchQuery(
-      [ReactQueryKey.GetProductCategory],
-      fetchProductCategoryList
+      [ProductReactQueryKey.GetProductCategory],
+      fetchProductGetProductCategory
     );
   } catch (e) {
     isError = true;

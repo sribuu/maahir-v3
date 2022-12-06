@@ -64,7 +64,7 @@ export default function AutocompleteComponent(
 
   const [state, setState] = useState({
     open: false,
-    value: props.defaultValue,
+    value: props.selected,
     selected: "",
     options: props.options,
   });
@@ -120,6 +120,12 @@ export default function AutocompleteComponent(
       setState({ ...state, open: !state.open });
     }
   };
+
+  useEffect(() => {
+    if (props.selected?.length > 0) {
+      setState({ ...state, selected: props.selected });
+    }
+  }, [props.selected]);
 
   return (
     <div

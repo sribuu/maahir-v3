@@ -9,6 +9,7 @@ export interface IBuyNowItemOrderProps {
   price?: string;
   quantity?: number;
   category?: string;
+  notes?: string;
   onSubstract?: (data: number) => void;
   onAdd?: (data: number) => void;
   onChangeNotes?: (data: string) => void;
@@ -19,6 +20,7 @@ BuyNowItemOrder.defaultProps = {
   name: "Paket Reseller Parfum",
   price: "Rp 49.999",
   quantity: 0,
+  notes: "",
 };
 
 export default function BuyNowItemOrder(props: IBuyNowItemOrderProps) {
@@ -86,6 +88,7 @@ export default function BuyNowItemOrder(props: IBuyNowItemOrderProps) {
               }
             </p>
             <NotesInputComponent
+              value={props.notes}
               placeholder={"Tulis Catatan Disini"}
               onChange={onChangeNotes}
             />

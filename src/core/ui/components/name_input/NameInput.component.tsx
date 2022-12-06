@@ -11,9 +11,14 @@ export const errorNameValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Nama tidak valid" : "";
 
 export interface INameInputComponentProps {
+  value?: string;
   onChange?: (data: string) => void;
   onError?: (error: { status: boolean; message: string }) => void;
 }
+
+NameInputComponent.defaultProps = {
+  value: "",
+};
 
 export default function NameInputComponent(props: INameInputComponentProps) {
   const [name, setName] = useState("");
@@ -51,6 +56,11 @@ export default function NameInputComponent(props: INameInputComponentProps) {
     }
   }, [nameValidation.invalid, nameValidation.message]);
 
+  useEffect(() => {
+    if (props.value?.length > 0) {
+      setName(props?.value);
+    }
+  }, [props.value]);
   return (
     <TextfieldComponent
       value={name}

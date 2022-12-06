@@ -16,9 +16,14 @@ export const errorPhonenumberValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Nomor HP tidak valid" : "";
 
 export interface IPhoneNumberInputComponentProps {
+  value?: string;
   onChange?: (data: string) => void;
   onError?: (error: { status: boolean; message: string }) => void;
 }
+
+PhoneNumberInputComponent.defaultProps = {
+  value: "",
+};
 
 export default function PhoneNumberInputComponent(
   props: IPhoneNumberInputComponentProps
@@ -65,6 +70,11 @@ export default function PhoneNumberInputComponent(
     }
   }, [phonenumberValidation.invalid, phonenumberValidation.message]);
 
+  useEffect(() => {
+    if (props.value?.length > 0) {
+      setPhonenumber(props?.value);
+    }
+  }, [props.value]);
   return (
     <TextfieldComponent
       value={phonenumber}

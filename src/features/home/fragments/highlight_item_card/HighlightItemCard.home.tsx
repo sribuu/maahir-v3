@@ -11,6 +11,7 @@ export interface IHighlightItemCardHomeProps {
   productSrc?: string;
   productAlt?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickAddToCart?: (data: number) => void;
 }
 
 HighlightItemCardHome.defaultProps = {
@@ -27,6 +28,12 @@ export default function HighlightItemCardHome(
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClick) {
       props.onClick(e);
+    }
+  };
+
+  const handleClickAddtoCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClickAddToCart) {
+      props.onClickAddToCart(parseInt(e.currentTarget.id));
     }
   };
   return (
@@ -73,7 +80,7 @@ export default function HighlightItemCardHome(
         id={props.id}
         intent={"secondary"}
         size={"medium"}
-        onClick={handleClickBuyNow}
+        onClick={handleClickAddtoCart}
       >
         <img src={"/icons/add-to-cart-blue.svg"} />
         {"Keranjang"}

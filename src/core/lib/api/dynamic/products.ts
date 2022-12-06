@@ -56,11 +56,3 @@ export const fetchProductById = async (data: { id: number }) =>
       }
     )
     .then((res) => res.data);
-
-// export const fetchBuyProduct = async (data: IOr) =>
-//   await axios
-//     .post(
-//       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.PostBuyProduct}`,
-//       data
-//     )
-//     .then((res) => res.data);

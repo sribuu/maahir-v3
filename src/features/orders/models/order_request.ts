@@ -4,6 +4,9 @@ export interface IOrders {
   notes?: string;
   name?: string;
   price?: number;
+  image?: string;
+  variant?: string;
+  stock?: number;
 }
 
 export interface IOrderRequest {
@@ -13,11 +16,14 @@ export interface IOrderRequest {
   email?: string;
   phone_number?: string;
   address?: string;
-  // payment_method_id?: number;
   payment_method?: {
     id?: number;
     logo?: string;
     name?: string;
+  };
+  dropshipper?: {
+    name?: string;
+    phonenumber?: string;
   };
   orders?: IOrders[];
 }

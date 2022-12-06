@@ -1,7 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
-import { thousandSeparator } from "@/src/core/utils/formatters";
 import BalanceListHome from "../balance_list/BalanceList.home";
 import { useBalanceList } from "../../hooks/useBalanceList";
 

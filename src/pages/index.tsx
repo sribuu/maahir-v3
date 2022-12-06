@@ -11,6 +11,7 @@ import {
 import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
 import { PageKey, ReactQueryKey } from "../core/lib/constants";
 import { IHeaders } from "@/src/core/lib/models";
+import { ResellerHomeReactQueryKey } from "../features/home/constants";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ export async function getStaticProps() {
     );
     // dynamic
     await queryClient.prefetchQuery(
-      [ReactQueryKey.GetTopThreeViralProducts],
+      [ResellerHomeReactQueryKey.GetHighlightProducts],
       fetchTopThreeViralProducts
     );
   } catch (e) {

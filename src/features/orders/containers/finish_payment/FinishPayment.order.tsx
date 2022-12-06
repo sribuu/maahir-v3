@@ -11,7 +11,7 @@ import {
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
 import { IOrderResponse } from "@/src/features/orders/models";
 import ConfirmationOrderCardComponent from "@/src/core/ui/components/confirmation_order_card/ConfirmationOrderCard.component";
-import DeliveryAddressListCardComponent from "@/src/core/ui/components/delivery_address_list_card/DeliveryAddressListCard.component";
+import DeliveryAddressListCardComponent from "@/src/features/orders/fragments/delivery_address_list_card/DeliveryAddressListCard.component";
 import VAPaymentInstructionCardComponent from "@/src/core/ui/components/va_payment_instruction_card/VAPaymentInstructionCard.component";
 import EWalletPaymentInstructionCardComponent from "@/src/core/ui/components/ewallet_payment_instruction_card/EWalletPaymentInstructionCard.component";
 import QRISPaymentInstructionCardComponent from "@/src/core/ui/components/qris_payment_instruction_card/QRISPaymentInstructionCard.component";
@@ -106,7 +106,7 @@ export default function FinishPaymentOrderContainer(
 
             {/* delivery address */}
 
-            <DeliveryAddressListCardComponent
+            {/* <DeliveryAddressListCardComponent
               name={orderData.name}
               email={orderData.email}
               phone_number={orderData.phone_number}
@@ -114,7 +114,7 @@ export default function FinishPaymentOrderContainer(
               province={orderData.address.province}
               district={orderData.address.kecamatan}
               postal_code={orderData.address.postal_code}
-            />
+            /> */}
           </div>
 
           {/* right */}

@@ -23,16 +23,16 @@ export default function SummaryPaymentCardOrder(
 
   const [edit, setEdit] = useState(false);
 
-  const handleSelect = (data: string) => {
-    //
-  };
-
   const handleSave = () => {
     setEdit(false);
   };
 
   const handleEdit = () => {
     setEdit(true);
+  };
+
+  const handleSelect = (data: string) => {
+    //
   };
 
   if (isLoading) {

@@ -1,8 +1,13 @@
-import * as React from "react";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import DividerComponent from "@/src/core/ui/components/divider/Divider.component";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
-
+import { CartContext } from "../../contexts/cart/Cart.context";
+import { thousandSeparator } from "@/src/core/utils/formatters";
+import { useMutateOrderProduct } from "@/src/features/orders/hooks/useOrderItem";
+import { v4 as uuid } from "uuid";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 export interface IShoppingSummaryCardCartProps {
   id?: string;
   title?: string;
@@ -16,6 +21,44 @@ ShoppingSummaryCardCart.defaultProps = {
 export default function ShoppingSummaryCardCart(
   props: IShoppingSummaryCardCartProps
 ) {
+  const router = useRouter();
+  const { state } = useContext(CartContext);
+  const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
+    useMutateOrderProduct();
+
+  const orderId = String(uuid());
+  const handleSelectPaymentMethod = () => {
+    mutateOrderItem({
+      order_id: orderId,
+      orders: state.cart.items
+        .filter((item) => state.cart.selected_items.includes(item.id))
+        .map((item) => {
+          return {
+            name: item.title,
+            product_id: item.id,
+            quantity: item.amount,
+            notes: item.note,
+            price: item.price,
+            image: item.image,
+          };
+        }),
+    });
+  };
+
+  const handleClickCancel = () => {
+    //
+    router.push(RouterPathName.AllProducts);
+  };
+  useEffect(() => {
+    if (isSuccessMutateOrderItem) {
+      router.replace({
+        pathname: RouterPathName.FillOrderDetail,
+        query: {
+          [RouterQueryKey.ProductId]: orderId,
+        },
+      });
+    }
+  }, [isSuccessMutateOrderItem]);
   return (
     <div
       className={clsx(
@@ -29,43 +72,73 @@ export default function ShoppingSummaryCardCart(
       </p>
 
       {/* item */}
-      <div
-        className={clsx(
-          "flex gap-x-[1.25rem] justify-between items-center",
-          "w-full"
-        )}
-      >
+      {state.cart.items.filter((item) =>
+        state.cart.selected_items.includes(item.id)
+      ).length > 0 && (
         <div
           className={clsx(
-            "grid gap-y-[0.125rem] grid-cols-1 items-start content-start"
+            "grid grid-cols-1 place-content-start place-items-start gap-y-[1.25rem]",
+            "w-full"
           )}
         >
-          <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
-            {"Paket Reseller Parfum Wanita Botol Kaca"}
-          </p>
-          <p
-            className={clsx(
-              "text-[0.875rem] text-charleston-green font-regular"
-            )}
-          >
-            {"Qty: "}
-            <span
-              className={clsx(
-                "text-[0.875rem] text-charleston-green font-regular"
-              )}
-            >
-              {"3 items"}
-            </span>
-          </p>
+          {state.cart.items
+            .filter((item) => state.cart.selected_items.includes(item.id))
+            .map((item, index) => (
+              <div
+                key={String(index)}
+                className={clsx(
+                  "flex gap-x-[1.25rem] justify-between items-center",
+                  "w-full"
+                )}
+              >
+                <div
+                  className={clsx(
+                    "grid gap-y-[0.125rem] grid-cols-1 items-start content-start"
+                  )}
+                >
+                  <p
+                    className={clsx(
+                      "text-[1rem] text-charleston-green font-bold"
+                    )}
+                  >
+                    {item.title}
+                  </p>
+                  <p
+                    className={clsx(
+                      "text-[0.875rem] text-charleston-green font-regular"
+                    )}
+                  >
+                    {"Qty: "}
+                    <span
+                      className={clsx(
+                        "text-[0.875rem] text-charleston-green font-regular"
+                      )}
+                    >
+                      {item.amount > 1
+                        ? `${item.amount} items`
+                        : `${item.amount} item`}
+                    </span>
+                  </p>
+                </div>
+                <p
+                  className={clsx(
+                    "text-[1rem] text-charleston-green font-bold"
+                  )}
+                >
+                  {thousandSeparator(item.price)}
+                </p>
+              </div>
+            ))}
         </div>
-        <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
-          {"Rp149.997"}
-        </p>
-      </div>
+      )}
+
       {/* end item */}
 
       {/* divider */}
-      <DividerComponent />
+      {state.cart.items.filter((item) =>
+        state.cart.selected_items.includes(item.id)
+      ).length > 0 && <DividerComponent />}
+
       {/* end divider */}
 
       {/* total price */}
@@ -88,11 +161,25 @@ export default function ShoppingSummaryCardCart(
               "text-[0.875rem] text-charleston-green font-regular"
             )}
           >
-            {"6 items"}
+            {/* {"6 items"} */}
+            {`${state.cart.items
+              .filter((item) => state.cart.selected_items.includes(item.id))
+              .reduce((acc, item) => acc + item.amount, 0)} ${
+              state.cart.items
+                .filter((item) => state.cart.selected_items.includes(item.id))
+                .reduce((acc, item) => acc + item.amount, 0) > 1
+                ? "items"
+                : "item"
+            }`}
           </p>
         </div>
         <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
-          {"Rp2.297.996"}
+          {/* {"Rp2.297.996"} */}
+          {thousandSeparator(
+            state.cart.items
+              .filter((item) => state.cart.selected_items.includes(item.id))
+              .reduce((acc, item) => acc + item.price * item.amount, 0)
+          )}
         </p>
       </div>
       {/* end total price */}
@@ -118,7 +205,12 @@ export default function ShoppingSummaryCardCart(
           </p>
         </div>
         <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
-          {"Rp2.297.996"}
+          {/* {"Rp2.297.996"} */}
+          {thousandSeparator(
+            state.cart.items
+              .filter((item) => state.cart.selected_items.includes(item.id))
+              .reduce((acc, item) => acc + item.price * item.amount, 0)
+          )}
         </p>
       </div>
 
@@ -134,7 +226,8 @@ export default function ShoppingSummaryCardCart(
           intent={"primary"}
           size={"large"}
           className={"w-full"}
-          //   onClick={handleClickBuyNow}
+          disabled={!state.cart.selected_items.length}
+          onClick={handleSelectPaymentMethod}
         >
           {"Pilih Metode Pembayaran"}
         </ButtonComponent>
@@ -144,7 +237,7 @@ export default function ShoppingSummaryCardCart(
           intent={"secondary"}
           size={"large"}
           className={"w-full"}
-          //   onClick={props.onAddToCart}
+          onClick={handleClickCancel}
         >
           <img src={"/icons/add-to-cart-blue.svg"} />
           {"Batalkan"}

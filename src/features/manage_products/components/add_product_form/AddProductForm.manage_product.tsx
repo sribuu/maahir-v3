@@ -5,7 +5,6 @@ import DropdownComponent from "@/src/core/ui/components/dropdown/Dropdown.compon
 import TextareaComponent from "@/src/core/ui/components/textarea/Textarea.component";
 import CheckcircleComponent from "@/src/core/ui/components/checkcircle/Checkcircle.component";
 import ImageUploadComponent from "@/src/core/ui/components/image_upload/ImageUpload.component";
-import { useGetSupplierProductCategoryList } from "../../hooks/useGetSupplierProductCategory";
 
 export interface IAddProductFormManageProductProps {}
 
@@ -16,7 +15,7 @@ export default function AddProductFormManageProduct(
     console.log("ini error", error);
   };
 
-  const list = useGetSupplierProductCategoryList();
+  // const list = useGetSupplierProductCategoryList();
 
   return (
     <form className={clsx("grid grid-cols-2 gap-x-[2rem]", "w-full")}>
@@ -37,7 +36,7 @@ export default function AddProductFormManageProduct(
           label={"Kategori Produk"}
           placeholder={"Pilih kategori"}
           helperText={"Pastikan kategori sesuai produkmu"}
-          lists={list}
+          lists={["hallo"]}
         />
 
         <TextfieldComponent

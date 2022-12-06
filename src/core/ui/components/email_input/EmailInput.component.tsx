@@ -9,6 +9,7 @@ export const errorEmailValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Alamat email tidak valid" : "";
 
 export interface IEmailInputComponentProps {
+  value?: string;
   onChange?: (data: string) => void;
   onError?: (error: { status: boolean; message: string }) => void;
 }
@@ -48,6 +49,11 @@ export default function EmailInputComponent(props: IEmailInputComponentProps) {
     }
   }, [emailValidation.invalid, emailValidation.message]);
 
+  useEffect(() => {
+    if (props.value?.length > 0) {
+      setEmail(props?.value);
+    }
+  }, [props.value]);
   return (
     <TextfieldComponent
       value={email}

@@ -8,6 +8,10 @@ import { useFillDetailOrderContext } from "../../contexts/useFillDetailContext";
 
 export interface IPersonalInformationFormProps {
   title?: string;
+  name?: string;
+  email?: string;
+  phonenumber?: string;
+  address?: string;
   onChangeName?: (data: string) => void;
   onErrorName?: (error: { status: boolean; message: string }) => void;
   onChangeEmail?: (data: string) => void;
@@ -19,6 +23,10 @@ export interface IPersonalInformationFormProps {
 }
 PersonalInformationForm.defaultProps = {
   title: "Alamat Pengantaran",
+  name: "",
+  email: "",
+  phonenumber: "",
+  address: "",
 };
 
 export default function PersonalInformationForm(
@@ -39,6 +47,7 @@ export default function PersonalInformationForm(
         )}
       >
         <NameInputComponent
+          value={props.name}
           onChange={props.onChangeName}
           onError={props.onErrorName}
         />
@@ -50,10 +59,12 @@ export default function PersonalInformationForm(
         )}
       >
         <EmailInputComponent
+          value={props.email}
           onChange={props.onChangeEmail}
           onError={props.onErrorEmail}
         />
         <PhoneNumberInputComponent
+          value={props.phonenumber}
           onChange={props.onChangePhonenumber}
           onError={props.onErrorPhonenumber}
         />
@@ -65,6 +76,7 @@ export default function PersonalInformationForm(
         )}
       >
         <AddressAutocompleteOrder
+          value={props.address}
           onSelect={props.onChangeAddress}
           onError={props.onErrorAddress}
         />

@@ -8,9 +8,9 @@ import FillDetailProductOrder from "@/src/features/orders/fragments/fill_detail_
 
 import { useMutateOrderItem, useOrderItemData } from "../../hooks/useOrderItem";
 import { useFillDetailOrderContext } from "../../contexts/useFillDetailContext";
-import FillDetailDropshipperCardOrder from "../../fragments/fill_detail_dropshipper_card/FillDetailDropshipperCard.order";
+import SummaryCustomerOrderCard from "../../fragments/summary_customer_card/SummaryCustomerCard.order";
 import SummaryPaymentCardOrder from "../../fragments/summary_payment_card/SummaryPaymentCard.order";
-import FillDetailPaymentCardOrder from "@/src/features/orders/fragments/fill_detail_payment_card/FillDetailPaymentCard.order";
+import SummaryProductCardOrder from "../../fragments/summary_product_card/SummaryProductCard.order";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 export interface ISummaryOrderContainerProps {}
 
@@ -18,7 +18,7 @@ export default function SummaryOrderContainer(
   props: ISummaryOrderContainerProps
 ) {
   const router = useRouter();
-  const { validate, name, email, phonenumber, address } =
+  const { validate, name, email, phonenumber, address, dropship } =
     useFillDetailOrderContext();
   const orderItem = useOrderItemData();
   const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
@@ -33,6 +33,7 @@ export default function SummaryOrderContainer(
         address: address,
         orders: orderItem.orders,
         order_id: orderItem.order_id,
+        dropshipper: dropship,
       });
     }
   };
@@ -86,14 +87,12 @@ export default function SummaryOrderContainer(
               )}
             >
               <SummaryPaymentCardOrder />
-              {/* <FillDetailCustomerCardOrder /> */}
 
-              <FillDetailDropshipperCardOrder />
-
-              <FillDetailPaymentCardOrder />
+              <SummaryCustomerOrderCard />
             </div>
 
-            <FillDetailProductOrder onSubmit={handleSubmit} />
+            <SummaryProductCardOrder onSubmit={handleSubmit} />
+            {/* <FillDetailProductOrder onSubmit={handleSubmit} /> */}
           </div>
         </div>
       </div>

@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import HighlightProductCard from "@/src/features/home/fragments/highlight_item_card/HighlightItemCard.home";
 import { HomeContext } from "../../contexts/Home.context";
 import {
   PRODUCT_LINK,
-  ReactQueryKey,
   RouterPathName,
   RouterQueryKey,
 } from "@/src/core/lib/constants";
-import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
-import { IProducts } from "@/src/core/lib/models";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import {
+  useHomeGetHighlightProductsQuery,
+  useMutateAddHighlightProductToCartQuery,
+} from "../../hooks/useHighlightProducts";
 
 export interface IHeroSectionHomeProps {
   heroRef?: (node?: Element) => void;
@@ -23,18 +23,29 @@ export interface IHeroSectionHomeProps {
 export default function HeroSectionHome(props: IHeroSectionHomeProps) {
   const router = useRouter();
   const { state } = useContext(HomeContext);
+
   const {
     data: topThreeViralProductsData,
     isSuccess: topThreeViralProductsDataIsSuccess,
-  } = useQuery<IProducts[]>({
-    queryKey: [ReactQueryKey.GetTopThreeViralProducts],
-    queryFn: fetchTopThreeViralProducts,
-  });
+  } = useHomeGetHighlightProductsQuery();
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
       pathname: RouterPathName.OrderProduct,
       query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
+    });
+  };
+  // add to cart
+  const { mutate } = useMutateAddHighlightProductToCartQuery();
+  const handleAddToCart = (data: number) => {
+    const result = topThreeViralProductsData.filter(
+      (item) => item.id === data
+    )[0];
+    mutate({
+      ...result,
+      amount: 1,
+      note: "",
+      variant: "",
     });
   };
   return (
@@ -131,8 +142,7 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
             className={clsx(
               "grid justify-center justify-items-center gap-x-8",
               topThreeViralProductsData.length >= 3
-                ? // "md:grid-cols-1 lg:grid-cols-3"
-                  "grid-cols-3"
+                ? "grid-cols-3"
                 : `grid-cols-${topThreeViralProductsData.length}`
             )}
           >
@@ -145,6 +155,7 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
                 profitValue={thousandSeparator(item.profit_value)}
                 price={thousandSeparator(item.price)}
                 onClick={handleClickBuyNow}
+                onClickAddToCart={handleAddToCart}
               />
             ))}
           </div>

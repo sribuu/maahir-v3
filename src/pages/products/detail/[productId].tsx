@@ -9,6 +9,7 @@ import {
 } from "@/src/core/lib/api";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
+import { ProductProvider } from "@/src/features/products/contexts/product/Product.context";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -62,8 +63,9 @@ export default function DetailProductsPage() {
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-
-      <DetailProductContainer />
+      <ProductProvider>
+        <DetailProductContainer />
+      </ProductProvider>
     </>
   );
 }

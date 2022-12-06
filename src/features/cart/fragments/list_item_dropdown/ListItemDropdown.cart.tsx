@@ -39,12 +39,20 @@ export default function ListItemDropdownCart(
       className={clsx("relative", "flex items-center")}
       onMouseOver={handleMouseOver}
     >
-      <button className={clsx("relative")} onClick={handleMouseClick}>
+      <button
+        className={clsx(
+          "relative",
+          "w-[2rem] h-[2rem] rounded-[0.5rem]",
+          props.variant === "transparent" ? "bg-white" : "bg-ocean-boat-blue",
+          "flex items-center justify-center"
+        )}
+        onClick={handleMouseClick}
+      >
         <img
           src={
             props.variant === "transparent"
-              ? "/icons/shopping-cart-white.svg"
-              : "/icons/shopping-cart-black.svg"
+              ? "/icons/shopping-cart-blue.svg"
+              : "/icons/shopping-cart-white.svg"
           }
           width={24}
           height={24}
@@ -118,7 +126,7 @@ export default function ListItemDropdownCart(
                         "text-[0.75rem] text-taupe-gray font-regular"
                       )}
                     >
-                      {"Kecantikan"}
+                      {item.category_name}
                     </p>
 
                     {/* TODO: techdebt ellipsis */}
@@ -135,15 +143,6 @@ export default function ListItemDropdownCart(
                         {item.title}
                       </p>
                     </div>
-                    {/* <p
-                       className={clsx(
-                         "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis overflow-hidden",
-                       )}
-                     >
-                       {
-                         "Paket Reseller Parfum Wanita Botol Kaca Paket Reseller Parfum Wanita Botol Kaca"
-                       }
-                     </p> */}
                   </div>
 
                   <div

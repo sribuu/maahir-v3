@@ -8,9 +8,14 @@ export const errorAddressValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Alamat tidak valid" : "";
 
 export interface IAddressAutocompleteOrderProps {
+  value?: string;
   onSelect?: (data: string) => void;
   onError?: (error: { status: boolean; message: string }) => void;
 }
+
+AddressAutocompleteOrder.defaultProps = {
+  value: "",
+};
 
 export default function AddressAutocompleteOrder(
   props: IAddressAutocompleteOrderProps
@@ -50,12 +55,18 @@ export default function AddressAutocompleteOrder(
     }
   }, [addressValidation.invalid, addressValidation.message]);
 
+  useEffect(() => {
+    if (props.value?.length > 0) {
+      setAddress(props?.value);
+    }
+  }, [props.value]);
   return (
     <AutocompleteComponent
       label={"Alamat"}
       placeholder={"Input alamat disini"}
       options={addressList}
       disabled={false}
+      selected={address}
       onSelect={handleChangeAddress}
     />
   );

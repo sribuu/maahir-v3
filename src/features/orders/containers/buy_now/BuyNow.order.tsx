@@ -63,6 +63,7 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
           quantity: buyNowItem.quantity,
           notes: buyNowItem.notes,
           price: productByIdData.price,
+          image: productByIdData.image,
         },
       ],
     });

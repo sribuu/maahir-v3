@@ -15,7 +15,7 @@ export default function BackdropComponent(props: IBackdropComponentProps) {
   return (
     <div
       className={clsx(
-        "fixed top-0 left-0 bottom-0 right-0 z-40",
+        "fixed top-0 left-0 bottom-0 right-0 z-50",
         "bg-dark-charcoal bg-opacity-20"
       )}
       onClick={handleClick}

@@ -1,8 +1,10 @@
 import * as React from "react";
 import clsx from "clsx";
-import ModalComponent from "../modal/Modal.component";
-import OrderProductCardComponent from "../../../../features/orders/fragments/buy_now_item_card/BuyNowItemCard.order";
-import ButtonComponent from "../button/Button.component";
+import ModalComponent from "../../../../core/ui/components/modal/Modal.component";
+import ButtonComponent from "../../../../core/ui/components/button/Button.component";
+import BuyNowItemOrder from "../buy_now_item_card/BuyNowItemCard.order";
+import { useOrderItemQuery } from "../../hooks/useOrderItem";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 
 export interface ISummaryYourOrderModalComponentProps {
   open?: boolean;
@@ -30,12 +32,16 @@ SummaryYourOrderModalComponent.defaultProps = {
 export default function SummaryYourOrderModalComponent(
   props: ISummaryYourOrderModalComponentProps
 ) {
+  const { data: orderItem, isLoading } = useOrderItemQuery();
+  const onSubstract = () => {};
+  const onAdd = () => {};
+  const onChangeNotes = () => {};
   return (
     <ModalComponent open={props.open} onClose={props.onClose}>
       <div
         className={clsx(
           "grid grid-cols-1",
-          "w-full rounded-2xl p-6 gap-y-6",
+          "w-full rounded-2xl p-6 gap-y-6 max-h-[684px] overflow-scroll",
           "bg-white"
         )}
       >
@@ -50,14 +56,19 @@ export default function SummaryYourOrderModalComponent(
             />
           </button>
         </div>
-        <OrderProductCardComponent
-          quantity={props.quantity}
-          name={props.name}
-          price={props.price}
-          productSrc={props.productSrc}
-          onAdd={props.onAdd}
-          onSubstract={props.onSubstract}
-        />
+        {orderItem?.orders?.map((item) => (
+          <BuyNowItemOrder
+            name={item?.name}
+            productSrc={item?.image}
+            price={thousandSeparator(item?.price)}
+            quantity={item?.quantity}
+            notes={item?.notes}
+            onSubstract={onSubstract}
+            onAdd={onAdd}
+            onChangeNotes={onChangeNotes}
+          />
+        ))}
+
         <div className={clsx("flex justify-end", "w-full")}>
           <ButtonComponent intent={"primary"} onClick={props.onSave}>
             {"Simpan Perubahan"}

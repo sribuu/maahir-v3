@@ -1,6 +1,6 @@
 import * as React from "react";
 import Head from "next/head";
-import SupplierHomeContainer from "@/src/features/home/containers/supplier/Supplier.home";
+import SupplierHomeContainer from "@/src/features/home_supplier/containers/supplier/Supplier.home";
 
 export interface ISupplierHomePageProps {}
 

@@ -5,7 +5,9 @@ import PhoneNumberInputComponent from "@/src/core/ui/components/phonenumber_inpu
 
 export interface IDropshipperFormOrderProps {
   onChangeName?: (data: string) => void;
-  onChangePhonenumber?: (data: string) => void;
+  onErrrorName?: (error: { status: boolean; message: string }) => void;
+  onChangePhonenumber?: (data: {}) => void;
+  onErrorPhonenumber?: (error: { status: boolean; message: string }) => void;
 }
 
 export default function DropshipperFormOrder(
@@ -25,7 +27,10 @@ export default function DropshipperFormOrder(
           "w-full py-6"
         )}
       >
-        <NameInputComponent onChange={props.onChangeName} />
+        <NameInputComponent
+          onChange={props.onChangeName}
+          onError={props.onErrrorName}
+        />
       </div>
       <div
         className={clsx(
@@ -33,7 +38,10 @@ export default function DropshipperFormOrder(
           "w-full"
         )}
       >
-        <PhoneNumberInputComponent onChange={props.onChangePhonenumber} />
+        <PhoneNumberInputComponent
+          onChange={props.onChangePhonenumber}
+          onError={props.onErrorPhonenumber}
+        />
       </div>
     </form>
   );
