@@ -8,11 +8,11 @@ import {
 } from "../models";
 import { SupplierLoginContext } from "../contexts/login/Login.context";
 import { SupplierLoginReactQueryKey } from "../constants";
-import { useSupplierLoginSaveToken } from "./useSupplierCredentials";
+import { useSupplierLoginSaveToken } from "./useSupplierLoginSaveToken";
 import { ErrorMessage } from "@/src/core/lib/constants";
 import { SupplierLoginActionEnum } from "../contexts/login/Login.types";
 
-export const useAuthSupplierLogin = () => {
+export const useSupplierLogin = () => {
   const { state, dispatch } = useContext(SupplierLoginContext);
   const { mutate: saveSupplierToken } = useSupplierLoginSaveToken();
   const mutation = useMutation<ILoginSuccessResponse, ILoginErrorResponse>(

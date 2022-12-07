@@ -3,14 +3,14 @@ import clsx from "clsx";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
 import { SupplierLoginContext } from "../../contexts/login/Login.context";
 import { SupplierLoginActionEnum } from "../../contexts/login/Login.types";
-import { useAuthSupplierLogin } from "../../hooks/useLogin";
+import { useSupplierLogin } from "../../hooks/useSupplierLogin";
 export interface ILoginFormAuthProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
 
 export default function LoginFormAuth(props: ILoginFormAuthProps) {
   const { state, dispatch } = useContext(SupplierLoginContext);
-  const { mutate: supplierLogin } = useAuthSupplierLogin();
+  const { mutate: supplierLogin } = useSupplierLogin();
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: SupplierLoginActionEnum.ChangeEmail,
