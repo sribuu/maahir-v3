@@ -6,4 +6,5 @@ export enum ProductReactQueryKey {
 
 export enum ProductsReactQueryKey {
   GetProductItems = "product_get-product-items",
+  AddItemToCart = "product_add-item-to-cart",
 }

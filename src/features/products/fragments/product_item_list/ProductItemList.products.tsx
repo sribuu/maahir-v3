@@ -10,6 +10,7 @@ import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import ItemNotFoundProduct from "../item_not_found/ItemNotFound.product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
+import { useProductsAddItemToCart } from "../../hooks/useProductCart";
 export interface IProductItemListProductsProps {}
 
 export default function ProductItemListProducts(
@@ -17,6 +18,7 @@ export default function ProductItemListProducts(
 ) {
   const router = useRouter();
   const { isLoading: isLoadingGetProductItems } = useProductsGetProductItems();
+  const { mutate: addProductToCart } = useProductsAddItemToCart();
   const { state, dispatch } = useContext(ProductsContext);
   if (isLoadingGetProductItems) {
     const itemsCount = Array.from({ length: 16 }, (_, i) => i + 1);
@@ -46,18 +48,18 @@ export default function ProductItemListProducts(
     return <ItemNotFoundProduct />;
   }
 
-  const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickBuyNow = (data: number) => {
     router.push({
       pathname: RouterPathName.OrderProduct,
-      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
+      query: { [RouterQueryKey.ProductId]: data },
     });
   };
 
-  const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickItem = (data: number) => {
     router.push({
       pathname: RouterPathName.ProductDetail,
       query: {
-        [RouterQueryKey.ProductId]: e.currentTarget.id,
+        [RouterQueryKey.ProductId]: data,
       },
     });
   };
@@ -67,6 +69,10 @@ export default function ProductItemListProducts(
       type: ProductsActionEnum.ChangeCurrentPage,
       payload: data,
     });
+  };
+
+  const handleAddToCart = (data: number) => {
+    addProductToCart(data);
   };
   return (
     <div
@@ -92,6 +98,7 @@ export default function ProductItemListProducts(
             productSrc={item.image}
             onClickBuyNow={handleClickBuyNow}
             onClickItem={handleClickItem}
+            onAddToCart={handleAddToCart}
           />
         ))}
       </div>

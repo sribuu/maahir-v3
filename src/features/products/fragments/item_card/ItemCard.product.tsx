@@ -1,11 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import ButtonComponent from "../../../../core/ui/components/button/Button.component";
-import { fetchAddToCart } from "@/src/core/lib/storage";
-import { ICart, IProducts } from "@/src/core/lib/models";
-import { ReactQueryKey } from "@/src/core/lib/constants";
-import { CartReactQueryKey } from "@/src/features/cart/constants";
+import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 
 export interface IItemCardProductProps {
   id?: string;
@@ -15,9 +10,9 @@ export interface IItemCardProductProps {
   productSrc?: string;
   productAlt?: string;
   // data: IProducts;
-  onClickBuyNow?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onClickItem?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onAddToCart?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickBuyNow?: (data: number) => void;
+  onClickItem?: (data: number) => void;
+  onAddToCart?: (data: number) => void;
 }
 
 ItemCardProduct.defaultProps = {
@@ -29,25 +24,20 @@ ItemCardProduct.defaultProps = {
 };
 
 export default function ItemCardProduct(props: IItemCardProductProps) {
-  const queryClient = useQueryClient();
-  const {
-    data: addToCartData,
-    isSuccess: isSuccessAddToCart,
-    isLoading: isLoadingAddToCart,
-    mutate: mutateAddToCart,
-  } = useMutation<ICart[], unknown, ICart, unknown>({
-    mutationFn: (data: ICart) => {
-      return fetchAddToCart(data);
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData([ReactQueryKey.AddCart], data);
-      queryClient.invalidateQueries([ReactQueryKey.GetCart]);
-      queryClient.invalidateQueries([CartReactQueryKey.GetCartItems]);
-    },
-  });
+  const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClickBuyNow) {
+      props.onAddToCart(parseInt(e.currentTarget.id));
+    }
+  };
+  const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClickItem) {
+      props.onClickItem(parseInt(e.currentTarget.id));
+    }
+  };
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // const payload: ICart = { ...props.data, amount: 1, note: "" };
-    // mutateAddToCart(payload);
+    if (props.onAddToCart) {
+      props.onAddToCart(parseInt(e.currentTarget.id));
+    }
   };
 
   return (
@@ -59,7 +49,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         "cursor-pointer"
       )}
     >
-      <button id={props.id} onClick={props.onClickItem}>
+      <button id={props.id} onClick={handleClickItem}>
         <img
           src={props.productSrc}
           width={244}
@@ -103,7 +93,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
           intent={"primary"}
           size={"medium"}
           className={"w-full"}
-          onClick={props.onClickBuyNow}
+          onClick={handleClickBuyNow}
         >
           {"Beli Sekarang"}
         </ButtonComponent>

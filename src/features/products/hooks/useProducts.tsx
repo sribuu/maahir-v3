@@ -102,7 +102,7 @@ export const useProductsGetProductItems = () => {
   useEffect(() => {
     if (query.isSuccess) {
       const payload: IProductsPagination = {
-        sibbling_count: 2,
+        sibbling_count: state.pagination.sibbling_count,
         // TODO: replace ketika be update
         total_page: state.pagination.total_page,
         current_page: state.pagination.current_page,
