@@ -1,4 +1,4 @@
-import { BalanceList } from "../models";
+import { BalanceList } from "../../home/models";
 import { useGetSupplierStatisticQuery } from "./useSupplierStatistic";
 
 export const useBalanceList: () => BalanceList[] = () => {

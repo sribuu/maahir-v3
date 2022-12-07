@@ -38,6 +38,7 @@ module.exports = {
     }),
 
     colors: {
+      platinum: "#DFE3E8",
       verdigris: "#59c4af",
       "caribbean-green": "#00D6A1",
       mauve: "#D8A7FF",
@@ -62,6 +63,8 @@ module.exports = {
       "ghost-white-2": "#F8F9FB",
       mauve: "#D8A7FF",
       "pastel-orange": "#FFB74A",
+      "lavender-gray": "#C4CDD5",
+      
     },
 
     extend: {

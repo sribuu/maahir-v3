@@ -1,46 +1,41 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import clsx from "clsx";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
-
+import SkeletonFilterCardProduct from "../skeleton_filter_card/SkeletonFilterCard.product";
 import { useProductCategoryQuery } from "../../hooks/useProductCategory";
 import { usePriceCategoryQuery } from "../../hooks/usePriceCategory";
+import { ProductsContext } from "../../contexts/products/Products.context";
+import { ProductsActionEnum } from "../../contexts/products/Products.types";
 
-export interface IFilterCardProductProps {
-  onChangeProductCategory?: (e?: React.ChangeEvent<HTMLInputElement>) => void;
-  onChangePriceCategory?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-}
+export interface IFilterCardProductProps {}
 
 export default function FilterCardProduct(props: IFilterCardProductProps) {
-  const [activeProductCategory, setActiveProductCategory] = useState("");
-  const [activePriceCategory, setActivePriceCategory] = useState("");
+  const { isLoading: isLoadingCategoryFilterList } = useProductCategoryQuery();
+  const { isLoading: isLoadingPriceFilterList } = usePriceCategoryQuery();
+  const { state, dispatch } = useContext(ProductsContext);
 
-  const { data: productCategoryData, isSuccess: isSuccessProductCategoryData } =
-    useProductCategoryQuery();
-
-  const { data: priceCategoryData, isSuccess: isSuccessPriceCategoryData } =
-    usePriceCategoryQuery();
-
-  const handleChangeProductCategory = (
-    e?: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const result =
-      activeProductCategory === e.currentTarget.id ? "" : e.currentTarget.id;
-    setActiveProductCategory(result);
-    if (props.onChangeProductCategory) {
-      props.onChangeProductCategory(e);
-    }
-  };
+  if (isLoadingCategoryFilterList || isLoadingPriceFilterList) {
+    return <SkeletonFilterCardProduct />;
+  }
 
   const handleChangePriceCategory = (
     e?: React.MouseEvent<HTMLButtonElement>
   ) => {
-    const result =
-      activePriceCategory === e.currentTarget.id ? "" : e.currentTarget.id;
-    setActivePriceCategory(result);
-    if (props.onChangePriceCategory) {
-      props.onChangePriceCategory(e);
-    }
+    dispatch({
+      type: ProductsActionEnum.FilterProductsByPrice,
+      payload: e.currentTarget.value,
+    });
   };
+
+  const handleChangeProductCategory = (
+    e?: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch({
+      type: ProductsActionEnum.FilterProductsByCategory,
+      payload: e.currentTarget.value,
+    });
+  };
+  
   return (
     <div
       className={clsx(
@@ -63,39 +58,39 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
             {"Harga"}
           </p>
 
-          {isSuccessPriceCategoryData &&
-            priceCategoryData.map((item, index) => (
-              <button
-                id={String(index)}
-                key={index}
-                type={"button"}
+          {state.filters.price.list.map((item, index) => (
+            <button
+              id={item}
+              key={index}
+              type={"button"}
+              className={clsx(
+                "flex items-start justify-start",
+                "p-[0.75rem] w-full border rounded-[0.5rem]",
+                "hover:border-ocean-boat-blue",
+                "hover:bg-ocean-boat-blue-4",
+                item === state.filters.price.selected
+                  ? "border-ocean-boat-blue"
+                  : " border-gainsboro",
+                item === state.filters.price.selected
+                  ? "bg-ocean-boat-blue-4"
+                  : "bg-white"
+              )}
+              value={item}
+              onClick={handleChangePriceCategory}
+            >
+              <p
                 className={clsx(
-                  "flex items-start justify-start",
-                  "p-[0.75rem] w-full border rounded-[0.5rem]",
-                  "hover:border-ocean-boat-blue",
-                  "hover:bg-ocean-boat-blue-4",
-                  String(index) === activePriceCategory
-                    ? "border-ocean-boat-blue"
-                    : " border-gainsboro",
-                  String(index) === activePriceCategory
-                    ? "bg-ocean-boat-blue-4"
-                    : "bg-white"
+                  "text-[1rem] font-regular",
+                  "hover:text-ocean-boat-blue",
+                  item === state.filters.price.selected
+                    ? "text-ocean-boat-blue"
+                    : "text-taupe-gray"
                 )}
-                onClick={handleChangePriceCategory}
               >
-                <p
-                  className={clsx(
-                    "text-[1rem] font-regular",
-                    "hover:text-ocean-boat-blue",
-                    String(index) === activePriceCategory
-                      ? "text-ocean-boat-blue"
-                      : "text-taupe-gray"
-                  )}
-                >
-                  {item.name}
-                </p>
-              </button>
-            ))}
+                {item}
+              </p>
+            </button>
+          ))}
         </div>
 
         {/* product  */}
@@ -104,16 +99,16 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
             {"Kategori"}
           </p>
 
-          {isSuccessProductCategoryData &&
-            productCategoryData.map((item, index) => (
-              <CheckboxComponent
-                id={String(item.id)}
-                key={index}
-                name={item.option_name}
-                checked={String(item.id) === activeProductCategory}
-                onChange={handleChangeProductCategory}
-              />
-            ))}
+          {state.filters.category.list.map((item, index) => (
+            <CheckboxComponent
+              id={item}
+              key={index}
+              name={item}
+              value={item}
+              checked={item === state.filters.category.selected}
+              onChange={handleChangeProductCategory}
+            />
+          ))}
         </div>
       </div>
     </div>

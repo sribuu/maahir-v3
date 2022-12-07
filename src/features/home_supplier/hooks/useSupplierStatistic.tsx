@@ -8,8 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import {
   ISupplierStatisticErrorResponse,
   ISupplierStatisticSuccessResponse,
-} from "../models";
-import { fetchSupplierStatistic } from "../services";
+} from "../../home/models";
+import { fetchSupplierStatistic } from "@/src/features/home_supplier/services";
 
 export const useGetSupplierStatisticQuery = () =>
   useQuery<ISupplierStatisticSuccessResponse, ISupplierStatisticErrorResponse>(

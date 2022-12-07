@@ -14,8 +14,7 @@ export interface IItemCardProductProps {
   price?: string;
   productSrc?: string;
   productAlt?: string;
-  data: IProducts;
-  productRef?: (node?: Element) => void;
+  // data: IProducts;
   onClickBuyNow?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickItem?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onAddToCart?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
@@ -47,14 +46,12 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     },
   });
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const payload: ICart = { ...props.data, amount: 1, note: "" };
-
-    mutateAddToCart(payload);
+    // const payload: ICart = { ...props.data, amount: 1, note: "" };
+    // mutateAddToCart(payload);
   };
 
   return (
     <div
-      ref={props.productRef}
       className={clsx(
         "grid",
         "gap-y-[1rem] p-4 rounded-2xl shadow-1",

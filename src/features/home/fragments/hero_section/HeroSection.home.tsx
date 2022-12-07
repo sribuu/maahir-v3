@@ -4,17 +4,12 @@ import Link from "next/link";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import HighlightProductCard from "@/src/features/home/fragments/highlight_item_card/HighlightItemCard.home";
-import { HomeContext } from "../../contexts/Home.context";
+import { ResellerHomeContext } from "../../contexts/Home.context";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import {
-  PRODUCT_LINK,
-  RouterPathName,
-  RouterQueryKey,
-} from "@/src/core/lib/constants";
-import { thousandSeparator } from "@/src/core/utils/formatters";
-import {
-  useHomeGetHighlightProductsQuery,
-  useMutateAddHighlightProductToCartQuery,
-} from "../../hooks/useHighlightProducts";
+  useResellerHomeGetViralProducts,
+  useResellerHomeAddViralProductToCart,
+} from "@/src/features/home/hooks/useViralProducts";
 
 export interface IHeroSectionHomeProps {
   heroRef?: (node?: Element) => void;
@@ -22,12 +17,18 @@ export interface IHeroSectionHomeProps {
 
 export default function HeroSectionHome(props: IHeroSectionHomeProps) {
   const router = useRouter();
-  const { state } = useContext(HomeContext);
+  const { state } = useContext(ResellerHomeContext);
 
-  const {
-    data: topThreeViralProductsData,
-    isSuccess: topThreeViralProductsDataIsSuccess,
-  } = useHomeGetHighlightProductsQuery();
+  const { isLoading: isLoadingGetViralProducts } =
+    useResellerHomeGetViralProducts();
+
+  // add to cart
+  const { mutate: addViralProductToCart } =
+    useResellerHomeAddViralProductToCart();
+
+  const handleAddToCart = (data: number) => {
+    addViralProductToCart(data);
+  };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
@@ -35,27 +36,19 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
       query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
     });
   };
-  // add to cart
-  const { mutate } = useMutateAddHighlightProductToCartQuery();
-  const handleAddToCart = (data: number) => {
-    const result = topThreeViralProductsData.filter(
-      (item) => item.id === data
-    )[0];
-    mutate({
-      ...result,
-      amount: 1,
-      note: "",
-      variant: "",
-    });
-  };
+
+  if (isLoadingGetViralProducts) {
+    return <div></div>;
+  }
+
   return (
     <section
       ref={props.heroRef}
       className={clsx(
         "grid justify-center content-start justify-items-center",
         "relative",
-        "py-[252px] gap-y-12 min-h-[68.625rem]",
-        "bg-gradient-to-r from-mauve to-caribbean-green"
+        "py-[252px] gap-y-12 min-h-[68.625rem] w-full",
+        "bg-gradient-to-r from-mauve to-caribbean-green bg-cover"
       )}
     >
       {/* lines */}
@@ -93,7 +86,7 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
             "text-white"
           )}
         >
-          {state.hero.headline}
+          {"Siap Jualan Produk Viral Dari Mana Aja, Kapan Aja!"}
         </h1>
 
         <p
@@ -103,14 +96,14 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
             "text-white"
           )}
         >
-          {state.hero.description}
+          {"Mau mulai jualan sekarang?"}
         </p>
       </div>
       <ButtonComponent intent={"primary"} size={"large"}>
-        {state.hero.cta_button.label}
+        {"Gabung grup jualan Di Maahir"}
       </ButtonComponent>
 
-      <Link href={PRODUCT_LINK}>
+      <Link href={RouterPathName.AllProducts}>
         <p
           className={clsx(
             "text-base font-bold text-center",
@@ -122,45 +115,40 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
         </p>
       </Link>
 
-      {topThreeViralProductsDataIsSuccess && (
+      <div
+        className={clsx(
+          "grid justify-center justify-items-center",
+          "gap-x-8 gap-y-[3rem]",
+          "absolute bottom-[-420px] z-10"
+        )}
+      >
+        <p
+          className={clsx("text-[2.25rem] font-bold text-center", "text-white")}
+        >
+          {"Product jualan paling viral buat kamu"}
+        </p>
         <div
           className={clsx(
-            "grid justify-center justify-items-center",
-            "gap-x-8 gap-y-[3rem]",
-            "absolute bottom-[-420px] z-10"
+            "grid justify-center justify-items-center gap-x-8",
+            state.viral_products.length >= 3
+              ? "grid-cols-3"
+              : `grid-cols-${state.viral_products.length}`
           )}
         >
-          <p
-            className={clsx(
-              "text-[2.25rem] font-bold text-center",
-              "text-white"
-            )}
-          >
-            {"Product jualan paling viral buat kamu"}
-          </p>
-          <div
-            className={clsx(
-              "grid justify-center justify-items-center gap-x-8",
-              topThreeViralProductsData.length >= 3
-                ? "grid-cols-3"
-                : `grid-cols-${topThreeViralProductsData.length}`
-            )}
-          >
-            {topThreeViralProductsData.map((item, index) => (
-              <HighlightProductCard
-                key={index}
-                id={String(item.id)}
-                name={item.title}
-                productSrc={item.image}
-                profitValue={thousandSeparator(item.profit_value)}
-                price={thousandSeparator(item.price)}
-                onClick={handleClickBuyNow}
-                onClickAddToCart={handleAddToCart}
-              />
-            ))}
-          </div>
+          {state.viral_products.map((item, index) => (
+            <HighlightProductCard
+              key={index}
+              id={String(item.id)}
+              name={item.name}
+              productSrc={item.image}
+              profitValue={item.profit}
+              price={item.price}
+              onClick={handleClickBuyNow}
+              onClickAddToCart={handleAddToCart}
+            />
+          ))}
         </div>
-      )}
+      </div>
     </section>
   );
 }

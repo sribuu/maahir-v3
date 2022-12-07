@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HomeLayout from "@/src/core/ui/layouts/home/Home.layout";
-import { HomeProvider } from "../../contexts/Home.context";
+import { ResellerHomeProvider } from "../../contexts/Home.context";
 import { useInView } from "react-intersection-observer";
 import HeroSectionHome from "../../fragments/hero_section/HeroSection.home";
 import FAQSectionHome from "../../fragments/faq_section/FAQSection.home";
@@ -20,11 +20,11 @@ export default function HomeContainer(props: IHomeContainerProps) {
     }
   }, [inView]);
   return (
-    <HomeLayout variant={navbarVariant}>
-      <HomeProvider>
+    <ResellerHomeProvider>
+      <HomeLayout variant={navbarVariant}>
         <HeroSectionHome heroRef={ref} />
         <FAQSectionHome />
-      </HomeProvider>
-    </HomeLayout>
+      </HomeLayout>
+    </ResellerHomeProvider>
   );
 }

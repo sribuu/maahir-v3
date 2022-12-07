@@ -29,10 +29,10 @@ export async function getStaticProps() {
       fetchMaahirSocialMedia
     );
     // dynamic
-    await queryClient.prefetchQuery(
-      [ResellerHomeReactQueryKey.GetHighlightProducts],
-      fetchTopThreeViralProducts
-    );
+    // await queryClient.prefetchQuery(
+    //   [ResellerHomeReactQueryKey.GetHighlightProducts],
+    //   fetchTopThreeViralProducts
+    // );
   } catch (e) {
     isError = true;
   }

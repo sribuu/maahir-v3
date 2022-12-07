@@ -8,6 +8,7 @@ import {
   fetchProductGetProductCategory,
 } from "@/src/features/products/services";
 import { ProductReactQueryKey } from "@/src/features/products/constants";
+import { ProductsProvider } from "@/src/features/products/contexts/products/Products.context";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -53,7 +54,9 @@ export default function ProductsPage() {
         <meta name="description" content={header.description} />
       </Head>
 
-      <ProductsContainer />
+      <ProductsProvider>
+        <ProductsContainer />
+      </ProductsProvider>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { OrderStatisticList } from "../models";
+import { OrderStatisticList } from "../../home/models";
 import { useGetSupplierStatisticQuery } from "./useSupplierStatistic";
 
 export const useOrderStatisticList: () => OrderStatisticList[] = () => {
