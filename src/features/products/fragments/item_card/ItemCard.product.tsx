@@ -9,7 +9,6 @@ export interface IItemCardProductProps {
   price?: string;
   productSrc?: string;
   productAlt?: string;
-  // data: IProducts;
   onClickBuyNow?: (data: number) => void;
   onClickItem?: (data: number) => void;
   onAddToCart?: (data: number) => void;

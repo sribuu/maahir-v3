@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import clsx from "clsx";
 import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
@@ -5,8 +6,9 @@ import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import AvailableStockProduct from "../available_stock/AvailableStock.product";
 import AvailableVariantProduct from "../available_variant/AvailableVariant.product";
 import { ProductContext } from "../../contexts/product/Product.context";
-import { Types } from "@/src/features/products/contexts/product/Product.reducers";
-import { thousandSeparator } from "@/src/core/utils/formatters";
+import { ProductActionEnum } from "../../contexts/product/Product.types";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
+import { useProductAddItemToCart } from "../../hooks/useProductCart";
 
 export interface IItemDescriptionCardProductProps {
   onAddToCart?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -18,25 +20,42 @@ ItemDescriptionCardProduct.defaultProps = {};
 export default function ItemDescriptionCardProduct(
   props: IItemDescriptionCardProductProps
 ) {
-  const { state, dispatch, onClickBuyNow, onAddToCart } =
-    useContext(ProductContext);
+  const router = useRouter();
+  const { state, dispatch } = useContext(ProductContext);
+  const { mutate: addItemToCart } = useProductAddItemToCart();
 
   const handleSumItem = () => {
     dispatch({
-      type: Types.AddQuantity,
+      type: ProductActionEnum.AddQuantity,
     });
   };
+
   const handleSubstractItem = () => {
     dispatch({
-      type: Types.SubstractQuantity,
+      type: ProductActionEnum.SubstractQuantity,
     });
   };
 
   const handleSelectVariant = (data: string) => {
     dispatch({
-      type: Types.SelectVariant,
+      type: ProductActionEnum.ChangeVariant,
       payload: data,
     });
+  };
+
+  const handleClickBuyNow = () => {
+    router.replace({
+      pathname: RouterPathName.OrderProduct,
+      query: {
+        [RouterQueryKey.ProductId]: parseInt(
+          String(router.query[RouterQueryKey.ProductId])
+        ),
+      },
+    });
+  };
+
+  const handleClickAddToCart = () => {
+    addItemToCart();
   };
 
   return (
@@ -50,24 +69,24 @@ export default function ItemDescriptionCardProduct(
       <div className={clsx("grid gap-y-[1rem] grid-cols-1")}>
         <div className={clsx("grid gap-y-[0.5rem] grid-cols-1")}>
           <p className={clsx("text-[1.75rem] text-dark-charcoal font-regular")}>
-            {state.products.title}
+            {state.detail.name}
           </p>
           <p className={clsx("text-[1rem] text-taupe-gray font-regular")}>
             {"Kategori: "}
             <span
               className={clsx("text-[1rem] text-charleston-green font-regular")}
             >
-              {state.products.category_name}
+              {state.detail.category}
             </span>
           </p>
         </div>
 
         {/* price */}
         <p className={clsx("text-[2.25rem] text-dark-charcoal font-regular")}>
-          {thousandSeparator(state.products.price)}
+          {state.detail.price}
         </p>
         <p className={clsx("text-[1rem] text-independence font-regular")}>
-          {state.products.description}
+          {state.detail.description}
         </p>
       </div>
 
@@ -86,9 +105,7 @@ export default function ItemDescriptionCardProduct(
               "text-[1rem] font-regular text-taupe-gray text-start"
             )}
           >
-            {`Harga jual satuan ${thousandSeparator(
-              state.products.retail_price_min
-            )} - ${thousandSeparator(state.products.retail_price_max)}`}
+            {`Harga jual satuan ${state.detail.min_price} - ${state.detail.max_price}`}
           </p>
         </div>
         {/* profit */}
@@ -104,16 +121,14 @@ export default function ItemDescriptionCardProduct(
               "text-[1rem] font-regular text-taupe-gray text-start"
             )}
           >
-            {`Potensi keuntungan mulai dari ${thousandSeparator(
-              state.products.profit_value
-            )}`}
+            {`Potensi keuntungan mulai dari ${state.detail.profit}`}
           </p>
         </div>
       </div>
 
       <AvailableVariantProduct
-        selected={state.variant}
-        variants={state.variants}
+        selected={state.detail.variant.selected}
+        variants={state.detail.variant.list}
         onSelect={handleSelectVariant}
       />
 
@@ -129,31 +144,31 @@ export default function ItemDescriptionCardProduct(
           className={clsx("flex justify-start items-center gap-x-[0.75rem]")}
         >
           <CounterComponent
-            quantity={state.quantity}
+            quantity={state.detail.quantity}
             onSummation={handleSumItem}
             onSubstract={handleSubstractItem}
           />
-          <AvailableStockProduct stock={state.products.stock} />
+          <AvailableStockProduct stock={state.detail.stock} />
         </div>
       </div>
       {/* actions */}
       <div className={clsx("flex gap-x-[1rem] items-center")}>
         <ButtonComponent
-          id={String(state.products.id)}
+          id={String(state.detail.id)}
           intent={"primary"}
           size={"medium"}
           className={"w-full"}
-          onClick={onClickBuyNow}
+          onClick={handleClickBuyNow}
         >
           {"Beli Sekarang"}
         </ButtonComponent>
 
         <ButtonComponent
-          id={String(state.products.id)}
+          id={String(state.detail.id)}
           intent={"secondary"}
           size={"medium"}
           className={"w-full"}
-          onClick={onAddToCart}
+          onClick={handleClickAddToCart}
         >
           <img src={"/icons/add-to-cart-blue.svg"} />
           {"Keranjang"}

@@ -6,7 +6,7 @@ import { fetchProductGetPriceCategory } from "../services";
 import { ProductsContext } from "../contexts/products/Products.context";
 import { ProductsActionEnum } from "../contexts/products/Products.types";
 
-export const usePriceCategoryQuery = () => {
+export const useProductsGetPriceList = () => {
   const { dispatch } = useContext(ProductsContext);
   const query = useQuery<IProductGetPriceCategory[]>(
     [ProductReactQueryKey.GetPriceCategory],

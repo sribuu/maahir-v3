@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import ItemCardProduct from "../item_card/ItemCard.product";
 import clsx from "clsx";
 import PaginationComponent from "@/src/core/ui/components/pagination/Pagination.component";
-import { useProductsGetProductItems } from "../../hooks/useProducts";
+import { useProductsGetProductItems } from "../../hooks/useProductItem";
 import SkeletonItemCardProduct from "../skeleton_item_card/SkeletonItemCard.product";
 import { ProductsContext } from "../../contexts/products/Products.context";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
@@ -20,6 +20,7 @@ export default function ProductItemListProducts(
   const { isLoading: isLoadingGetProductItems } = useProductsGetProductItems();
   const { mutate: addProductToCart } = useProductsAddItemToCart();
   const { state, dispatch } = useContext(ProductsContext);
+
   if (isLoadingGetProductItems) {
     const itemsCount = Array.from({ length: 16 }, (_, i) => i + 1);
     return (
@@ -44,7 +45,10 @@ export default function ProductItemListProducts(
     );
   }
 
-  if (!state.items.length && !isLoadingGetProductItems) {
+  const isGetProductItemsEmpty =
+    !state.items.length && !isLoadingGetProductItems;
+
+  if (isGetProductItemsEmpty) {
     return <ItemNotFoundProduct />;
   }
 

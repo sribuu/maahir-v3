@@ -2,22 +2,12 @@ import { ReactQueryKey } from "@/src/core/lib/constants";
 import { ICart, IProducts } from "@/src/core/lib/models";
 import { fetchAddToCart } from "@/src/core/lib/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ProductsReactQueryKey } from "../constants";
+import { useContext } from "react";
+import { ProductReactQueryKey, ProductsReactQueryKey } from "../constants";
+import { ProductContext } from "../contexts/product/Product.context";
 
-export const useMutateAddProductToCartQuery = () => {
-  const queryClient = useQueryClient();
-  return useMutation<ICart[], any, ICart>(
-    [ReactQueryKey.PostChangeSupplierProductShow],
-    (data: ICart) => fetchAddToCart(data),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData([ReactQueryKey.AddCart], data);
-        queryClient.invalidateQueries([ReactQueryKey.GetCart]);
-      },
-    }
-  );
-};
-
+// new
+// PRODUCTS
 export const useProductsAddItemToCart = () => {
   const queryClient = useQueryClient();
 
@@ -45,4 +35,32 @@ export const useProductsAddItemToCart = () => {
     }
   );
   return mutation;
+};
+
+// PRODUCT
+export const useProductAddItemToCart = () => {
+  const queryClient = useQueryClient();
+  const { state } = useContext(ProductContext);
+  return useMutation<ICart[], any>(
+    [ProductReactQueryKey.AddItemToCart],
+    () => {
+      const itemData: IProducts = queryClient.getQueryData([
+        ProductReactQueryKey.GetProductById,
+      ]);
+      const payload: ICart = {
+        ...itemData,
+        amount: state.detail.quantity,
+        // TODO: change whenever be is updated
+        variant: state.detail.variant.selected,
+        note: "",
+      };
+      return fetchAddToCart(payload);
+    },
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData([ReactQueryKey.AddCart], data);
+        queryClient.invalidateQueries([ReactQueryKey.GetCart]);
+      },
+    }
+  );
 };

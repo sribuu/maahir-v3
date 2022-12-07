@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { IProducts } from "@/src/core/lib/models";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,12 +17,18 @@ import {
 } from "../contexts/products/Products.types";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { limitPayload, offsetPayload } from "@/src/core/utils/calculation";
+import { fetchProductGetProductById } from "../services/fetchGetProductById";
+import { RouterQueryKey } from "@/src/core/lib/constants";
+import { ProductContext } from "../contexts/product/Product.context";
+import { ProductActionEnum } from "../contexts/product/Product.types";
 
+// PRODUCTS
 export const useProductsGetProductItems = () => {
   const { state, dispatch } = useContext(ProductsContext);
 
   const queryClient = useQueryClient();
 
+  // Payload Transformation
   const categoryList: IProductGetProductCategory[] = queryClient.getQueryData([
     ProductReactQueryKey.GetProductCategory,
   ]);
@@ -74,6 +81,7 @@ export const useProductsGetProductItems = () => {
     }
   }, [state.pagination.current_page]);
 
+  // Query
   const query = useQuery<IProducts[]>(
     [ProductsReactQueryKey.GetProductItems, payload],
     () => {
@@ -84,6 +92,7 @@ export const useProductsGetProductItems = () => {
     }
   );
 
+  // Data Transformation
   useEffect(() => {
     if (query.isSuccess) {
       const payload: IProductItems[] = query.data.map((item) => {
@@ -110,6 +119,66 @@ export const useProductsGetProductItems = () => {
       dispatch({
         type: ProductsActionEnum.SetProductsPagination,
         payload: payload,
+      });
+    }
+  }, [query.isSuccess]);
+  return query;
+};
+
+// PRODUCT
+export const useProductGetProductItem = () => {
+  const router = useRouter();
+  const id = parseInt(String(router.query[RouterQueryKey.ProductId]));
+  const { dispatch } = useContext(ProductContext);
+
+  const query = useQuery<IProducts>(
+    [ProductReactQueryKey.GetProductById],
+    () => {
+      return fetchProductGetProductById({
+        id: id,
+      });
+    }
+  );
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch({
+        type: ProductActionEnum.SetImage,
+        payload: {
+          large: query.data.image,
+          // TODO: change this when push
+          // list: query.data.detail_images,
+          list: [
+            "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/lemonilo-logo.png",
+            "https://shop.maahir.co.id/storage/292/8NhHI5LXtk18wRiXMwuvKvxdKb3mhl-metaU3VhcmFzYSB4IE1hYWhpci0yLnBuZw==-.png",
+            "https://shop.maahir.co.id/storage/297/yiMnYvgRbN6WTLYudwPqlOkLQ9KfPo-metaUGFrZXQgS2VtZWphIFZpcmFsLTIucG5n-.png",
+          ],
+        },
+      });
+    }
+  }, [query.isSuccess]);
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch({
+        type: ProductActionEnum.SetDetail,
+        payload: {
+          id: String(query.data.id),
+          name: query.data.title,
+          category: query.data.category_name,
+          description: query.data.description,
+          profit: thousandSeparator(query.data.profit_value),
+          price: thousandSeparator(query.data.price),
+          max_price: thousandSeparator(query.data.retail_price_max),
+          min_price: thousandSeparator(query.data.retail_price_min),
+          // TODO: change this when be is ready
+          variant: {
+            list: ["White", "Black", "Blue"],
+            selected: "White",
+          },
+          quantity: 1,
+          stock: query.data.stock,
+        },
       });
     }
   }, [query.isSuccess]);

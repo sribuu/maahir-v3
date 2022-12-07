@@ -6,7 +6,7 @@ import { ProductsActionEnum } from "../contexts/products/Products.types";
 import { IProductGetProductCategory } from "../models";
 import { fetchProductGetProductCategory } from "../services";
 
-export const useProductCategoryQuery = () => {
+export const useProductsGetCategoryList = () => {
   const { dispatch } = useContext(ProductsContext);
   const query = useQuery<IProductGetProductCategory[]>(
     [ProductReactQueryKey.GetProductCategory],

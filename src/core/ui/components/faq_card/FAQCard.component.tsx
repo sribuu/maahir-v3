@@ -24,6 +24,7 @@ export default function FAQCardComponent(props: IFAQCardComponentProps) {
         props.lists.length > 0 &&
         props.lists.map((item, index) => (
           <AccordionComponent
+            key={index}
             open={props.open.includes(String(index))}
             question={item.question}
             answer={item.answer}
