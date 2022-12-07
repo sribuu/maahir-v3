@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, Dispatch } from "react";
-import { InitialStateType } from "./Home.types";
-import { ViralProductsActions, viralProductsReducer } from "./Home.reducers";
+import { ResellerHomeActions, InitialStateType } from "./Home.types";
+import { resellerHomeViralProductsReducer } from "./Home.reducers";
 
 const initialState: InitialStateType = {
   viral_products: [],
@@ -8,7 +8,7 @@ const initialState: InitialStateType = {
 
 const ResellerHomeContext = createContext<{
   state: InitialStateType;
-  dispatch: Dispatch<ViralProductsActions>;
+  dispatch: Dispatch<ResellerHomeActions>;
 }>({
   state: initialState,
   dispatch: () => null,
@@ -16,9 +16,9 @@ const ResellerHomeContext = createContext<{
 
 const mainReducer = (
   { viral_products }: InitialStateType,
-  action: ViralProductsActions
+  action: ResellerHomeActions
 ) => ({
-  viral_products: viralProductsReducer(viral_products, action),
+  viral_products: resellerHomeViralProductsReducer(viral_products, action),
 });
 
 const ResellerHomeProvider = (props: { children: React.ReactNode }) => {

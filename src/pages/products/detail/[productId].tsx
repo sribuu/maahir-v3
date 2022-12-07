@@ -1,14 +1,8 @@
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import DetailProductContainer from "@/src/features/products/containers/detail/Detail.product";
-import {
-  fetchMaahirMenu,
-  fetchMaahirPriceCategory,
-  fetchMaahirProductCategory,
-  fetchMaahirSocialMedia,
-} from "@/src/core/lib/api";
-import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
-import { fetchProductById } from "@/src/core/lib/api/dynamic";
+import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
+import { ReactQueryKey } from "@/src/core/lib/constants";
 import { ProductProvider } from "@/src/features/products/contexts/product/Product.context";
 
 export async function getServerSideProps(context) {
@@ -19,25 +13,6 @@ export async function getServerSideProps(context) {
     await queryClient.prefetchQuery(
       [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
-    );
-    await queryClient.prefetchQuery(
-      [ReactQueryKey.GetProductCategory],
-      fetchMaahirProductCategory
-    );
-    await queryClient.prefetchQuery(
-      [ReactQueryKey.GetPriceCategory],
-      fetchMaahirPriceCategory
-    );
-
-    // storage
-    // await queryClient.prefetchQuery([ReactQueryKey.GetCart], fetchCart);
-
-    // DYNAMIC
-    // product
-    await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
-      fetchProductById({
-        id: parseInt(String(context.query[RouterQueryKey.ProductId])),
-      })
     );
   } catch (e) {
     isError = true;

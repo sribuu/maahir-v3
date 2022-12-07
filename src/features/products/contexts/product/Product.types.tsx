@@ -14,7 +14,8 @@ export interface InitialStateType {
   images: IProductImages;
   detail: IProductDetail;
 }
-// Action Collection Types consist of:
+
+// State Collection Types consist of:
 export interface IProductImages {
   large: string;
   list: string[];

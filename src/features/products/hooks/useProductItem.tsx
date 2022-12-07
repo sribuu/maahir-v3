@@ -132,7 +132,7 @@ export const useProductGetProductItem = () => {
   const { dispatch } = useContext(ProductContext);
 
   const query = useQuery<IProducts>(
-    [ProductReactQueryKey.GetProductById],
+    [ProductReactQueryKey.GetProductById, id],
     () => {
       return fetchProductGetProductById({
         id: id,

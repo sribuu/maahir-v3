@@ -1,58 +1,33 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useContext } from "react";
 import clsx from "clsx";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
+import { SupplierLoginContext } from "../../contexts/login/Login.context";
+import { SupplierLoginActionEnum } from "../../contexts/login/Login.types";
+import { useAuthSupplierLogin } from "../../hooks/useLogin";
 export interface ILoginFormAuthProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
 
-export type ILoginFormState = {
-  email: {
-    invalid: boolean;
-    value: string;
-    message: string;
-  };
-  password: {
-    invalid: boolean;
-    value: string;
-    message: string;
-  };
-};
 export default function LoginFormAuth(props: ILoginFormAuthProps) {
-  const [state, setState] = useState<ILoginFormState>({
-    email: {
-      invalid: false,
-      value: "",
-      message: "",
-    },
-    password: {
-      invalid: false,
-      value: "",
-      message: "",
-    },
-  });
-
+  const { state, dispatch } = useContext(SupplierLoginContext);
+  const { mutate: supplierLogin } = useAuthSupplierLogin();
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      email: { ...state.email, value: e.currentTarget.value },
+    dispatch({
+      type: SupplierLoginActionEnum.ChangeEmail,
+      payload: e.currentTarget.value,
     });
   };
 
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      password: { ...state.password, value: e.currentTarget.value },
+    dispatch({
+      type: SupplierLoginActionEnum.ChangePassword,
+      payload: e.currentTarget.value,
     });
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (props.onSubmit) {
-      props.onSubmit({
-        email: state.email.value,
-        password: state.password.value,
-      });
-    }
+    supplierLogin();
   };
 
   return (
@@ -71,8 +46,8 @@ export default function LoginFormAuth(props: ILoginFormAuthProps) {
           type={"text"}
           placeholder={"Masukkan Email"}
           onChange={handleChangeEmail}
-          invalid={state.email.invalid.toString()}
-          helpertext={state.email.message}
+          invalid={state.form.email.error.status.toString()}
+          helpertext={state.form.email.error.message}
         />
       </div>
 
@@ -82,8 +57,8 @@ export default function LoginFormAuth(props: ILoginFormAuthProps) {
           placeholder={"Masukkan Kata Sandi"}
           type={"password"}
           onChange={handleChangePassword}
-          invalid={state.password.invalid.toString()}
-          helpertext={state.password.message}
+          invalid={state.form.password.error.status.toString()}
+          helpertext={state.form.password.error.message}
         />
       </div>
 

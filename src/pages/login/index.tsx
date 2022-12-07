@@ -1,6 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import LoginAuthContainer from "@/src/features/auth/containers/login/Login.auth";
+import { SupplierLoginProvider } from "@/src/features/auth/contexts/login/Login.context";
 
 export interface ILoginPageProps {}
 
@@ -15,7 +16,9 @@ export default function LoginPage(props: ILoginPageProps) {
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-      <LoginAuthContainer />
+      <SupplierLoginProvider>
+        <LoginAuthContainer />
+      </SupplierLoginProvider>
     </>
   );
 }

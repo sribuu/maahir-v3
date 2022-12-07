@@ -44,9 +44,12 @@ export const useProductAddItemToCart = () => {
   return useMutation<ICart[], any>(
     [ProductReactQueryKey.AddItemToCart],
     () => {
-      const itemData: IProducts = queryClient.getQueryData([
-        ProductReactQueryKey.GetProductById,
-      ]);
+      const itemData: IProducts = queryClient.getQueryData(
+        [ProductReactQueryKey.GetProductById],
+        {
+          exact: false,
+        }
+      );
       const payload: ICart = {
         ...itemData,
         amount: state.detail.quantity,

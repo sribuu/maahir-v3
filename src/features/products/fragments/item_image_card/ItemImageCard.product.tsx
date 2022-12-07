@@ -5,7 +5,6 @@ import ZoomImageProduct from "../zoom_image/ZoomImage.product";
 import { ProductContext } from "../../contexts/product/Product.context";
 import { useProductGetProductItem } from "../../hooks/useProductItem";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
-// import { Types } from "../../contexts/product/Product.reducers";
 export interface IItemImageCardProductProps {}
 
 ItemImageCardProduct.defaultProps = {};
@@ -15,17 +14,50 @@ export default function ItemImageCardProduct(
 ) {
   const { isLoading: isLoadingGetProductItem } = useProductGetProductItem();
   const { state, dispatch } = useContext(ProductContext);
- 
 
   if (isLoadingGetProductItem) {
-    return <div></div>;
+    const itemCount = Array.from({ length: 5 }, (_, i) => i + 1);
+    return (
+      <div
+        className={clsx(
+          "flex flex-col items-start justify-start",
+          "min-w-[276px] gap-y-[1rem]"
+        )}
+      >
+        <div
+          className={clsx(
+            "animate-pulse",
+            "bg-bright-gray",
+            "w-[30rem] h-[30rem] rounded-[1rem]"
+          )}
+        />
+
+        <div
+          className={clsx(
+            "relative overflow-hidden",
+            "flex max-w-[30rem]",
+            "gap-x-[0.75rem]"
+          )}
+        >
+          {itemCount.map((item) => (
+            <div
+              key={item}
+              className={clsx(
+                "animate-pulse",
+                "bg-bright-gray",
+                "w-[86.4px] h-[86.4px] rounded-[0.5rem]"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   const handleSelectImage = (data: string) => {
     dispatch({ type: ProductActionEnum.ChangeZoomImage, payload: data });
   };
 
-  console.log(state.images, "ini apa");
   return (
     <div
       className={clsx(
@@ -36,6 +68,7 @@ export default function ItemImageCardProduct(
       <ZoomImageProduct coverImage={state.images.large} />
 
       <ProductImageListProduct
+        active={state.images.large}
         imageList={state.images.list}
         onSelect={handleSelectImage}
       />
