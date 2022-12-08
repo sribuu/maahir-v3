@@ -1,6 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import ManagementBalanceContainer from "@/src/features/balance/containers/management/Management.balance";
+import { WithdrawBalanceProvider } from "@/src/features/balance/contexts/withdraw/Withdraw.context";
 
 export interface ISupplierBalanceManagementPageProps {}
 
@@ -8,8 +9,8 @@ export default function SupplierBalanceManagementPage(
   props: ISupplierBalanceManagementPageProps
 ) {
   const header = {
-    title: "Maahir | Beranda",
-    description: "Maahir Beranda",
+    title: "Maahir | Kelola Saldo",
+    description: "Maahir Kelola Saldo",
   };
   return (
     <>
@@ -17,7 +18,9 @@ export default function SupplierBalanceManagementPage(
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-      <ManagementBalanceContainer />
+      <WithdrawBalanceProvider>
+        <ManagementBalanceContainer />
+      </WithdrawBalanceProvider>
     </>
   );
 }

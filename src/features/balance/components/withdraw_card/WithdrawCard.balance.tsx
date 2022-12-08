@@ -1,42 +1,37 @@
-import * as React from "react";
+import { useContext } from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
-import { useCheckAccountNumber } from "../../hooks/useCheckAccountNumber";
-import { useGetSupplierProfileQuery } from "@/src/features/profile/hooks/useGetSupplierProfile";
 import AccountNumberInformationSectionBalance from "../account_number_information_section/AccountNumberInformationSection.balance";
 import NoAccountNumberInformationSectionBalance from "../no_account_number_information_section/NoAccountNumberInformationSection.balance";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
-import {
-  useBalanceAmount,
-  useMutateWithdrawBalanceQuery,
-} from "../../hooks/useWithdrawBalance";
+import { useWithdrawBalanceRequestWithdraw } from "../../hooks/useWithdrawBalance";
+import { WithdrawBalanceContext } from "../../contexts/withdraw/Withdraw.context";
+import { useWithdrawBalanceGetSupplierProfile } from "../../hooks/useGetSupplierProfile";
+import { WithdrawBalanceActionEnum } from "../../contexts/withdraw/Withdraw.types";
 
 export interface IWithdrawCardBalanceProps {}
 
 export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
-  const { data: supplierProfileData, isLoading } = useGetSupplierProfileQuery();
-  const hasAccountNumber = useCheckAccountNumber();
+  const { isLoading: isLoadingGetSupplierProfile } =
+    useWithdrawBalanceGetSupplierProfile();
+  const { state, dispatch } = useContext(WithdrawBalanceContext);
+  const { mutate: requestWithdrawBalance } =
+    useWithdrawBalanceRequestWithdraw();
 
-  const { balance, setBalance } = useBalanceAmount();
-
-  const {
-    mutate: mutateWithdrawBalance,
-    isError: isErrorMutateWithdrawBalance,
-  } = useMutateWithdrawBalanceQuery();
-
-  if (isLoading) {
+  if (isLoadingGetSupplierProfile) {
     return <div />;
   }
 
   const handleChangeBalance = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBalance(parseInt(e.currentTarget.value));
+    dispatch({
+      type: WithdrawBalanceActionEnum.WithdrawBalance,
+      payload: e.currentTarget.value,
+    });
   };
 
   const handleClickWithdraw = (e: React.MouseEvent<HTMLButtonElement>) => {
-    mutateWithdrawBalance({
-      balance: balance,
-    });
+    requestWithdrawBalance();
   };
 
   return (
@@ -54,16 +49,17 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
         <TextfieldComponent
           label={"Jumlah yang ingin ditarik"}
           onChange={handleChangeBalance}
-          invalid={String(isErrorMutateWithdrawBalance)}
+          // invalid={String(isErrorMutateWithdrawBalance)}
+          invalid={String(state.withdraw.balance.error.length > 0)}
           helpertext={"Jumlah melebihi saldo aktif Anda"}
           defaultValue={0}
         />
 
-        {hasAccountNumber ? (
+        {state.withdraw.able_to_withdraw ? (
           <AccountNumberInformationSectionBalance
-            bankName={supplierProfileData?.detail.bank_name}
-            accountNumber={supplierProfileData?.detail.bank_account}
-            supplierName={supplierProfileData?.name}
+            bankName={state.withdraw.bank_name}
+            accountNumber={state.withdraw.account_number}
+            supplierName={state.withdraw.name}
           />
         ) : (
           <NoAccountNumberInformationSectionBalance />
@@ -71,7 +67,7 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
 
         <div className={clsx("flex justify-end items-center")}>
           <ButtonComponent
-            disabled={!hasAccountNumber}
+            disabled={!state.withdraw.able_to_withdraw}
             onClick={handleClickWithdraw}
           >
             {"Kirim permintaan"}
