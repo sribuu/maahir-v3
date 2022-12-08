@@ -104,7 +104,6 @@ export default function EditProfileFormProfile(
         value={state.form.address.value}
         placeholder={"Pilih Alamat"}
         lists={state.form.address.list}
-        disabled={state.is_locked_bank}
         onSelect={handleSelectAddress}
       />
 
