@@ -4,7 +4,6 @@ import Head from "next/head";
 import ManagementProfileContainer from "@/src/features/profile/containers/management/Management.profile";
 import { ReactQueryKey } from "@/src/core/lib/constants";
 import { fetchBankList } from "@/src/core/lib/api/dynamic";
-import { SupplierProfileProvider } from "@/src/features/profile/contexts/profile/Profile.context";
 
 export interface ISupplierBalanceManagementPageProps {}
 
@@ -36,9 +35,8 @@ export default function SupplierBalanceManagementPage({ isErrorPrefetch }) {
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-      <SupplierProfileProvider>
-        <ManagementProfileContainer />
-      </SupplierProfileProvider>
+
+      <ManagementProfileContainer />
     </>
   );
 }

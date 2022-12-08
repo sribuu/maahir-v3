@@ -1,77 +1,91 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import {
-  IUpdateProfileFormState,
-  useDefaultValueUpdateProfileForm,
-  useUpdateProfileFormState,
-} from "../../hooks/useProfile";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
 import DropdownComponent from "@/src/core/ui/components/dropdown/Dropdown.component";
-import { useBankListData, useBankListQuery } from "../../hooks/useBankList";
-import { useCheckBankAccountIsLocked } from "../../hooks/useGetSupplierProfile";
 import { RouterPathName } from "@/src/core/lib/constants";
-import { useUpdateSupplierProfileQuery } from "../../hooks/useUpdateSupplierProfile";
+import { useProfileUpdateSupplierProfile } from "../../hooks/useUpdateSupplierProfile";
+import { ProfileUpdateContext } from "../../contexts/update/ProfileUpdate.context";
+import { ProfileUpdateActionEnum } from "../../contexts/update/ProfileUpdate.types";
+import { useProfileUpdateGetSupplierData } from "../../hooks/useGetSupplierProfile";
+import { useProfileUpdateGetBankList } from "../../hooks/useBankList";
+import { useProfileUpdateGetAddressList } from "../../hooks/useAddressList";
 
-export interface IEditProfileFormProfileProps {
-  defaultData?: IUpdateProfileFormState;
-  onSubmit?: (data: IUpdateProfileFormState) => void;
-}
+export interface IEditProfileFormProfileProps {}
 
 export default function EditProfileFormProfile(
   props: IEditProfileFormProfileProps
 ) {
-  const { onSubmit } = props;
-  const { data: bankList } = useBankListQuery();
-  const list = useBankListData();
-  const disabled = useCheckBankAccountIsLocked();
-  const defaultValue = useDefaultValueUpdateProfileForm();
-  const { formState, setFormState } = useUpdateProfileFormState();
-
+  const { isLoading: isLoadingGetSupplierData } =
+    useProfileUpdateGetSupplierData();
+  const { isLoading: isLoadingGetBankList } = useProfileUpdateGetBankList();
+  const { isLoading: isLoadingGetAddressList } =
+    useProfileUpdateGetAddressList();
   const {
-    mutate: mutateSupplierProfile,
-    isLoading: isLoadingMutateSupplierProfile,
-  } = useUpdateSupplierProfileQuery();
+    mutate: updateSupplierProfile,
+    isLoading: isLoadingUpdateSupplierProfile,
+  } = useProfileUpdateSupplierProfile();
+  const { state, dispatch } = useContext(ProfileUpdateContext);
+
+  const isLoading =
+    isLoadingGetSupplierData || isLoadingGetBankList || isLoadingGetAddressList;
+
+  if (isLoading) {
+    return <div />;
+  }
 
   const handleChangeShopName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState({ ...formState, shop: e.currentTarget.value });
+    dispatch({
+      type: ProfileUpdateActionEnum.SetShopName,
+      payload: e.currentTarget.value,
+    });
+  };
+
+  const handleSelectAddress = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch({
+      type: ProfileUpdateActionEnum.SetAddress,
+      payload: e.currentTarget.id,
+    });
+  };
+
+  const handleChangeDetailAddress = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch({
+      type: ProfileUpdateActionEnum.SetDetailAddress,
+      payload: e.currentTarget.value,
+    });
   };
 
   const handleChangeAccountOwnerName = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFormState({ ...formState, name: e.currentTarget.value });
+    dispatch({
+      type: ProfileUpdateActionEnum.SetAccountNumberHolder,
+      payload: e.currentTarget.value,
+    });
   };
 
   const handleSelectBank = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setFormState({ ...formState, accountNumber: e.currentTarget.id });
+    dispatch({
+      type: ProfileUpdateActionEnum.SetBank,
+      payload: e.currentTarget.id,
+    });
   };
 
   const handleChangeAccountNumber = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFormState({ ...formState, shop: e.currentTarget.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (onSubmit) {
-      onSubmit(formState);
-    }
-    e.preventDefault();
-
-    mutateSupplierProfile({
-      name: formState.shop,
-      bank_account: formState.accountNumber,
-      bank_id: bankList?.filter(
-        (item) => item?.option_name === formState?.bankName
-      )[0]?.id,
-      bank_name_holder: formState.name,
+    dispatch({
+      type: ProfileUpdateActionEnum.SetAccountNumber,
+      payload: e.currentTarget.value,
     });
   };
 
-  useEffect(() => {
-    setFormState(defaultValue);
-  }, [defaultValue]);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateSupplierProfile();
+  };
 
   return (
     <form
@@ -80,10 +94,27 @@ export default function EditProfileFormProfile(
     >
       <TextfieldComponent
         label={"Nama Toko"}
+        value={state.form.shop_name.value}
         placeholder={"Masukkan nama toko"}
         onChange={handleChangeShopName}
-        defaultValue={defaultValue.shop}
       />
+
+      <DropdownComponent
+        label={"Alamat"}
+        value={state.form.address.value}
+        placeholder={"Pilih Alamat"}
+        lists={state.form.address.list}
+        disabled={state.is_locked_bank}
+        onSelect={handleSelectAddress}
+      />
+
+      <TextfieldComponent
+        label={"Detail Alamat"}
+        value={state.form.detail_address.value}
+        placeholder={"Masukkan detail alamat"}
+        onChange={handleChangeDetailAddress}
+      />
+
       <div
         className={clsx(
           "grid grid-cols-2 justify-start gap-x-[1rem]",
@@ -92,18 +123,18 @@ export default function EditProfileFormProfile(
       >
         <DropdownComponent
           label={"Bank Rekening Tujuan"}
+          value={state.form.bank.value}
           placeholder={"Pilih Bank"}
-          lists={list}
-          disabled={disabled}
+          lists={state.form.bank.list}
+          disabled={state.is_locked_bank}
           onSelect={handleSelectBank}
-          defaultValue={defaultValue.bankName}
         />
         <TextfieldComponent
           label={"Nomor Rekening"}
-          disabled={disabled}
+          value={state.form.account_number.value}
+          disabled={state.is_locked_bank}
           placeholder={"Masukkan nomor rekening"}
           onChange={handleChangeAccountNumber}
-          defaultValue={defaultValue.accountNumber}
         />
       </div>
 
@@ -115,10 +146,10 @@ export default function EditProfileFormProfile(
       >
         <TextfieldComponent
           label={"Nama Pemilik Rekening"}
+          value={state.form.account_number_holder.value}
           placeholder={"Masukkan nama pemilik rekening"}
-          disabled={disabled}
+          disabled={state.is_locked_bank}
           onChange={handleChangeAccountOwnerName}
-          defaultValue={defaultValue.name}
         />
         <p className={clsx("text-[0.75rem] text-taupe-gray font-regular")}>
           {
@@ -139,7 +170,7 @@ export default function EditProfileFormProfile(
       <div className={clsx("flex items-end justify-end", "w-full")}>
         <input
           type={"submit"}
-          disabled={isLoadingMutateSupplierProfile}
+          disabled={isLoadingUpdateSupplierProfile}
           className={clsx(
             "w-[190px] h-[3.5rem] rounded-[0.75rem]",
             "bg-ocean-boat-blue",
