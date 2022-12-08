@@ -1,15 +1,14 @@
 import * as React from "react";
 import clsx from "clsx";
-import { thousandSeparator } from "@/src/core/utils/formatters";
 
 export interface IBalanceListHomeProps {
   name?: string;
-  price?: number;
+  price?: string;
 }
 
 BalanceListHome.defaultProps = {
   name: "",
-  price: 0,
+  price: "",
 };
 
 export const changeBalanceColor: (name: string) => string = (name: string) => {
@@ -33,10 +32,9 @@ export const changeBalanceIcon: (name: string) => string = (name: string) => {
 };
 
 export default function BalanceListHome(props: IBalanceListHomeProps) {
-  const { name, price } = props;
+  const { name } = props;
   const color = changeBalanceColor(name);
   const icon = changeBalanceIcon(name);
-  const priceFormatted = thousandSeparator(price);
   return (
     <div
       className={clsx(
@@ -53,7 +51,7 @@ export default function BalanceListHome(props: IBalanceListHomeProps) {
             {name}
           </p>
           <p className={clsx("text-[1.25rem] text-dark-charcoal font-bold")}>
-            {priceFormatted}
+            {props.price}
           </p>
         </div>
         {/* circle */}

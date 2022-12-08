@@ -1,23 +1,20 @@
-import * as React from "react";
+import { useContext } from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import BalanceListHome from "../balance_list/BalanceList.home";
-import { useBalanceList } from "../../hooks/useBalanceList";
+import { useSupplierHomeGetSupplierStatistic } from "../../hooks/useSupplierStatistic";
+import { SupplierHomeContext } from "../../contexts/HomeSupplier.context";
 
 export interface IBalanceCardHomeProps {}
 
 export default function BalanceCardHome(props: IBalanceCardHomeProps) {
-  const list = useBalanceList();
-  //   const list = [
-  //     {
-  //       name: "SALDO TERSEDIA",
-  //       quantity: 10000000,
-  //     },
-  //     {
-  //       name: "SALDO TERTAHAN",
-  //       quantity: 10000000,
-  //     },
-  //   ];
+  const { state } = useContext(SupplierHomeContext);
+  const { isLoading: isLoadingGetSupplierStatistic } =
+    useSupplierHomeGetSupplierStatistic();
+
+  if (isLoadingGetSupplierStatistic) {
+    return <div></div>;
+  }
 
   return (
     <CardComponent className={clsx("p-[1rem]")}>
@@ -37,7 +34,7 @@ export default function BalanceCardHome(props: IBalanceCardHomeProps) {
             "w-full"
           )}
         >
-          {list.map((item, index) => (
+          {state.balance.map((item, index) => (
             <BalanceListHome key={index} name={item.name} price={item.price} />
           ))}
         </div>

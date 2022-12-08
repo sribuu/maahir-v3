@@ -1,30 +1,80 @@
-import {
-  ErrorMessage,
-  ReactQueryKey,
-  RouterPathName,
-} from "@/src/core/lib/constants";
-import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   ISupplierStatisticErrorResponse,
   ISupplierStatisticSuccessResponse,
 } from "../../home/models";
 import { fetchSupplierStatistic } from "@/src/features/home_supplier/services";
+import { SupplierHomeReactQueryKey } from "../constants";
+import { SupplierHomeContext } from "../contexts/HomeSupplier.context";
+import { SupplierHomeActionEnum } from "../contexts/HomeSupplier.types";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 
-export const useGetSupplierStatisticQuery = () =>
-  useQuery<ISupplierStatisticSuccessResponse, ISupplierStatisticErrorResponse>(
-    [ReactQueryKey.GetSupplierStatistic],
-    fetchSupplierStatistic,
+export const useSupplierHomeGetSupplierStatistic = () => {
+  const { dispatch } = useContext(SupplierHomeContext);
+  const query = useQuery<
+    ISupplierStatisticSuccessResponse,
+    ISupplierStatisticErrorResponse
+  >(
+    [SupplierHomeReactQueryKey.GetSupplierStatistic],
+    () => {
+      return fetchSupplierStatistic();
+    },
     {
       retry: false,
     }
   );
 
-export const useUnauthorizedGetSupplierStatisticQuery = () => {
-  const { error } = useGetSupplierStatisticQuery();
-  const router = useRouter();
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch({
+        type: SupplierHomeActionEnum.SetBalance,
+        payload: [
+          {
+            name: "SALDO TERSEDIA",
+            price: thousandSeparator(query.data?.balance.available_balance),
+          },
+          {
+            name: "SALDO TERTAHAN",
+            price: thousandSeparator(query.data?.balance.holding_balance),
+          },
+        ],
+      });
+    }
+  }, [query.isSuccess]);
 
-  if (error?.error_code === ErrorMessage.Unauthorized) {
-    router.push(RouterPathName.Login);
-  }
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch({
+        type: SupplierHomeActionEnum.SetOrder,
+        payload: [
+          {
+            name: "BELUM DIPROSES",
+            quantity: `${query.data?.statistic.PAYMENT_COMPLETED.quantity} pesanan`,
+            price: thousandSeparator(
+              query.data?.statistic.PAYMENT_COMPLETED.value
+            ),
+          },
+          {
+            name: "DIKIRIM",
+            quantity: `${query.data?.statistic.ON_DELIVERY.quantity} pesanan`,
+            price: thousandSeparator(query.data?.statistic.ON_DELIVERY.value),
+          },
+          {
+            name: "DALAM PENGEMASAN",
+            quantity: `${query.data?.statistic.PROCESSING.quantity} pesanan`,
+            price: thousandSeparator(query.data?.statistic.PROCESSING.value),
+          },
+          {
+            name: "DITERIMA",
+            quantity: `${query.data?.statistic.ORDER_COMPLETED.quantity} pesanan`,
+            price: thousandSeparator(
+              query.data?.statistic.ORDER_COMPLETED.value
+            ),
+          },
+        ],
+      });
+    }
+  }, [query.isSuccess]);
+  return query;
 };

@@ -4,14 +4,14 @@ import { thousandSeparator } from "@/src/core/utils/formatters";
 
 export interface IOrderStatisticListHomeProps {
   name?: string;
-  quantity?: number;
-  price?: number;
+  quantity?: string;
+  price?: string;
 }
 
 OrderStatisticListHome.defaultProps = {
   name: "",
-  quantity: 0,
-  price: 0,
+  quantity: "",
+  price: "",
 };
 
 export const changeOrderStatisticListColor: (name: string) => string = (
@@ -51,8 +51,8 @@ export const changeOrderStatisticListIcon: (name: string) => string = (
 export default function OrderStatisticListHome(
   props: IOrderStatisticListHomeProps
 ) {
-  const { name, quantity, price } = props;
-  const priceFormatted = thousandSeparator(price);
+  const { name } = props;
+
   const icon = changeOrderStatisticListIcon(name);
   const color = changeOrderStatisticListColor(name);
 
@@ -76,10 +76,10 @@ export default function OrderStatisticListHome(
             {name}
           </p>
           <p className={clsx("text-[1rem] text-dark-charcoal font-bold")}>
-            {`${quantity} pesanan`}
+            {props.quantity}
           </p>
           <p className={clsx("text-[0.875rem] text-taupe-gray font-medium")}>
-            {priceFormatted}
+            {props.price}
           </p>
         </div>
         {/* circle */}

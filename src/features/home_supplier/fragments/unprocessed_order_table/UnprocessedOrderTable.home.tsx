@@ -1,6 +1,5 @@
 import * as React from "react";
 import clsx from "clsx";
-import DividerComponent from "@/src/core/ui/components/divider/Divider.component";
 
 export interface IUnprocessedOrderTableHomeProps {}
 
