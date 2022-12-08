@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
-import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
+import MoneyTextfieldComponent from "@/src/core/ui/components/money_textfield/MoneyTextfield.component";
 import AccountNumberInformationSectionBalance from "../account_number_information_section/AccountNumberInformationSection.balance";
 import NoAccountNumberInformationSectionBalance from "../no_account_number_information_section/NoAccountNumberInformationSection.balance";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
@@ -25,8 +25,12 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
 
   const handleChangeBalance = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: WithdrawBalanceActionEnum.WithdrawBalance,
+      type: WithdrawBalanceActionEnum.InputBalance,
       payload: e.currentTarget.value,
+    });
+    dispatch({
+      type: WithdrawBalanceActionEnum.CheckBalanceWithdrawAbility,
+      payload: state.maximum_withdraw,
     });
   };
 
@@ -46,20 +50,20 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
           {"Kirim Permintaan Tarik Saldo"}
         </p>
 
-        <TextfieldComponent
+        <MoneyTextfieldComponent
           label={"Jumlah yang ingin ditarik"}
           onChange={handleChangeBalance}
           // invalid={String(isErrorMutateWithdrawBalance)}
-          invalid={String(state.withdraw.balance.error.length > 0)}
-          helpertext={"Jumlah melebihi saldo aktif Anda"}
-          defaultValue={0}
+          value={state.withdraw_request_form.balance.value}
+          invalid={String(state.withdraw_request_form.balance.error.length > 0)}
+          helpertext={state.withdraw_request_form.balance.error}
         />
 
-        {state.withdraw.able_to_withdraw ? (
+        {state.withdraw_request_form.has_account_number ? (
           <AccountNumberInformationSectionBalance
-            bankName={state.withdraw.bank_name}
-            accountNumber={state.withdraw.account_number}
-            supplierName={state.withdraw.name}
+            bankName={state.withdraw_request_form.bank_name}
+            accountNumber={state.withdraw_request_form.account_number}
+            supplierName={state.withdraw_request_form.name}
           />
         ) : (
           <NoAccountNumberInformationSectionBalance />
@@ -67,7 +71,7 @@ export default function WithdrawCardBalance(props: IWithdrawCardBalanceProps) {
 
         <div className={clsx("flex justify-end items-center")}>
           <ButtonComponent
-            disabled={!state.withdraw.able_to_withdraw}
+            disabled={state.withdraw_request_form.balance.error.length > 0}
             onClick={handleClickWithdraw}
           >
             {"Kirim permintaan"}

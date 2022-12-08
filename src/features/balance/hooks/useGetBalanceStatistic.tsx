@@ -28,6 +28,15 @@ export const useWithdrawBalanceGetBalanceStatistic = () => {
   useEffect(() => {
     if (query.isSuccess) {
       dispatch({
+        type: WithdrawBalanceActionEnum.SetMaximumWithdraw,
+        payload: query.data?.balance.available_balance,
+      });
+    }
+  }, [query.isSuccess]);
+
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch({
         type: WithdrawBalanceActionEnum.SetStatistic,
         payload: [
           {

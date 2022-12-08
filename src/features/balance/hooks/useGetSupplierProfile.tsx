@@ -26,8 +26,8 @@ export const useWithdrawBalanceGetSupplierProfile = () => {
       dispatch({
         type: WithdrawBalanceActionEnum.SetWithdraw,
         payload: {
-          ...state.withdraw,
-          able_to_withdraw: query.data.detail.is_lock_bank,
+          ...state.withdraw_request_form,
+          has_account_number: query.data.detail.is_lock_bank,
           bank_name: query.data.detail.bank_name,
           account_number: query.data.detail.bank_account,
           name: query.data.name,

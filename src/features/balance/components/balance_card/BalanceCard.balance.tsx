@@ -17,7 +17,6 @@ export default function BalanceCardBalance(props: IBalanceCardBalanceProps) {
     return <div />;
   }
 
-  console.log(state.statistic, "ini statistic");
   return (
     <CardComponent className={clsx("p-[1rem]")}>
       <div

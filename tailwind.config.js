@@ -64,7 +64,6 @@ module.exports = {
       mauve: "#D8A7FF",
       "pastel-orange": "#FFB74A",
       "lavender-gray": "#C4CDD5",
-      
     },
 
     extend: {
@@ -73,6 +72,8 @@ module.exports = {
         2: "0px 2px 12px rgba(0, 0, 0, 0.08)",
         3: "0px 4px 12px rgba(0, 0, 0, 0.06)",
         4: "0px 8px 12px rgba(0, 0, 0, 0.08)",
+        "toast-success": "0px 4px 12px rgba(0, 214, 161, 0.16)",
+        "toast-error": "0px 4px 12px rgba(255, 75, 75, 0.16)",
       },
       fontFamily: {
         DMSans: ["DM Sans", ...defaultTheme.fontFamily.sans],

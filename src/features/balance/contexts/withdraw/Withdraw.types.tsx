@@ -11,11 +11,18 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 // State Collection Types
 export interface InitialStateType {
+  notification: IWithdrawBalanceNotification;
+  maximum_withdraw: number;
   statistic: IWithdrawBalanceStatistic[];
-  withdraw: IWithdrawBalanceWithdraw;
+  withdraw_request_form: IWithdrawBalanceWithdraw;
 }
 
 // State Collection Types consist of:
+
+export interface IWithdrawBalanceNotification {
+  open: boolean;
+  success: boolean;
+}
 export interface IWithdrawBalanceStatistic {
   name: string;
   price: string;
@@ -23,6 +30,7 @@ export interface IWithdrawBalanceStatistic {
 
 export interface IWithdrawBalanceWithdraw {
   able_to_withdraw: boolean;
+  has_account_number: boolean;
   bank_name: string;
   account_number: string;
   name: string;
@@ -33,18 +41,41 @@ export interface IWithdrawBalanceWithdraw {
 }
 
 export enum WithdrawBalanceActionEnum {
+  SetMaximumWithdraw = "SetMaximumWithdraw",
+  OpenSuccessNotification = "OpenSuccessNotification",
+  CloseSuccessNotification = "CloseSuccessNotification",
   SetStatistic = "SetStatistic",
   SetWithdraw = "SetWithdraw",
-  WithdrawBalance = "WithdrawBalance",
+  CheckBalanceWithdrawAbility = "CheckBalanceWithdrawAbility",
+  InputBalance = "InputBalance",
 }
 
 // Action Collection Types
 export type WithdrawBalanceActions =
+  | WithdrawBalanceMaximumWithdrawActions
+  | WithdrawBalanceNotificationActions
   | WithdrawBalanceStatisticActions
   | WithdrawBalanceWithdrawActions;
 
 // Action Collection Types consist of:
-// Viral Products
+// Maximum Withdraw
+type WithdrawBalanceMaximumWithdrawPayload = {
+  [WithdrawBalanceActionEnum.SetMaximumWithdraw]: number;
+};
+
+export type WithdrawBalanceMaximumWithdrawActions =
+  ActionMap<WithdrawBalanceMaximumWithdrawPayload>[keyof ActionMap<WithdrawBalanceMaximumWithdrawPayload>];
+
+// Notification
+type WithdrawBalanceNotificationPayload = {
+  [WithdrawBalanceActionEnum.OpenSuccessNotification]: undefined;
+  [WithdrawBalanceActionEnum.CloseSuccessNotification]: undefined;
+};
+
+export type WithdrawBalanceNotificationActions =
+  ActionMap<WithdrawBalanceNotificationPayload>[keyof ActionMap<WithdrawBalanceNotificationPayload>];
+
+// Statistic
 type WithdrawBalanceStatisticPayload = {
   [WithdrawBalanceActionEnum.SetStatistic]: IWithdrawBalanceStatistic[];
 };
@@ -55,7 +86,8 @@ export type WithdrawBalanceStatisticActions =
 // Withdraw
 type WithdrawBalanceWithdrawPayload = {
   [WithdrawBalanceActionEnum.SetWithdraw]: IWithdrawBalanceWithdraw;
-  [WithdrawBalanceActionEnum.WithdrawBalance]: string;
+  [WithdrawBalanceActionEnum.CheckBalanceWithdrawAbility]: number;
+  [WithdrawBalanceActionEnum.InputBalance]: string;
 };
 
 export type WithdrawBalanceWithdrawActions =
