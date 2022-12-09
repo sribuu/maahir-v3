@@ -214,30 +214,42 @@ export default function PaginationComponent(props: IPaginationComponentProps) {
     useState<boolean>(false);
 
   useEffect(() => {
-    setTotalPage(props.totalPage);
+    if (props.totalPage > 0) {
+      setTotalPage(props.totalPage);
+    }
   }, [props.totalPage]);
 
   useEffect(() => {
-    setCurrentPage(props.currentPage);
+    if (props.currentPage > 0) {
+      setCurrentPage(props.currentPage);
+    }
   }, [props.currentPage]);
 
   useEffect(() => {
-    setSibblingCount(props.sibblingCount);
+    if (props.sibblingCount > 0) {
+      setSibblingCount(props.sibblingCount);
+    }
   }, [props.sibblingCount]);
 
   useEffect(() => {
-    const result = handleLeftBullet(totalPage, currentPage, sibblingCount);
-    setLeftBulletCondition(result);
+    if (currentPage > 0 && sibblingCount > 0 && totalPage > 0) {
+      const result = handleLeftBullet(totalPage, currentPage, sibblingCount);
+      setLeftBulletCondition(result);
+    }
   }, [currentPage, sibblingCount, totalPage]);
 
   useEffect(() => {
-    const result = handleMiddleArray(totalPage, currentPage, sibblingCount);
-    setMiddleArrayPage(result);
+    if (currentPage > 0 && sibblingCount > 0 && totalPage > 0) {
+      const result = handleMiddleArray(totalPage, currentPage, sibblingCount);
+      setMiddleArrayPage(result);
+    }
   }, [currentPage, sibblingCount, totalPage]);
 
   useEffect(() => {
-    const result = handleRightBullet(totalPage, currentPage, sibblingCount);
-    setRightBulletCondition(result);
+    if (currentPage > 0 && sibblingCount > 0 && totalPage > 0) {
+      const result = handleRightBullet(totalPage, currentPage, sibblingCount);
+      setRightBulletCondition(result);
+    }
   }, [currentPage, sibblingCount, totalPage]);
 
   const handleClickPreviousPage = (e: React.MouseEvent<HTMLButtonElement>) => {

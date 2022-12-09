@@ -1,22 +1,23 @@
 import clsx from "clsx";
 import React from "react";
 
-export interface ITextfieldComponentProps
+export interface ISizeTextfieldComponentProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  endAddornment?: React.ReactNode;
+  measurement_unit?: string;
   invalid?: string;
   helpertext?: string;
-  variant?: "normal" | "small";
 }
-TextfieldComponent.defaultProps = {
+SizeTextfieldComponent.defaultProps = {
   label: "",
   invalid: "false",
   helpertext: "",
-  variant: "normal",
+  measurement_unit: "",
 };
 
-export default function TextfieldComponent(props: ITextfieldComponentProps) {
+export default function SizeTextfieldComponent(
+  props: ISizeTextfieldComponentProps
+) {
   const { className, disabled, ...restProps } = props;
 
   return (
@@ -34,10 +35,7 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
       <div
         className={clsx(
           "flex justify-between gap-4",
-          "w-full",
-          props.variant === "normal"
-            ? "p-4 h-[3.5rem]"
-            : "px-[1rem] py-[0.5rem]",
+          "w-full px-[0.625rem] py-[0.5rem]",
           "rounded-[0.625rem]",
           "box-border",
           !disabled ? "bg-white" : "bg-bright-gray",
@@ -51,16 +49,16 @@ export default function TextfieldComponent(props: ITextfieldComponentProps) {
             "w-full",
             !disabled ? "bg-white bg-opacity-0" : "bg-bright-gray",
             "outline-0",
-            props.variant === "normal"
-              ? "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[1rem]"
-              : "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[0.75rem]",
-            props.variant === "small" &&
-              "text-charleston-green font-regular text-[0.75rem]",
+            "placeholder:text-taupe-gray placeholder:font-regular placeholder:text-[0.75rem]",
+            "text-charleston-green font-regular text-[0.75rem]",
             className
           )}
           {...restProps}
         />
-        {props.endAddornment && props.endAddornment}
+
+        <p className={clsx("text-[0.625rem] text-taupe-gray font-regular")}>
+          {props.measurement_unit}
+        </p>
       </div>
 
       {props.helpertext !== undefined && props.helpertext.length > 0 && (

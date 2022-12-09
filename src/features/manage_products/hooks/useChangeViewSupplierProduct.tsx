@@ -7,7 +7,7 @@ import {
 } from "../models";
 import { fetchPostChangeSupplierProductShow } from "../services";
 
-export const useMutateChangeSupplierProductShowQuery = () => {
+export const useViewSupplierProductChangeViewProduct = () => {
   const queryClient = useQueryClient();
   return useMutation<
     IChangeSupplierProductShowSuccessResponse,

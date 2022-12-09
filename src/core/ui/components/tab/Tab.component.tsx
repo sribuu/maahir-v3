@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 
 export interface ITabComponentProps {
+  active?: number;
   list?: string[];
   onSelect?: (data: number) => void;
 }
 TabComponent.defaultProps = {
+  active: 0,
   list: [],
 };
 
@@ -18,6 +20,10 @@ export default function TabComponent(props: ITabComponentProps) {
       props.onSelect(parseInt(e.currentTarget.id));
     }
   };
+
+  useEffect(() => {
+    setActive(props.active);
+  }, []);
   return (
     <div className={clsx("flex items-start justify-start gap-x-[2rem]")}>
       {props.list !== undefined &&

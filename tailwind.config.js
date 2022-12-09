@@ -67,6 +67,9 @@ module.exports = {
     },
 
     extend: {
+      rotate: {
+        270: "270deg",
+      },
       boxShadow: {
         1: "0px 16px 48px rgba(0, 0, 0, 0.08)",
         2: "0px 2px 12px rgba(0, 0, 0, 0.08)",

@@ -1,64 +1,49 @@
-import { useState } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import SearchInputComponent from "@/src/core/ui/components/search_input/SearchInput.component";
 import ShowCaseTableProduct from "../showcase_table/ShowCaseTable.product";
 import TabComponent from "@/src/core/ui/components/tab/Tab.component";
-import {
-  useGetSupplierProductList,
-  useGetSupplierProductQuery,
-} from "../../hooks/useSupplierProduct";
 
 import HiddenTableProduct from "../hidden_table/HiddenTable.product";
-import {
-  usePayloadSupplierProduct,
-  useSearchSupplierProduct,
-  useSwitchTabSupplierProduct,
-} from "../../hooks/useSupplierProductState";
+
 import { RouterPathName } from "@/src/core/lib/constants";
+import { ViewSupplierProductContext } from "../../contexts/view/ViewSupplierProduct.context";
+import { ViewSupplierProductActionEnum } from "../../contexts/view/ViewSupplierProduct.types";
 
 export interface IManagementCardProductProps {}
 
 export default function ManagementCardProduct(
   props: IManagementCardProductProps
 ) {
-  const { activeTab, setActiveTab } = useSwitchTabSupplierProduct();
-  const { search, setSearch } = useSearchSupplierProduct();
-
-  const tabList = ["Etalase Produk", "Produk Disembunyikan"];
-
-  const { payload, setPayload } = usePayloadSupplierProduct();
-
-  const {
-    data,
-    isLoading: isLoadingSupplierProduct,
-    isSuccess: isSuccessSupplierProduct,
-  } = useGetSupplierProductQuery(payload);
-
-  const list = useGetSupplierProductList(payload);
+  const { state, dispatch } = useContext(ViewSupplierProductContext);
 
   const handleSelect = (data: number) => {
-    setActiveTab(data);
-    setSearch("");
-    setPayload({
-      ...payload,
-      title_like: "",
-      is_show: data === 0,
+    dispatch({
+      type: ViewSupplierProductActionEnum.SetActiveTab,
+      payload: data,
+    });
+    dispatch({
+      type: ViewSupplierProductActionEnum.SetSearch,
+      payload: "",
+    });
+    dispatch({
+      type: ViewSupplierProductActionEnum.ChangeCurrentPage,
+      payload: 1,
     });
   };
 
   const handleSearch = (data: string) => {
-    setSearch(data);
-    setPayload({
-      ...payload,
-      title_like: data,
+    dispatch({
+      type: ViewSupplierProductActionEnum.SetSearch,
+      payload: data,
     });
   };
 
   return (
     <CardComponent className={clsx("p-[1.5rem]")}>
-      <div>
+      <div className={clsx("grid grid-cols-1 gap-y-[2rem]", "w-full")}>
         {/* header */}
         <div
           className={clsx(
@@ -67,13 +52,17 @@ export default function ManagementCardProduct(
           )}
         >
           {/* tab */}
-          <TabComponent list={tabList} onSelect={handleSelect} />
+          <TabComponent
+            active={state.tab.active}
+            list={state.tab.list}
+            onSelect={handleSelect}
+          />
           {/* end tab */}
 
           {/* right */}
           <div className={clsx("flex justify-end items-center gap-x-[1rem]")}>
             <SearchInputComponent
-              value={search}
+              value={state.search}
               placeholder={"Cari produk disini"}
               onSearch={handleSearch}
             />
@@ -92,15 +81,9 @@ export default function ManagementCardProduct(
           </div>
         </div>
 
-        {isLoadingSupplierProduct && <div />}
-        {/* body */}
-        {isSuccessSupplierProduct && (
-          <>
-            {activeTab === 0 && <ShowCaseTableProduct list={list} />}
+        {state.tab.active === 0 && <ShowCaseTableProduct />}
 
-            {activeTab === 1 && <HiddenTableProduct list={list} />}
-          </>
-        )}
+        {state.tab.active === 1 && <HiddenTableProduct />}
       </div>
     </CardComponent>
   );

@@ -13,7 +13,7 @@ export default function SearchInputComponent(
   props: ISearchInputComponentProps
 ) {
   const [data, setData] = useState("");
-  const { className, onSearch, value, ...restProps } = props;
+  const { className, onSearch, onKeyUp, value, ...restProps } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData(e.currentTarget.value);
@@ -21,6 +21,11 @@ export default function SearchInputComponent(
 
   const handleSearch = () => {
     if (onSearch) {
+      onSearch(data);
+    }
+  };
+  const handleKeyEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onSearch && e.key === "Enter") {
       onSearch(data);
     }
   };
@@ -45,6 +50,7 @@ export default function SearchInputComponent(
         )}
         value={data}
         onChange={handleChange}
+        onKeyUp={handleKeyEnter}
         {...restProps}
       />
       <button

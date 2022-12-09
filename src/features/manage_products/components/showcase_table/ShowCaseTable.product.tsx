@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import clsx from "clsx";
-import { ISupplierProductItem } from "../../models";
 import ProductNotFoundSectionHome from "../../../products/fragments/product_not_found_section/ProductNotFoundSection";
 import PencilIcon from "@/src/core/ui/icons/pencil/Pencil.icon";
 import HideIcon from "@/src/core/ui/icons/hide/Hide.icon";
-import { useMutateChangeSupplierProductShowQuery } from "../../hooks/useChangeSupplierProductShow";
-export interface IShowCaseTableProductProps {
-  list?: ISupplierProductItem[];
-}
+import { useViewSupplierProductChangeViewProduct } from "../../hooks/useChangeViewSupplierProduct";
+import { useViewSupplierProductGetSupplierProductList } from "../../hooks/useSupplierProduct";
+import { ViewSupplierProductContext } from "../../contexts/view/ViewSupplierProduct.context";
+import VariantShowcaseAccordionManageProduct from "../variant_showcase_accordion/VariantShowcaseAccordion.manage_product";
+import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
+import PaginationComponent from "@/src/core/ui/components/pagination/Pagination.component";
+import { ViewSupplierProductActionEnum } from "../../contexts/view/ViewSupplierProduct.types";
 
-ShowCaseTableProduct.defaultProps = {
-  list: [],
-};
+export interface IShowCaseTableProductProps {}
+
+ShowCaseTableProduct.defaultProps = {};
 
 export default function ShowCaseTableProduct(
   props: IShowCaseTableProductProps
 ) {
-  const { mutate: mutateHideProduct } =
-    useMutateChangeSupplierProductShowQuery();
-  const { list } = props;
+  const { isLoading: isLoadingSupplierProduct } =
+    useViewSupplierProductGetSupplierProductList();
+  const { state, dispatch } = useContext(ViewSupplierProductContext);
+
   const headList = [
     "Gambar",
     "Produk ID",
@@ -28,119 +31,167 @@ export default function ShowCaseTableProduct(
     "Kategori",
     "Pilihan Aksi",
   ];
-  if (!list.length) {
+  const { mutate: hideProduct } = useViewSupplierProductChangeViewProduct();
+
+  if (isLoadingSupplierProduct) {
+    return <div></div>;
+  }
+
+  const isEmptySupplierProduct = !state.items.length;
+  if (isEmptySupplierProduct) {
     return <ProductNotFoundSectionHome />;
   }
 
   const handleClickHide = (e: React.MouseEvent<HTMLButtonElement>) => {
-    mutateHideProduct({ id: parseInt(e.currentTarget.id) });
+    hideProduct({ id: parseInt(e.currentTarget.id) });
   };
+
+  const handleChangeCurrentPage = (data: number) => {
+    dispatch({
+      type: ViewSupplierProductActionEnum.ChangeCurrentPage,
+      payload: data,
+    });
+  };
+
   return (
-    <table className={"w-full"}>
-      <thead>
-        <tr className={clsx("pb-[4px] border-b border-b-bright-gray")}>
-          {headList.map((item, index) => (
-            <th
-              key={index}
-              className={clsx(
-                "h-[6.25rem]",
-                item !== "Pilihan Aksi" ? "text-start" : "text-center"
-              )}
-            >
-              <p
-                className={clsx("text-[1rem] text-bold text-charleston-green")}
-              >
-                {item}
-              </p>
-            </th>
-          ))}
-        </tr>
-      </thead>
+    <div className={clsx("grid grid-cols-1 gap-y-[1.5rem]", "w-full")}>
+      <div
+        className={clsx(
+          "grid grid-cols-7 items-center content-center",
+          "pb-[4px] border-b border-b-bright-gray",
+          "w-full h-[58px] p-[1rem]",
+          "box-border"
+        )}
+      >
+        {headList.map((item, index) => (
+          <p
+            key={index}
+            className={clsx("text-[1rem] font-medium text-charleston-green")}
+          >
+            {item}
+          </p>
+        ))}
+      </div>
 
-      <tbody>
-        {list?.map((item, index) => {
+      <div>
+        {state.items.map((item, index) => {
           return (
-            <tr
+            <div
               key={index}
               className={clsx(
-                "text-center",
-                "bg-white hover:bg-ghost-white",
-                index < list.length - 1 &&
-                  "pb-[4px] border-b border-b-bright-gray"
+                "grid grid-cols-1",
+                "w-full pb-[0.5rem]",
+                index < state.items.length - 1 &&
+                  "border-b border-b-bright-gray"
               )}
             >
-              {Object.keys(item).map((tdKey, tdIndex) => (
-                <td
-                  key={tdIndex}
-                  className={clsx(
-                    "h-[6.25rem]",
-                    "align-middle",
-                    tdKey === "name"
-                      ? "w-[192px]"
-                      : tdKey === "description"
-                      ? "w-[250px]"
-                      : "max-w-[100%]"
-                  )}
-                >
-                  {tdKey === "image" && (
-                    <img
-                      src={item.image}
-                      className={clsx(
-                        "w-[76px] h-[76px] rounded-[0.5rem]",
-                        "object-cover"
-                      )}
-                    />
-                  )}
+              <div
+                className={clsx(
+                  "text-center",
+                  "p-[1rem]",
+                  "grid grid-cols-7 items-center content-center"
+                )}
+              >
+                {Object.keys(item).map((tdKey, tdIndex) => (
+                  <div
+                    key={tdIndex}
+                    className={clsx(
+                      "h-[6.25rem]",
+                      "flex items-center",
 
-                  {tdKey !== "image" && tdKey !== "action" && (
-                    <div
-                      className={clsx(
-                        "overflow-hidden text-ellipsis",
-                        "text-[0.875rem] font-regular text-charleston-green text-start"
-                      )}
-                    >
-                      <p
+                      tdKey === "name"
+                        ? "w-[192px]"
+                        : tdKey === "description"
+                        ? "w-[250px]"
+                        : "max-w-[100%]"
+                    )}
+                  >
+                    {tdKey === "image" && (
+                      <img
+                        src={item.image}
                         className={clsx(
-                          "text-ellipsis",
-                          "text-[0.875rem] font-regular text-charleston-green text-start"
+                          "w-[76px] h-[76px] rounded-[0.5rem]",
+                          "object-cover"
+                        )}
+                      />
+                    )}
+
+                    {tdKey !== "image" &&
+                      tdKey !== "action" &&
+                      tdKey !== "variant" && (
+                        <div
+                          className={clsx(
+                            "overflow-hidden text-ellipsis",
+                            "text-[0.875rem] font-regular text-charleston-green text-start"
+                          )}
+                        >
+                          <p
+                            className={clsx(
+                              "text-ellipsis",
+                              "text-[0.875rem] font-regular text-charleston-green text-start"
+                            )}
+                          >
+                            {item[tdKey]}
+                          </p>
+                        </div>
+                      )}
+
+                    {tdKey === "variant" && (
+                      <div
+                        className={clsx(
+                          "flex items-center justify-center gap-x-[1rem]"
                         )}
                       >
-                        {item[tdKey]}
-                      </p>
-                    </div>
-                  )}
+                        <button id={String(item.product_id)}>
+                          <PencilIcon
+                            className={clsx(
+                              "w-[1.5rem] h-[1.5rem]",
+                              "fill-charleston-green hover:fill-ocean-boat-blue"
+                            )}
+                          />
+                        </button>
 
-                  {tdKey === "action" && (
-                    <div
-                      className={clsx(
-                        "flex items-center justify-center gap-x-[1rem]"
-                      )}
-                    >
-                      <button id={String(item.id)}>
-                        <PencilIcon
-                          className={clsx(
-                            "w-[1.5rem] h-[1.5rem]",
-                            "fill-charleston-green hover:fill-ocean-boat-blue"
-                          )}
-                        />
-                      </button>
+                        <button
+                          id={String(item.product_id)}
+                          onClick={handleClickHide}
+                        >
+                          <HideIcon
+                            className={clsx(
+                              "w-[1.5rem] h-[1.5rem]",
+                              "fill-charleston-green hover:fill-ocean-boat-blue"
+                            )}
+                          />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
 
-                      <button id={String(item.id)} onClick={handleClickHide}>
-                        <HideIcon
-                          className={clsx(
-                            "w-[1.5rem] h-[1.5rem]",
-                            "fill-charleston-green hover:fill-ocean-boat-blue"
-                          )}
-                        />
-                      </button>
-                    </div>
-                  )}
-                </td>
-              ))}
-            </tr>
+              {/* accordion */}
+              {item.variant.list.length > 0 && (
+                <VariantShowcaseAccordionManageProduct
+                  variantItem={item.variant.list}
+                  total={item.variant.total}
+                />
+              )}
+            </div>
           );
         })}
-      </tbody>
-    </table>
+      </div>
+
+      <div className={clsx("flex justify-between items-center", "w-full")}>
+        <ItemCountPaginationComponent
+          firstIndexData={state.item_counts.first_item_index}
+          lastIndexData={state.item_counts.last_item_index}
+          totalItem={state.item_counts.total}
+        />
+        <PaginationComponent
+          totalPage={state.pagination.total_page}
+          currentPage={state.pagination.current_page}
+          onChangePage={handleChangeCurrentPage}
+        />
+      </div>
+    </div>
   );
 }

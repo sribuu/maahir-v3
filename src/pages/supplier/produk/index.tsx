@@ -1,6 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import ViewProductsManageProductsContainer from "@/src/features/manage_products/containers/view_product/ViewProducts.manage_products";
+import { ViewSupplierProductProvider } from "@/src/features/manage_products/contexts/view/ViewSupplierProduct.context";
 
 export interface ISupplierProductManagementPageProps {}
 
@@ -17,7 +18,9 @@ export default function SupplierProductManagementPage(
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-      <ViewProductsManageProductsContainer />
+      <ViewSupplierProductProvider>
+        <ViewProductsManageProductsContainer />
+      </ViewSupplierProductProvider>
     </>
   );
 }
