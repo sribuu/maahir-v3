@@ -1,6 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
-import ViewProductsManageProductsContainer from "@/src/features/manage_products/containers/view_product/ViewProducts.manage_products";
+import EditProductManageProductsContainer from "@/src/features/manage_products/containers/edit_product/EditProduct.manage_products";
+import { EditSupplierProductProvider } from "@/src/features/manage_products/contexts/edit/EditSupplierProduct.context";
 
 export interface ISupplierEditProductPageProps {}
 
@@ -17,7 +18,9 @@ export default function SupplierEditProductPage(
         <title>{header.title}</title>
         <meta name="description" content={header.description} />
       </Head>
-      <ViewProductsManageProductsContainer />
+      <EditSupplierProductProvider>
+        <EditProductManageProductsContainer />
+      </EditSupplierProductProvider>
     </>
   );
 }

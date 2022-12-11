@@ -1,5 +1,5 @@
-import { ReactQueryKey } from "@/src/core/lib/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ViewSupplierProductReactQueryKey } from "../constants";
 import {
   IChangeSupplierProductShowRequest,
   IChangeSupplierProductShowSuccessResponse,
@@ -14,12 +14,15 @@ export const useViewSupplierProductChangeViewProduct = () => {
     IChangeSupplierProductshowErrorResponse,
     IChangeSupplierProductShowRequest
   >(
-    [ReactQueryKey.PostChangeSupplierProductShow],
+    [ViewSupplierProductReactQueryKey.ChangeProductView],
     (data: IChangeSupplierProductShowRequest) =>
       fetchPostChangeSupplierProductShow(data),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([ReactQueryKey.GetSupplierProduct]);
+        queryClient.invalidateQueries(
+          [ViewSupplierProductReactQueryKey.GetSupplierProductList],
+          { exact: false }
+        );
       },
     }
   );

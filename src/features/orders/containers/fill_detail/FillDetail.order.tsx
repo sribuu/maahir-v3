@@ -48,7 +48,6 @@ export default function FillDetailOrderContainer(
     }
   }, [isSuccessMutateOrderItem]);
 
-  console.log(orderItem, "ini apa");
   return (
     <MainLayout>
       <div

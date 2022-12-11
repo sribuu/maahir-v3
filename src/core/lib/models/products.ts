@@ -13,6 +13,7 @@ export interface IProducts {
   retail_price_min: number;
   retail_price_max: number;
   is_priority: boolean;
+  is_show: boolean;
   description: string;
   category_name: string;
   category_id: number;

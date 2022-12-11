@@ -38,9 +38,8 @@ export default function AddProductManageProductsContainer(
           </div>
 
           {/* form */}
-          {/* <div className={clsx("grid grid-cols-2 gap-x-[2rem]", "w-full")}> */}
+
           <AddProductFormManageProduct />
-          {/* </div> */}
         </div>
       </CardComponent>
     </SupplierLayout>

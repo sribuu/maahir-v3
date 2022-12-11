@@ -9,7 +9,7 @@ export const fetchGetSupplierProducts = async (
   await AxiosInterceptor.authRequest();
   return await axios
     .get(
-      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetSupplierProduct}`,
+      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.SupplierProduct}`,
       {
         params: data,
       }

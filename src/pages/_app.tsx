@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Script from "next/script";
 import type { AppProps } from "next/app";
 import "@/src/core/ui/styles/globals.css";
 import {
@@ -6,6 +7,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import * as snippet from "@segment/snippet";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -14,16 +16,28 @@ export default function App({ Component, pageProps }: AppProps) {
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
-            //   staleTime: 20 * 1000,
           },
         },
       })
   );
 
-  // const [queryClient] = useState(() => new QueryClient());
+  const loadSegment = () => {
+    const options = {
+      apiKey: process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY,
+    };
+    if (process.env.NEXT_PUBLIC_NODE_ENV) {
+      return snippet.max(options);
+    } else {
+      return snippet.min(options);
+    }
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Script
+        dangerouslySetInnerHTML={{ __html: loadSegment() }}
+        id={"segmentScript"}
+      />
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
       </Hydrate>

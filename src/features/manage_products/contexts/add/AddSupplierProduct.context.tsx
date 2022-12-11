@@ -3,10 +3,68 @@ import {
   AddSupplierProductActions,
   InitialStateType,
 } from "./AddSupplierProduct.types";
-import { addSupplierProductViralProductsReducer } from "./AddSupplierProduct.reducers";
+import {
+  addSupplierProductImagesReducer,
+  addSupplierProductItemReducer,
+  addSupplierProductVariantReducer,
+} from "./AddSupplierProduct.reducers";
 
 const initialState: InitialStateType = {
-  viral_products: [],
+  item: {
+    name: {
+      value: "",
+    },
+    category: {
+      list: [],
+      value: "",
+    },
+    length: {
+      value: "",
+    },
+    width: {
+      value: "",
+    },
+    height: {
+      value: "",
+    },
+    weight: {
+      value: "",
+    },
+    description: {
+      value: "",
+    },
+    availability: {
+      value: "",
+    },
+  },
+  variant: [
+    {
+      sku: {
+        placeholder: "SKU",
+        value: "",
+      },
+      variant: {
+        placeholder: "Varian",
+        value: "",
+      },
+      price: {
+        placeholder: "Harga",
+        value: "",
+      },
+      stock: {
+        placeholder: "Stock",
+        value: "",
+      },
+      action: {
+        placeholder: "",
+        value: "show",
+      },
+    },
+  ],
+  images: {
+    cover_image_position: 0,
+    list: [],
+  },
 };
 
 const AddSupplierProductContext = createContext<{
@@ -18,13 +76,12 @@ const AddSupplierProductContext = createContext<{
 });
 
 const mainReducer = (
-  { viral_products }: InitialStateType,
+  { item, variant, images }: InitialStateType,
   action: AddSupplierProductActions
 ) => ({
-  viral_products: addSupplierProductViralProductsReducer(
-    viral_products,
-    action
-  ),
+  item: addSupplierProductItemReducer(item, action),
+  variant: addSupplierProductVariantReducer(variant, action),
+  images: addSupplierProductImagesReducer(images, action),
 });
 
 const AddSupplierProductProvider = (props: { children: React.ReactNode }) => {

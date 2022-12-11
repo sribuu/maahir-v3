@@ -1,15 +1,17 @@
 import React, { useContext, useState } from "react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import ProductNotFoundSectionHome from "../../../products/fragments/product_not_found_section/ProductNotFoundSection";
 import PencilIcon from "@/src/core/ui/icons/pencil/Pencil.icon";
 import HideIcon from "@/src/core/ui/icons/hide/Hide.icon";
-import { useViewSupplierProductChangeViewProduct } from "../../hooks/useChangeViewSupplierProduct";
-import { useViewSupplierProductGetSupplierProductList } from "../../hooks/useSupplierProduct";
+import { useViewSupplierProductChangeViewProduct } from "../../hooks/useGetChangeViewSupplierProduct";
+import { useViewSupplierProductGetSupplierProductList } from "../../hooks/useGetSupplierProducts";
 import { ViewSupplierProductContext } from "../../contexts/view/ViewSupplierProduct.context";
 import VariantShowcaseAccordionManageProduct from "../variant_showcase_accordion/VariantShowcaseAccordion.manage_product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
 import PaginationComponent from "@/src/core/ui/components/pagination/Pagination.component";
 import { ViewSupplierProductActionEnum } from "../../contexts/view/ViewSupplierProduct.types";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 
 export interface IShowCaseTableProductProps {}
 
@@ -18,6 +20,7 @@ ShowCaseTableProduct.defaultProps = {};
 export default function ShowCaseTableProduct(
   props: IShowCaseTableProductProps
 ) {
+  const router = useRouter();
   const { isLoading: isLoadingSupplierProduct } =
     useViewSupplierProductGetSupplierProductList();
   const { state, dispatch } = useContext(ViewSupplierProductContext);
@@ -37,7 +40,7 @@ export default function ShowCaseTableProduct(
     return <div></div>;
   }
 
-  const isEmptySupplierProduct = !state.items.length;
+  const isEmptySupplierProduct = !state.items?.length;
   if (isEmptySupplierProduct) {
     return <ProductNotFoundSectionHome />;
   }
@@ -53,6 +56,12 @@ export default function ShowCaseTableProduct(
     });
   };
 
+  const handleClickEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    router.push({
+      pathname: RouterPathName.SupplierEditProduct,
+      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
+    });
+  };
   return (
     <div className={clsx("grid grid-cols-1 gap-y-[1.5rem]", "w-full")}>
       <div
@@ -142,7 +151,10 @@ export default function ShowCaseTableProduct(
                           "flex items-center justify-center gap-x-[1rem]"
                         )}
                       >
-                        <button id={String(item.product_id)}>
+                        <button
+                          id={String(item.product_id)}
+                          onClick={handleClickEdit}
+                        >
                           <PencilIcon
                             className={clsx(
                               "w-[1.5rem] h-[1.5rem]",

@@ -18,9 +18,12 @@ export enum APIUrlPath {
   RefreshToken = "/v2/session",
   // supplier
   GetSupplierStatistic = "/api/v1/maahir/supplier/balances/statistic",
+  PostUpdateSupplierProfile = "/api/v1/maahir/supplier/profile",
   PutUpdateSupplierProfile = "/api/v1/maahir/supplier/profile",
   GetSupplierProfile = "/api/v1/maahir/supplier/profile",
-  GetSupplierProduct = "/api/v1/maahir/supplier/products",
+  SupplierProduct = "/api/v1/maahir/supplier/products",
+  SupplierProductById = "/api/v1/maahir/supplier/products/view",
+  UploadSupplierProductImages = "/api/v1/maahir/supplier/products/insert-image",
   PostChangeSupplierProductShow = "/api/v1/maahir/supplier/products/change-show",
   PostWithdrawBalance = "/api/v1/maahir/supplier/balances/withdrawal",
 }

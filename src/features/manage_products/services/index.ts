@@ -1,2 +1,3 @@
 export * from "./fetchGetSupplierProducts";
-export * from "./fetchPostSupplierChangeProductShow";
+export * from "./fetchGetChangeSupplierProductShow";
+export * from "./fetchPostUploadSupplierProductImage";

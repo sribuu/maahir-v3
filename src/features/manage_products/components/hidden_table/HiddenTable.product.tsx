@@ -3,8 +3,8 @@ import clsx from "clsx";
 import ProductNotFoundSectionHome from "../../../products/fragments/product_not_found_section/ProductNotFoundSection";
 import PencilIcon from "@/src/core/ui/icons/pencil/Pencil.icon";
 import HideIcon from "@/src/core/ui/icons/hide/Hide.icon";
-import { useViewSupplierProductChangeViewProduct } from "../../hooks/useChangeViewSupplierProduct";
-import { useViewSupplierProductGetSupplierProductList } from "../../hooks/useSupplierProduct";
+import { useViewSupplierProductChangeViewProduct } from "../../hooks/useGetChangeViewSupplierProduct";
+import { useViewSupplierProductGetSupplierProductList } from "../../hooks/useGetSupplierProducts";
 import { ViewSupplierProductContext } from "../../contexts/view/ViewSupplierProduct.context";
 import VariantHiddenAccordionManageProduct from "../variant_hidden_accordion/VariantHiddenAccordion.manage_product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
@@ -35,7 +35,7 @@ export default function HiddenTableProduct(props: IHiddenTableProductProps) {
     return <div></div>;
   }
 
-  const isEmptySupplierProduct = !state.items.length;
+  const isEmptySupplierProduct = !state.items?.length;
   if (isEmptySupplierProduct) {
     return <ProductNotFoundSectionHome />;
   }

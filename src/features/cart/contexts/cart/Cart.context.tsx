@@ -1,15 +1,7 @@
 import { createContext, useReducer, Dispatch, useEffect } from "react";
-import { ICart } from "@/src/core/lib/models";
-import { CartActions, CartActionsTypes, itemsReducer } from "./Cart.reducers";
-import { useCartGetCartItemsQuery } from "../../hooks/useCartItems";
+import { CartActions, itemsReducer } from "./Cart.reducers";
 
-type InitialStateType = {
-  cart: {
-    is_empty: boolean;
-    selected_items: number[];
-    items: ICart[];
-  };
-};
+import { InitialStateType } from "./Cart.types";
 
 const initialState: InitialStateType = {
   cart: {
@@ -33,15 +25,6 @@ const mainReducer = ({ cart }: InitialStateType, action: CartActions) => ({
 
 const CartProvider = (props: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
-
-  const { data } = useCartGetCartItemsQuery();
-
-  useEffect(() => {
-    if (data !== undefined) {
-      dispatch({ type: CartActionsTypes.CheckItemIsEmpty, payload: data });
-      dispatch({ type: CartActionsTypes.SetItems, payload: data });
-    }
-  }, [data]);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>

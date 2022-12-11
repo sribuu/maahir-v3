@@ -16,7 +16,6 @@ export const fetchSupplierStatistic = async () => {
       return res.data;
     })
     .catch((err) => {
-      console.log(JSON.parse(JSON.stringify(err)), "ini error statistic");
       throw err.response.data;
     });
 };

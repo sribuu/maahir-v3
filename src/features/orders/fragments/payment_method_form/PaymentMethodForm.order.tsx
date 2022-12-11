@@ -33,10 +33,10 @@ export default function PaymentMethodFormOrder(
 
   //   mutate from props
   useEffect(() => {
-    if (props.selected.length > 0) {
-      setSelected(props.selected);
+    if (props?.selected?.length > 0) {
+      setSelected(props?.selected);
     }
-  }, [props.selected]);
+  }, [props?.selected]);
 
   return (
     <form

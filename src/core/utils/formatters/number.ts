@@ -11,6 +11,10 @@ export const numberFormatters = {
     const result = data.split(".").join("");
     return result;
   },
+  thousandSeparatorToNumber(data: string) {
+    const result = data.split(".").join("");
+    return result;
+  },
   withRpLabel(data: string) {
     return `Rp${data}`;
   },

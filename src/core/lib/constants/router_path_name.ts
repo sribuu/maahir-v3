@@ -16,6 +16,6 @@ export enum RouterPathName {
   SupplierOrderManagement = "/supplier/kelola-pesanan",
   SupplierProductManagement = "/supplier/produk",
   SupplierAddProduct = "/supplier/produk/tambah",
-  SupplierEditProduct = "/supplier/produk/edit",
+  SupplierEditProduct = "/supplier/produk/edit/[productId]",
   SupplierBalanceManagement = "/supplier/kelola-saldo",
 }

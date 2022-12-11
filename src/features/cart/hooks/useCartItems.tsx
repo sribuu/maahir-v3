@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ReactQueryKey } from "@/src/core/lib/constants";
 import { ICart } from "@/src/core/lib/models";
 import { fetchCartItem } from "@/src/core/lib/storage";
@@ -6,9 +7,26 @@ import { useContext } from "react";
 import { CartReactQueryKey } from "../constants";
 import { CartContext } from "../contexts/cart/Cart.context";
 import { fetchSaveItemInCart } from "../services";
+import { CartActionsTypes } from "../contexts/cart/Cart.types";
 
-export const useCartGetCartItemsQuery = () =>
-  useQuery<ICart[]>([CartReactQueryKey.GetCartItems], fetchCartItem);
+export const useCartGetCartItemsQuery = () => {
+  const { dispatch } = useContext(CartContext);
+  const query = useQuery<ICart[]>(
+    [CartReactQueryKey.GetCartItems],
+    fetchCartItem
+  );
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      dispatch({
+        type: CartActionsTypes.CheckItemIsEmpty,
+        payload: query.data,
+      });
+      dispatch({ type: CartActionsTypes.SetItems, payload: query.data });
+    }
+  }, [query.isFetching]);
+  return query;
+};
 
 export const useCartRemoveCartItemByIdQuery = () => {
   const { state } = useContext(CartContext);
@@ -83,13 +101,12 @@ export const useCartSaveCartItemQuantityByIdQuery = () => {
     [CartReactQueryKey.SaveCartQuantityItems],
     (data: { id: number; value: number }) => {
       const result = state.cart.items.map((item) => {
-        console.log(item.id === data.id, "ini data id");
         return {
           ...item,
           amount: item.id === data.id ? data.value : item.amount,
         };
       });
-      console.log(result, "ini result");
+
       return fetchSaveItemInCart(result);
     },
     {

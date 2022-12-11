@@ -38,6 +38,7 @@ module.exports = {
     }),
 
     colors: {
+      black: "#000000",
       platinum: "#DFE3E8",
       verdigris: "#59c4af",
       "caribbean-green": "#00D6A1",

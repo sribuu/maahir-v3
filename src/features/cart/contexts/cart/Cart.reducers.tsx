@@ -1,17 +1,7 @@
 import { ICart } from "@/src/core/lib/models";
+import { CartItemsActions } from "./Cart.types";
 
-type ActionMap<M extends { [index: string]: any }> = {
-  [Key in keyof M]: M[Key] extends undefined
-    ? {
-        type: Key;
-      }
-    : {
-        type: Key;
-        payload: M[Key];
-      };
-};
-
-export type CartActions = ItemsActions;
+export type CartActions = CartItemsActions;
 
 export enum CartActionsTypes {
   // items
@@ -24,18 +14,6 @@ export enum CartActionsTypes {
 }
 
 // Items
-
-type ItemsPayload = {
-  [CartActionsTypes.SetItems]: ICart[];
-  [CartActionsTypes.SelectItem]: number;
-  [CartActionsTypes.SelectAllItems]: undefined;
-  [CartActionsTypes.ChangeNoteItem]: { id: number; note: string };
-  [CartActionsTypes.ClearSelectedItem]: undefined;
-  [CartActionsTypes.CheckItemIsEmpty]: ICart[];
-};
-
-export type ItemsActions =
-  ActionMap<ItemsPayload>[keyof ActionMap<ItemsPayload>];
 
 export const itemsReducer = (
   state: { is_empty: boolean; selected_items: number[]; items: ICart[] },
