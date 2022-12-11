@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "@tanstack/react-query";
@@ -17,15 +17,23 @@ import {
   RouterQueryKey,
 } from "@/src/core/lib/constants";
 import {
-  useDeleteOrderItemQuery,
   useMutateOrderProduct,
   useRemoveOrderItem,
 } from "../../hooks/useOrderItem";
 import { useBuyItemNow, useShoppingSummary } from "../../hooks/useBuyNowState";
+import { ResellerOrderBuyNowContext } from "../../contexts/buy_now/BuyNow.context";
+import { useBuyNowGetProductById } from "../../hooks/useGetProductById";
 
 export interface IBuyNowContainerProps {}
 
 export default function BuyNowContainer(props: IBuyNowContainerProps) {
+  const { isLoading: isLoadingGetProductById } = useBuyNowGetProductById();
+  const { state } = useContext(ResellerOrderBuyNowContext);
+
+  if (isLoadingGetProductById) {
+    return <div></div>;
+  }
+  // old
   const router = useRouter();
 
   const { isSuccess } = useRemoveOrderItem();

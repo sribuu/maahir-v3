@@ -7,6 +7,7 @@ import { useAddSupplierProductsGetCategoryList } from "../../hooks/useGetProduct
 import AddItemFormManageProduct from "../add_item_form/AddItemForm.manage_product";
 import AddVariantFormManageProduct from "../add_variant_form/AddVariantForm.manage_product";
 import { AddSupplierProductActionEnum } from "../../contexts/add/AddSupplierProduct.types";
+import InvalidImageUploadlModalManageProduct from "../invalid_image_upload_modal/InvalidImageUpload.manage_product";
 
 export interface IAddProductFormManageProductProps {}
 
@@ -17,7 +18,13 @@ export default function AddProductFormManageProduct(
     useAddSupplierProductsGetCategoryList();
   const { state, dispatch } = useContext(AddSupplierProductContext);
   const handleErrorUpload = (error: { message: string }) => {
-    // console.log("ini error", error);
+    dispatch({
+      type: AddSupplierProductActionEnum.SetErrorImages,
+      payload: {
+        status: true,
+        message: error.message,
+      },
+    });
   };
 
   if (isLoadingGetCategoryList) {
@@ -91,6 +98,7 @@ export default function AddProductFormManageProduct(
           {"Simpan Produk"}
         </button>
       </div>
+      <InvalidImageUploadlModalManageProduct />
     </form>
   );
 }

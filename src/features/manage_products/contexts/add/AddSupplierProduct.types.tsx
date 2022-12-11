@@ -70,6 +70,10 @@ export interface IAddSupplierProductVariant {
 
 export interface IAddSupplierProductImages {
   cover_image_position: number;
+  error: {
+    status: boolean;
+    message: string;
+  };
   list: {
     // position: number;
     // file_format: string;
@@ -104,6 +108,7 @@ export enum AddSupplierProductActionEnum {
 
   //   image form
   SetImages = "SetImages",
+  SetErrorImages = "SetErrorImages",
   SetCoverImage = "SetCoverImage",
   SetImageList = "SetImageList",
 }
@@ -151,6 +156,10 @@ export type AddSupplierProductVariantActions =
 // Images
 type AddSupplierProductImagesPayload = {
   [AddSupplierProductActionEnum.SetImages]: IAddSupplierProductImages;
+  [AddSupplierProductActionEnum.SetErrorImages]: {
+    status: boolean;
+    message: string;
+  };
   [AddSupplierProductActionEnum.SetCoverImage]: number;
   [AddSupplierProductActionEnum.SetImageList]: {
     base64: string;

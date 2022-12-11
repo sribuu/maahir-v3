@@ -5,6 +5,7 @@ import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 import BuyNowContainer from "@/src/features/orders/containers/buy_now";
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
+import { ResellerOrderBuyNowProvider } from "@/src/features/orders/contexts/buy_now/BuyNow.context";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();
@@ -48,7 +49,9 @@ export default function YourOrderPage(props: IYourOrderPageProps) {
         <meta name="description" content={header.description} />
       </Head>
 
-      <BuyNowContainer />
+      <ResellerOrderBuyNowProvider>
+        <BuyNowContainer />
+      </ResellerOrderBuyNowProvider>
     </>
   );
 }

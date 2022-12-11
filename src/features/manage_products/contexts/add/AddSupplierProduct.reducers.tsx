@@ -207,6 +207,14 @@ export const addSupplierProductImagesReducer = (
   switch (action.type) {
     case AddSupplierProductActionEnum.SetImages:
       return action.payload;
+    case AddSupplierProductActionEnum.SetErrorImages:
+      return {
+        ...state,
+        error: {
+          ...state.error,
+          ...action.payload,
+        },
+      };
     case AddSupplierProductActionEnum.SetCoverImage:
       return {
         ...state,

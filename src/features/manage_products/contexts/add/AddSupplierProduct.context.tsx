@@ -62,6 +62,10 @@ const initialState: InitialStateType = {
     },
   ],
   images: {
+    error: {
+      status: true,
+      message: "",
+    },
     cover_image_position: 0,
     list: [],
   },
