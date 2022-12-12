@@ -20,15 +20,18 @@ import {
   useMutateOrderProduct,
   useRemoveOrderItem,
 } from "../../hooks/useOrderItem";
-import { useBuyItemNow, useShoppingSummary } from "../../hooks/useBuyNowState";
+// import { useShoppingSummary } from "../../hooks/useBuyNowState";
 import { ResellerOrderBuyNowContext } from "../../contexts/buy_now/BuyNow.context";
 import { useBuyNowGetProductById } from "../../hooks/useGetProductById";
+import { ResellerOrderBuyNowActionEnum } from "../../contexts/buy_now/BuyNow.types";
+import { useBuyNowSaveOrderProcess } from "../../hooks/usePostSaveOrderProcess";
 
 export interface IBuyNowContainerProps {}
 
 export default function BuyNowContainer(props: IBuyNowContainerProps) {
   const { isLoading: isLoadingGetProductById } = useBuyNowGetProductById();
-  const { state } = useContext(ResellerOrderBuyNowContext);
+  const { mutate: saveOrderProcess } = useBuyNowSaveOrderProcess();
+  const { state, dispatch } = useContext(ResellerOrderBuyNowContext);
 
   if (isLoadingGetProductById) {
     return <div></div>;
@@ -36,61 +39,46 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
   // old
   const router = useRouter();
 
-  const { isSuccess } = useRemoveOrderItem();
-
-  const orderId = String(uuid());
-
-  const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
-    useMutateOrderProduct();
-
-  const { data: productByIdData, isLoading } = useQuery<IProducts>({
-    queryKey: [ReactQueryKey.GetProductById],
-    queryFn: () =>
-      fetchProductById({
-        id: parseInt(String(router.query[RouterQueryKey.ProductId])),
-      }),
-  });
-
-  const { buyNowItem, onSubstract, onAdd, onChangeNotes } = useBuyItemNow();
-  const { shoppingSummary } = useShoppingSummary({
-    quantity: buyNowItem.quantity,
-    price: productByIdData.price,
-  });
-
   const handleClickCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push(PRODUCT_LINK);
+    router.push(RouterPathName.AllProducts);
   };
 
   const handleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    mutateOrderItem({
-      order_id: orderId,
-      orders: [
-        {
-          name: productByIdData.title,
-          product_id: parseInt(String(router.query[RouterQueryKey.ProductId])),
-          quantity: buyNowItem.quantity,
-          notes: buyNowItem.notes,
-          price: productByIdData.price,
-          image: productByIdData.image,
-        },
-      ],
-    });
+    saveOrderProcess();
   };
 
-  if (isLoading) {
-    return <div />;
-  }
-
-  useEffect(() => {
-    if (isSuccessMutateOrderItem) {
-      router.replace({
-        pathname: RouterPathName.FillOrderDetail,
-        query: {
-          [RouterQueryKey.ProductId]: orderId,
-        },
-      });
-    }
-  }, [isSuccessMutateOrderItem]);
+  const handleSubstract = (data: number) => {
+    dispatch({
+      type: ResellerOrderBuyNowActionEnum.SetItemQuantity,
+      payload: data,
+    });
+    dispatch({
+      type: ResellerOrderBuyNowActionEnum.SetSummaryQuantity,
+      payload: {
+        price: state.price,
+        quantity: data,
+      },
+    });
+  };
+  const handleAdd = (data: number) => {
+    dispatch({
+      type: ResellerOrderBuyNowActionEnum.SetItemQuantity,
+      payload: data,
+    });
+    dispatch({
+      type: ResellerOrderBuyNowActionEnum.SetSummaryQuantity,
+      payload: {
+        price: state.price,
+        quantity: data,
+      },
+    });
+  };
+  const handleChangeNotes = (data: string) => {
+    dispatch({
+      type: ResellerOrderBuyNowActionEnum.SetItemNotes,
+      payload: data,
+    });
+  };
 
   return (
     <MainLayout>
@@ -124,20 +112,21 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
           >
             <div>
               <BuyNowItemCardOrder
-                name={productByIdData.title}
-                productSrc={productByIdData.image}
-                price={thousandSeparator(productByIdData.price)}
-                quantity={buyNowItem.quantity}
-                onSubstract={onSubstract}
-                onAdd={onAdd}
-                onChangeNotes={onChangeNotes}
+                name={state.item.name}
+                productSrc={state.item.image}
+                price={state.item.price}
+                quantity={state.item.quantity}
+                notes={state.item.notes}
+                onSubstract={handleSubstract}
+                onAdd={handleAdd}
+                onChangeNotes={handleChangeNotes}
               />
             </div>
 
             <ShoppingSummaryCardOrder
-              quantity={buyNowItem.quantity}
-              subTotalPrice={shoppingSummary.subTotalPrice}
-              totalPrice={shoppingSummary.totalPrice}
+              quantity={state.summary.quantity}
+              subTotalPrice={state.summary.sub_total_price}
+              totalPrice={state.summary.total_price}
               onCancel={handleClickCancel}
               onSubmit={handleClickSubmit}
             />

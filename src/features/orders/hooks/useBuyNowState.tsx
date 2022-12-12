@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
-export const useBuyItemNow = () => {
-  const [buyNowItem, setBuyNowItem] = useState({
-    quantity: 1,
-    notes: "",
-  });
-  const onSubstract = (data: number) => {
-    setBuyNowItem((state) => (state = { ...state, quantity: data }));
-  };
-  const onAdd = (data: number) => {
-    setBuyNowItem((state) => (state = { ...state, quantity: data }));
-  };
-  const onChangeNotes = (data: string) => {
-    setBuyNowItem((state) => (state = { ...state, notes: data }));
-  };
+// export const useBuyItemNow = () => {
+//   const [buyNowItem, setBuyNowItem] = useState({
+//     quantity: 1,
+//     notes: "",
+//   });
+//   const onSubstract = (data: number) => {
+//     setBuyNowItem((state) => (state = { ...state, quantity: data }));
+//   };
+//   const onAdd = (data: number) => {
+//     setBuyNowItem((state) => (state = { ...state, quantity: data }));
+//   };
+//   const onChangeNotes = (data: string) => {
+//     setBuyNowItem((state) => (state = { ...state, notes: data }));
+//   };
 
-  return {
-    buyNowItem,
-    onSubstract,
-    onAdd,
-    onChangeNotes,
-  };
-};
+//   return {
+//     buyNowItem,
+//     onSubstract,
+//     onAdd,
+//     onChangeNotes,
+//   };
+// };
 
 export const useShoppingSummary = (item: {
   quantity: number;

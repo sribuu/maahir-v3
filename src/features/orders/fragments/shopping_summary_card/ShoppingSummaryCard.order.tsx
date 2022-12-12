@@ -6,8 +6,8 @@ import { thousandSeparator } from "@/src/core/utils/formatters";
 export interface IShoppingSummaryCardOrderProps {
   title?: string;
   quantity?: number;
-  totalPrice?: number;
-  subTotalPrice?: number;
+  totalPrice?: string;
+  subTotalPrice?: string;
   onCancel?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onSubmit?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -32,8 +32,8 @@ export default function ShoppingSummaryCardOrder(
   const { title, quantity, totalPrice, subTotalPrice, onCancel, onSubmit } =
     props;
 
-  const totalSubPriceFormatted = thousandSeparator(subTotalPrice);
-  const totalPriceFormatted = thousandSeparator(totalPrice);
+  // const totalSubPriceFormatted = thousandSeparator(subTotalPrice);
+  // const totalPriceFormatted = thousandSeparator(totalPrice);
   const quantityFormatted = formatQuantityDisplay(quantity);
 
   return (
@@ -65,7 +65,7 @@ export default function ShoppingSummaryCardOrder(
             </p>
           </div>
           <p className={clsx("text-base text-charleston-green font-bold")}>
-            {totalSubPriceFormatted}
+            {props.subTotalPrice}
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function ShoppingSummaryCardOrder(
             {"Total Pembayaran"}
           </p>
           <p className={clsx("text-base text-charleston-green font-bold")}>
-            {totalPriceFormatted}
+            {props.totalPrice}
           </p>
         </div>
 
@@ -90,11 +90,7 @@ export default function ShoppingSummaryCardOrder(
           >
             {"Batalkan"}
           </ButtonComponent>
-          <ButtonComponent
-            intent={"primary"}
-            size={"large"}
-            onClick={onSubmit}
-          >
+          <ButtonComponent intent={"primary"} size={"large"} onClick={onSubmit}>
             {"Pilih Metode Pembayaran"}
           </ButtonComponent>
         </div>

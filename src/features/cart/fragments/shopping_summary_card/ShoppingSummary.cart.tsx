@@ -23,42 +23,42 @@ export default function ShoppingSummaryCardCart(
 ) {
   const router = useRouter();
   const { state } = useContext(CartContext);
-  const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
-    useMutateOrderProduct();
+  // const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
+  //   useMutateOrderProduct();
 
   const orderId = String(uuid());
   const handleSelectPaymentMethod = () => {
-    mutateOrderItem({
-      order_id: orderId,
-      orders: state.cart.items
-        .filter((item) => state.cart.selected_items.includes(item.id))
-        .map((item) => {
-          return {
-            name: item.title,
-            product_id: item.id,
-            quantity: item.amount,
-            notes: item.note,
-            price: item.price,
-            image: item.image,
-          };
-        }),
-    });
+    // mutateOrderItem({
+    //   order_id: orderId,
+    //   orders: state.cart.items
+    //     .filter((item) => state.cart.selected_items.includes(item.id))
+    //     .map((item) => {
+    //       return {
+    //         name: item.title,
+    //         product_id: item.id,
+    //         quantity: item.amount,
+    //         notes: item.note,
+    //         price: item.price,
+    //         image: item.image,
+    //       };
+    //     }),
+    // });
   };
 
   const handleClickCancel = () => {
     //
     router.push(RouterPathName.AllProducts);
   };
-  useEffect(() => {
-    if (isSuccessMutateOrderItem) {
-      router.replace({
-        pathname: RouterPathName.FillOrderDetail,
-        query: {
-          [RouterQueryKey.ProductId]: orderId,
-        },
-      });
-    }
-  }, [isSuccessMutateOrderItem]);
+  // useEffect(() => {
+  //   if (isSuccessMutateOrderItem) {
+  //     router.replace({
+  //       pathname: RouterPathName.FillOrderDetail,
+  //       query: {
+  //         [RouterQueryKey.ProductId]: orderId,
+  //       },
+  //     });
+  //   }
+  // }, [isSuccessMutateOrderItem]);
   return (
     <div
       className={clsx(
