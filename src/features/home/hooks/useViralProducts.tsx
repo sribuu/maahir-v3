@@ -11,11 +11,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ResellerHomeContext } from "../contexts/Home.context";
 import { ResellerHomeActionEnum } from "../contexts/Home.types";
 import { thousandSeparator } from "@/src/core/utils/formatters";
+import { IResellerHomeGetProductsItemResponse } from "../models/get_products";
 
 export const useResellerHomeGetViralProducts = () => {
   const { dispatch } = useContext(ResellerHomeContext);
 
-  const query = useQuery<IProducts[]>(
+  const query = useQuery<IResellerHomeGetProductsItemResponse>(
     [ResellerHomeReactQueryKey.GetHighlightProducts],
     fetchHighlightProducts,
     {
@@ -25,7 +26,7 @@ export const useResellerHomeGetViralProducts = () => {
 
   useEffect(() => {
     if (query.isSuccess) {
-      const payload = query.data.map((item) => {
+      const payload = query.data.products.map((item) => {
         return {
           id: String(item.id),
           name: item.title,
