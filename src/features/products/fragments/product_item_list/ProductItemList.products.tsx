@@ -78,6 +78,7 @@ export default function ProductItemListProducts(
   const handleAddToCart = (data: number) => {
     addProductToCart(data);
   };
+  console.log(state.pagination.total_page, "ini total page");
   return (
     <div
       className={clsx(
@@ -108,8 +109,17 @@ export default function ProductItemListProducts(
       </div>
 
       <div className={clsx("flex items-center justify-between", "w-full")}>
-        <ItemCountPaginationComponent />
-        <PaginationComponent onChangePage={handleChangeCurrentPage} />
+        <ItemCountPaginationComponent
+          firstIndexData={state.item_counts.first_item_index}
+          lastIndexData={state.item_counts.last_item_index}
+          totalItem={state.item_counts.total}
+        />
+        <PaginationComponent
+          sibblingCount={1}
+          currentPage={state.pagination.current_page}
+          totalPage={state.pagination.total_page}
+          onChangePage={handleChangeCurrentPage}
+        />
       </div>
     </div>
   );

@@ -281,6 +281,7 @@ export default function PaginationComponent(props: IPaginationComponentProps) {
       props.onChangePage(currentPage);
     }
   }, [currentPage]);
+
   return (
     <div className={clsx("flex gap-x-[0.5rem] items-center justify-between")}>
       <button

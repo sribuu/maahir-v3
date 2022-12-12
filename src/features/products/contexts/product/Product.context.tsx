@@ -13,15 +13,23 @@ const initialState: InitialStateType = {
     category: "",
     description: "",
     profit: "",
-    price: "",
     max_price: "",
     min_price: "",
     variant: {
-      list: [],
-      selected: "",
+      name: {
+        selected: "",
+        list: [],
+      },
+      stock: {
+        selected: 0,
+        list: [],
+      },
+      price: {
+        selected: "",
+        list: [],
+      },
     },
     quantity: 0,
-    stock: 0,
   },
 };
 

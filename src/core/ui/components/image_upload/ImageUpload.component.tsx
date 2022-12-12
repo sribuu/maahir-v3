@@ -94,7 +94,6 @@ export default function ImageUploadComponent(
     let isCancel = false;
     if (imageFiles.length > 0) {
       imageFiles.forEach((file) => {
-        console.log(file.type, "ini format");
         const fileReader = new FileReader();
         fileReaders.push(fileReader);
         fileReader.onload = (e) => {

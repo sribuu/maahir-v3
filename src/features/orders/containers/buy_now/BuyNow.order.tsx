@@ -1,26 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
-
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import BuyNowItemCardOrder from "@/src/features/orders/fragments/buy_now_item_card/BuyNowItemCard.order";
 import ShoppingSummaryCardOrder from "@/src/features/orders/fragments/shopping_summary_card/ShoppingSummaryCard.order";
-import { fetchProductById } from "@/src/core/lib/api/dynamic";
-import { IProducts } from "@/src/core/lib/models";
-import { thousandSeparator } from "@/src/core/utils/formatters";
-import { v4 as uuid } from "uuid";
-import {
-  PRODUCT_LINK,
-  ReactQueryKey,
-  RouterPathName,
-  RouterQueryKey,
-} from "@/src/core/lib/constants";
-import {
-  useMutateOrderProduct,
-  useRemoveOrderItem,
-} from "../../hooks/useOrderItem";
-// import { useShoppingSummary } from "../../hooks/useBuyNowState";
+import { RouterPathName } from "@/src/core/lib/constants";
 import { ResellerOrderBuyNowContext } from "../../contexts/buy_now/BuyNow.context";
 import { useBuyNowGetProductById } from "../../hooks/useGetProductById";
 import { ResellerOrderBuyNowActionEnum } from "../../contexts/buy_now/BuyNow.types";
@@ -32,12 +16,11 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
   const { isLoading: isLoadingGetProductById } = useBuyNowGetProductById();
   const { mutate: saveOrderProcess } = useBuyNowSaveOrderProcess();
   const { state, dispatch } = useContext(ResellerOrderBuyNowContext);
+  const router = useRouter();
 
   if (isLoadingGetProductById) {
     return <div></div>;
   }
-  // old
-  const router = useRouter();
 
   const handleClickCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push(RouterPathName.AllProducts);
@@ -60,6 +43,7 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
       },
     });
   };
+
   const handleAdd = (data: number) => {
     dispatch({
       type: ResellerOrderBuyNowActionEnum.SetItemQuantity,
@@ -73,6 +57,7 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
       },
     });
   };
+
   const handleChangeNotes = (data: string) => {
     dispatch({
       type: ResellerOrderBuyNowActionEnum.SetItemNotes,

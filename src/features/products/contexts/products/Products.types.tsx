@@ -14,6 +14,7 @@ export interface InitialStateType {
   items: IProductItems[];
   pagination: IProductsPagination;
   filters: IProductsFilter;
+  item_counts: IProductsItemCounts;
 }
 // Action Collection Types consist of:
 export interface IProductItems {
@@ -41,6 +42,12 @@ export interface IProductsFilter {
   };
 }
 
+export interface IProductsItemCounts {
+  first_item_index: number;
+  last_item_index: number;
+  total: number;
+}
+
 // Actions Enum Group
 export enum ProductsActionEnum {
   SetProductItems = "SetProductItems",
@@ -50,13 +57,15 @@ export enum ProductsActionEnum {
   SetCategoryFilterList = "SetCategoryFilterList",
   FilterProductsByPrice = "FilterProductsByPrice",
   FilterProductsByCategory = "FilterProductsByCategory",
+  SetItemCounts = "SetItemCounts",
 }
 
 // Action Collection Types
 export type ProductsActions =
   | ProductItemsActions
   | ProductsPaginationActions
-  | ProductsFilterActions;
+  | ProductsFilterActions
+  | ProductItemCountsActions;
 
 // Action Collection Types consist of:
 // Product Items
@@ -86,3 +95,11 @@ type ProductsFilterPayload = {
 
 export type ProductsFilterActions =
   ActionMap<ProductsFilterPayload>[keyof ActionMap<ProductsFilterPayload>];
+
+// Item Counts
+type ProductsItemCountsPayload = {
+  [ProductsActionEnum.SetItemCounts]: IProductsItemCounts;
+};
+
+export type ProductItemCountsActions =
+  ActionMap<ProductsItemCountsPayload>[keyof ActionMap<ProductsItemCountsPayload>];

@@ -7,6 +7,7 @@ import {
   IProductGetPriceCategory,
   IProductGetProductCategory,
   IProductGetProductsItemRequest,
+  IProductGetProductsItemResponse,
 } from "../models";
 import { fetchProductGetProducstItem } from "../services/fetchGetProductItems";
 import { ProductsContext } from "../contexts/products/Products.context";
@@ -82,7 +83,7 @@ export const useProductsGetProductItems = () => {
   }, [state.pagination.current_page]);
 
   // Query
-  const query = useQuery<IProducts[]>(
+  const query = useQuery<IProductGetProductsItemResponse>(
     [ProductsReactQueryKey.GetProductItems, payload],
     () => {
       return fetchProductGetProducstItem(payload);
@@ -94,8 +95,8 @@ export const useProductsGetProductItems = () => {
 
   // Data Transformation
   useEffect(() => {
-    if (query.isSuccess) {
-      const payload: IProductItems[] = query.data.map((item) => {
+    if (!query.isFetching) {
+      const payload: IProductItems[] = query.data.products.map((item) => {
         return {
           id: String(item.id),
           name: item.title,
@@ -106,81 +107,38 @@ export const useProductsGetProductItems = () => {
       });
       dispatch({ type: ProductsActionEnum.SetProductItems, payload: payload });
     }
-  }, [query.isSuccess]);
+  }, [query.isFetching]);
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (!query.isFetching) {
       const payload: IProductsPagination = {
-        sibbling_count: state.pagination.sibbling_count,
-        // TODO: replace ketika be update
-        total_page: state.pagination.total_page,
-        current_page: state.pagination.current_page,
+        ...state.pagination,
+        total_page: Math.floor(query?.data?.total / 20) + 1,
       };
       dispatch({
         type: ProductsActionEnum.SetProductsPagination,
         payload: payload,
       });
     }
-  }, [query.isSuccess]);
-  return query;
-};
-
-// PRODUCT
-export const useProductGetProductItem = () => {
-  const router = useRouter();
-  const id = parseInt(String(router.query[RouterQueryKey.ProductId]));
-  const { dispatch } = useContext(ProductContext);
-
-  const query = useQuery<IProducts>(
-    [ProductReactQueryKey.GetProductById, id],
-    () => {
-      return fetchProductGetProductById({
-        id: id,
-      });
-    }
-  );
+  }, [query.isFetching]);
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (!query.isFetching) {
+      const limit = 16;
+
       dispatch({
-        type: ProductActionEnum.SetImage,
+        type: ProductsActionEnum.SetItemCounts,
         payload: {
-          large: query.data.image,
-          // TODO: change this when push
-          // list: query.data.detail_images,
-          list: [
-            "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/lemonilo-logo.png",
-            "https://shop.maahir.co.id/storage/292/8NhHI5LXtk18wRiXMwuvKvxdKb3mhl-metaU3VhcmFzYSB4IE1hYWhpci0yLnBuZw==-.png",
-            "https://shop.maahir.co.id/storage/297/yiMnYvgRbN6WTLYudwPqlOkLQ9KfPo-metaUGFrZXQgS2VtZWphIFZpcmFsLTIucG5n-.png",
-          ],
+          ...state.pagination,
+          first_item_index: (state.pagination.current_page - 1) * limit + 1,
+          last_item_index:
+            query.data.total - limit * state.pagination.current_page > 0
+              ? limit
+              : query.data.total - limit * state.pagination.current_page,
+          total: query?.data?.total,
         },
       });
     }
-  }, [query.isSuccess]);
-
-  useEffect(() => {
-    if (query.isSuccess) {
-      dispatch({
-        type: ProductActionEnum.SetDetail,
-        payload: {
-          id: String(query.data.id),
-          name: query.data.title,
-          category: query.data.category_name,
-          description: query.data.description,
-          profit: thousandSeparator(query.data.profit_value),
-          price: thousandSeparator(query.data.price),
-          max_price: thousandSeparator(query.data.retail_price_max),
-          min_price: thousandSeparator(query.data.retail_price_min),
-          // TODO: change this when be is ready
-          variant: {
-            list: ["White", "Black", "Blue"],
-            selected: "White",
-          },
-          quantity: 1,
-          stock: query.data.stock,
-        },
-      });
-    }
-  }, [query.isSuccess]);
+  }, [query.isFetching]);
   return query;
 };

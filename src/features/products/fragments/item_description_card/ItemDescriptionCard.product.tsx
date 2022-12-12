@@ -83,7 +83,7 @@ export default function ItemDescriptionCardProduct(
 
         {/* price */}
         <p className={clsx("text-[2.25rem] text-dark-charcoal font-regular")}>
-          {state.detail.price}
+          {state.detail.variant.price.selected}
         </p>
         <p className={clsx("text-[1rem] text-independence font-regular")}>
           {state.detail.description}
@@ -127,8 +127,8 @@ export default function ItemDescriptionCardProduct(
       </div>
 
       <AvailableVariantProduct
-        selected={state.detail.variant.selected}
-        variants={state.detail.variant.list}
+        selected={state.detail.variant.name.selected}
+        variants={state.detail.variant.name.list}
         onSelect={handleSelectVariant}
       />
 
@@ -148,7 +148,7 @@ export default function ItemDescriptionCardProduct(
             onSummation={handleSumItem}
             onSubstract={handleSubstractItem}
           />
-          <AvailableStockProduct stock={state.detail.stock} />
+          <AvailableStockProduct stock={state.detail.variant.stock.selected} />
         </div>
       </div>
       {/* actions */}

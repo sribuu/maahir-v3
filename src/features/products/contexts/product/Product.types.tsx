@@ -27,15 +27,23 @@ export interface IProductDetail {
   category: string;
   description: string;
   profit: string;
-  price: string;
   max_price: string;
   min_price: string;
   variant: {
-    list: string[];
-    selected: string;
+    name: {
+      selected: string;
+      list: string[];
+    };
+    stock: {
+      selected: number;
+      list: number[];
+    };
+    price: {
+      selected: string;
+      list: string[];
+    };
   };
   quantity: number;
-  stock: number;
 }
 
 export enum ProductActionEnum {

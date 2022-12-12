@@ -3,6 +3,7 @@ import { InitialStateType, ProductsActions } from "./Products.types";
 import {
   productItemsReducer,
   productsFilterReducer,
+  productsItemCountsReducer,
   productsPaginationReducer,
 } from "./Products.reducers";
 
@@ -23,6 +24,11 @@ const initialState: InitialStateType = {
       list: [],
     },
   },
+  item_counts: {
+    first_item_index: 1,
+    last_item_index: 1,
+    total: 1,
+  },
 };
 
 const ProductsContext = createContext<{
@@ -34,12 +40,13 @@ const ProductsContext = createContext<{
 });
 
 const mainReducer = (
-  { items, pagination, filters }: InitialStateType,
+  { items, pagination, filters, item_counts }: InitialStateType,
   action: ProductsActions
 ) => ({
   items: productItemsReducer(items, action),
   pagination: productsPaginationReducer(pagination, action),
   filters: productsFilterReducer(filters, action),
+  item_counts: productsItemCountsReducer(item_counts, action),
 });
 
 const ProductsProvider = (props: { children: React.ReactNode }) => {

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import ProductImageListProduct from "../product_image_list/ProductImageList.product";
 import ZoomImageProduct from "../zoom_image/ZoomImage.product";
 import { ProductContext } from "../../contexts/product/Product.context";
-import { useProductGetProductItem } from "../../hooks/useProductItem";
+import { useProductGetProductById } from "../../hooks/useGetProductById";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
 export interface IItemImageCardProductProps {}
 
@@ -12,7 +12,7 @@ ItemImageCardProduct.defaultProps = {};
 export default function ItemImageCardProduct(
   props: IItemImageCardProductProps
 ) {
-  const { isLoading: isLoadingGetProductItem } = useProductGetProductItem();
+  const { isLoading: isLoadingGetProductItem } = useProductGetProductById();
   const { state, dispatch } = useContext(ProductContext);
 
   if (isLoadingGetProductItem) {

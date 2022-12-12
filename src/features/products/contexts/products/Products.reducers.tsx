@@ -4,6 +4,7 @@ import {
   IProductsPagination,
   ProductsActions,
   IProductsFilter,
+  IProductsItemCounts,
 } from "./Products.types";
 
 // Product Items
@@ -76,6 +77,19 @@ export const productsFilterReducer = (
           selected: action.payload,
         },
       };
+    default:
+      return state;
+  }
+};
+
+// Item Counts
+export const productsItemCountsReducer = (
+  state: IProductsItemCounts,
+  action: ProductsActions
+) => {
+  switch (action.type) {
+    case ProductsActionEnum.SetItemCounts:
+      return action.payload;
     default:
       return state;
   }
