@@ -18,7 +18,7 @@ export const numberFormatters = {
   withRpLabel(data: string) {
     return `Rp${data}`;
   },
-  indonesianThousandSeparator(data: string) {
+  thousandSeparator(data: string) {
     const result = data.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     return result;
   },

@@ -49,27 +49,26 @@ export const useViewSupplierProductGetSupplierProductList = () => {
             stock: item.stock,
             category: item.category_name,
             variant: {
-              total: `${20} varian produk`,
-              list: [
-                {
-                  sku: "SK-0123",
-                  name: "White",
-                  price: thousandSeparator(200000),
-                  stock: 3,
-                },
-                {
-                  sku: "SK-0123",
-                  name: "White",
-                  price: thousandSeparator(200000),
-                  stock: 3,
-                },
-                {
-                  sku: "SK-0123",
-                  name: "White",
-                  price: thousandSeparator(200000),
-                  stock: 3,
-                },
-              ],
+              total: `${
+                !item.variants.length ? 1 : item.variants.length
+              } varian produk`,
+              list: !item.variants.length
+                ? [
+                    {
+                      sku: item.sku,
+                      name: item.variant_name,
+                      price: thousandSeparator(item.price),
+                      stock: item.stock,
+                    },
+                  ]
+                : item.variants.map((variant_item) => {
+                    return {
+                      sku: variant_item.sku,
+                      name: variant_item.name,
+                      price: thousandSeparator(variant_item.price),
+                      stock: variant_item.stock,
+                    };
+                  }),
             },
           };
         }),
@@ -98,9 +97,9 @@ export const useViewSupplierProductGetSupplierProductList = () => {
           ...state.pagination,
           first_item_index: (state.pagination.current_page - 1) * limit + 1,
           last_item_index:
-            (state.pagination.current_page - 1) * limit +
-            query?.data?.total -
-            limit * (state.pagination.current_page - 1),
+            query.data.total - limit * state.pagination.current_page > 0
+              ? limit
+              : query.data.total - limit * state.pagination.current_page,
           total: query?.data?.total,
         },
       });

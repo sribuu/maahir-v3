@@ -67,12 +67,12 @@ export const useProductGetProductById = () => {
             // selected: "White",
             ...state.detail.variant,
             name: {
-              ...state.detail.variant.stock,
+              ...state.detail.variant,
               selected: !query.data.variants.length
-                ? query.data.category_name
+                ? query.data.variant_name
                 : query.data.variants[0].name,
               list: !query.data.variants.length
-                ? [query.data.category_name]
+                ? [query.data.variant_name]
                 : query.data.variants.map((item) => item.name),
             },
             stock: {

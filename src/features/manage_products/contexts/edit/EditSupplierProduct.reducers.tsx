@@ -1,10 +1,59 @@
+import { numberFormatters } from "@/src/core/utils/formatters";
 import {
   IEditSupplierProductItem,
   EditSupplierProductActionEnum,
   EditSupplierProductActions,
   IEditSupplierProductVariant,
   IEditSupplierProductImages,
+  IEditSupplierProductSubmitValidation,
 } from "./EditSupplierProduct.types";
+
+// Product ID
+export const editSupplierProductIdReducer = (
+  state: number,
+  action: EditSupplierProductActions
+) => {
+  switch (action.type) {
+    case EditSupplierProductActionEnum.SetProductId:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+// Submit Validation
+export const editSupplierProductSubmitValidationReducer = (
+  state: IEditSupplierProductSubmitValidation,
+  action: EditSupplierProductActions
+) => {
+  switch (action.type) {
+    case EditSupplierProductActionEnum.SetSubmitValidation:
+      const validation =
+        action.payload.name.length > 0 &&
+        action.payload.category.length > 0 &&
+        action.payload.length.length > 0 &&
+        parseInt(action.payload.length) > 0 &&
+        action.payload.width.length > 0 &&
+        parseInt(action.payload.width) > 0 &&
+        action.payload.height.length > 0 &&
+        parseInt(action.payload.height) > 0 &&
+        action.payload.weight.length > 0 &&
+        parseInt(action.payload.weight) > 0 &&
+        action.payload.availability.length > 0 &&
+        action.payload.variants.length > 0 &&
+        action.payload.variants[0].sku.length > 0 &&
+        action.payload.variants[0].name.length > 0 &&
+        action.payload.variants[0].price.length > 0 &&
+        action.payload.variants[0].stock.length > 0;
+      return {
+        ...state,
+        status: validation,
+      };
+
+    default:
+      return state;
+  }
+};
 
 // Item
 export const editSupplierProductItemReducer = (
@@ -43,7 +92,11 @@ export const editSupplierProductItemReducer = (
         ...state,
         length: {
           ...state.length,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case EditSupplierProductActionEnum.SetWidth:
@@ -51,7 +104,11 @@ export const editSupplierProductItemReducer = (
         ...state,
         width: {
           ...state.width,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case EditSupplierProductActionEnum.SetHeight:
@@ -59,7 +116,11 @@ export const editSupplierProductItemReducer = (
         ...state,
         height: {
           ...state.height,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case EditSupplierProductActionEnum.SetWeight:
@@ -67,7 +128,11 @@ export const editSupplierProductItemReducer = (
         ...state,
         weight: {
           ...state.weight,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case EditSupplierProductActionEnum.SetDescription:
@@ -165,7 +230,11 @@ export const editSupplierProductVariantReducer = (
           ...item,
           price: {
             ...item.price,
-            value: value,
+            value: numberFormatters.thousandSeparator(
+              numberFormatters.replaceInitialZeroWithEmptyString(
+                numberFormatters.replaceCharWithEmptyString(value)
+              )
+            ),
           },
         };
       });
@@ -179,7 +248,11 @@ export const editSupplierProductVariantReducer = (
           ...item,
           stock: {
             ...item.stock,
-            value: value,
+            value: numberFormatters.thousandSeparator(
+              numberFormatters.replaceInitialZeroWithEmptyString(
+                numberFormatters.replaceCharWithEmptyString(value)
+              )
+            ),
           },
         };
       });

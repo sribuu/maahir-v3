@@ -1,8 +1,4 @@
-export type IProductGetProductByIdRequest = {
-  id: number;
-};
-
-export type IProductGetProductByIdResponse = {
+export interface IGetSupplierProductByIdSuccessResponse {
   category_id: number;
   category_name: string;
   description: string;
@@ -19,7 +15,10 @@ export type IProductGetProductByIdResponse = {
   retail_price_min: number;
   stock: number;
   title: string;
+  sku: string;
   variant_name: string;
+  weight: number;
+  width: number;
   variants: {
     sku: string;
     id: number;
@@ -29,4 +28,16 @@ export type IProductGetProductByIdResponse = {
     price: number;
     is_show: boolean;
   }[];
-};
+}
+
+export interface IGetSupplierProducByIdtRequest {
+  limit: number;
+  offset: number;
+  is_show: boolean;
+  title_like?: string;
+}
+
+export interface IGetSupplierProductByIdErrorResponse {
+  error_code: string;
+  message: string;
+}

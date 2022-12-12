@@ -25,6 +25,7 @@ export type IProductGetProductsItemResponse = {
     retail_price_min: number;
     stock: number;
     title: string;
+    variant_name: string;
     variants: {
       sku: string;
       id: number;

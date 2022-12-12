@@ -1,10 +1,46 @@
+import { numberFormatters } from "@/src/core/utils/formatters";
 import {
   IAddSupplierProductItem,
   AddSupplierProductActionEnum,
   AddSupplierProductActions,
   IAddSupplierProductVariant,
   IAddSupplierProductImages,
+  IAddSupplierProductSubmitValidation,
 } from "./AddSupplierProduct.types";
+
+// Submit Validation
+export const addSupplierProductSubmitValidationReducer = (
+  state: IAddSupplierProductSubmitValidation,
+  action: AddSupplierProductActions
+) => {
+  switch (action.type) {
+    case AddSupplierProductActionEnum.SetSubmitValidation:
+      const validation =
+        action.payload.name.length > 0 &&
+        action.payload.category.length > 0 &&
+        action.payload.length.length > 0 &&
+        parseInt(action.payload.length) > 0 &&
+        action.payload.width.length > 0 &&
+        parseInt(action.payload.width) > 0 &&
+        action.payload.height.length > 0 &&
+        parseInt(action.payload.height) > 0 &&
+        action.payload.weight.length > 0 &&
+        parseInt(action.payload.weight) > 0 &&
+        action.payload.availability.length > 0 &&
+        action.payload.variants.length > 0 &&
+        action.payload.variants[0].sku.length > 0 &&
+        action.payload.variants[0].name.length > 0 &&
+        action.payload.variants[0].price.length > 0 &&
+        action.payload.variants[0].stock.length > 0;
+      return {
+        ...state,
+        status: validation,
+      };
+
+    default:
+      return state;
+  }
+};
 
 // Item
 export const addSupplierProductItemReducer = (
@@ -43,7 +79,11 @@ export const addSupplierProductItemReducer = (
         ...state,
         length: {
           ...state.length,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case AddSupplierProductActionEnum.SetWidth:
@@ -51,7 +91,11 @@ export const addSupplierProductItemReducer = (
         ...state,
         width: {
           ...state.width,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case AddSupplierProductActionEnum.SetHeight:
@@ -59,7 +103,11 @@ export const addSupplierProductItemReducer = (
         ...state,
         height: {
           ...state.height,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case AddSupplierProductActionEnum.SetWeight:
@@ -67,7 +115,11 @@ export const addSupplierProductItemReducer = (
         ...state,
         weight: {
           ...state.weight,
-          value: action.payload,
+          value: numberFormatters.thousandSeparator(
+            numberFormatters.replaceInitialZeroWithEmptyString(
+              numberFormatters.replaceCharWithEmptyString(action.payload)
+            )
+          ),
         },
       };
     case AddSupplierProductActionEnum.SetDescription:
@@ -166,7 +218,11 @@ export const addSupplierProductVariantReducer = (
           ...item,
           price: {
             ...item.price,
-            value: value,
+            value: numberFormatters.thousandSeparator(
+              numberFormatters.replaceInitialZeroWithEmptyString(
+                numberFormatters.replaceCharWithEmptyString(value)
+              )
+            ),
           },
         };
       });
@@ -180,12 +236,16 @@ export const addSupplierProductVariantReducer = (
           ...item,
           stock: {
             ...item.stock,
-            value: value,
+            value: numberFormatters.thousandSeparator(
+              numberFormatters.replaceInitialZeroWithEmptyString(
+                numberFormatters.replaceCharWithEmptyString(value)
+              )
+            ),
           },
         };
       });
     case AddSupplierProductActionEnum.SetVariantAvailability:
-      return state.map((item, index) => {
+      return state.map((item) => {
         return {
           ...item,
           action: {

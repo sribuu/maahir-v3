@@ -1,7 +1,6 @@
-export interface ICreateSupplierProductSuccessResponse {
+export interface IPutSupplierProductSuccessResponse {
   description: string;
   is_priority: null | boolean;
-
   image: string;
   price: number;
   title: string;
@@ -17,7 +16,8 @@ export interface ICreateSupplierProductSuccessResponse {
   height: number;
 }
 
-export interface ICreateSupplierProductRequest {
+export interface IPutSupplierProductRequest {
+  id: number;
   title: string;
   description?: string;
   category_id: number;
@@ -35,7 +35,7 @@ export interface ICreateSupplierProductRequest {
   }[];
 }
 
-export interface ICreateSupplierProductErrorResponse {
+export interface IPutSupplierProductErrorResponse {
   error_code: string;
   message: string;
 }

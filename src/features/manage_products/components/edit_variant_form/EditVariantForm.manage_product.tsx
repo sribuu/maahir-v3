@@ -44,6 +44,7 @@ export default function EditVariantFormManageProduct(
       type: EditSupplierProductActionEnum.AddVariant,
     });
   };
+
   return (
     <div
       className={clsx(
@@ -95,6 +96,7 @@ export default function EditVariantFormManageProduct(
             />
             <TextfieldComponent
               id={String(index)}
+              value={item.variant.value}
               variant={"small"}
               placeholder={"Varian"}
               onChange={handleChangeVariant}
@@ -102,11 +104,13 @@ export default function EditVariantFormManageProduct(
             <TextfieldComponent
               id={String(index)}
               variant={"small"}
+              value={item.price.value}
               placeholder={"Harga"}
               onChange={handleChangePrice}
             />
             <TextfieldComponent
               id={String(index)}
+              value={item.stock.value}
               variant={"small"}
               placeholder={"Stok"}
               onChange={handleChangeStock}

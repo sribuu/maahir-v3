@@ -9,6 +9,11 @@ const nextConfig = {
         destination:
           "https://qq1fyme2kc.execute-api.ap-southeast-3.amazonaws.com/staging/:path*",
       },
+      {
+        source: "/cdn/images/:path*",
+        destination:
+          "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/:path*",
+      },
     ];
   },
   async redirects() {

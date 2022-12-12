@@ -11,12 +11,17 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 // State Collection Types
 export interface InitialStateType {
+  submit_validation: IAddSupplierProductSubmitValidation;
   item: IAddSupplierProductItem;
   variant: IAddSupplierProductVariant[];
   images: IAddSupplierProductImages;
 }
 
 // State Collection Types consist of:
+export interface IAddSupplierProductSubmitValidation {
+  status: boolean;
+}
+
 export interface IAddSupplierProductItem {
   name: {
     value: string;
@@ -75,15 +80,14 @@ export interface IAddSupplierProductImages {
     message: string;
   };
   list: {
-    // position: number;
-    // file_format: string;
-    // file: string;
     base64: string;
     file_format: string;
   }[];
 }
 
 export enum AddSupplierProductActionEnum {
+  // submit validation
+  SetSubmitValidation = "SetSubmitValidation",
   //   item form
   SetItem = "SetItem",
   SetName = "SetName",
@@ -115,11 +119,34 @@ export enum AddSupplierProductActionEnum {
 
 // Action Collection Types
 export type AddSupplierProductActions =
+  | AddSupplierProductSubmitValidationActions
   | AddSupplierProductItemActions
   | AddSupplierProductVariantActions
   | AddSupplierProductImagesActions;
 
 // Action Collection Types consist of:
+// Submit Validation
+type AddSupplierProductSubmitValidationPayload = {
+  [AddSupplierProductActionEnum.SetSubmitValidation]: {
+    name: string;
+    category: string;
+    length: string;
+    width: string;
+    height: string;
+    weight: string;
+    description: string;
+    availability: string;
+    variants: {
+      sku: string;
+      name: string;
+      stock: string;
+      price: string;
+    }[];
+  };
+};
+
+export type AddSupplierProductSubmitValidationActions =
+  ActionMap<AddSupplierProductSubmitValidationPayload>[keyof ActionMap<AddSupplierProductSubmitValidationPayload>];
 
 // Item
 type AddSupplierProductItemPayload = {

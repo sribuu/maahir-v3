@@ -139,7 +139,10 @@ export default function AddItemFormManageProduct(
         onChange={handleChangeDescription}
       />
       {/* right side */}
-      <AvailabilitySelectManageProduct onChange={handleChangeAvailability} />
+      <AvailabilitySelectManageProduct
+        selected={state.item.availability.value}
+        onChange={handleChangeAvailability}
+      />
     </div>
   );
 }

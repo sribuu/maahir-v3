@@ -9,9 +9,7 @@ export const fetchPostCreateSupplierProduct = async (
   return await axios
     .post(
       `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.SupplierProduct}`,
-      {
-        data: data,
-      }
+      data
     )
     .then((res) => res.data);
 };

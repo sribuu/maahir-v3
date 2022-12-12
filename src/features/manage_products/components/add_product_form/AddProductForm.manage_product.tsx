@@ -8,6 +8,7 @@ import AddItemFormManageProduct from "../add_item_form/AddItemForm.manage_produc
 import AddVariantFormManageProduct from "../add_variant_form/AddVariantForm.manage_product";
 import { AddSupplierProductActionEnum } from "../../contexts/add/AddSupplierProduct.types";
 import InvalidImageUploadlModalManageProduct from "../invalid_image_upload_modal/InvalidImageUpload.manage_product";
+import { useAddSupplierProductCreateSupplierProduct } from "../../hooks/usePostCreateSupplierProduct";
 
 export interface IAddProductFormManageProductProps {}
 
@@ -16,6 +17,8 @@ export default function AddProductFormManageProduct(
 ) {
   const { isLoading: isLoadingGetCategoryList } =
     useAddSupplierProductsGetCategoryList();
+  const { mutate: createSupplierProduct } =
+    useAddSupplierProductCreateSupplierProduct();
   const { state, dispatch } = useContext(AddSupplierProductContext);
   const handleErrorUpload = (error: { message: string }) => {
     dispatch({
@@ -52,7 +55,7 @@ export default function AddProductFormManageProduct(
   };
 
   const handleSaveProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //
+    createSupplierProduct();
   };
   return (
     <form
@@ -85,7 +88,7 @@ export default function AddProductFormManageProduct(
 
       <div className={clsx("flex items-center justify-end")}>
         <button
-          disabled={true}
+          disabled={!state.submit_validation.status}
           className={clsx(
             "flex items-center justify-center",
             "py-[0.875rem] px-[2.25rem] rounded-[0.75rem]",

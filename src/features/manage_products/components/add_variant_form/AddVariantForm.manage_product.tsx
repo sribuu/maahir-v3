@@ -55,12 +55,6 @@ export default function AddVariantFormManageProduct(
     });
   };
 
-  const handleClickDeleteVariant = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({
-      type: AddSupplierProductActionEnum.DeleteVariantById,
-      payload: e.currentTarget.id,
-    });
-  };
   return (
     <div
       className={clsx(
@@ -104,7 +98,6 @@ export default function AddVariantFormManageProduct(
             )}
           >
             <TextfieldComponent
-              key={index}
               id={String(index)}
               value={item.sku.value}
               variant={"small"}
@@ -112,22 +105,22 @@ export default function AddVariantFormManageProduct(
               onChange={handleChangeSKU}
             />
             <TextfieldComponent
-              key={index}
               id={String(index)}
+              value={item.variant.value}
               variant={"small"}
               placeholder={"Varian"}
               onChange={handleChangeVariant}
             />
             <TextfieldComponent
-              key={index}
               id={String(index)}
               variant={"small"}
+              value={item.price.value}
               placeholder={"Harga"}
               onChange={handleChangePrice}
             />
             <TextfieldComponent
-              key={index}
               id={String(index)}
+              value={item.stock.value}
               variant={"small"}
               placeholder={"Stok"}
               onChange={handleChangeStock}
@@ -140,7 +133,6 @@ export default function AddVariantFormManageProduct(
               )}
             >
               <button
-                key={index}
                 id={String(index)}
                 className={clsx(
                   "grid grid-cols-1 place-content-center place-items-center",
@@ -162,27 +154,6 @@ export default function AddVariantFormManageProduct(
                   )}
                 >
                   {item.action.value === "hide" ? "Perlihatkan" : "Sembunyikan"}
-                </p>
-              </button>
-              <button
-                id={String(index)}
-                className={clsx(
-                  "grid grid-cols-1 place-content-center place-items-center",
-                  "w-[92px]"
-                )}
-                onClick={handleClickDeleteVariant}
-              >
-                <TrashIcon
-                  className={clsx(
-                    "w-[1.5rem] h-[1.5rem] fill-charleston-green"
-                  )}
-                />
-                <p
-                  className={clsx(
-                    "text-[0.75rem] text-taupe-gray font-regular"
-                  )}
-                >
-                  {"Hapus"}
                 </p>
               </button>
             </div>

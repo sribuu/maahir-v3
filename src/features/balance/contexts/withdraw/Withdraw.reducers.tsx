@@ -68,7 +68,7 @@ export const withdrawBalanceWithdrawReducer = (
         ...state,
         balance: {
           ...state.balance,
-          value: numberFormatters.indonesianThousandSeparator(
+          value: numberFormatters.thousandSeparator(
             numberFormatters.replaceInitialZeroWithEmptyString(
               numberFormatters.replaceCharWithEmptyString(action.payload)
             )

@@ -1,20 +1,35 @@
 export interface IGetSupplierProductSuccessResponse {
   total: number;
   products: {
-    title: string;
-    id: number;
-    is_priority: null | boolean;
-    is_show: boolean;
-    profit_value: number;
-    image: string;
-    price: number;
-    retail_price_min: number;
-    detail_images: string[];
-    retail_price_max: number;
-    category_name: string;
     category_id: number;
+    category_name: string;
     description: string;
+    detail_images: string[];
+    height: number;
+    id: number;
+    image: string;
+    is_priority: boolean;
+    is_show: boolean;
+    length: number;
+    price: number;
+    profit_value: number;
+    retail_price_max: number;
+    retail_price_min: number;
     stock: number;
+    title: string;
+    sku: string;
+    variant_name: string;
+    weight:number;
+    width:number;
+    variants: {
+      sku: string;
+      id: number;
+      name: string;
+      product_id: number;
+      stock: number;
+      price: number;
+      is_show: boolean;
+    }[];
   }[];
 }
 
@@ -28,14 +43,4 @@ export interface IGetSupplierProductRequest {
 export interface IGetSupplierProductErrorResponse {
   error_code: string;
   message: string;
-}
-
-export interface ISupplierProductItem {
-  image: string;
-  id: string;
-  name: string;
-  description: string;
-  stock: number;
-  category: string;
-  action: string;
 }

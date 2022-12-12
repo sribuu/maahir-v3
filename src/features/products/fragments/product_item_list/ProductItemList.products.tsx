@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import ItemCardProduct from "../item_card/ItemCard.product";
 import clsx from "clsx";
 import PaginationComponent from "@/src/core/ui/components/pagination/Pagination.component";
-import { useProductsGetProductItems } from "../../hooks/useProductItem";
+import { useProductsGetProductItems } from "../../hooks/useProductsItem";
 import SkeletonItemCardProduct from "../skeleton_item_card/SkeletonItemCard.product";
 import { ProductsContext } from "../../contexts/products/Products.context";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
@@ -78,7 +78,7 @@ export default function ProductItemListProducts(
   const handleAddToCart = (data: number) => {
     addProductToCart(data);
   };
-  console.log(state.pagination.total_page, "ini total page");
+
   return (
     <div
       className={clsx(

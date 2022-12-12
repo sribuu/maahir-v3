@@ -3,10 +3,48 @@ import clsx from "clsx";
 import TrashIcon from "../../icons/trash/Trash.icon";
 
 export interface IImageUploadComponentProps {
+  images?: { base64: string; file_format: string }[];
   onSetCoverImage?: (data: number) => void;
   onChange?: (data: { base64: string; file_format: string }[]) => void;
   onError?: (data: { message: string }) => void;
 }
+
+ImageUploadComponent.defaultProps = {
+  images: [],
+};
+
+export function dataURLtoFile(dataurl, filename, format) {
+  let arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, { type: `image/${format}` });
+}
+
+const toDataURL = (url) =>
+  fetch(url, {
+    mode: "cors",
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+  })
+    .then((response) => response.blob())
+    .then(
+      (blob) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        })
+    )
+    .catch((e) => {
+      throw e;
+    });
 
 export const formatBytes = (bytes, decimals = 2) => {
   if (!+bytes) return false;
@@ -53,6 +91,10 @@ export default function ImageUploadComponent(
 ) {
   const { onError } = props;
   const [viewUploadArea, setViewUploadArea] = useState<boolean>(true);
+
+  // image url
+  const [tempPropsImageFiles, setTempPropsImageFiles] = useState<File[]>([]);
+
   // temp image : for validation before it was uploaded
   const [tempImageFiles, setTempImageFiles] = useState<File[]>([]);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -89,7 +131,7 @@ export default function ImageUploadComponent(
   };
 
   useEffect(() => {
-    const images: { base64: string; file_format: string }[] = [];
+    const newImages: { base64: string; file_format: string }[] = [];
     const fileReaders: FileReader[] = [];
     let isCancel = false;
     if (imageFiles.length > 0) {
@@ -100,10 +142,13 @@ export default function ImageUploadComponent(
           const { result } = e.target;
           if (result) {
             // images.push(result as string);
-            images.push({ base64: result as string, file_format: file.type });
+            newImages.push({
+              base64: result as string,
+              file_format: file.type,
+            });
           }
-          if (images.length === imageFiles.length && !isCancel) {
-            setImages(images);
+          if (newImages.length === imageFiles.length && !isCancel) {
+            setImages(newImages);
           }
         };
         fileReader.readAsDataURL(file);
@@ -153,10 +198,25 @@ export default function ImageUploadComponent(
       } else if (!isSizeMeetCriteria(tempImageFiles)) {
         onError({ message: "File size exceeds limit" });
       } else {
-        setImageFiles([...imageFiles, ...tempImageFiles]);
+        setImageFiles(tempImageFiles);
       }
     }
   }, [tempImageFiles]);
+
+  // props images
+  useEffect(() => {
+    if (tempPropsImageFiles.length > 0) {
+      if (!isImage(tempPropsImageFiles)) {
+        onError({ message: "Only accept image format" });
+      } else if (isExceedsMaxNumberUpload(tempPropsImageFiles)) {
+        onError({ message: "Images exceeds limit" });
+      } else if (!isSizeMeetCriteria(tempPropsImageFiles)) {
+        onError({ message: "File size exceeds limit" });
+      } else {
+        setImageFiles(tempPropsImageFiles);
+      }
+    }
+  }, [tempPropsImageFiles]);
 
   // images collection
   const handleMouseEnterImagesCollection = (
@@ -183,6 +243,52 @@ export default function ImageUploadComponent(
     setImages(newImages);
     setImageFiles(newImageFiles);
   };
+
+  // transform props
+  useEffect(() => {
+    if (
+      props?.images &&
+      props.images?.length > 0 &&
+      props.images.length !== images.length
+    ) {
+      let rewriteImagePropsToImage: { base64: string; file_format: string }[] =
+        [];
+      let rewriteImagePropsToTempImageFile: File[] = [];
+
+      for (let i = 0; i < props.images?.length; i++) {
+        toDataURL(
+          props.images[i].base64.replaceAll(
+            "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/",
+            "/cdn/images/"
+          )
+        ).then((dataUrl) => {
+          rewriteImagePropsToImage = [
+            ...rewriteImagePropsToImage,
+            {
+              base64: dataUrl as string,
+              file_format: props.images[i].base64.slice(
+                props.images[i].base64.lastIndexOf(".") + 1
+              ),
+            },
+          ];
+
+          rewriteImagePropsToTempImageFile = [
+            ...rewriteImagePropsToTempImageFile,
+            dataURLtoFile(
+              dataUrl,
+              props.images[i].base64,
+              props.images[i].base64.slice(
+                props.images[i].base64.lastIndexOf(".") + 1
+              )
+            ),
+          ];
+
+          setTempPropsImageFiles(rewriteImagePropsToTempImageFile);
+        });
+      }
+    }
+  }, [props.images]);
+
   return (
     <div className={clsx("grid grid-cols-1 gap-y-[1.5rem]", "w-full")}>
       <div className={clsx("grid grid-cols-1 gap-y-[0.5rem]", "w-full")}>

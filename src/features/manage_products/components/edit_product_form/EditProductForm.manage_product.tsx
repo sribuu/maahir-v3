@@ -7,18 +7,19 @@ import EditItemFormManageProduct from "../edit_item_form/EditItemForm.manage_pro
 import EditVariantFormManageProduct from "../edit_variant_form/EditVariantForm.manage_product";
 import { EditSupplierProductContext } from "../../contexts/edit/EditSupplierProduct.context";
 import { EditSupplierProductActionEnum } from "../../contexts/edit/EditSupplierProduct.types";
+import { useEditSupplierProductUpdateSupplierProduct } from "../../hooks/usePutEditSupplierProduct";
 
 export interface IEditProductFormManageProductProps {}
 
 export default function EditProductFormManageProduct(
   props: IEditProductFormManageProductProps
 ) {
+  const { mutate: updateSupplierProduct } =
+    useEditSupplierProductUpdateSupplierProduct();
   const { isLoading: isLoadingGetCategoryList } =
     useEditSupplierProductsGetCategoryList();
   const { state, dispatch } = useContext(EditSupplierProductContext);
-  const handleErrorUpload = (error: { message: string }) => {
-    // console.log("ini error", error);
-  };
+  const handleErrorUpload = (error: { message: string }) => {};
 
   if (isLoadingGetCategoryList) {
     return <div></div>;
@@ -45,7 +46,7 @@ export default function EditProductFormManageProduct(
   };
 
   const handleSaveProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //
+    updateSupplierProduct();
   };
   return (
     <form
@@ -65,6 +66,7 @@ export default function EditProductFormManageProduct(
         >
           {/* upload */}
           <ImageUploadComponent
+            images={state.images.list}
             onError={handleErrorUpload}
             onChange={handleChangeImages}
             onSetCoverImage={handleSetCoverImage}
@@ -78,7 +80,7 @@ export default function EditProductFormManageProduct(
 
       <div className={clsx("flex items-center justify-end")}>
         <button
-          disabled={true}
+          disabled={!state.submit_validation.status}
           className={clsx(
             "flex items-center justify-center",
             "py-[0.875rem] px-[2.25rem] rounded-[0.75rem]",
