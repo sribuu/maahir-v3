@@ -27,8 +27,8 @@ export default function HighlightProductCardHome(
   props: IHighlightProductCardHomeProps
 ) {
   const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onClickAddToCart) {
-      props.onClickAddToCart(parseInt(e.currentTarget.id));
+    if (props.onClickItem) {
+      props.onClickItem(parseInt(e.currentTarget.id));
     }
   };
 
