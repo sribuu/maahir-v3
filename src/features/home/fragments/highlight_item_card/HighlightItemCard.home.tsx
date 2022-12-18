@@ -10,8 +10,9 @@ export interface IHighlightProductCardHomeProps {
   advantage?: string;
   productSrc?: string;
   productAlt?: string;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickBuyItem?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickAddToCart?: (data: number) => void;
+  onClickItem?: (data: number) => void;
 }
 
 HighlightProductCardHome.defaultProps = {
@@ -25,9 +26,15 @@ HighlightProductCardHome.defaultProps = {
 export default function HighlightProductCardHome(
   props: IHighlightProductCardHomeProps
 ) {
+  const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (props.onClickAddToCart) {
+      props.onClickAddToCart(parseInt(e.currentTarget.id));
+    }
+  };
+
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onClick) {
-      props.onClick(e);
+    if (props.onClickBuyItem) {
+      props.onClickBuyItem(e);
     }
   };
 
@@ -44,14 +51,16 @@ export default function HighlightProductCardHome(
         "min-w-[242px]"
       )}
     >
-      <img
-        src={props.productSrc}
-        loading={"lazy"}
-        className={clsx(
-          "object-cover rounded-lg",
-          "w-[210px] sm:w-[312px] h-[136px] sm:h-[312px]"
-        )}
-      />
+      <button id={props.id} onClick={handleClickItem}>
+        <img
+          src={props.productSrc}
+          loading={"lazy"}
+          className={clsx(
+            "object-cover rounded-lg",
+            "w-[210px] sm:w-[312px] h-[136px] sm:h-[312px]"
+          )}
+        />
+      </button>
 
       <div className={clsx("grid gap-y-[0.25rem] sm:gap-y-[0.375rem]")}>
         <p

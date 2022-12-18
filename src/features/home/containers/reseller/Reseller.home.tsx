@@ -48,6 +48,15 @@ export default function HomeContainer(props: IHomeContainerProps) {
     });
   };
 
+  const handleClickItem = (data: number) => {
+    router.push({
+      pathname: RouterPathName.ProductDetail,
+      query: {
+        [RouterQueryKey.ProductId]: data,
+      },
+    });
+  };
+
   if (isLoadingGetViralProducts) {
     return <div></div>;
   }
@@ -102,7 +111,8 @@ export default function HomeContainer(props: IHomeContainerProps) {
                 productSrc={item.image}
                 profitValue={item.profit}
                 price={item.price}
-                onClick={handleClickBuyNow}
+                onClickItem={handleClickItem}
+                onClickBuyItem={handleClickBuyNow}
                 onClickAddToCart={handleAddToCart}
               />
             ))}
