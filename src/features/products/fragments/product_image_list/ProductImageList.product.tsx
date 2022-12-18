@@ -33,8 +33,9 @@ export default function ProductImageListProduct(
     <div className={clsx("relative", "max-w-[30rem]")}>
       <div
         className={clsx(
+          "hidden sm:flex",
           "relative overflow-hidden",
-          "flex max-w-[30rem]",
+          "max-w-[30rem]",
           "gap-x-[0.75rem]"
         )}
       >

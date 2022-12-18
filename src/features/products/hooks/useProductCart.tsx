@@ -54,7 +54,7 @@ export const useProductAddItemToCart = () => {
         ...itemData,
         amount: state.detail.quantity,
         // TODO: change whenever be is updated
-        variant: state.detail.variant.selected,
+        variant: state.detail.variant.name.selected,
         note: "",
       };
       return fetchAddToCart(payload);

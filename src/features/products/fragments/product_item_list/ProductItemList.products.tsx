@@ -34,7 +34,7 @@ export default function ProductItemListProducts(
           className={clsx(
             "grid justify-center justify-items-center",
             "max-w-[75rem] gap-x-[1.25rem] gap-y-[1.25rem]",
-            "grid-cols-4"
+            "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           )}
         >
           {itemsCount.map((item) => (
@@ -90,7 +90,7 @@ export default function ProductItemListProducts(
         className={clsx(
           "grid justify-center justify-items-center",
           "max-w-[75rem] gap-x-[1.25rem] gap-y-[1.25rem]",
-          "grid-cols-4"
+          "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         )}
       >
         {state.items.map((item, index) => (
@@ -108,7 +108,13 @@ export default function ProductItemListProducts(
         ))}
       </div>
 
-      <div className={clsx("flex items-center justify-between", "w-full")}>
+      <div
+        className={clsx(
+          "hidden sm:flex",
+          "items-center justify-between",
+          "w-full"
+        )}
+      >
         <ItemCountPaginationComponent
           firstIndexData={state.item_counts.first_item_index}
           lastIndexData={state.item_counts.last_item_index}

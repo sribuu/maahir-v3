@@ -10,7 +10,8 @@ export default function SkeletonFilterCardProduct(
   return (
     <div
       className={clsx(
-        "grid gap-y-5",
+        "hidden sm:grid",
+        "gap-y-5",
         "p-6 rounded-[1rem] border min-w-[276px]",
         "bg-white shadow-1 border-bright-gray"
       )}

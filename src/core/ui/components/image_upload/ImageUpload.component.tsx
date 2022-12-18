@@ -289,6 +289,7 @@ export default function ImageUploadComponent(
     }
   }, [props.images]);
 
+  console.log(imageFiles, "ini image files");
   return (
     <div className={clsx("grid grid-cols-1 gap-y-[1.5rem]", "w-full")}>
       <div className={clsx("grid grid-cols-1 gap-y-[0.5rem]", "w-full")}>

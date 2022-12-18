@@ -1,5 +1,4 @@
-import { useState } from "react";
-import Script from "next/script";
+import { useState, useEffect, useRef } from "react";
 import type { AppProps } from "next/app";
 import "@/src/core/ui/styles/globals.css";
 import {
@@ -7,9 +6,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import * as snippet from "@segment/snippet";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import TagManager, { TagManagerArgs } from "react-gtm-module";
 export default function App({ Component, pageProps }: AppProps) {
+  const onMounted = useRef(false);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -21,23 +21,25 @@ export default function App({ Component, pageProps }: AppProps) {
       })
   );
 
-  const loadSegment = () => {
-    const options = {
-      apiKey: process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY,
-    };
-    if (process.env.NEXT_PUBLIC_NODE_ENV) {
-      return snippet.max(options);
-    } else {
-      return snippet.min(options);
-    }
+  const gtmId = String(process.env.NEXT_PUBLIC_GTM_ID) || "";
+  const tagManagerArgs: TagManagerArgs = {
+    gtmId,
   };
+
+  useEffect(() => {
+    if (onMounted.current) {
+      TagManager.initialize(tagManagerArgs);
+
+      onMounted.current = false;
+    }
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Script
+      {/* <Script
         dangerouslySetInnerHTML={{ __html: loadSegment() }}
         id={"segmentScript"}
-      />
+      /> */}
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
       </Hydrate>

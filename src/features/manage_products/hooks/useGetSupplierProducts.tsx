@@ -55,6 +55,7 @@ export const useViewSupplierProductGetSupplierProductList = () => {
               list: !item.variants.length
                 ? [
                     {
+                      id: item.id_variant,
                       sku: item.sku,
                       name: item.variant_name,
                       price: thousandSeparator(item.price),
@@ -63,6 +64,7 @@ export const useViewSupplierProductGetSupplierProductList = () => {
                   ]
                 : item.variants.map((variant_item) => {
                     return {
+                      id: variant_item.id,
                       sku: variant_item.sku,
                       name: variant_item.name,
                       price: thousandSeparator(variant_item.price),

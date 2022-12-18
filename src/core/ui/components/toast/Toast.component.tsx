@@ -20,7 +20,7 @@ ToastComponent.defaultProps = {
 export default function ToastComponent(props: IToastComponentProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
+  const delay = 3;
   const handleClose = () => {
     if (props.onClose) {
       props.onClose();
@@ -38,6 +38,16 @@ export default function ToastComponent(props: IToastComponentProps) {
     }
     setOpen(false);
   });
+
+  useEffect(() => {
+    if (open) {
+      let timer1 = setTimeout(() => setOpen(false), delay * 1000);
+
+      return () => {
+        clearTimeout(timer1);
+      };
+    }
+  }, [open]);
 
   return (
     <div

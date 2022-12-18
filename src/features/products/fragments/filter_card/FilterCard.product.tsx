@@ -37,10 +37,23 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
     });
   };
 
+  const handleDeleteFilter = () => {
+    dispatch({
+      type: ProductsActionEnum.FilterProductsByPrice,
+      payload: "",
+    });
+
+    dispatch({
+      type: ProductsActionEnum.FilterProductsByCategory,
+      payload: "",
+    });
+  };
+
   return (
     <div
       className={clsx(
-        "grid gap-y-5",
+        "hidden sm:grid",
+        "gap-y-5",
         "p-6 rounded-[1rem] border min-w-[276px]",
         "bg-white shadow-1 border-bright-gray"
       )}
@@ -55,7 +68,11 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
         {/* price */}
 
         <div className={clsx("grid gap-y-[1.25rem] items-start content-start")}>
-          <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
+          <p
+            className={clsx(
+              "text-[1rem] sm:text-[1.25rem] text-charleston-green font-bold"
+            )}
+          >
             {"Harga"}
           </p>
 
@@ -81,7 +98,7 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
             >
               <p
                 className={clsx(
-                  "text-[1rem] font-regular",
+                  "text-[0.875rem] sm:text-[1rem] font-regular",
                   "hover:text-ocean-boat-blue",
                   item === state.filters.price.selected
                     ? "text-ocean-boat-blue"
@@ -96,7 +113,11 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
 
         {/* product  */}
         <div className={clsx("grid gap-y-[1.25rem] items-start content-start")}>
-          <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
+          <p
+            className={clsx(
+              "text-[1rem] sm:text-[1.25rem] text-charleston-green font-bold"
+            )}
+          >
             {"Kategori"}
           </p>
 
@@ -111,6 +132,17 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
             />
           ))}
         </div>
+
+        {/* hapus semua filter */}
+
+        {(state.filters.price.selected.length > 0 ||
+          state.filters.category.selected.length > 0) && (
+          <button onClick={handleDeleteFilter}>
+            <p className={clsx("text-[0.875rem] text-tart-orange font-bold")}>
+              {"Hapus Filter"}
+            </p>
+          </button>
+        )}
       </div>
     </div>
   );

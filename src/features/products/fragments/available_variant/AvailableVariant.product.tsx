@@ -34,7 +34,8 @@ export default function AvailableVariantProduct(
   return (
     <div
       className={clsx(
-        "grid grid-cols-[auto_1fr] items-start content-start justify-start justify-items-start gap-x-[1.5rem]"
+        "grid grid-cols-[auto_1fr] items-start content-start justify-start justify-items-start",
+        "gap-x-[0.625rem] sm:gap-x-[1.5rem]"
       )}
     >
       <p>{"Variant:"}</p>
@@ -61,7 +62,8 @@ export default function AvailableVariantProduct(
           >
             <p
               className={clsx(
-                "text-[1rem] font-regular",
+                "text-[0.75rem] sm:text-[1rem]",
+                "font-regular",
                 "hover:text-ocean-boat-blue",
                 item === activeVariant
                   ? "text-ocean-boat-blue"

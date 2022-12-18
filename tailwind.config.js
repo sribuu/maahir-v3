@@ -55,6 +55,7 @@ module.exports = {
       "taupe-gray": "#85888B",
       gainsboro: "#D6DAE0",
       "dark-charcoal": "#333333",
+      "black-20": "rgba(0, 0, 0, 0.2)",
       "ocean-boat-blue-4": "rgba(0, 119, 193, 0.04)",
       "ocean-boat-blue-8": "rgba(0, 119, 193, 0.08)",
       strawberry: "#FF5C8F",

@@ -57,6 +57,7 @@ export const useEditSupplierProductUpdateSupplierProduct = () => {
         is_show: state.item.availability.value === "Tampilkan" ? true : false,
         variants: state.variant.map((item) => {
           return {
+            id: 0,
             sku: item.sku.value,
             name: item.variant.value,
             stock: parseInt(item.stock.value),

@@ -170,6 +170,7 @@ export const editSupplierProductVariantReducer = (
       return [
         ...state,
         {
+          id: 0,
           sku: {
             placeholder: "SKU",
             value: "",

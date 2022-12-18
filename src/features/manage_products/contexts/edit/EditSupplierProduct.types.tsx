@@ -51,6 +51,7 @@ export interface IEditSupplierProductItem {
 }
 
 export interface IEditSupplierProductVariant {
+  id: number | null;
   sku: {
     placeholder: string;
     value: string;

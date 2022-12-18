@@ -7,6 +7,7 @@ export interface IGetSupplierProductSuccessResponse {
     detail_images: string[];
     height: number;
     id: number;
+    id_variant: number;
     image: string;
     is_priority: boolean;
     is_show: boolean;
@@ -19,8 +20,8 @@ export interface IGetSupplierProductSuccessResponse {
     title: string;
     sku: string;
     variant_name: string;
-    weight:number;
-    width:number;
+    weight: number;
+    width: number;
     variants: {
       sku: string;
       id: number;

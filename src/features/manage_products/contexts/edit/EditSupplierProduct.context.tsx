@@ -13,7 +13,7 @@ import {
 } from "./EditSupplierProduct.reducers";
 
 const initialState: InitialStateType = {
-  product_id: 0,
+  product_id: null,
   submit_validation: {
     status: false,
   },
@@ -46,6 +46,7 @@ const initialState: InitialStateType = {
   },
   variant: [
     {
+      id: 0,
       sku: {
         placeholder: "SKU",
         value: "",

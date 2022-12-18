@@ -4,7 +4,7 @@ import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.com
 import { SupplierLoginContext } from "../../contexts/login/Login.context";
 import { SupplierLoginActionEnum } from "../../contexts/login/Login.types";
 import { useSupplierLogin } from "../../hooks/useSupplierLogin";
-import { trackSupplierSubmitLogin } from "../../segments";
+import { trackSupplierSubmitLogin } from "../../gtm";
 export interface ILoginFormAuthProps {
   onSubmit?: (data: { email: string; password: string }) => void;
 }
@@ -28,7 +28,7 @@ export default function LoginFormAuth(props: ILoginFormAuthProps) {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    trackSupplierSubmitLogin({ email: state.form.email.value });
+    // trackSupplierSubmitLogin({ email: state.form.email.value });
     supplierLogin();
   };
 

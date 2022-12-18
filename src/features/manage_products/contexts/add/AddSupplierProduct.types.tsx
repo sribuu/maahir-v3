@@ -11,6 +11,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 // State Collection Types
 export interface InitialStateType {
+  notification: IAddSupplierProductNotification;
   submit_validation: IAddSupplierProductSubmitValidation;
   item: IAddSupplierProductItem;
   variant: IAddSupplierProductVariant[];
@@ -18,6 +19,12 @@ export interface InitialStateType {
 }
 
 // State Collection Types consist of:
+
+export interface IAddSupplierProductNotification {
+  open: boolean;
+  success: boolean;
+}
+
 export interface IAddSupplierProductSubmitValidation {
   status: boolean;
 }
@@ -86,6 +93,9 @@ export interface IAddSupplierProductImages {
 }
 
 export enum AddSupplierProductActionEnum {
+  // notification
+  SetNotification = "SetNotification",
+  CloseNotification = "CloseNotification",
   // submit validation
   SetSubmitValidation = "SetSubmitValidation",
   //   item form
@@ -119,12 +129,23 @@ export enum AddSupplierProductActionEnum {
 
 // Action Collection Types
 export type AddSupplierProductActions =
+  | AddSupplierProductNotificationActions
   | AddSupplierProductSubmitValidationActions
   | AddSupplierProductItemActions
   | AddSupplierProductVariantActions
   | AddSupplierProductImagesActions;
 
 // Action Collection Types consist of:
+
+// Notification
+type AddSupplierProductNotificationPayload = {
+  [AddSupplierProductActionEnum.SetNotification]: IAddSupplierProductNotification;
+  [AddSupplierProductActionEnum.CloseNotification]: undefined;
+};
+
+export type AddSupplierProductNotificationActions =
+  ActionMap<AddSupplierProductNotificationPayload>[keyof ActionMap<AddSupplierProductNotificationPayload>];
+
 // Submit Validation
 type AddSupplierProductSubmitValidationPayload = {
   [AddSupplierProductActionEnum.SetSubmitValidation]: {

@@ -1,17 +1,22 @@
 import React, { createContext, useReducer, Dispatch, useEffect } from "react";
 import {
-  AddSupplierProductActionEnum,
   AddSupplierProductActions,
   InitialStateType,
 } from "./AddSupplierProduct.types";
 import {
   addSupplierProductImagesReducer,
   addSupplierProductItemReducer,
+  addSupplierProductNotificationReducer,
   addSupplierProductSubmitValidationReducer,
   addSupplierProductVariantReducer,
 } from "./AddSupplierProduct.reducers";
+import { useAddSupplierProductSubmitValidationListeners } from "./AddSupplierProduct.listeners";
 
 const initialState: InitialStateType = {
+  notification: {
+    open: false,
+    success: false,
+  },
   submit_validation: {
     status: false,
   },
@@ -85,9 +90,10 @@ const AddSupplierProductContext = createContext<{
 });
 
 const mainReducer = (
-  { submit_validation, item, variant, images }: InitialStateType,
+  { notification, submit_validation, item, variant, images }: InitialStateType,
   action: AddSupplierProductActions
 ) => ({
+  notification: addSupplierProductNotificationReducer(notification, action),
   submit_validation: addSupplierProductSubmitValidationReducer(
     submit_validation,
     action
@@ -99,40 +105,8 @@ const mainReducer = (
 
 const AddSupplierProductProvider = (props: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
+  useAddSupplierProductSubmitValidationListeners(state, dispatch);
 
-  useEffect(() => {
-    dispatch({
-      type: AddSupplierProductActionEnum.SetSubmitValidation,
-      payload: {
-        name: state.item.name.value,
-        category: state.item.category.value,
-        length: state.item.length.value,
-        width: state.item.width.value,
-        height: state.item.height.value,
-        weight: state.item.weight.value,
-        description: state.item.description.value,
-        availability: state.item.availability.value,
-        variants: state.variant.map((item) => {
-          return {
-            sku: item.sku.value,
-            name: item.variant.value,
-            price: item.price.value,
-            stock: item.stock.value,
-          };
-        }),
-      },
-    });
-  }, [
-    state.item.name.value,
-    state.item.category.value,
-    state.item.length.value,
-    state.item.width.value,
-    state.item.height.value,
-    state.item.weight.value,
-    state.item.description.value,
-    state.item.availability.value,
-    state.variant,
-  ]);
   return (
     <AddSupplierProductContext.Provider value={{ state, dispatch }}>
       {props.children}

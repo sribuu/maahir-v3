@@ -27,6 +27,7 @@ export interface IPutSupplierProductRequest {
   width: number;
   height: number;
   variants: {
+    id: number;
     sku: string;
     name: string;
     stock: number;

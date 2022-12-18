@@ -9,6 +9,7 @@ import AddVariantFormManageProduct from "../add_variant_form/AddVariantForm.mana
 import { AddSupplierProductActionEnum } from "../../contexts/add/AddSupplierProduct.types";
 import InvalidImageUploadlModalManageProduct from "../invalid_image_upload_modal/InvalidImageUpload.manage_product";
 import { useAddSupplierProductCreateSupplierProduct } from "../../hooks/usePostCreateSupplierProduct";
+import ToastComponent from "@/src/core/ui/components/toast/Toast.component";
 
 export interface IAddProductFormManageProductProps {}
 
@@ -57,6 +58,12 @@ export default function AddProductFormManageProduct(
   const handleSaveProduct = (e: React.MouseEvent<HTMLButtonElement>) => {
     createSupplierProduct();
   };
+
+  const handleCloseToast = () => {
+    dispatch({
+      type: AddSupplierProductActionEnum.CloseNotification,
+    });
+  };
   return (
     <form
       className={clsx("grid grid-cols-1 gap-y-[1.5rem]", "w-full")}
@@ -101,6 +108,12 @@ export default function AddProductFormManageProduct(
           {"Simpan Produk"}
         </button>
       </div>
+      <ToastComponent
+        open={state.notification.open}
+        message={"Sukses menambahkan data"}
+        error={!state.notification.success}
+        onClose={handleCloseToast}
+      />
       <InvalidImageUploadlModalManageProduct />
     </form>
   );

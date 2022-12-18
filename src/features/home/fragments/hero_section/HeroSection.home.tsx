@@ -47,9 +47,13 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
       className={clsx(
         "grid justify-center content-start justify-items-center",
         "relative",
-        "py-[252px] gap-y-12 min-h-[68.625rem] w-full",
-        "bg-gradient-to-r from-mauve to-caribbean-green bg-cover"
+        "py-[124px] sm:py-[252px] min-h-[470px] sm:min-h-[68.625rem] w-full",
+        "overflow-hidden"
       )}
+      style={{
+        background:
+          "linear-gradient(283.71deg, #00D6A1 -7.08%, #D8A7FF 127.02%)",
+      }}
     >
       {/* lines */}
       <img
@@ -63,91 +67,71 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
       />
       {/* products */}
       <img
-        className={clsx("animate-slideRight", "absolute top-[15rem] left-0")}
+        className={clsx(
+          "animate-slideRight",
+          "absolute top-[15rem] left-0",
+          "hidden sm:block",
+          ""
+        )}
         src={"/images/maahir-product-1.svg"}
       />
       <img
         className={clsx(
           "animate-slideLeft",
-          "absolute top-[20.125rem] right-0"
+          "absolute",
+          "top-[120px] sm:top-[20.125rem] right-[-30px] sm:right-[0rem]",
+          "w-[124px] h-[180px] sm:w-[484px] sm:h-[510px]"
         )}
         src={"/images/maahir-product-2.svg"}
       />
       {/* content */}
       <div
         className={clsx(
-          "grid justify-center justify-items-center max-w-[48rem] gap-y-8"
+          "grid justify-center justify-items-center gap-y-[0.75rem] sm:gap-y-[3rem]",
+          "max-w-[308px] sm:max-w-[36rem] md:max-w-[48rem]",
+          "absolute top-[82px] sm:top-[282px]"
         )}
       >
-        <h1
-          className={clsx(
-            "animate-fadeIn",
-            "text-[3.75rem] font-bold text-center",
-            "text-white"
-          )}
-        >
-          {"Siap Jualan Produk Viral Dari Mana Aja, Kapan Aja!"}
-        </h1>
-
-        <p
-          className={clsx(
-            "animate-fadeIn",
-            "text-[1.5rem] font-regular text-center",
-            "text-white"
-          )}
-        >
-          {"Mau mulai jualan sekarang?"}
-        </p>
-      </div>
-      <ButtonComponent intent={"primary"} size={"large"}>
-        {"Gabung grup jualan Di Maahir"}
-      </ButtonComponent>
-
-      <Link href={RouterPathName.AllProducts}>
-        <p
-          className={clsx(
-            "text-base font-bold text-center",
-            "text-ocean-boat-blue",
-            "absolute bottom-[-30rem] left-[50%] translate-x-[-50%]"
-          )}
-        >
-          {"Lihat Semua Produk"}
-        </p>
-      </Link>
-
-      <div
-        className={clsx(
-          "grid justify-center justify-items-center",
-          "gap-x-8 gap-y-[3rem]",
-          "absolute bottom-[-420px] z-10"
-        )}
-      >
-        <p
-          className={clsx("text-[2.25rem] font-bold text-center", "text-white")}
-        >
-          {"Product jualan paling viral buat kamu"}
-        </p>
         <div
           className={clsx(
-            "grid justify-center justify-items-center gap-x-8",
-            state.viral_products.length >= 3
-              ? "grid-cols-3"
-              : `grid-cols-${state.viral_products.length}`
+            "grid grid-cols-1 gap-y-[0.375rem] sm:gap-y-[2rem] place-content-center place-item-center",
+            "w-full"
           )}
         >
-          {state.viral_products.map((item, index) => (
-            <HighlightProductCard
-              key={index}
-              id={String(item.id)}
-              name={item.name}
-              productSrc={item.image}
-              profitValue={item.profit}
-              price={item.price}
-              onClick={handleClickBuyNow}
-              onClickAddToCart={handleAddToCart}
-            />
-          ))}
+          <h1
+            className={clsx(
+              "animate-fadeIn",
+              "text-[1.25rem] sm:text-[3.75rem]",
+              "font-bold text-center",
+              "text-white"
+            )}
+          >
+            {"Siap Jualan Produk Viral Dari Mana Aja, Kapan Aja!"}
+          </h1>
+
+          <p
+            className={clsx(
+              "animate-fadeIn",
+              "font-regular text-center",
+              "text-[0.875rem] sm:text-[1.5rem]",
+              "text-white"
+            )}
+          >
+            {"Mau mulai jualan sekarang?"}
+          </p>
         </div>
+
+        <button
+          className={clsx(
+            "px-[0.75rem] sm:px-[0.875rem] py-[0.25rem] sm:py-[0.875rem]",
+            "rounded-[0.5rem] sm:rounded-[0.75rem]",
+            "bg-ocean-boat-blue"
+          )}
+        >
+          <p className={clsx("text-white text-[0.875rem] font-bold")}>
+            {"Gabung grup jualan Di Maahir"}
+          </p>
+        </button>
       </div>
     </section>
   );

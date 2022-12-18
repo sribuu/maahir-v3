@@ -2,7 +2,7 @@ import * as React from "react";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 
-export interface IHighlightItemCardHomeProps {
+export interface IHighlightProductCardHomeProps {
   id?: string;
   name?: string;
   profitValue?: string;
@@ -14,7 +14,7 @@ export interface IHighlightItemCardHomeProps {
   onClickAddToCart?: (data: number) => void;
 }
 
-HighlightItemCardHome.defaultProps = {
+HighlightProductCardHome.defaultProps = {
   name: "Paket Reseller Setelan Rayon",
   profitValue: "Potensi keuntungan mulai dari Rp20.000",
   price: "Rp49.999",
@@ -22,8 +22,8 @@ HighlightItemCardHome.defaultProps = {
   productSrc: "/images/sample-product.png",
 };
 
-export default function HighlightItemCardHome(
-  props: IHighlightItemCardHomeProps
+export default function HighlightProductCardHome(
+  props: IHighlightProductCardHomeProps
 ) {
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClick) {
@@ -37,25 +37,42 @@ export default function HighlightItemCardHome(
     }
   };
   return (
-    <div className={clsx("grid gap-y-5 p-6 rounded-2xl shadow-1", "bg-white")}>
+    <div
+      className={clsx(
+        "grid gap-y-[1rem] sm:gap-y-[1.25rem] p-[1rem] sm:p-[1.5rem] rounded-2xl shadow-1",
+        "bg-white",
+        "min-w-[242px]"
+      )}
+    >
       <img
         src={props.productSrc}
-        width={312}
-        height={312}
         loading={"lazy"}
-        className={clsx("object-cover rounded-lg w-[312px] h-[312px]")}
+        className={clsx(
+          "object-cover rounded-lg",
+          "w-[210px] sm:w-[312px] h-[136px] sm:h-[312px]"
+        )}
       />
 
-      <div className={clsx("grid gap-y-1.5")}>
-        <p className={clsx("text-base text-dark-charcoal font-regular")}>
+      <div className={clsx("grid gap-y-[0.25rem] sm:gap-y-[0.375rem]")}>
+        <p
+          className={clsx(
+            "text-dark-charcoal font-regular",
+            "text-[1rem] sm:text-[1.25rem]"
+          )}
+        >
           {props.name}
         </p>
-        <p className={clsx("text-[1.5rem] text-ocean-boat-blue font-bold")}>
+        <p
+          className={clsx(
+            "text-ocean-boat-blue font-bold",
+            "text-[1rem] sm:text-[1.5rem]"
+          )}
+        >
           {props.price}
         </p>
       </div>
 
-      <div className={clsx("flex gap-x-2")}>
+      <div className={clsx("flex gap-x-[0.375rem] sm:gap-y-[1.25rem]")}>
         <img
           src={"/icons/verified.svg"}
           width={20}
@@ -67,24 +84,46 @@ export default function HighlightItemCardHome(
         >{`Potensi keuntungan mulai dari ${props.profitValue}`}</p>
       </div>
 
-      <ButtonComponent
-        id={props.id}
-        intent={"primary"}
-        size={"medium"}
-        onClick={handleClickBuyNow}
+      <div
+        className={clsx(
+          "grid",
+          "w-full",
+          "grid-cols-[1fr_auto] sm:grid-cols-1",
+          "gap-y-[0rem] sm:gap-y-[1.25rem]",
+          "gap-x-[0.625rem] sm:gap-x-[0rem]",
+          "place-content-center place-items-center"
+        )}
       >
-        {"Beli Sekarang"}
-      </ButtonComponent>
+        <ButtonComponent
+          id={props.id}
+          intent={"primary"}
+          size={"medium"}
+          className={"w-full"}
+          onClick={handleClickBuyNow}
+        >
+          {"Beli Sekarang"}
+        </ButtonComponent>
 
-      <ButtonComponent
-        id={props.id}
-        intent={"secondary"}
-        size={"medium"}
-        onClick={handleClickAddtoCart}
-      >
-        <img src={"/icons/add-to-cart-blue.svg"} />
-        {"Keranjang"}
-      </ButtonComponent>
+        <ButtonComponent
+          className={clsx("hidden sm:flex", "w-full")}
+          id={props.id}
+          intent={"secondary"}
+          size={"medium"}
+          onClick={handleClickAddtoCart}
+        >
+          <img src={"/icons/add-to-cart-blue.svg"} />
+          {"Keranjang"}
+        </ButtonComponent>
+        <ButtonComponent
+          className={clsx("sm:hidden", "w-full")}
+          id={props.id}
+          intent={"secondary"}
+          size={"medium"}
+          onClick={handleClickAddtoCart}
+        >
+          <img src={"/icons/add-to-cart-blue.svg"} />
+        </ButtonComponent>
+      </div>
     </div>
   );
 }

@@ -21,20 +21,25 @@ export default function FAQSectionHome(props: IFAQSectionHomeProps) {
     <div
       className={clsx(
         "grid justify-center content-start justify-items-center w-full grid-cols-1",
-        "pt-[694px] pb-[5rem] gap-y-12 min-h-[68.625rem]",
-        "bg-gradient-to-r from-white to-mint-cream"
+        "pb-[5rem] gap-y-12",
+        "min-h-[936px] sm:min-h-[1336px]",
+        "bg-gradient-to-r from-white to-mint-cream",
+        "relative"
       )}
     >
       <div
         className={clsx(
           "grid grid-cols-1 justify-start content-start justify-items-start",
           "max-w-[62.25rem] w-full",
-          "gap-y-12"
+          "gap-y-[40px] sm:gap-y-[3rem]",
+          "px-[1rem] sm:px-[0rem]",
+          "absolute top-[348px] sm:top-[694px]"
         )}
       >
         <p
           className={clsx(
-            "text-[2.25rem] font-bold text-center",
+            "font-bold text-center",
+            "text-[1.25rem] sm:text-[2.25rem]",
             "text-cetacean-blue"
           )}
         >
@@ -50,13 +55,20 @@ export default function FAQSectionHome(props: IFAQSectionHomeProps) {
           >
             <p
               className={clsx(
-                "text-[1.125rem] font-bold",
+                "font-bold",
+                "text-[1rem] sm:text-[1.125rem]",
                 "text-charleston-green"
               )}
             >
               {item.question}
             </p>
-            <p className={clsx("text-base font-regular", "text-independence")}>
+            <p
+              className={clsx(
+                "font-regular",
+                "text-[0.875rem] sm:text-[1rem]",
+                "text-independence"
+              )}
+            >
               {item.answer}
             </p>
           </div>

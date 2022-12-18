@@ -43,7 +43,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     <div
       className={clsx(
         "grid",
-        "gap-y-[1rem] p-4 rounded-2xl shadow-1",
+        "gap-y-[0.625rem] sm:gap-y-[1rem] p-[0.625rem] sm:p-4 rounded-2xl shadow-1",
         "bg-white",
         "cursor-pointer"
       )}
@@ -51,10 +51,11 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
       <button id={props.id} onClick={handleClickItem}>
         <img
           src={props.productSrc}
-          width={244}
-          height={180}
           loading={"lazy"}
-          className={clsx("object-cover rounded-lg w-[176px] h-[132px]")}
+          className={clsx(
+            "object-cover rounded-lg",
+            "w-[100%] md:w-[176px] h-[104px] sm:h-[132px]"
+          )}
         />
       </button>
 
@@ -91,7 +92,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
           id={props.id}
           intent={"primary"}
           size={"medium"}
-          className={"w-full"}
+          className={clsx("w-full", "hidden sm:inline-flex")}
           onClick={handleClickBuyNow}
         >
           {"Beli Sekarang"}
@@ -100,12 +101,13 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         <button
           id={props.id}
           className={clsx(
+            "hidden sm:flex",
             "bg-white",
             "text-ocean-boat-blue",
             "border-ocean-boat-blue",
             "border",
             "p-[10px]",
-            "flex justify-center items-center",
+            "justify-center items-center",
             "rounded-[0.75rem]"
           )}
           onClick={handleAddToCart}

@@ -1,6 +1,4 @@
-import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { IProducts } from "@/src/core/lib/models";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProductReactQueryKey, ProductsReactQueryKey } from "../constants";
 import {
@@ -18,10 +16,6 @@ import {
 } from "../contexts/products/Products.types";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { limitPayload, offsetPayload } from "@/src/core/utils/calculation";
-import { fetchProductGetProductById } from "../services/fetchGetProductById";
-import { RouterQueryKey } from "@/src/core/lib/constants";
-import { ProductContext } from "../contexts/product/Product.context";
-import { ProductActionEnum } from "../contexts/product/Product.types";
 
 // PRODUCTS
 export const useProductsGetProductItems = () => {
@@ -49,7 +43,10 @@ export const useProductsGetProductItems = () => {
       )[0].id;
       setPayload({ ...payload, category_id: categoryId });
     } else {
-      delete payload?.category_id;
+      setPayload({
+        ...payload,
+        category_id: null,
+      });
     }
   }, [state.filters.category.selected]);
 
@@ -67,8 +64,11 @@ export const useProductsGetProductItems = () => {
         max_price: maxPricePayload,
       });
     } else {
-      delete payload?.min_price;
-      delete payload?.max_price;
+      setPayload({
+        ...payload,
+        min_price: null,
+        max_price: null,
+      });
     }
   }, [state.filters.price.selected]);
 
@@ -81,6 +81,29 @@ export const useProductsGetProductItems = () => {
       });
     }
   }, [state.pagination.current_page]);
+
+  // cleaner
+  useEffect(() => {
+    if (payload?.max_price == null) {
+      let newPayload = payload;
+      delete newPayload?.max_price;
+      setPayload(newPayload);
+    }
+
+    if (payload?.min_price == null) {
+      let newPayload = payload;
+      delete newPayload?.min_price;
+      setPayload(newPayload);
+    }
+  }, [payload?.max_price, payload?.min_price]);
+
+  useEffect(() => {
+    if (payload?.category_id == null) {
+      let newPayload = payload;
+      delete newPayload?.category_id;
+      setPayload(newPayload);
+    }
+  }, [payload?.category_id]);
 
   // Query
   const query = useQuery<IProductGetProductsItemResponse>(

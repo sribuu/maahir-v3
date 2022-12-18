@@ -35,7 +35,7 @@ export default function ItemImageCardProduct(
         <div
           className={clsx(
             "relative overflow-hidden",
-            "flex max-w-[30rem]",
+            "max-w-[30rem]",
             "gap-x-[0.75rem]"
           )}
         >

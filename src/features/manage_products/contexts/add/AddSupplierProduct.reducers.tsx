@@ -6,7 +6,26 @@ import {
   IAddSupplierProductVariant,
   IAddSupplierProductImages,
   IAddSupplierProductSubmitValidation,
+  IAddSupplierProductNotification,
 } from "./AddSupplierProduct.types";
+
+// Notification
+export const addSupplierProductNotificationReducer = (
+  state: IAddSupplierProductNotification,
+  action: AddSupplierProductActions
+) => {
+  switch (action.type) {
+    case AddSupplierProductActionEnum.SetNotification:
+      return action.payload;
+    case AddSupplierProductActionEnum.CloseNotification:
+      return {
+        ...state,
+        open: false,
+      };
+    default:
+      return state;
+  }
+};
 
 // Submit Validation
 export const addSupplierProductSubmitValidationReducer = (
@@ -18,20 +37,25 @@ export const addSupplierProductSubmitValidationReducer = (
       const validation =
         action.payload.name.length > 0 &&
         action.payload.category.length > 0 &&
-        action.payload.length.length > 0 &&
-        parseInt(action.payload.length) > 0 &&
-        action.payload.width.length > 0 &&
-        parseInt(action.payload.width) > 0 &&
-        action.payload.height.length > 0 &&
-        parseInt(action.payload.height) > 0 &&
-        action.payload.weight.length > 0 &&
-        parseInt(action.payload.weight) > 0 &&
+        parseInt(
+          numberFormatters.thousandSeparatorToNumber(action.payload.length)
+        ) > 0 &&
+        parseInt(
+          numberFormatters.thousandSeparatorToNumber(action.payload.width)
+        ) > 0 &&
+        parseInt(
+          numberFormatters.thousandSeparatorToNumber(action.payload.height)
+        ) > 0 &&
+        parseInt(
+          numberFormatters.thousandSeparatorToNumber(action.payload.weight)
+        ) > 0 &&
         action.payload.availability.length > 0 &&
         action.payload.variants.length > 0 &&
         action.payload.variants[0].sku.length > 0 &&
         action.payload.variants[0].name.length > 0 &&
         action.payload.variants[0].price.length > 0 &&
         action.payload.variants[0].stock.length > 0;
+
       return {
         ...state,
         status: validation,

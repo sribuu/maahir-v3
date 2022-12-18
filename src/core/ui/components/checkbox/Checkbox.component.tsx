@@ -52,7 +52,11 @@ export default function CheckboxComponent(props: ICheckboxComponentProps) {
       </span>
 
       {props.name !== undefined && props.name.length > 0 && (
-        <p className={clsx("text-[1rem] text-taupe-gray font-regular")}>
+        <p
+          className={clsx(
+            "text-[0.875rem] sm:text-[1rem] text-taupe-gray font-regular"
+          )}
+        >
           {props.name}
         </p>
       )}

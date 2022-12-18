@@ -1,3 +1,4 @@
+import { useContext, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   AddSupplierProductReactQueryKey,
@@ -11,10 +12,13 @@ import {
   IUploadSupplierProductImageRequest,
   IUploadSupplierProductImageSuccessResponse,
 } from "../models";
+import { AddSupplierProductContext } from "../contexts/add/AddSupplierProduct.context";
+import { AddSupplierProductActionEnum } from "../contexts/add/AddSupplierProduct.types";
 
 // Add
 export const useAddSupplierProductUploadProductImage = () => {
   const queryClient = useQueryClient();
+  const { state, dispatch } = useContext(AddSupplierProductContext);
 
   const mutation = useMutation<
     IUploadSupplierProductImageSuccessResponse,
@@ -34,6 +38,19 @@ export const useAddSupplierProductUploadProductImage = () => {
       },
     }
   );
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      dispatch({
+        type: AddSupplierProductActionEnum.SetNotification,
+        payload: {
+          ...state.notification,
+          open: true,
+          success: true,
+        },
+      });
+    }
+  }, [mutation.isSuccess]);
 
   return mutation;
 };

@@ -1,8 +1,13 @@
 import React from "react";
+import Link from "next/link";
 import clsx from "clsx";
 import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import FilterCardProduct from "../../fragments/filter_card/FilterCard.product";
 import ProductItemListProducts from "../../fragments/product_item_list/ProductItemList.products";
+import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
+import { RouterPathName } from "@/src/core/lib/constants";
+import FilterDrawerProduct from "../../fragments/filter_drawer/FilterDrawer.product";
+
 export interface IHomeProductContainerProps {}
 
 export default function HomeProductContainer(
@@ -19,12 +24,44 @@ export default function HomeProductContainer(
       <div
         className={clsx(
           "grid grid-cols-1 justify-center content-start justify-items-center box-border",
-          "gap-y-[4rem] w-full pt-[9.625rem] pb-[6.25rem]",
+          "gap-y-[1rem] sm:gap-y-[4rem]",
+          "pt-[5rem] sm:pt-[9.625rem] pb-[6.25rem]",
+          "w-full",
           "bg-gradient-to-r from-white to-mint-cream"
         )}
       >
+        {/* tools */}
         <div
           className={clsx(
+            "flex sm:hidden",
+            "items-center justify-between",
+            "px-[1rem] sm:px-[0rem]",
+            "w-full"
+          )}
+        >
+          <div
+            className={clsx("flex items-center justify-start gap-x-[0.625rem]")}
+          >
+            <Link href={RouterPathName.Home}>
+              <NavigationIcon
+                className={clsx("w-[1.5rem] h-[1.5rem]", "fill-cetacean-blue")}
+              />
+            </Link>
+
+            <h1 className={clsx("text-[1rem] text-charleston-green font-bold")}>
+              {"Produk"}
+            </h1>
+          </div>
+
+          <div>
+            <FilterDrawerProduct />
+          </div>
+        </div>
+
+        {/* header */}
+        <div
+          className={clsx(
+            "px-[1rem] sm:px-[0rem]",
             "grid grid-cols-1 justify-center content-start justify-items-center",
             "gap-y-2 w-full max-w-[1200px]"
           )}
@@ -37,21 +74,34 @@ export default function HomeProductContainer(
           >
             <h1
               className={clsx(
-                "text-[2.25rem] font-bold",
+                "text-[1.25rem] sm:text-[2.25rem]",
+                "font-bold",
                 "text-charleston-green"
               )}
             >
               {pageContent.title}
             </h1>
-            <p className={clsx("text-base font-regular", "text-independence")}>
+            <p
+              className={clsx(
+                "text-[0.75rem] sm:text-[1rem]",
+                "font-regular",
+                "text-independence"
+              )}
+            >
               {pageContent.description}
             </p>
           </div>
         </div>
 
         {/* body */}
-        <div className={clsx("flex gap-[2rem]", "box-border max-w-[1200px]")}>
-          <div>
+        <div
+          className={clsx(
+            "flex gap-[2rem]",
+            "box-border max-w-[1200px]",
+            "px-[1rem] sm:px-[0rem]"
+          )}
+        >
+          <div className={clsx("hidden sm:block")}>
             <FilterCardProduct />
           </div>
 

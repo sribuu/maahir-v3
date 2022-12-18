@@ -18,7 +18,7 @@ export default function SkeletonItemCardProduct(
         className={clsx(
           "animate-pulse",
           "bg-bright-gray",
-          "w-[176px] h-[132px] rounded-[0.5rem]"
+          "w-[100%] sm:w-[176px] h-[104px] sm:h-[132px] rounded-[0.5rem]"
         )}
       />
 
@@ -27,14 +27,14 @@ export default function SkeletonItemCardProduct(
           className={clsx(
             "animate-pulse",
             "bg-bright-gray",
-            "w-[176px] h-[48px] rounded-[0.5rem]"
+            "w-[144px] sm:w-[176px] h-[20px] sm:h-[48px] rounded-[0.5rem]"
           )}
         />
         <div
           className={clsx(
             "animate-pulse",
             "bg-bright-gray",
-            "w-[96px] h-[32px] rounded-[0.5rem]"
+            "w-[72px] sm:w-[96px] h-[0.875rem] sm:h-[32px] rounded-[0.5rem]"
           )}
         />
       </div>
@@ -51,14 +51,15 @@ export default function SkeletonItemCardProduct(
           className={clsx(
             "animate-pulse",
             "bg-bright-gray",
-            "w-[148px] h-[32px] rounded-[0.5rem]"
+            "w-[100%] sm:w-[148px] h-[32px] rounded-[0.5rem]"
           )}
         />
       </div>
 
       <div
         className={clsx(
-          "flex justify-start items-center",
+          "hidden sm:flex",
+          "justify-start items-center",
           "w-full gap-x-[0.625rem]"
         )}
       >

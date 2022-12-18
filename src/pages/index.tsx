@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useInView } from "react-intersection-observer";
 import HomeContainer from "@/src/features/home/containers/reseller/Reseller.home";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 import {
@@ -8,10 +7,9 @@ import {
   fetchMaahirMenu,
   fetchMaahirSocialMedia,
 } from "@/src/core/lib/api";
-import { fetchTopThreeViralProducts } from "@/src/core/lib/api/dynamic";
 import { PageKey, ReactQueryKey } from "../core/lib/constants";
 import { IHeaders } from "@/src/core/lib/models";
-import { ResellerHomeReactQueryKey } from "../features/home/constants";
+import { ResellerHomeProvider } from "../features/home/contexts/Home.context";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -28,11 +26,6 @@ export async function getStaticProps() {
       [ReactQueryKey.GetSocialMedia],
       fetchMaahirSocialMedia
     );
-    // dynamic
-    // await queryClient.prefetchQuery(
-    //   [ResellerHomeReactQueryKey.GetHighlightProducts],
-    //   fetchTopThreeViralProducts
-    // );
   } catch (e) {
     isError = true;
   }
@@ -62,8 +55,9 @@ export default function HomePage({ isErrorPrefetch }) {
         <title>{headerData.title}</title>
         <meta name="description" content={headerData.description} />
       </Head>
-
-      <HomeContainer />
+      <ResellerHomeProvider>
+        <HomeContainer />
+      </ResellerHomeProvider>
     </>
   );
 }
