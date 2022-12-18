@@ -47,14 +47,15 @@ export const useResellerHomeGetViralProducts = () => {
 
 export const useResellerHomeAddViralProductToCart = () => {
   const queryClient = useQueryClient();
-  const viralProducts: IProducts[] = queryClient.getQueryData([
-    ResellerHomeReactQueryKey.GetHighlightProducts,
-  ]);
+  const viralProducts: { total: number; products: IProducts[] } =
+    queryClient.getQueryData([ResellerHomeReactQueryKey.GetHighlightProducts]);
 
   const mutation = useMutation<ICart[], any, number>(
     [ResellerHomeReactQueryKey.SaveHighlightProductToCart],
     (data: number) => {
-      const filterData = viralProducts?.filter((item) => item.id === data)[0];
+      const filterData = viralProducts?.products?.filter(
+        (item) => item.id === data
+      )[0];
       const payload = {
         ...filterData,
         amount: 1,

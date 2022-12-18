@@ -3,6 +3,7 @@ import { ICart, IProducts } from "@/src/core/lib/models";
 import { fetchAddToCart } from "@/src/core/lib/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
+import { IResellerHomeGetProductsItemResponse } from "../../home/models/get_products";
 import { ProductReactQueryKey, ProductsReactQueryKey } from "../constants";
 import { ProductContext } from "../contexts/product/Product.context";
 
@@ -16,7 +17,9 @@ export const useProductsAddItemToCart = () => {
     (data: number) => {
       const itemData: IProducts[] = queryClient.getQueryData(
         [ProductsReactQueryKey.GetProductItems],
-        { exact: false }
+        {
+          exact: false,
+        }
       );
 
       const filteredItemData = itemData?.filter((item) => item.id === data)[0];

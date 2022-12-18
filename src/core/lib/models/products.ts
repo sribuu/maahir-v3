@@ -1,22 +1,34 @@
 export interface IProducts {
-  title: string;
-  profit_value: number;
-  price: number;
-  image: string;
+  category_id: number;
+  category_name: string;
+  description: string;
   detail_images: string[];
-  length: number;
-  width: number;
-  stock: number;
   height: number;
-  weight: number;
   id: number;
-  retail_price_min: number;
-  retail_price_max: number;
+  id_variant: number;
+  image: string;
   is_priority: boolean;
   is_show: boolean;
-  description: string;
-  category_name: string;
-  category_id: number;
+  length: number;
+  price: number;
+  profit_value: number;
+  retail_price_max: number;
+  retail_price_min: number;
+  stock: number;
+  title: string;
+  sku: string;
+  variant_name: string;
+  weight: number;
+  width: number;
+  variants: {
+    sku: string;
+    id: number;
+    name: string;
+    product_id: number;
+    stock: number;
+    price: number;
+    is_show: boolean;
+  }[];
 }
 export interface IProductsRequest {
   limit?: number;
