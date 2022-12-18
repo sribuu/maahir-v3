@@ -7,6 +7,7 @@ import ProductItemListProducts from "../../fragments/product_item_list/ProductIt
 import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
 import { RouterPathName } from "@/src/core/lib/constants";
 import FilterDrawerProduct from "../../fragments/filter_drawer/FilterDrawer.product";
+import ProductInfinityScrollItemListProducts from "../../fragments/product_infinity_scroll_item_list";
 
 export interface IHomeProductContainerProps {}
 
@@ -105,7 +106,13 @@ export default function HomeProductContainer(
             <FilterCardProduct />
           </div>
 
-          <ProductItemListProducts />
+          <div className={clsx("hidden sm:grid", "grid-cols-1", "w-full")}>
+            <ProductItemListProducts />
+          </div>
+
+          <div className={clsx("grid sm:hidden", "grid-cols-1", "w-full")}>
+            <ProductInfinityScrollItemListProducts />
+          </div>
         </div>
       </div>
     </MainLayout>

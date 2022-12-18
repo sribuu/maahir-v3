@@ -53,6 +53,7 @@ export enum ProductsActionEnum {
   SetProductItems = "SetProductItems",
   SetProductsPagination = "SetProductsPagination",
   ChangeCurrentPage = "ChangeCurrentPage",
+  AddCurrentPage = "AddCurrentPage",
   SetPriceFilterList = "SetPriceFilterList",
   SetCategoryFilterList = "SetCategoryFilterList",
   FilterProductsByPrice = "FilterProductsByPrice",
@@ -80,6 +81,7 @@ export type ProductItemsActions =
 type ProductsPaginationPayload = {
   [ProductsActionEnum.SetProductsPagination]: IProductsPagination;
   [ProductsActionEnum.ChangeCurrentPage]: number;
+  [ProductsActionEnum.AddCurrentPage]: undefined;
 };
 
 export type ProductsPaginationActions =

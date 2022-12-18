@@ -33,6 +33,11 @@ export const productsPaginationReducer = (
         ...state,
         current_page: action.payload,
       };
+    case ProductsActionEnum.AddCurrentPage:
+      return {
+        ...state,
+        current_page: state.current_page + 1,
+      };
     default:
       return state;
   }
