@@ -29,6 +29,7 @@ export default function NotesComponent(props: INotesComponentProps) {
   useEffect(() => {
     if (props.value?.length > 0) {
       setSaveValue(props.value);
+      setChangeValue(props.value);
     }
   }, [props.value]);
 

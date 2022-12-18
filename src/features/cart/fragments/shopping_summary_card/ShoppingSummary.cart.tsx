@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import DividerComponent from "@/src/core/ui/components/divider/Divider.component";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import { CartContext } from "../../contexts/cart/Cart.context";
 import { thousandSeparator } from "@/src/core/utils/formatters";
-import { useMutateOrderProduct } from "@/src/features/orders/hooks/useOrderItem";
 import { v4 as uuid } from "uuid";
-import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
+import { RouterPathName } from "@/src/core/lib/constants";
+
 export interface IShoppingSummaryCardCartProps {
   id?: string;
   title?: string;
@@ -46,7 +46,6 @@ export default function ShoppingSummaryCardCart(
   };
 
   const handleClickCancel = () => {
-    //
     router.push(RouterPathName.AllProducts);
   };
   // useEffect(() => {
@@ -67,7 +66,11 @@ export default function ShoppingSummaryCardCart(
         "bg-white shadow-1 border-bright-gray"
       )}
     >
-      <p className={clsx("text-[1.25rem] text-charleston-green font-regular")}>
+      <p
+        className={clsx(
+          "text-[1rem] sm:text-[1.25rem] text-charleston-green font-bold"
+        )}
+      >
         {props.title}
       </p>
 
@@ -108,16 +111,7 @@ export default function ShoppingSummaryCardCart(
                       "text-[0.875rem] text-charleston-green font-regular"
                     )}
                   >
-                    {"Qty: "}
-                    <span
-                      className={clsx(
-                        "text-[0.875rem] text-charleston-green font-regular"
-                      )}
-                    >
-                      {item.amount > 1
-                        ? `${item.amount} items`
-                        : `${item.amount} item`}
-                    </span>
+                    {item.amount} {"barang"}
                   </p>
                 </div>
                 <p
@@ -153,28 +147,29 @@ export default function ShoppingSummaryCardCart(
             "grid gap-y-[0.125rem] grid-cols-1 items-start content-start"
           )}
         >
-          <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
+          <p
+            className={clsx(
+              "text-[1rem]",
+              "text-charleston-green",
+              "font-bold"
+            )}
+          >
             {"Total Harga"}
           </p>
           <p
             className={clsx(
-              "text-[0.875rem] text-charleston-green font-regular"
+              "text-[0.75rem] sm:text-[0.875rem]",
+              "text-charleston-green",
+              "font-regular"
             )}
           >
             {/* {"6 items"} */}
             {`${state.cart.items
               .filter((item) => state.cart.selected_items.includes(item.id))
-              .reduce((acc, item) => acc + item.amount, 0)} ${
-              state.cart.items
-                .filter((item) => state.cart.selected_items.includes(item.id))
-                .reduce((acc, item) => acc + item.amount, 0) > 1
-                ? "items"
-                : "item"
-            }`}
+              .reduce((acc, item) => acc + item.amount, 0)} barang`}
           </p>
         </div>
         <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
-          {/* {"Rp2.297.996"} */}
           {thousandSeparator(
             state.cart.items
               .filter((item) => state.cart.selected_items.includes(item.id))

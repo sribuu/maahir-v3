@@ -55,65 +55,121 @@ export default function ItemListCart(props: IItemListCartProps) {
         checked={props.checked}
         onChange={handleSelectItem}
       />
-      <img
-        src={item.image}
-        width={126}
-        className={clsx(
-          "object-cover",
-          "w-[126px] h-[150px]",
-          "rounded-[0.5rem]"
-        )}
-      />
-
-      {/* description */}
       <div
         className={clsx(
-          "grid gap-y-[0.75rem] grid-cols-1 items-start content-start"
+          "grid gap-y-[0.25rem] sm:gap-y-[0.75rem] grid-cols-1 items-start content-start",
+          "w-full"
         )}
       >
+        <div className={clsx("flex gap-x-[1.25rem] w-full")}>
+          <img
+            src={item.image}
+            width={126}
+            className={clsx(
+              "object-cover",
+              "w-[110px] sm:w-[126px] h-[88px] sm:h-[150px]",
+              "rounded-[0.5rem]"
+            )}
+          />
+
+          {/* description */}
+          <div
+            className={clsx(
+              "grid gap-y-[0.25rem] sm:gap-y-[0.75rem] grid-cols-1 items-start content-start"
+            )}
+          >
+            <div
+              className={clsx(
+                "grid gap-y-[0rem] grid-cols-1 items-start content-start"
+              )}
+            >
+              <p
+                className={clsx("text-[0.75rem] text-taupe-gray font-regular")}
+              >
+                {item.category_name}
+              </p>
+              <p
+                className={clsx(
+                  "text-[0.875rem] sm:text-[1rem] text-dark-charcoal font-regular"
+                )}
+              >
+                {item.title}
+              </p>
+            </div>
+            {item.variant?.length > 0 && (
+              <p
+                className={clsx(
+                  "text-[0.75rem] sm:text-[0.875rem] text-taupe-gray font-regular"
+                )}
+              >
+                {item.variant}
+              </p>
+            )}
+
+            <p
+              className={clsx(
+                "text-[0.875rem] sm:text-[1.75rem] text-dark-charcoal font-bold"
+              )}
+            >
+              {thousandSeparator(item.price)}
+            </p>
+
+            {/* notes */}
+            <div
+              className={clsx(
+                "hidden sm:grid gap-y-[0.25rem] sm:gap-y-[0.75rem] grid-cols-1 items-start content-start"
+              )}
+            >
+              <p
+                className={clsx("text-[0.75rem] text-taupe-gray font-regular")}
+              >
+                {
+                  "Mohon diisi untuk memilih varian atau mengirimkan catatan lainnya ke penjual"
+                }
+              </p>
+              <NotesComponent
+                id={String(item.id)}
+                value={item.note}
+                onSave={handleSaveNote}
+              />
+            </div>
+          </div>
+          {/* end description */}
+          <div className={clsx("hidden sm:block")}>
+            <CounterComponent
+              quantity={item.amount}
+              onSummation={handleAdd}
+              onSubstract={handleSubstract}
+            />
+          </div>
+        </div>
+
         <div
+          id={"mobile-notes-counter"}
           className={clsx(
-            "grid gap-y-[0rem] grid-cols-1 items-start content-start"
+            "grid sm:hidden grid-cols-[1fr_auto] items-center justify-between content-center justify-items-start",
+            "gap-x-[0.625rem]",
+            "w-full"
           )}
         >
-          <p className={clsx("text-[0.75rem] text-taupe-gray font-regular")}>
-            {item.category_name}
-          </p>
-          <p className={clsx("text-[1rem] text-dark-charcoal font-regular")}>
-            {item.title}
-          </p>
+          <div
+            className={clsx(
+              "grid sm:hidden gap-y-[0.25rem] sm:gap-y-[0.75rem] grid-cols-1 items-start content-start"
+            )}
+          >
+            <NotesComponent
+              id={String(item.id)}
+              value={item.note}
+              onSave={handleSaveNote}
+            />
+          </div>
+          <CounterComponent
+            quantity={item.amount}
+            onSummation={handleAdd}
+            onSubstract={handleSubstract}
+          />
         </div>
-        {item.variant?.length > 0 && (
-          <p className={clsx("text-[0.875rem] text-taupe-gray font-regular")}>
-            {item.variant}
-          </p>
-        )}
-
-        <p className={clsx("text-[1.75rem] text-dark-charcoal font-bold")}>
-          {thousandSeparator(item.price)}
-        </p>
-
-        {/* notes */}
-        <p className={clsx("text-[0.75rem] text-taupe-gray font-regular")}>
-          {
-            "Mohon diisi untuk memilih varian atau mengirimkan catatan lainnya ke penjual"
-          }
-        </p>
-
-        {/* notes koding sini dulu */}
-
-        <NotesComponent
-          id={String(item.id)}
-          value={item.note}
-          onSave={handleSaveNote}
-        />
       </div>
-
-      <CounterComponent
-        quantity={item.amount}
-        onSummation={handleAdd}
-        onSubstract={handleSubstract}
-      />
     </div>
   );
 }

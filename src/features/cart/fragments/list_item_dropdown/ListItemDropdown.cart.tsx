@@ -69,7 +69,7 @@ export default function ListItemDropdownCart(
             )}
           >
             <p className={clsx("text-[0.625rem] text-white font-medium")}>
-              {props.cartData.length}
+              {props.cartData?.reduce((acc, item) => acc + item.amount, 0)}
             </p>
           </div>
         )}
@@ -82,10 +82,10 @@ export default function ListItemDropdownCart(
         <div
           className={clsx(
             "absolute top-[4.5rem] right-[0px]",
-            "grid gap-y-[1.5rem] grid-cols-1 items-start content-start",
+            "gap-y-[1.5rem] grid-cols-1 items-start content-start",
             "p-6 rounded-[1rem] border box-border w-[420px] overflow-hidden",
             "bg-white shadow-1 border-bright-gray",
-            open ? "block" : "hidden"
+            open ? "hidden sm:grid" : "hidden"
           )}
           onMouseLeave={handleMouseLeave}
         >

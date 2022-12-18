@@ -1,24 +1,19 @@
-import { useRouter } from "next/router";
 import { useContext } from "react";
-import clsx from "clsx";
+import { useRouter } from "next/router";
 import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
-import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import AvailableStockProduct from "../available_stock/AvailableStock.product";
+import clsx from "clsx";
+import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import AvailableVariantProduct from "../available_variant/AvailableVariant.product";
-import { ProductContext } from "../../contexts/product/Product.context";
-import { ProductActionEnum } from "../../contexts/product/Product.types";
-import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import { useProductAddItemToCart } from "../../hooks/useProductCart";
+import { ProductContext } from "../../contexts/product/Product.context";
+import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
+import { ProductActionEnum } from "../../contexts/product/Product.types";
 
-export interface IItemDescriptionCardProductProps {
-  onAddToCart?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onAddItemNumber?: (data: number) => void;
-  onSubstractItemNumber?: (data: number) => void;
-}
-ItemDescriptionCardProduct.defaultProps = {};
+export interface IItemDescriptionProductProps {}
 
-export default function ItemDescriptionCardProduct(
-  props: IItemDescriptionCardProductProps
+export default function ItemDescriptionProduct(
+  props: IItemDescriptionProductProps
 ) {
   const router = useRouter();
   const { state, dispatch } = useContext(ProductContext);
@@ -57,45 +52,50 @@ export default function ItemDescriptionCardProduct(
   const handleClickAddToCart = () => {
     addItemToCart();
   };
-
   return (
     <div
       className={clsx(
-        "hidden sm:grid",
-        "grid gap-y-[2rem] items-start content-start",
-        "p-6 rounded-[1rem] border max-w-[532px] box-border",
-        "bg-white shadow-1 border-bright-gray"
+        "grid sm:hidden",
+        "grid-cols-1 gap-y-[0.75rem]",
+        "w-full",
+        "px-[1rem]"
       )}
     >
-      <div className={clsx("grid gap-y-[1rem] grid-cols-1")}>
-        <div className={clsx("grid gap-y-[0.5rem] grid-cols-1")}>
-          <p className={clsx("text-[1.75rem] text-dark-charcoal font-regular")}>
-            {state.detail.name}
-          </p>
-          <p
-            className={clsx(
-              "hidden sm:block",
-              "text-[1rem] text-taupe-gray font-regular"
-            )}
-          >
-            {"Kategori: "}
-            <span
-              className={clsx("text-[1rem] text-charleston-green font-regular")}
+      <div className={clsx("grid gap-y-[0.75rem] grid-cols-1")}>
+        {/* top */}
+        <div className={clsx("grid gap-y-[0.625rem] grid-cols-1", "w-full")}>
+          <div className={clsx("flex items-center justify-between", "w-full")}>
+            <p className={clsx("text-[1rem] text-dark-charcoal font-bold")}>
+              {state.detail.variant.price.selected}
+            </p>
+
+            <p className={clsx("text-[1rem] text-taupe-gray font-regular")}>
+              {"Kategori: "}
+              <span
+                className={clsx(
+                  "text-[1rem] text-charleston-green font-regular"
+                )}
+              >
+                {state.detail.category}
+              </span>
+            </p>
+          </div>
+
+          <div className={clsx("grid gap-y-[0.5rem] grid-cols-1")}>
+            <p
+              className={clsx("text-[1.75rem] text-dark-charcoal font-regular")}
             >
-              {state.detail.category}
-            </span>
-          </p>
+              {state.detail.name}
+            </p>
+          </div>
+
+          <AvailableVariantProduct
+            selected={state.detail.variant.name.selected}
+            variants={state.detail.variant.name.list}
+            onSelect={handleSelectVariant}
+          />
         </div>
 
-        {/* price */}
-        <p
-          className={clsx(
-            "hidden sm:block",
-            "text-[2.25rem] text-dark-charcoal font-regular"
-          )}
-        >
-          {state.detail.variant.price.selected}
-        </p>
         <p className={clsx("text-[1rem] text-independence font-regular")}>
           {state.detail.description}
         </p>
@@ -113,7 +113,8 @@ export default function ItemDescriptionCardProduct(
           />
           <p
             className={clsx(
-              "text-[1rem] font-regular text-taupe-gray text-start"
+              "text-[0.75rem] sm:text-[1rem]",
+              "font-regular text-taupe-gray text-start"
             )}
           >
             {`Harga jual satuan ${state.detail.min_price} - ${state.detail.max_price}`}
@@ -129,7 +130,8 @@ export default function ItemDescriptionCardProduct(
           />
           <p
             className={clsx(
-              "text-[1rem] font-regular text-taupe-gray text-start"
+              "text-[0.75rem] sm:text-[1rem]",
+              "font-regular text-taupe-gray text-start"
             )}
           >
             {`Potensi keuntungan mulai dari ${state.detail.profit}`}
@@ -137,14 +139,14 @@ export default function ItemDescriptionCardProduct(
         </div>
       </div>
 
-      <AvailableVariantProduct
-        selected={state.detail.variant.name.selected}
-        variants={state.detail.variant.name.list}
-        onSelect={handleSelectVariant}
-      />
-
       {/* counter */}
-      <div className={clsx("flex gap-x-[1.25rem] items-center")}>
+      <div
+        className={clsx(
+          "flex gap-x-[1.25rem] items-center justify-between sm:justify-start",
+          "h-[44px] sm:h-auto",
+          "w-full"
+        )}
+      >
         <p
           className={clsx(
             "text-[1rem] font-regular text-charleston-green text-start"
@@ -167,7 +169,7 @@ export default function ItemDescriptionCardProduct(
         <ButtonComponent
           id={String(state.detail.id)}
           intent={"primary"}
-          size={"medium"}
+          size={"large"}
           className={"w-full"}
           onClick={handleClickBuyNow}
         >
@@ -177,7 +179,7 @@ export default function ItemDescriptionCardProduct(
         <ButtonComponent
           id={String(state.detail.id)}
           intent={"secondary"}
-          size={"medium"}
+          size={"large"}
           className={"w-full"}
           onClick={handleClickAddToCart}
         >

@@ -3,6 +3,7 @@ import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
 import ItemImageCardProduct from "../../fragments/item_image_card/ItemImageCard.product";
 import ItemDescriptionCardProduct from "../../fragments/item_description_card/ItemDescriptionCard.product";
 import ImagesSwipeableProduct from "../../fragments/images_swipeable/ImagesSwipeable.product";
+import ItemDescriptionProduct from "../../fragments/item_description/ItemDecription.product";
 
 export interface IDetailProductContainerProps {}
 
@@ -34,7 +35,13 @@ export default function DetailProductContainer(
             <ImagesSwipeableProduct />
           </div>
 
-          <ItemDescriptionCardProduct />
+          <div className={clsx("hidden sm:grid", "grid-cols-1", "w-full")}>
+            <ItemDescriptionCardProduct />
+          </div>
+
+          <div className={clsx("grid sm:hidden", "grid-cols-1", "w-full")}>
+            <ItemDescriptionProduct />
+          </div>
         </div>
       </div>
     </MainLayout>

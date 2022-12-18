@@ -1,21 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
-import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
-
-import { thousandSeparator } from "@/src/core/utils/formatters";
 
 import { CartContext } from "../../contexts/cart/Cart.context";
 import { CartActionsTypes } from "../../contexts/cart/Cart.reducers";
-import {
-  useCartRemoveCartItemByIdQuery,
-  useCartSaveCartItemByIdQuery,
-  useCartSaveCartItemNoteByIdQuery,
-  useCartSaveCartItemQuantityByIdQuery,
-} from "../../hooks/useCartItems";
-import NotesComponent from "@/src/core/ui/components/notes/Notes.component";
-import NotesInputComponent from "@/src/core/ui/components/notes_input/NotesInput.component";
+
 import ItemListCart from "../item_list/ItemList.cart";
+import { useHomeCartRemoveCartItemById } from "../../hooks/useRemoveCartItemById";
+import { useHomeCartSaveCartItemNoteById } from "../../hooks/useSaveCartItemNoteById";
+import { useHomeCartSaveCartItemQuantityById } from "../../hooks/useSaveCartItemQuantityById";
 export interface IListItemCardCartProps {
   category?: string;
   name?: string;
@@ -35,12 +28,12 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
     data: removeCartItemData,
     mutate: removeCartItem,
     isSuccess: isSuccessRemoveCartItem,
-  } = useCartRemoveCartItemByIdQuery();
+  } = useHomeCartRemoveCartItemById();
 
-  const { mutate: saveCartNoteItems } = useCartSaveCartItemNoteByIdQuery();
+  const { mutate: saveCartNoteItems } = useHomeCartSaveCartItemNoteById();
 
   const { mutate: saveCartQuantityItems } =
-    useCartSaveCartItemQuantityByIdQuery();
+    useHomeCartSaveCartItemQuantityById();
 
   const handleSelectItem = (data: number) => {
     dispatch({
