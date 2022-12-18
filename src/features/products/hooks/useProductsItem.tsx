@@ -342,36 +342,5 @@ export const useProductsInfinityListGetProductItems = () => {
     }
   }, [query.isFetching]);
 
-  useEffect(() => {
-    if (!query.isFetching) {
-      const payload: IProductsPagination = {
-        ...state.pagination,
-        total_page: Math.floor(query?.data?.pages[0].total / 20) + 1,
-      };
-      dispatch({
-        type: ProductsActionEnum.SetProductsPagination,
-        payload: payload,
-      });
-    }
-  }, [query.isFetching]);
-
-  // useEffect(() => {
-  //   if (!query.isFetching) {
-  //     const limit = 16;
-
-  //     // dispatch({
-  //     //   type: ProductsActionEnum.SetItemCounts,
-  //     //   payload: {
-  //     //     ...state.pagination,
-  //     //     first_item_index: (state.pagination.current_page - 1) * limit + 1,
-  //     //     last_item_index:
-  //     //       query.data.pages.total - limit * state.pagination.current_page > 0
-  //     //         ? limit
-  //     //         : query.data.total - limit * state.pagination.current_page,
-  //     //     total: query?.data?.total,
-  //     //   },
-  //     // });
-  //   }
-  // }, [query.isFetching]);
   return query;
 };

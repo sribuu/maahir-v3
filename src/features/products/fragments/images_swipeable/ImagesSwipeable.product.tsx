@@ -1,26 +1,33 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
 import clsx from "clsx";
 import ImagesSwipeableComponent from "@/src/core/ui/components/images_swipeable/ImagesSwipeable.component";
 import { RouterPathName } from "@/src/core/lib/constants";
+import { ProductContext } from "../../contexts/product/Product.context";
 
-export interface IImagesSwipeableProductProps {}
+export interface IImagesSwipeableProductProps {
+  images?: string[];
+}
+
+ImagesSwipeableProduct.defaultProps = {
+  images: [],
+};
 
 export default function ImagesSwipeableProduct(
   props: IImagesSwipeableProductProps
 ) {
+  const { state } = useContext(ProductContext);
   const router = useRouter();
   const [active, setActive] = useState(0);
-
-  const images = [
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/lemonilo-logo.png",
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/36300c22-bc48-478e-b128-7c395a6d7263.jpeg",
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/yellowfit-logo.jpg",
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/96756fff-aad5-44e6-b44f-71ee984a9783.png",
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/segari-logo.png",
-    "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/be2ea728-9d16-4909-91d1-3308269deb31.png",
-  ];
+  // const images = [
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/lemonilo-logo.png",
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/36300c22-bc48-478e-b128-7c395a6d7263.jpeg",
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/yellowfit-logo.jpg",
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/96756fff-aad5-44e6-b44f-71ee984a9783.png",
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/segari-logo.png",
+  //   "https://sribuu-jkt-public-staging.s3.ap-southeast-3.amazonaws.com/maahir-products/2022/12/12/be2ea728-9d16-4909-91d1-3308269deb31.png",
+  // ];
 
   const handleClickBack = () => {
     router.push(RouterPathName.AllProducts);
@@ -29,7 +36,7 @@ export default function ImagesSwipeableProduct(
   const handleSwipe = (data: number) => {
     setActive(data);
   };
-  
+
   return (
     <div className={clsx("relative", "grid grid-cols-1", "w-full")}>
       <button
@@ -50,7 +57,10 @@ export default function ImagesSwipeableProduct(
         />
       </button>
 
-      <ImagesSwipeableComponent images={images} onSwipe={handleSwipe} />
+      <ImagesSwipeableComponent
+        images={state.images.list}
+        onSwipe={handleSwipe}
+      />
 
       <div
         className={clsx(
@@ -65,7 +75,7 @@ export default function ImagesSwipeableProduct(
       >
         <p className={clsx("text-white text-[0.75rem] font-medium")}>{`${
           active + 1
-        }/${images.length}`}</p>
+        }/${state.images.list.length}`}</p>
       </div>
     </div>
   );
