@@ -42,9 +42,11 @@ export default function ImagesSwipeableProduct(
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLImageElement>) => {
     const finalActive =
-      startX > lastX && startX - lastX > boundaries
+      startX > lastX &&
+      startX - lastX > boundaries &&
+      active < images.length - 1
         ? active + 1
-        : lastX > startX && lastX - startX > boundaries
+        : lastX > startX && lastX - startX > boundaries && active > 0
         ? active - 1
         : active;
     const finalTranslate = finalActive * -ref.current.clientWidth;
