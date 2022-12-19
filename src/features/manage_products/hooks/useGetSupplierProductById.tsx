@@ -6,8 +6,11 @@ import { useContext, useEffect } from "react";
 import { EditSupplierProductReactQueryKey } from "../constants";
 import { EditSupplierProductContext } from "../contexts/edit/EditSupplierProduct.context";
 import { EditSupplierProductActionEnum } from "../contexts/edit/EditSupplierProduct.types";
-import { IGetSupplierProductByIdSuccessResponse } from "../models";
-import { IGetSupplierProductByIdRequest } from "../models/supplier_product_by_id";
+import {
+  IGetSupplierProductByIdSuccessResponse,
+  IGetSupplierProductByIdRequest,
+} from "../models";
+
 import { fetchGetSupplierProductById } from "../services/fetchGetSupplierProductById";
 
 // Edit
@@ -85,6 +88,7 @@ export const useEditSupplierProductsGetSupplierProductById = () => {
         payload: !query.data.variants.length
           ? [
               {
+                id: query.data.id_variant,
                 sku: {
                   placeholder: "SKU",
                   value: query.data.sku,
@@ -114,6 +118,7 @@ export const useEditSupplierProductsGetSupplierProductById = () => {
           : query.data.variants.map((item) => {
               return {
                 ...state.variant,
+                id: item.id,
                 sku: {
                   placeholder: "SKU",
                   value: item.sku,

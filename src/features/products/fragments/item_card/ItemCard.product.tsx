@@ -1,9 +1,11 @@
 import * as React from "react";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
+import { ResellerProductsIdNames } from "../../constants/id_names";
 
 export interface IItemCardProductProps {
   id?: string;
+  value?: string;
   name?: string;
   profitValue?: string;
   price?: string;
@@ -17,6 +19,7 @@ export interface IItemCardProductProps {
 
 ItemCardProduct.defaultProps = {
   id: "",
+  value: "",
   name: "Paket Reseller Setelan Rayon",
   profitValue: "Potensi keuntungan mulai dari Rp20.000",
   price: "Rp49.999",
@@ -26,17 +29,17 @@ ItemCardProduct.defaultProps = {
 export default function ItemCardProduct(props: IItemCardProductProps) {
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClickBuyNow) {
-      props.onAddToCart(parseInt(e.currentTarget.id));
+      props.onAddToCart(parseInt(e.currentTarget.value));
     }
   };
   const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClickItem) {
-      props.onClickItem(parseInt(e.currentTarget.id));
+      props.onClickItem(parseInt(e.currentTarget.value));
     }
   };
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onAddToCart) {
-      props.onAddToCart(parseInt(e.currentTarget.id));
+      props.onAddToCart(parseInt(e.currentTarget.value));
     }
   };
 
@@ -49,7 +52,11 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         "cursor-pointer"
       )}
     >
-      <button id={props.id} onClick={handleClickItem}>
+      <button
+        id={ResellerProductsIdNames.SeeDetailProduct}
+        value={props.value}
+        onClick={handleClickItem}
+      >
         <img
           src={props.productSrc}
           loading={"lazy"}
@@ -90,9 +97,10 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         )}
       >
         <ButtonComponent
-          id={props.id}
+          id={ResellerProductsIdNames.BuyNow}
           intent={"primary"}
           size={"medium"}
+          value={props.value}
           className={clsx("w-full", "hidden sm:inline-flex")}
           onClick={handleClickBuyNow}
         >
@@ -100,7 +108,8 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         </ButtonComponent>
 
         <button
-          id={props.id}
+          id={ResellerProductsIdNames.AddToCart}
+          value={props.value}
           className={clsx(
             "hidden sm:flex",
             "bg-white",

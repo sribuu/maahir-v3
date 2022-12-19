@@ -20,22 +20,7 @@ import {
 } from "../contexts/products/Products.types";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { limitPayload, offsetPayload } from "@/src/core/utils/calculation";
-
-const detectMobile = () => {
-  const toMatch = [
-    /Android/i,
-    /webOS/i,
-    /iPhone/i,
-    /iPad/i,
-    /iPod/i,
-    /BlackBerry/i,
-    /Windows Phone/i,
-  ];
-
-  return toMatch.some((toMatchItem) => {
-    return navigator.userAgent.match(toMatchItem);
-  });
-};
+import { mobileDetector } from "@/src/core/utils/helper";
 
 // PRODUCTS
 export const useProductsGetProductItems = () => {
@@ -43,7 +28,7 @@ export const useProductsGetProductItems = () => {
     undefined
   );
   useEffect(() => {
-    const mobile = detectMobile();
+    const mobile = mobileDetector();
     setIsNotMobile(!mobile);
   }, []);
   const { state, dispatch } = useContext(ProductsContext);
@@ -109,6 +94,15 @@ export const useProductsGetProductItems = () => {
     }
   }, [state.pagination.current_page]);
 
+  useEffect(() => {
+    if (state.search.submit) {
+      setPayload({
+        ...payload,
+        title_like: state.search.value,
+      });
+    }
+  }, [state.search.submit]);
+
   // cleaner
   useEffect(() => {
     if (payload?.max_price == null) {
@@ -136,7 +130,6 @@ export const useProductsGetProductItems = () => {
   const query = useQuery<IProductGetProductsItemResponse>(
     [ProductsReactQueryKey.GetProductItems, payload, isNotMobile],
     () => {
-      console.log(isNotMobile, "ini apa");
       return fetchProductGetProducstItem(payload);
     },
     {
@@ -189,10 +182,18 @@ export const useProductsGetProductItems = () => {
           first_item_index: (state.pagination.current_page - 1) * limit + 1,
           last_item_index:
             query?.data?.total - limit * state.pagination.current_page > 0
-              ? limit
+              ? limit * state.pagination.current_page
               : query?.data?.total - limit * state.pagination.current_page,
           total: query?.data?.total,
         },
+      });
+    }
+  }, [query.isFetching]);
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      dispatch({
+        type: ProductsActionEnum.SetFindItemFalse,
       });
     }
   }, [query.isFetching]);
@@ -203,7 +204,7 @@ export const useProductsInfinityListGetProductItems = () => {
   const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    const mobile = detectMobile();
+    const mobile = mobileDetector();
     setIsMobile(mobile);
   }, []);
 

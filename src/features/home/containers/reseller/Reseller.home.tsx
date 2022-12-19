@@ -13,6 +13,7 @@ import {
 } from "../../hooks/useViralProducts";
 import { ResellerHomeContext } from "../../contexts/Home.context";
 import HighlightProductCardHome from "../../fragments/highlight_item_card/HighlightItemCard.home";
+import { ResellerHomeIdNames } from "../../constants";
 export interface IHomeContainerProps {}
 
 export default function HomeContainer(props: IHomeContainerProps) {
@@ -44,7 +45,7 @@ export default function HomeContainer(props: IHomeContainerProps) {
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     router.push({
       pathname: RouterPathName.OrderProduct,
-      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
+      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.value) },
     });
   };
 
@@ -120,6 +121,7 @@ export default function HomeContainer(props: IHomeContainerProps) {
         </div>
 
         <Link
+          id={ResellerHomeIdNames.SeeAllProduct}
           className={clsx("hidden sm:block")}
           href={RouterPathName.AllProducts}
         >

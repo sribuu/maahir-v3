@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import Script from "next/script";
 import type { AppProps } from "next/app";
 import "@/src/core/ui/styles/globals.css";
 import {
@@ -9,7 +10,6 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import TagManager, { TagManagerArgs } from "react-gtm-module";
 export default function App({ Component, pageProps }: AppProps) {
-  const onMounted = useRef(false);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -27,19 +27,15 @@ export default function App({ Component, pageProps }: AppProps) {
   };
 
   useEffect(() => {
-    if (onMounted.current) {
-      TagManager.initialize(tagManagerArgs);
-
-      onMounted.current = false;
-    }
+    TagManager.initialize(tagManagerArgs);
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <Script
-        dangerouslySetInnerHTML={{ __html: loadSegment() }}
-        id={"segmentScript"}
-      /> */}
+      <Script
+        strategy={"afterInteractive"}
+        src={"https://www.googletagmanager.com/gtag/js?id=G-B8WNSRRC1H"}
+      />
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
       </Hydrate>

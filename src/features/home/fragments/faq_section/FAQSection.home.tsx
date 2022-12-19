@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { fetchMaahirFAQ } from "@/src/core/lib/api";
 import { FAQ_LINK, ReactQueryKey } from "@/src/core/lib/constants";
 import { IFAQ } from "@/src/core/lib/models/faq";
+import { ResellerHomeIdNames } from "../../constants";
 
 export interface IFAQSectionHomeProps {}
 
@@ -74,7 +75,7 @@ export default function FAQSectionHome(props: IFAQSectionHomeProps) {
           </div>
         ))}
 
-        <Link href={FAQ_LINK}>
+        <Link id={ResellerHomeIdNames.SeeAllFAQ} href={FAQ_LINK}>
           <div className={clsx("flex justify-start gap-x-2")}>
             <p
               className={clsx(

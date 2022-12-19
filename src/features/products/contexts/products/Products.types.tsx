@@ -11,12 +11,17 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 // State Collection Types
 export interface InitialStateType {
+  search: IProductSearch;
   items: IProductItems[];
   pagination: IProductsPagination;
   filters: IProductsFilter;
   item_counts: IProductsItemCounts;
 }
 // Action Collection Types consist of:
+export interface IProductSearch {
+  value: string;
+  submit: boolean;
+}
 export interface IProductItems {
   id: string;
   name: string;
@@ -50,6 +55,9 @@ export interface IProductsItemCounts {
 
 // Actions Enum Group
 export enum ProductsActionEnum {
+  SetSearchValue = "SetSearchValue",
+  SetFindItemTrue = "SetFindItemTrue",
+  SetFindItemFalse = "SetFindItemFalse",
   SetProductItems = "SetProductItems",
   SetProductsPagination = "SetProductsPagination",
   ChangeCurrentPage = "ChangeCurrentPage",
@@ -63,12 +71,23 @@ export enum ProductsActionEnum {
 
 // Action Collection Types
 export type ProductsActions =
+  | ProductSearchActions
   | ProductItemsActions
   | ProductsPaginationActions
   | ProductsFilterActions
   | ProductItemCountsActions;
 
 // Action Collection Types consist of:
+// Product Items
+type ProductSearchPayload = {
+  [ProductsActionEnum.SetSearchValue]: string;
+  [ProductsActionEnum.SetFindItemTrue]: undefined;
+  [ProductsActionEnum.SetFindItemFalse]: undefined;
+};
+
+export type ProductSearchActions =
+  ActionMap<ProductSearchPayload>[keyof ActionMap<ProductSearchPayload>];
+
 // Product Items
 type ProductItemsPayload = {
   [ProductsActionEnum.SetProductItems]: IProductItems[];

@@ -96,8 +96,8 @@ export default function ProductItemListProducts(
         {state.items.map((item, index) => (
           <ItemCardProduct
             key={index}
-            id={String(item.id)}
             name={item.name}
+            value={String(item.id)}
             profitValue={item.profit}
             price={item.price}
             productSrc={item.image}

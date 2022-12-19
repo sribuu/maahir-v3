@@ -1,7 +1,7 @@
 import axios from "axios";
 import { APIUrlPath } from "@/src/core/lib/constants";
 import { AxiosInterceptor } from "@/src/core/utils/axios";
-import { IGetSupplierProductByIdRequest } from "../models/supplier_product_by_id";
+import { IGetSupplierProductByIdRequest } from "../models";
 
 export const fetchGetSupplierProductById = async (
   data: IGetSupplierProductByIdRequest

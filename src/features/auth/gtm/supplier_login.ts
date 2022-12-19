@@ -5,7 +5,7 @@ type WindowWithDataLayer = Window & {
 
 declare const window: WindowWithDataLayer;
 
-export const trackSupplierSubmitLogin = (properties: any) => {
+export const trackResellerBuyProduct = (properties: any) => {
   window?.dataLayer.push({
     event: "event",
     eventProps: {

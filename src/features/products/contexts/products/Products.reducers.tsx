@@ -5,7 +5,25 @@ import {
   ProductsActions,
   IProductsFilter,
   IProductsItemCounts,
+  IProductSearch,
 } from "./Products.types";
+
+// Product Search
+export const productSearchReducer = (
+  state: IProductSearch,
+  action: ProductsActions
+) => {
+  switch (action.type) {
+    case ProductsActionEnum.SetSearchValue:
+      return { ...state, value: action.payload };
+    case ProductsActionEnum.SetFindItemTrue:
+      return { ...state, submit: true };
+    case ProductsActionEnum.SetFindItemFalse:
+      return { ...state, submit: false };
+    default:
+      return state;
+  }
+};
 
 // Product Items
 export const productItemsReducer = (

@@ -64,10 +64,7 @@ export const useProductGetProductById = () => {
 
           max_price: thousandSeparator(query.data.retail_price_max),
           min_price: thousandSeparator(query.data.retail_price_min),
-          // TODO: change this when be is ready
           variant: {
-            // list: query.data.variants.map((item) => item.name),
-            // selected: "White",
             ...state.detail.variant,
             name: {
               ...state.detail.variant,
@@ -100,7 +97,6 @@ export const useProductGetProductById = () => {
             },
           },
           quantity: 1,
-          // stock: query.data.stock,
         },
       });
     }

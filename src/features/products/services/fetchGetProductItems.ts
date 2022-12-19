@@ -1,6 +1,6 @@
 import { APIUrlPath } from "@/src/core/lib/constants";
 import axios from "axios";
-import { IProductGetProductsItemRequest } from "../models/get_products_items";
+import { IProductGetProductsItemRequest } from "../models/get__products_items";
 export const fetchProductGetProducstItem = async (
   data: IProductGetProductsItemRequest
 ) =>

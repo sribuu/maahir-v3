@@ -120,21 +120,23 @@ export default function ItemDescriptionCardProduct(
           </p>
         </div>
         {/* profit */}
-        <div className={clsx("flex gap-x-[0.375rem] items-center")}>
-          <img
-            src={"/icons/verified.svg"}
-            width={20}
-            height={20}
-            loading={"lazy"}
-          />
-          <p
-            className={clsx(
-              "text-[1rem] font-regular text-taupe-gray text-start"
-            )}
-          >
-            {`Potensi keuntungan mulai dari ${state.detail.profit}`}
-          </p>
-        </div>
+        {state.detail.profit !== "Rp0" && (
+          <div className={clsx("flex gap-x-[0.375rem] items-center")}>
+            <img
+              src={"/icons/verified.svg"}
+              width={20}
+              height={20}
+              loading={"lazy"}
+            />
+            <p
+              className={clsx(
+                "text-[1rem] font-regular text-taupe-gray text-start"
+              )}
+            >
+              {`Potensi keuntungan mulai dari ${state.detail.profit}`}
+            </p>
+          </div>
+        )}
       </div>
 
       <AvailableVariantProduct

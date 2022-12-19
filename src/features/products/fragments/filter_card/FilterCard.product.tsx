@@ -6,6 +6,7 @@ import { useProductsGetCategoryList } from "../../hooks/useProductCategory";
 import { useProductsGetPriceList } from "../../hooks/usePriceCategory";
 import { ProductsContext } from "../../contexts/products/Products.context";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
+import { ResellerProductsIdNames } from "../../constants/id_names";
 
 export interface IFilterCardProductProps {}
 
@@ -78,7 +79,7 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
 
           {state.filters.price.list.map((item, index) => (
             <button
-              id={item}
+              id={ResellerProductsIdNames.PriceFilter}
               key={index}
               type={"button"}
               className={clsx(
@@ -123,7 +124,7 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
 
           {state.filters.category.list.map((item, index) => (
             <CheckboxComponent
-              id={item}
+              id={ResellerProductsIdNames.CategoryFilter}
               key={index}
               name={item}
               value={item}
@@ -137,7 +138,10 @@ export default function FilterCardProduct(props: IFilterCardProductProps) {
 
         {(state.filters.price.selected.length > 0 ||
           state.filters.category.selected.length > 0) && (
-          <button onClick={handleDeleteFilter}>
+          <button
+            id={ResellerProductsIdNames.RemoveFilter}
+            onClick={handleDeleteFilter}
+          >
             <p className={clsx("text-[0.875rem] text-tart-orange font-bold")}>
               {"Hapus Filter"}
             </p>

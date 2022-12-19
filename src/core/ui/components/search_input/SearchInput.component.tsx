@@ -31,7 +31,9 @@ export default function SearchInputComponent(
   };
 
   useEffect(() => {
-    setData(String(value));
+    if (props.value !== undefined) {
+      setData(String(value));
+    }
   }, [value]);
   return (
     <div

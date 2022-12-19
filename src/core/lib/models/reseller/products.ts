@@ -1,4 +1,4 @@
-export interface IProducts {
+export interface IResellerProducts {
   category_id: number;
   category_name: string;
   description: string;
@@ -46,12 +46,4 @@ export interface IProducts {
       postal_code: number;
     };
   };
-}
-export interface IProductsRequest {
-  limit?: number;
-  offset?: number;
-  category_id?: number;
-  max_price?: number;
-  min_price?: number;
-  is_priority?: boolean;
 }

@@ -2,14 +2,17 @@ import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import clsx from "clsx";
-import ButtonComponent from "@/src/core/ui/components/button/Button.component";
-import HighlightProductCard from "@/src/features/home/fragments/highlight_item_card/HighlightItemCard.home";
 import { ResellerHomeContext } from "../../contexts/Home.context";
-import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
+import {
+  ExternalLink,
+  RouterPathName,
+  RouterQueryKey,
+} from "@/src/core/lib/constants";
 import {
   useResellerHomeGetViralProducts,
   useResellerHomeAddViralProductToCart,
 } from "@/src/features/home/hooks/useViralProducts";
+import { ResellerHomeIdNames } from "../../constants";
 
 export interface IHeroSectionHomeProps {
   heroRef?: (node?: Element) => void;
@@ -121,17 +124,20 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
           </p>
         </div>
 
-        <button
-          className={clsx(
-            "px-[0.75rem] sm:px-[0.875rem] py-[0.25rem] sm:py-[0.875rem]",
-            "rounded-[0.5rem] sm:rounded-[0.75rem]",
-            "bg-ocean-boat-blue"
-          )}
-        >
-          <p className={clsx("text-white text-[0.875rem] font-bold")}>
-            {"Gabung grup jualan Di Maahir"}
-          </p>
-        </button>
+        <Link href={ExternalLink.WhatsApp} target={"_blank"}>
+          <button
+            id={ResellerHomeIdNames.JoinSellerGroupWithMaahir}
+            className={clsx(
+              "px-[0.75rem] sm:px-[0.875rem] py-[0.25rem] sm:py-[0.875rem]",
+              "rounded-[0.5rem] sm:rounded-[0.75rem]",
+              "bg-ocean-boat-blue"
+            )}
+          >
+            <p className={clsx("text-white text-[0.875rem] font-bold")}>
+              {"Gabung grup jualan Di Maahir"}
+            </p>
+          </button>
+        </Link>
       </div>
     </section>
   );

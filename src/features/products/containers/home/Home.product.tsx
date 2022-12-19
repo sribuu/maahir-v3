@@ -8,6 +8,7 @@ import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
 import { RouterPathName } from "@/src/core/lib/constants";
 import FilterDrawerProduct from "../../fragments/filter_drawer/FilterDrawer.product";
 import ProductInfinityScrollItemListProducts from "../../fragments/product_infinity_scroll_item_list";
+import SearchProducts from "../../fragments/search/Search.products";
 
 export interface IHomeProductContainerProps {}
 
@@ -63,7 +64,7 @@ export default function HomeProductContainer(
         <div
           className={clsx(
             "px-[1rem] sm:px-[0rem]",
-            "grid grid-cols-1 justify-center content-start justify-items-center",
+            "grid grid-cols-[auto_auto] justify-between content-start justify-items-start items-center",
             "gap-y-2 w-full max-w-[1200px]"
           )}
         >
@@ -92,6 +93,7 @@ export default function HomeProductContainer(
               {pageContent.description}
             </p>
           </div>
+          <SearchProducts />
         </div>
 
         {/* body */}

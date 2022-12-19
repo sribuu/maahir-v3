@@ -1,10 +1,11 @@
-export interface IGetSupplierProductByIdSuccessResponse {
+export interface ISupplierProducts {
   category_id: number;
   category_name: string;
   description: string;
   detail_images: string[];
   height: number;
   id: number;
+  id_variant: number;
   image: string;
   is_priority: boolean;
   is_show: boolean;
@@ -28,16 +29,4 @@ export interface IGetSupplierProductByIdSuccessResponse {
     price: number;
     is_show: boolean;
   }[];
-}
-
-export interface IGetSupplierProducByIdtRequest {
-  limit: number;
-  offset: number;
-  is_show: boolean;
-  title_like?: string;
-}
-
-export interface IGetSupplierProductByIdErrorResponse {
-  error_code: string;
-  message: string;
 }

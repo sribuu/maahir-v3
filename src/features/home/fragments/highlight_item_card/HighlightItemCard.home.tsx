@@ -1,6 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
+import { ResellerHomeIdNames } from "../../constants";
 
 export interface IHighlightProductCardHomeProps {
   id?: string;
@@ -28,7 +29,7 @@ export default function HighlightProductCardHome(
 ) {
   const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClickItem) {
-      props.onClickItem(parseInt(e.currentTarget.id));
+      props.onClickItem(parseInt(e.currentTarget.value));
     }
   };
 
@@ -40,7 +41,7 @@ export default function HighlightProductCardHome(
 
   const handleClickAddtoCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClickAddToCart) {
-      props.onClickAddToCart(parseInt(e.currentTarget.id));
+      props.onClickAddToCart(parseInt(e.currentTarget.value));
     }
   };
   return (
@@ -51,7 +52,11 @@ export default function HighlightProductCardHome(
         "min-w-[242px]"
       )}
     >
-      <button id={props.id} onClick={handleClickItem}>
+      <button
+        id={ResellerHomeIdNames.SeeDetailProduct}
+        value={props.id}
+        onClick={handleClickItem}
+      >
         <img
           src={props.productSrc}
           loading={"lazy"}
@@ -104,7 +109,8 @@ export default function HighlightProductCardHome(
         )}
       >
         <ButtonComponent
-          id={props.id}
+          id={ResellerHomeIdNames.BuyNow}
+          value={props.id}
           intent={"primary"}
           size={"medium"}
           className={"w-full"}
@@ -114,8 +120,9 @@ export default function HighlightProductCardHome(
         </ButtonComponent>
 
         <ButtonComponent
+          id={ResellerHomeIdNames.AddToCart}
           className={clsx("hidden sm:flex", "w-full")}
-          id={props.id}
+          value={props.id}
           intent={"secondary"}
           size={"medium"}
           onClick={handleClickAddtoCart}
@@ -124,8 +131,9 @@ export default function HighlightProductCardHome(
           {"Keranjang"}
         </ButtonComponent>
         <ButtonComponent
+          id={ResellerHomeIdNames.AddToCart}
           className={clsx("sm:hidden", "w-full")}
-          id={props.id}
+          value={props.id}
           intent={"secondary"}
           size={"medium"}
           onClick={handleClickAddtoCart}

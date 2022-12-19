@@ -2,6 +2,7 @@ import React, { createContext, useReducer, Dispatch } from "react";
 import { InitialStateType, ProductsActions } from "./Products.types";
 import {
   productItemsReducer,
+  productSearchReducer,
   productsFilterReducer,
   productsItemCountsReducer,
   productsPaginationReducer,
@@ -9,6 +10,10 @@ import {
 
 const initialState: InitialStateType = {
   items: [],
+  search: {
+    value: "",
+    submit: false,
+  },
   pagination: {
     current_page: 1,
     total_page: 10,
@@ -40,9 +45,10 @@ const ProductsContext = createContext<{
 });
 
 const mainReducer = (
-  { items, pagination, filters, item_counts }: InitialStateType,
+  { search, items, pagination, filters, item_counts }: InitialStateType,
   action: ProductsActions
 ) => ({
+  search: productSearchReducer(search, action),
   items: productItemsReducer(items, action),
   pagination: productsPaginationReducer(pagination, action),
   filters: productsFilterReducer(filters, action),
