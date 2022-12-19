@@ -32,6 +32,9 @@ export const useProductGetProductById = () => {
     [ProductReactQueryKey.GetProductById, payload],
     () => {
       return fetchProductGetProductById(payload);
+    },
+    {
+      refetchInterval: 3000,
     }
   );
 
