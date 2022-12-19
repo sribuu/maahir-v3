@@ -32,10 +32,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Script
-        strategy={"afterInteractive"}
-        src={"https://www.googletagmanager.com/gtag/js?id=G-B8WNSRRC1H"}
-      />
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
       </Hydrate>
