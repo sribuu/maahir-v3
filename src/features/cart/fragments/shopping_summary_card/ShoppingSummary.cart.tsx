@@ -104,7 +104,7 @@ export default function ShoppingSummaryCardCart(
                       "text-[1rem] text-charleston-green font-bold"
                     )}
                   >
-                    {item.title}
+                    {item.name}
                   </p>
                   <p
                     className={clsx(

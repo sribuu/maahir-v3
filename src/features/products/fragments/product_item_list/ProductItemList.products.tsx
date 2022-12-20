@@ -79,6 +79,7 @@ export default function ProductItemListProducts(
     addProductToCart(data);
   };
 
+  console.log(state.items, "ini items");
   return (
     <div
       className={clsx(

@@ -41,7 +41,7 @@ export const useEditSupplierProductsGetSupplierProductById = () => {
     if (!query.isFetching) {
       dispatch({
         type: EditSupplierProductActionEnum.SetName,
-        payload: query.data.title,
+        payload: query.data.name,
       });
       dispatch({
         type: EditSupplierProductActionEnum.SetCategory,

@@ -15,7 +15,7 @@ export interface IProducts {
   retail_price_max: number;
   retail_price_min: number;
   stock: number;
-  title: string;
+  name: string;
   sku: string;
   variant_name: string;
   weight: number;

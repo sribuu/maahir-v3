@@ -27,7 +27,7 @@ export const useHomeCartCreateOrderItem = () => {
           .map((item) => {
             return {
               ...item,
-              name: item.title,
+              name: item.name,
               product_id: item.id,
               quantity: item.amount,
               notes: item.note,

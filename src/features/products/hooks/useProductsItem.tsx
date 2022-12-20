@@ -145,7 +145,7 @@ export const useProductsGetProductItems = () => {
         (item) => {
           return {
             id: String(item?.id),
-            name: item?.title,
+            name: item?.name,
             image: item?.image,
             profit: thousandSeparator(item?.profit_value),
             price: thousandSeparator(item?.price),
@@ -181,7 +181,13 @@ export const useProductsGetProductItems = () => {
           ...state.pagination,
           first_item_index: (state.pagination.current_page - 1) * limit + 1,
           last_item_index:
+            state.search.value.length > 0 &&
             query?.data?.total - limit * state.pagination.current_page > 0
+              ? limit * state.pagination.current_page
+              : state.search.value.length > 0 &&
+                query?.data?.total - limit * state.pagination.current_page < 0
+              ? query?.data?.products?.length
+              : query?.data?.total - limit * state.pagination.current_page > 0
               ? limit * state.pagination.current_page
               : query?.data?.total - limit * state.pagination.current_page,
           total: query?.data?.total,
@@ -323,7 +329,7 @@ export const useProductsInfinityListGetProductItems = () => {
             ...payload,
             {
               id: String(query?.data?.pages[i]?.products[j]?.id),
-              name: query?.data?.pages[i]?.products[j]?.title,
+              name: query?.data?.pages[i]?.products[j]?.name,
               image: query?.data?.pages[i]?.products[j]?.image,
               profit: thousandSeparator(
                 query?.data?.pages[i]?.products[j]?.profit_value

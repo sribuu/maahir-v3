@@ -93,7 +93,7 @@ export default function ItemListCart(props: IItemListCartProps) {
                   "text-[0.875rem] sm:text-[1rem] text-dark-charcoal font-regular"
                 )}
               >
-                {item.title}
+                {item.name}
               </p>
             </div>
             {item.variant?.length > 0 && (

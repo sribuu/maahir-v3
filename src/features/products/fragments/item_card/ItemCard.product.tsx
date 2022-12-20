@@ -43,6 +43,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     }
   };
 
+  console.log(props.name, "ini props name");
   return (
     <div
       className={clsx(

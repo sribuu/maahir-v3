@@ -140,7 +140,7 @@ export default function ListItemDropdownCart(
                           "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis"
                         )}
                       >
-                        {item.title}
+                        {item.name}
                       </p>
                     </div>
                   </div>

@@ -44,7 +44,7 @@ export const useViewSupplierProductGetSupplierProductList = () => {
           return {
             image: item.image,
             product_id: String(item.id),
-            name: item.title,
+            name: item.name,
             description: item.description,
             stock: item.stock,
             category: item.category_name,

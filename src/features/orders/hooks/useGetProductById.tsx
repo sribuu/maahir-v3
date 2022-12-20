@@ -38,7 +38,7 @@ export const useBuyNowGetProductById = () => {
         type: ResellerOrderBuyNowActionEnum.SetItem,
         payload: {
           ...state.item,
-          name: query.data.title,
+          name: query.data.name,
           image: query.data.image,
           price: thousandSeparator(query.data.price),
           quantity: 1,
