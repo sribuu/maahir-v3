@@ -1,8 +1,17 @@
 import React, { createContext, useReducer, Dispatch } from "react";
-import { productImagesReducer, productDetailReducer } from "./Product.reducers";
+import {
+  productImagesReducer,
+  productDetailReducer,
+  productSupplierProfileReducer,
+} from "./Product.reducers";
 import { InitialStateType, ProductActions } from "./Product.types";
 
 const initialState: InitialStateType = {
+  supplier: {
+    initial: "",
+    name: "",
+    location: "",
+  },
   images: {
     large: "",
     list: [],
@@ -42,9 +51,10 @@ const ProductContext = createContext<{
 });
 
 const mainReducer = (
-  { images, detail }: InitialStateType,
+  { supplier, images, detail }: InitialStateType,
   action: ProductActions
 ) => ({
+  supplier: productSupplierProfileReducer(supplier, action),
   images: productImagesReducer(images, action),
   detail: productDetailReducer(detail, action),
 });

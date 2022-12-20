@@ -52,12 +52,26 @@ export const useProductGetProductById = () => {
   }, [query.isSuccess]);
 
   useEffect(() => {
+    if (!query.isFetching) {
+      dispatch({
+        type: ProductActionEnum.SetSupplier,
+        payload: {
+          initial: query.data.supplier.name_initial,
+          name: query.data.supplier.name,
+          location:
+            query.data.supplier.address.administrative_division_level_2_name,
+        },
+      });
+    }
+  }, [query.isFetching]);
+
+  useEffect(() => {
     if (query.isSuccess) {
       dispatch({
         type: ProductActionEnum.SetDetail,
         payload: {
           id: String(query.data.id),
-          name: query.data.title,
+          name: query.data.name,
           category: query.data.category_name,
           description: query.data.description,
           profit: thousandSeparator(query.data.profit_value),

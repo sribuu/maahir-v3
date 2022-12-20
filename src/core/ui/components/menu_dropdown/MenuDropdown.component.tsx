@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import AvatarComponent from "../avatar/Avatar.component";
 import useOnClickOutside from "@/src/core/hooks/ui/useOnClickOutside";
 
 export interface IMenuDropdownComponentProps {}
@@ -40,16 +41,7 @@ export default function MenuDropdownComponent(
         className={clsx("flex justify-end items-center gap-x-[0.5rem]")}
         onClick={handleClick}
       >
-        <div
-          className={clsx(
-            "flex justify-center items-center",
-            "w-[40px] h-[40px] rounded-[50%]",
-            "bg-mauve",
-            "box-border"
-          )}
-        >
-          <p className={clsx("text-[1.5rem] text-bold text-white")}>{"P"}</p>
-        </div>
+        <AvatarComponent text={"P"} />
 
         <img src={"/icons/chevron-down-black.svg"} width={20} height={20} />
       </button>

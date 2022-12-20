@@ -17,7 +17,7 @@ CheckboxComponent.defaultProps = {
 export default function CheckboxComponent(props: ICheckboxComponentProps) {
   return (
     <label
-      className={clsx("flex items-start justify-start", "gap-x-[0.625rem]")}
+      className={clsx("flex items-center justify-start", "gap-x-[0.625rem]")}
     >
       <input
         id={props.id}

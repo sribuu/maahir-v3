@@ -9,6 +9,8 @@ import { useProductAddItemToCart } from "../../hooks/useProductCart";
 import { ProductContext } from "../../contexts/product/Product.context";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
+import DividerComponent from "@/src/core/ui/components/divider/Divider.component";
+import AvatarComponent from "@/src/core/ui/components/avatar/Avatar.component";
 
 export interface IItemDescriptionProductProps {}
 
@@ -162,6 +164,31 @@ export default function ItemDescriptionProduct(
             onSubstract={handleSubstractItem}
           />
           <AvailableStockProduct stock={state.detail.variant.stock.selected} />
+        </div>
+      </div>
+      <DividerComponent />
+      {/* supplier */}
+      <div className={clsx("flex items-center justify-start gap-x-[1rem]")}>
+        <AvatarComponent text={state.supplier.initial} />
+        <div
+          className={clsx(
+            "grid grid-cols-1 justify-start justify-items-start gap-y-[0.125rem]"
+          )}
+        >
+          <p
+            className={clsx(
+              "text-[0.875rem] font-bold text-charleston-green text-start"
+            )}
+          >
+            {state.supplier.name}
+          </p>
+          <p
+            className={clsx(
+              "text-[0.75rem] font-regular text-charleston-green text-start"
+            )}
+          >
+            {state.supplier.location}
+          </p>
         </div>
       </div>
       {/* actions */}

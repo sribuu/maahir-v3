@@ -32,6 +32,7 @@ export interface IProducts {
   supplier: {
     id: number;
     name: string;
+    name_initial: string;
     address: {
       id: string;
       name: string;

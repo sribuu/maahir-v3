@@ -1,9 +1,22 @@
 import {
   IProductDetail,
   IProductImages,
+  IProductSupplierProfile,
   ProductActionEnum,
   ProductActions,
 } from "./Product.types";
+
+export const productSupplierProfileReducer = (
+  state: IProductSupplierProfile,
+  action: ProductActions
+) => {
+  switch (action.type) {
+    case ProductActionEnum.SetSupplier:
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 export const productImagesReducer = (
   state: IProductImages,

@@ -11,6 +11,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 // State Collection Types
 export interface InitialStateType {
+  supplier: IProductSupplierProfile;
   images: IProductImages;
   detail: IProductDetail;
 }
@@ -46,7 +47,15 @@ export interface IProductDetail {
   quantity: number;
 }
 
+export interface IProductSupplierProfile {
+  initial: string;
+  name: string;
+  location: string;
+}
+
 export enum ProductActionEnum {
+  // SUPPLIER
+  SetSupplier = "SetSupplier",
   // IMAGES
   SetImage = "SetImage",
   ChangeZoomImage = "ChangeZoomImage",
@@ -59,9 +68,20 @@ export enum ProductActionEnum {
 }
 
 // Action Collection Types
-export type ProductActions = ProductImagesActions | ProductDetailActions;
+export type ProductActions =
+  | ProductSupplierProfileActions
+  | ProductImagesActions
+  | ProductDetailActions;
 
 // Action Collection Types consist of:
+// Product Supplier Profile
+type ProductSupplierProfilePayload = {
+  [ProductActionEnum.SetSupplier]: IProductSupplierProfile;
+};
+
+export type ProductSupplierProfileActions =
+  ActionMap<ProductSupplierProfilePayload>[keyof ActionMap<ProductSupplierProfilePayload>];
+
 // Product Images
 type ProductImagesPayload = {
   [ProductActionEnum.SetImage]: IProductImages;
