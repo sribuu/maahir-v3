@@ -18,15 +18,17 @@ export default function FAQContainer(props: IFAQContainerProps) {
       <div
         className={clsx(
           "bg-[url('/background/faq.svg')]",
-          "min-h-[28.75rem] p-t-[5.25rem]"
+          "min-h-[254px] sm:min-h-[28.75rem] p-t-[5.25rem]",
+          "flex items-center justify-center",
+          "w-full"
         )}
       >
         <h1
           className={clsx(
-            "absolute top-[11.625rem] left-[50%] translate-x-[-50%]",
-            "text-[2.625rem]",
+            "text-[1.25rem] sm:text-[2.625rem]",
             "font-bold",
-            "text-white"
+            "text-white",
+            "text-center"
           )}
         >
           {"Pertanyaan yang sering diajukan"}
@@ -42,8 +44,10 @@ export default function FAQContainer(props: IFAQContainerProps) {
       >
         <div
           className={clsx(
-            "absolute top-[-5rem] left-[50%] translate-x-[-50%]",
-            "w-[56.25rem]"
+            "absolute top-[-5rem]",
+            "grid grid-cols-1 justify-center justify-items-center",
+            "w-full",
+            "px-[1rem] sm:px-[0rem]"
           )}
         >
           <FAQCardComponent lists={faqData} />
