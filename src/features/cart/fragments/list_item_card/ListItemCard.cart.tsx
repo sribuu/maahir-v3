@@ -83,7 +83,7 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
     0
   );
 
-  const noSelectedItems = totalSelectedQuantity <= 0
+  const noSelectedItems = totalSelectedQuantity <= 0;
   return (
     <div
       className={clsx(
@@ -157,6 +157,7 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
                 name={supplierItem.product_name}
                 variant={supplierItem.variant_name}
                 note={supplierItem.note}
+                quantity={supplierItem.quantity}
                 price={thousandSeparator(supplierItem.price)}
                 checked={supplierItem.selected}
                 onSelect={handleSelectItem}
