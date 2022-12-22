@@ -61,6 +61,17 @@ export const resellerMyCartItemsReducer = (
     case ResellerMyCartActionsEnum.SelectSupplier:
       return {
         ...state,
+        select_all:
+          state.items.reduce((acc, item) => {
+            return (
+              acc +
+              (item.supplier.selected && action.payload !== item.supplier.id
+                ? 1
+                : !item.supplier.selected && action.payload === item.supplier.id
+                ? 1
+                : 0)
+            );
+          }, 0) === state.items.length,
         items: state.items.map((item) => {
           const result =
             item.supplier.id === action.payload
@@ -85,11 +96,51 @@ export const resellerMyCartItemsReducer = (
     case ResellerMyCartActionsEnum.SelectItem:
       return {
         ...state,
+        select_all:
+          state.items.reduce((acc, item) => {
+            const supplierItemTotal = item.supplier.data.reduce(
+              (accData, itemData) => {
+                return (
+                  accData +
+                  (itemData.selected && action.payload !== itemData.variant_id
+                    ? 1
+                    : !itemData.selected &&
+                      action.payload === itemData.variant_id
+                    ? 1
+                    : 0)
+                );
+              },
+              0
+            );
+            return acc + supplierItemTotal;
+          }, 0) ===
+          state.items.reduce((acc, item) => {
+            const supplierItemTotal = item?.supplier?.data.reduce(
+              (accSupplierItem, supplierItem) => {
+                accSupplierItem = supplierItem.quantity + accSupplierItem;
+                return accSupplierItem;
+              },
+              0
+            );
+            return acc + supplierItemTotal;
+          }, 0),
         items: state.items.map((item) => {
           return {
             ...item,
             supplier: {
               ...item.supplier,
+              selected:
+                item.supplier.data.reduce((acc, itemData) => {
+                  return (
+                    acc +
+                    (itemData.selected && action.payload !== itemData.variant_id
+                      ? 1
+                      : !itemData.selected &&
+                        action.payload === itemData.variant_id
+                      ? 1
+                      : 0)
+                  );
+                }, 0) === item.supplier.data.length,
               data: item.supplier.data.map((itemData) => {
                 return {
                   ...itemData,
