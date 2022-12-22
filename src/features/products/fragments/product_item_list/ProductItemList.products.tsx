@@ -10,7 +10,7 @@ import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import ItemNotFoundProduct from "../item_not_found/ItemNotFound.product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
-import { useProductsAddItemToCart } from "../../hooks/useProductCart";
+import { useProductsAddItemToCart } from "../../hooks/useProductSaveCart";
 export interface IProductItemListProductsProps {}
 
 export default function ProductItemListProducts(
@@ -79,7 +79,6 @@ export default function ProductItemListProducts(
     addProductToCart(data);
   };
 
-  console.log(state.items, "ini items");
   return (
     <div
       className={clsx(

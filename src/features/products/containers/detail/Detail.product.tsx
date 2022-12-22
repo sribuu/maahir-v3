@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import ItemImageCardProduct from "../../fragments/item_image_card/ItemImageCard.product";
 import ItemDescriptionCardProduct from "../../fragments/item_description_card/ItemDescriptionCard.product";
 import ImagesSwipeableProduct from "../../fragments/images_swipeable/ImagesSwipeable.product";

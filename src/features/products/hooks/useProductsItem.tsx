@@ -128,7 +128,7 @@ export const useProductsGetProductItems = () => {
 
   // Query
   const query = useQuery<IProductGetProductsItemResponse>(
-    [ProductsReactQueryKey.GetProductItems, payload, isNotMobile],
+    [ProductsReactQueryKey.GetProductItems, [payload, isNotMobile] as const],
     () => {
       return fetchProductGetProducstItem(payload);
     },
@@ -302,7 +302,7 @@ export const useProductsInfinityListGetProductItems = () => {
 
   // Query
   const query = useInfiniteQuery<IProductGetProductsItemResponse>(
-    [ProductsReactQueryKey.GetProductItems, payload, isMobile],
+    [ProductsReactQueryKey.GetProductItems, [payload, isMobile] as const],
     ({ pageParam = 0 }) => {
       let newPayload: IProductGetProductsItemRequest = {
         ...payload,

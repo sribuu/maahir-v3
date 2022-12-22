@@ -1,3 +1,3 @@
-export * from "./supplier_statistic";
-export * from "./supplier_statistic_list";
-export * from "./balance_list";
+export * from "./get__supplier_statistic";
+export * from "./get__supplier_statistic_list";
+export * from "./get__balance_list";

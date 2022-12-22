@@ -10,12 +10,10 @@ import SidebarDrawerComponent from "../sidebar_drawer/SidebarDrawer.component";
 export interface INavigationBarComponentProps {
   menus: { name: string; link: string }[];
   variant: "transparent" | "normal";
-  cartData?: ICart[];
 }
 NavigationBarComponent.defaultProps = {
   menus: [],
   variant: "normal",
-  cartData: [],
 };
 
 export default function NavigationBarComponent(
@@ -100,10 +98,7 @@ export default function NavigationBarComponent(
               ))}
           </div>
 
-          <ListItemDropdownCart
-            variant={props.variant}
-            cartData={props.cartData}
-          />
+          <ListItemDropdownCart variant={props.variant} />
         </div>
       </div>
     </nav>

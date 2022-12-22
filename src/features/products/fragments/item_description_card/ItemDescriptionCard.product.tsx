@@ -10,7 +10,7 @@ import DividerComponent from "@/src/core/ui/components/divider/Divider.component
 import { ProductContext } from "../../contexts/product/Product.context";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
-import { useProductAddItemToCart } from "../../hooks/useProductCart";
+import { useProductAddItemToCart } from "../../hooks/useProductSaveCart";
 
 export interface IItemDescriptionCardProductProps {
   onAddToCart?: (e: React.MouseEvent<HTMLButtonElement>) => void;

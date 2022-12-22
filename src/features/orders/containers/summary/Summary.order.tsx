@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 
 import FillDetailProductOrder from "@/src/features/orders/fragments/fill_detail_product_card/FillDetailProductCard.order";
 

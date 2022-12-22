@@ -1,19 +1,19 @@
 import { useEffect, useState, useContext } from "react";
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import HomeLayout from "@/src/core/ui/layouts/home/Home.layout";
 import { useInView } from "react-intersection-observer";
+import HomeLayout from "@/src/core/ui/layouts/reseller/home/Home.layout";
 import HeroSectionHome from "../../fragments/hero_section/HeroSection.home";
 import FAQSectionHome from "../../fragments/faq_section/FAQSection.home";
-import clsx from "clsx";
+
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
-import {
-  useResellerHomeAddViralProductToCart,
-  useResellerHomeGetViralProducts,
-} from "../../hooks/useViralProducts";
+import { useResellerHomeGetViralProducts } from "../../hooks/useViralProducts";
 import { ResellerHomeContext } from "../../contexts/Home.context";
 import HighlightProductCardHome from "../../fragments/highlight_item_card/HighlightItemCard.home";
 import { ResellerHomeIdNames } from "../../constants";
+import { useResellerHomeAddToCart } from "../../hooks/useHomeAddToCart";
+
 export interface IHomeContainerProps {}
 
 export default function HomeContainer(props: IHomeContainerProps) {
@@ -35,11 +35,10 @@ export default function HomeContainer(props: IHomeContainerProps) {
     useResellerHomeGetViralProducts();
 
   // add to cart
-  const { mutate: addViralProductToCart } =
-    useResellerHomeAddViralProductToCart();
+  const { mutate: addToCart } = useResellerHomeAddToCart();
 
   const handleAddToCart = (data: number) => {
-    addViralProductToCart(data);
+    addToCart(data);
   };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,6 +60,7 @@ export default function HomeContainer(props: IHomeContainerProps) {
   if (isLoadingGetViralProducts) {
     return <div></div>;
   }
+
   return (
     <HomeLayout variant={navbarVariant}>
       <HeroSectionHome heroRef={ref} />

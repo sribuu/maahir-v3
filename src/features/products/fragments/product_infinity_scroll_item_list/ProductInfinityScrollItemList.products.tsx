@@ -11,7 +11,7 @@ import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import ItemNotFoundProduct from "../item_not_found/ItemNotFound.product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
-import { useProductsAddItemToCart } from "../../hooks/useProductCart";
+import { useProductsAddItemToCart } from "../../hooks/useProductSaveCart";
 export interface IProductInfinityScrollItemListProductsProps {}
 
 export default function ProductInfinityScrollItemListProducts(

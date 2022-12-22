@@ -2,7 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useQuery } from "@tanstack/react-query";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import {
   ReactQueryKey,
   RouterPathName,

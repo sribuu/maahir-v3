@@ -7,7 +7,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
 import useOrderIdForm from "@/src/core/hooks/form/useOrderIdForm";
 import HeroSearchOrder from "../../fragments/hero_search/HeroSearch.order";

@@ -1,28 +1,151 @@
 import { useEffect } from "react";
-import { ICart } from "@/src/core/lib/models";
-import { fetchCartItem } from "@/src/core/lib/storage";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
-import { CartReactQueryKey } from "../constants";
-import { CartContext } from "../contexts/cart/Cart.context";
-import { CartActionsTypes } from "../contexts/cart/Cart.types";
+import { CartReactQueryKey, MyCartReactQueryKey } from "../constants";
+import { ResellerCartContext } from "../contexts/cart/Cart.context";
+import { fetchGetCart } from "../services/fetchGetCart";
+import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
+import { thousandSeparator } from "@/src/core/utils/formatters";
+import { ResellerCartItemsActionEnum } from "../contexts/cart/Cart.types";
+import { ResellerMyCartContext } from "../contexts/my_cart/MyCart.context";
+import { ResellerMyCartActionsEnum } from "../contexts/my_cart/MyCart.types";
 
-// my cart
-export const useHomeCartGetCartItems = () => {
-  const { dispatch } = useContext(CartContext);
-  const query = useQuery<ICart[]>(
+// Global
+export const useGlobalCartGetCartItems = () => {
+  const { dispatch } = useContext(ResellerCartContext);
+  const query = useQuery<IResellerCart[]>(
     [CartReactQueryKey.GetCartItems],
-    fetchCartItem
+    fetchGetCart
   );
 
   useEffect(() => {
     if (!query.isFetching) {
+      const totalQuantity: number = query?.data?.reduce((acc, item) => {
+        const supplierItemTotal = item?.supplier?.data.reduce(
+          (accSupplierItem, supplierItem) => {
+            accSupplierItem = supplierItem.quantity + accSupplierItem;
+            return accSupplierItem;
+          },
+          0
+        );
+        return acc + supplierItemTotal;
+      }, 0);
+
+      const isEmpty = totalQuantity <= 0;
       dispatch({
-        type: CartActionsTypes.CheckItemIsEmpty,
-        payload: query.data,
+        type: ResellerCartItemsActionEnum.SetIsEmpty,
+        payload: isEmpty,
       });
-      dispatch({ type: CartActionsTypes.SetItems, payload: query.data });
     }
   }, [query.isFetching]);
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      const totalQuantity: number = query?.data?.reduce((acc, item) => {
+        const supplierItemTotal = item?.supplier?.data.reduce(
+          (accSupplierItem, supplierItem) => {
+            accSupplierItem = supplierItem.quantity + accSupplierItem;
+            return accSupplierItem;
+          },
+          0
+        );
+        return acc + supplierItemTotal;
+      }, 0);
+
+      dispatch({
+        type: ResellerCartItemsActionEnum.SetTotalNumber,
+        payload: totalQuantity,
+      });
+    }
+  }, [query.isFetching]);
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      const reformattedCart = query.data
+        .filter((_, index) => index < 3)
+        .map((item) => {
+          return item?.supplier?.data?.map((supplierItem) => {
+            return {
+              category_name: supplierItem.category_name,
+              name: supplierItem.product_name,
+              price: thousandSeparator(supplierItem.price),
+              image: supplierItem.image,
+              quantity: supplierItem.quantity,
+              product_id: supplierItem.product_id,
+              variant_id: supplierItem.variant_id,
+            };
+          });
+        })
+        .flat(1);
+
+      dispatch({
+        type: ResellerCartItemsActionEnum.SetItems,
+        payload: reformattedCart,
+      });
+    }
+  }, [query.isFetching]);
+
+  return query;
+};
+
+// MyCart
+export const useMyCartGetCartItems = () => {
+  const { state, dispatch } = useContext(ResellerMyCartContext);
+  const query = useQuery<IResellerCart[]>(
+    [MyCartReactQueryKey.GetCartItems],
+    fetchGetCart
+  );
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      const totalQuantity: number = query?.data?.reduce((acc, item) => {
+        const supplierItemTotal = item?.supplier?.data.reduce(
+          (accSupplierItem, supplierItem) => {
+            accSupplierItem = supplierItem.quantity + accSupplierItem;
+            return accSupplierItem;
+          },
+          0
+        );
+        return acc + supplierItemTotal;
+      }, 0);
+
+      const isEmpty = totalQuantity <= 0;
+
+      dispatch({
+        type: ResellerMyCartActionsEnum.CheckItemIsEmpty,
+        payload: isEmpty,
+      });
+    }
+  }, [query.isFetching]);
+
+  useEffect(() => {
+    if (!query.isFetching) {
+      const totalQuantity: number = query?.data?.reduce((acc, item) => {
+        const supplierItemTotal = item?.supplier?.data.reduce(
+          (accSupplierItem, supplierItem) => {
+            accSupplierItem = supplierItem.quantity + accSupplierItem;
+            return accSupplierItem;
+          },
+          0
+        );
+        return acc + supplierItemTotal;
+      }, 0);
+
+      dispatch({
+        type: ResellerMyCartActionsEnum.SetTotalNumber,
+        payload: totalQuantity,
+      });
+    }
+  }, [query.isFetching]);
+
+  useEffect(() => {
+    if (!query.isFetching && query?.data?.length > 0) {
+      dispatch({
+        type: ResellerMyCartActionsEnum.SetItems,
+        payload: query?.data,
+      });
+    }
+  }, [query.isFetching]);
+
   return query;
 };

@@ -15,7 +15,7 @@ export interface IResellerProducts {
   retail_price_max: number;
   retail_price_min: number;
   stock: number;
-  title: string;
+  name: string;
   sku: string;
   variant_name: string;
   weight: number;
@@ -32,6 +32,7 @@ export interface IResellerProducts {
   supplier: {
     id: number;
     name: string;
+    name_initial: string;
     address: {
       id: string;
       name: string;
@@ -43,7 +44,7 @@ export interface IResellerProducts {
       administrative_division_level_2_type: string;
       administrative_division_level_3_name: string;
       administrative_division_level_3_type: string;
-      postal_code: number;
+      postal_code: string;
     };
   };
 }

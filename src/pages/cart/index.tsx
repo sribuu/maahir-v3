@@ -8,7 +8,7 @@ import {
   fetchMaahirSocialMedia,
 } from "../../core/lib/api";
 import { ReactQueryKey } from "../../core/lib/constants";
-import { CartProvider } from "@/src/features/cart/contexts/cart/Cart.context";
+import { ResellerMyCartProvider } from "@/src/features/cart/contexts/my_cart/MyCart.context";
 
 export async function getStaticProps() {
   const queryClient = new QueryClient();
@@ -52,9 +52,9 @@ export default function CartPage() {
         <meta name="description" content={header.description} />
       </Head>
 
-      <CartProvider>
+      <ResellerMyCartProvider>
         <HomeCartContainer />
-      </CartProvider>
+      </ResellerMyCartProvider>
     </>
   );
 }

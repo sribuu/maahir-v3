@@ -12,7 +12,7 @@ ZoomImageProduct.defaultProps = {
 export default function ZoomImageProduct(props: IZoomImageProductProps) {
   const [coverImage, setCoverImage] = useState("");
   const [state, setState] = useState({
-    backgroundImage: `url(${props.coverImage})`,
+    backgroundImage: ``,
     backgroundPosition: "0% 0%",
   });
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -22,44 +22,40 @@ export default function ZoomImageProduct(props: IZoomImageProductProps) {
     const y = ((e.pageY - top) / height) * 100;
     setState(
       (prevState) =>
-        (prevState = { ...state, backgroundPosition: `${x}% ${y}%` })
-    );
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    setState(
-      (prevState) =>
         (prevState = {
           ...state,
-          backgroundPosition: "0% 0%",
+          backgroundPosition: `${x}% ${y}%`,
+          backgroundImage: `url(${coverImage})`,
         })
     );
   };
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    setState(
-      (prevState) =>
-        (prevState = {
-          ...state,
-          backgroundPosition: "0% 0%",
-        })
-    );
+  const handleMouseLeave = () => {
+    setState({
+      ...state,
+      backgroundImage: "",
+      backgroundPosition: `0% 0%`,
+    });
+  };
+  const handleMouseEnter = () => {
+    setState({
+      ...state,
+      backgroundImage: `url(${coverImage})`,
+    });
   };
 
   useEffect(() => {
-    if (props.coverImage?.length > 0) {
+    if (props.coverImage?.length > 0 && props.coverImage !== coverImage) {
       setCoverImage(props.coverImage);
-      setState({ ...state, backgroundImage: `url(${props.coverImage})` });
     }
   }, [props.coverImage]);
 
   return (
     <figure
-      className={clsx("w-[30rem] h-[30rem] rounded-[1rem]")}
+      className={clsx("w-[30rem] h-[30rem] rounded-[1rem] bg-no-repeat")}
       style={state}
-      onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <img
         src={coverImage}

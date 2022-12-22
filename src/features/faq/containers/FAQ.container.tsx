@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import { useQuery } from "@tanstack/react-query";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import FAQCardComponent from "@/src/core/ui/components/faq_card/FAQCard.component";
 import { fetchMaahirFAQ } from "@/src/core/lib/api";
 import { IFAQ } from "@/src/core/lib/models/faq";

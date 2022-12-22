@@ -55,6 +55,7 @@ export default function HomePage({ isErrorPrefetch }) {
         <title>{headerData.title}</title>
         <meta name="description" content={headerData.description} />
       </Head>
+
       <ResellerHomeProvider>
         <HomeContainer />
       </ResellerHomeProvider>

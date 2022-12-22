@@ -1,14 +1,16 @@
 import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
+import AvatarComponent from "@/src/core/ui/components/avatar/Avatar.component";
 
-import { CartContext } from "../../contexts/cart/Cart.context";
-import { CartActionsTypes } from "../../contexts/cart/Cart.reducers";
+import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
+import { ResellerMyCartActionsEnum } from "../../contexts/my_cart/MyCart.types";
 
 import ItemListCart from "../item_list/ItemList.cart";
-import { useHomeCartRemoveCartItemById } from "../../hooks/useRemoveCartItemById";
-import { useHomeCartSaveCartItemNoteById } from "../../hooks/useSaveCartItemNoteById";
-import { useHomeCartSaveCartItemQuantityById } from "../../hooks/useSaveCartItemQuantityById";
+import { useMyCartRemoveCartItems } from "../../hooks/useRemoveCartItems";
+import { useMyCartSaveCartItemsQuantity } from "../../hooks/useSaveCartItemsQuantity";
+import { useMyCartSaveCartItemsNote } from "../../hooks/useSaveCartItemsNote";
+import { thousandSeparator } from "@/src/core/utils/formatters";
 export interface IListItemCardCartProps {
   category?: string;
   name?: string;
@@ -23,28 +25,29 @@ ListItemCardCart.defaultProps = {
   productSrc: "/images/sample-product.png",
 };
 export default function ListItemCardCart(props: IListItemCardCartProps) {
-  const { state, dispatch } = useContext(CartContext);
-  const {
-    data: removeCartItemData,
-    mutate: removeCartItem,
-    isSuccess: isSuccessRemoveCartItem,
-  } = useHomeCartRemoveCartItemById();
+  const { state, dispatch } = useContext(ResellerMyCartContext);
+  const { mutate: removeCartItem } = useMyCartRemoveCartItems();
 
-  const { mutate: saveCartNoteItems } = useHomeCartSaveCartItemNoteById();
-
-  const { mutate: saveCartQuantityItems } =
-    useHomeCartSaveCartItemQuantityById();
-
-  const handleSelectItem = (data: number) => {
-    dispatch({
-      type: CartActionsTypes.SelectItem,
-      payload: data,
-    });
-  };
+  const { mutate: saveCartItemQuantities } = useMyCartSaveCartItemsQuantity();
+  const { mutate: saveCartNoteItems } = useMyCartSaveCartItemsNote();
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: CartActionsTypes.SelectAllItems,
+      type: ResellerMyCartActionsEnum.SelectAll,
+    });
+  };
+
+  const handleSelectSupplier = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: ResellerMyCartActionsEnum.SelectSupplier,
+      payload: parseInt(String(e.currentTarget.value)),
+    });
+  };
+
+  const handleSelectItem = (data: number) => {
+    dispatch({
+      type: ResellerMyCartActionsEnum.SelectItem,
+      payload: data,
     });
   };
 
@@ -53,24 +56,24 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
   };
 
   const handleSaveNote = (data: { id: number; value: string }) => {
-    saveCartNoteItems(data);
+    saveCartNoteItems({ variantId: data.id, note: data.value });
   };
 
   const handleAdd = (data: { id: number; value: number }) => {
-    saveCartQuantityItems(data);
+    saveCartItemQuantities({ variantId: data.id, quantity: data.value });
   };
 
   const handleSubstract = (data: { id: number; value: number }) => {
-    saveCartQuantityItems(data);
+    saveCartItemQuantities({ variantId: data.id, quantity: data.value });
   };
 
-  useEffect(() => {
-    if (isSuccessRemoveCartItem) {
-      dispatch({
-        type: CartActionsTypes.ClearSelectedItem,
-      });
-    }
-  }, [removeCartItemData]);
+  // useEffect(() => {
+  //   if (isSuccessRemoveCartItem) {
+  //     // dispatch({
+  //     //   type: ResellerMyCartActionsEnum.ClearSelectedItem,
+  //     // });
+  //   }
+  // }, [removeCartItemData]);
 
   return (
     <div
@@ -84,18 +87,12 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
         <div className={clsx("flex w-full justify-between items-center")}>
           <CheckboxComponent
             name={"Pilih Semua"}
-            checked={
-              state.cart.selected_items.length === state.cart.items?.length
-            }
+            checked={state.cart.select_all}
             onChange={handleSelectAll}
           />
 
           <button onClick={handleDelete}>
-            <p
-              className={clsx(
-                "text-[0.875rem] text-ocean-boat-blue font-regular"
-              )}
-            >
+            <p className={clsx("text-[1rem] text-ocean-boat-blue font-bold")}>
               {"Hapus"}
             </p>
           </button>
@@ -104,16 +101,59 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
         <hr className={clsx("border border-bright-gray")} />
 
         {state.cart.items.map((item, index) => (
-          <ItemListCart
+          <div
             key={index}
-            id={String(item.id)}
-            item={item}
-            checked={state.cart.selected_items.includes(item.id)}
-            onSelect={handleSelectItem}
-            onSaveNote={handleSaveNote}
-            onAdd={handleAdd}
-            onSubstract={handleSubstract}
-          />
+            className={clsx("grid grid-cols-1 gap-y-[1rem]", "w-full")}
+          >
+            <div
+              className={clsx("flex items-center justify-start gap-x-[1rem]")}
+            >
+              <CheckboxComponent
+                value={String(item.supplier.id)}
+                checked={item.supplier.selected}
+                onChange={handleSelectSupplier}
+              />
+              <AvatarComponent text={item.supplier.name_initial} />
+              <div
+                className={clsx(
+                  "grid grid-cols-1 justify-start justify-items-start gap-y-[0.125rem]"
+                )}
+              >
+                <p
+                  className={clsx(
+                    "text-[1rem] font-bold text-charleston-green text-start"
+                  )}
+                >
+                  {item.supplier.name}
+                </p>
+                <p
+                  className={clsx(
+                    "text-[0.75rem] font-regular text-charleston-green text-start"
+                  )}
+                >
+                  {item.supplier.address.administrative_division_level_2_name}
+                </p>
+              </div>
+            </div>
+
+            {item.supplier.data.map((supplierItem, supplierIndex) => (
+              <ItemListCart
+                key={supplierIndex}
+                id={String(supplierItem.variant_id)}
+                image={supplierItem.image}
+                categoryName={supplierItem.category_name}
+                name={supplierItem.product_name}
+                variant={supplierItem.variant_name}
+                note={supplierItem.note}
+                price={thousandSeparator(supplierItem.price)}
+                checked={supplierItem.selected}
+                onSelect={handleSelectItem}
+                onSaveNote={handleSaveNote}
+                onAdd={handleAdd}
+                onSubstract={handleSubstract}
+              />
+            ))}
+          </div>
         ))}
       </div>
     </div>

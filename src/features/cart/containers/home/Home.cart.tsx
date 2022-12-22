@@ -2,20 +2,20 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import clsx from "clsx";
-import MainLayout from "@/src/core/ui/layouts/main/Main.layout";
+import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import ListItemCardCart from "../../fragments/list_item_card/ListItemCard.cart";
 import ShoppingSummaryCardCart from "../../fragments/shopping_summary_card/ShoppingSummary.cart";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
-import { CartContext } from "../../contexts/cart/Cart.context";
+import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { RouterPathName } from "@/src/core/lib/constants";
-import { useHomeCartGetCartItems } from "../../hooks/useGetCartItems";
+import { useMyCartGetCartItems } from "../../hooks/useGetCartItems";
 export interface IHomeCartContainerProps {}
 
 export default function HomeCartContainer(props: IHomeCartContainerProps) {
-  const query = useHomeCartGetCartItems();
+  const query = useMyCartGetCartItems();
   const router = useRouter();
-  const { state } = useContext(CartContext);
+  const { state } = useContext(ResellerMyCartContext);
   if (state.cart.is_empty) {
     return (
       <MainLayout>
@@ -106,10 +106,7 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
                 "text-charleston-green"
               )}
             >
-              {`Keranjang Kamu (${state.cart.items?.reduce(
-                (acc, item) => acc + item.amount,
-                0
-              )})`}
+              {`Keranjang Kamu (${state.total_number})`}
             </h1>
           </div>
 

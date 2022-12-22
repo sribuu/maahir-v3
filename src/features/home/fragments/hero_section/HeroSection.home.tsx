@@ -3,15 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import clsx from "clsx";
 import { ResellerHomeContext } from "../../contexts/Home.context";
-import {
-  ExternalLink,
-  RouterPathName,
-  RouterQueryKey,
-} from "@/src/core/lib/constants";
-import {
-  useResellerHomeGetViralProducts,
-  useResellerHomeAddViralProductToCart,
-} from "@/src/features/home/hooks/useViralProducts";
+import { ExternalLink } from "@/src/core/lib/constants";
+import { useResellerHomeGetViralProducts } from "@/src/features/home/hooks/useViralProducts";
 import { ResellerHomeIdNames } from "../../constants";
 
 export interface IHeroSectionHomeProps {
@@ -24,21 +17,6 @@ export default function HeroSectionHome(props: IHeroSectionHomeProps) {
 
   const { isLoading: isLoadingGetViralProducts } =
     useResellerHomeGetViralProducts();
-
-  // add to cart
-  const { mutate: addViralProductToCart } =
-    useResellerHomeAddViralProductToCart();
-
-  const handleAddToCart = (data: number) => {
-    addViralProductToCart(data);
-  };
-
-  const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push({
-      pathname: RouterPathName.OrderProduct,
-      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.id) },
-    });
-  };
 
   if (isLoadingGetViralProducts) {
     return <div></div>;

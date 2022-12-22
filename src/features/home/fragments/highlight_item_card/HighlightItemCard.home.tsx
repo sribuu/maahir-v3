@@ -5,6 +5,7 @@ import { ResellerHomeIdNames } from "../../constants";
 
 export interface IHighlightProductCardHomeProps {
   id?: string;
+
   name?: string;
   profitValue?: string;
   price?: string;
@@ -27,45 +28,46 @@ HighlightProductCardHome.defaultProps = {
 export default function HighlightProductCardHome(
   props: IHighlightProductCardHomeProps
 ) {
-  const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickItem = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClickItem) {
-      props.onClickItem(parseInt(e.currentTarget.value));
+      props.onClickItem(parseInt(e.currentTarget.title));
     }
   };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (props.onClickBuyItem) {
       props.onClickBuyItem(e);
     }
   };
 
   const handleClickAddtoCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
     if (props.onClickAddToCart) {
       props.onClickAddToCart(parseInt(e.currentTarget.value));
     }
   };
   return (
     <div
+      title={props.id}
+      id={ResellerHomeIdNames.SeeDetailProduct}
       className={clsx(
         "grid gap-y-[1rem] sm:gap-y-[1.25rem] p-[1rem] sm:p-[1.5rem] rounded-2xl shadow-1",
         "bg-white",
-        "min-w-[242px]"
+        "min-w-[242px]",
+        "cursor-pointer"
       )}
+      onClick={handleClickItem}
     >
-      <button
-        id={ResellerHomeIdNames.SeeDetailProduct}
-        value={props.id}
-        onClick={handleClickItem}
-      >
-        <img
-          src={props.productSrc}
-          loading={"lazy"}
-          className={clsx(
-            "object-cover rounded-lg",
-            "w-[210px] sm:w-[312px] h-[136px] sm:h-[312px]"
-          )}
-        />
-      </button>
+      <img
+        src={props.productSrc}
+        loading={"lazy"}
+        className={clsx(
+          "object-cover rounded-lg",
+          "w-[210px] sm:w-[312px] h-[136px] sm:h-[312px]"
+        )}
+      />
 
       <div className={clsx("grid gap-y-[0.25rem] sm:gap-y-[0.375rem]")}>
         <p

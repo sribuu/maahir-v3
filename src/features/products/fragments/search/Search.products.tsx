@@ -29,13 +29,14 @@ export default function SearchProducts(props: ISearchProductsProps) {
     }
   };
   return (
-    <SearchInputComponent
-      className={clsx("hidden sm:grid")}
-      placeholder={"Cari produk disini"}
-      value={state.search.value}
-      onChange={handleChangeSearch}
-      onSearch={handleClickSearch}
-      onKeyUp={handleKeyUpSearch}
-    />
+    <div className={clsx("hidden sm:grid")}>
+      <SearchInputComponent
+        placeholder={"Cari produk disini"}
+        value={state.search.value}
+        onChange={handleChangeSearch}
+        onSearch={handleClickSearch}
+        onKeyUp={handleKeyUpSearch}
+      />
+    </div>
   );
 }

@@ -1,36 +1,42 @@
-import { createContext, useReducer, Dispatch, useEffect } from "react";
-import { CartActions, itemsReducer } from "./Cart.reducers";
-
-import { InitialStateType } from "./Cart.types";
+import React, { createContext, useReducer, Dispatch } from "react";
+import { ResellerCartActions, InitialStateType } from "./Cart.types";
+import {
+  resellerCartIsEmptyReducer,
+  resellerCartTotalNumberReducer,
+  resellerCartItemsReducer,
+} from "./Cart.reducers";
 
 const initialState: InitialStateType = {
-  cart: {
-    is_empty: false,
-    selected_items: [],
-    items: [],
-  },
+  is_empty: true,
+  total_number: 0,
+  items: [],
 };
 
-const CartContext = createContext<{
+const ResellerCartContext = createContext<{
   state: InitialStateType;
-  dispatch: Dispatch<CartActions>;
+  dispatch: Dispatch<ResellerCartActions>;
 }>({
   state: initialState,
   dispatch: () => null,
 });
 
-const mainReducer = ({ cart }: InitialStateType, action: CartActions) => ({
-  cart: itemsReducer(cart, action),
+const mainReducer = (
+  { is_empty, total_number, items }: InitialStateType,
+  action: ResellerCartActions
+) => ({
+  is_empty: resellerCartIsEmptyReducer(is_empty, action),
+  total_number: resellerCartTotalNumberReducer(total_number, action),
+  items: resellerCartItemsReducer(items, action),
 });
 
-const CartProvider = (props: { children: React.ReactNode }) => {
+const ResellerCartProvider = (props: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
 
   return (
-    <CartContext.Provider value={{ state, dispatch }}>
+    <ResellerCartContext.Provider value={{ state, dispatch }}>
       {props.children}
-    </CartContext.Provider>
+    </ResellerCartContext.Provider>
   );
 };
 
-export { CartProvider, CartContext };
+export { ResellerCartProvider, ResellerCartContext };

@@ -2,7 +2,7 @@ import * as React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import MainLayout from "../core/ui/layouts/main/Main.layout";
+import MainLayout from "../core/ui/layouts/reseller/main/Main.layout";
 import ButtonComponent from "../core/ui/components/button/Button.component";
 export interface IErrorPageProps {}
 

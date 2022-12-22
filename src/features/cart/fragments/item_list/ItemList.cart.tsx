@@ -8,8 +8,14 @@ import { ICart } from "@/src/core/lib/models";
 
 export interface IItemListCartProps {
   id?: string;
-  item: ICart;
+  image?: string;
+  categoryName?: string;
+  name?: string;
+  quantity?: number;
   checked?: boolean;
+  variant?: string;
+  note?: string;
+  price?: string;
   onAdd?: (data: { id: number; value: number }) => void;
   onSubstract?: (data: { id: number; value: number }) => void;
   onSaveNote?: (data: { id: number; value: string }) => void;
@@ -21,7 +27,7 @@ ItemListCart.defaultProps = {
 };
 
 export default function ItemListCart(props: IItemListCartProps) {
-  const { item } = props;
+  // const { item } = props;
 
   const handleSaveNote = (data: { id: string; value: string }) => {
     if (props.onSaveNote) {
@@ -50,8 +56,8 @@ export default function ItemListCart(props: IItemListCartProps) {
   return (
     <div className={clsx("flex gap-x-[1.25rem] w-full")}>
       <CheckboxComponent
-        id={String(item.id)}
-        value={String(item.id)}
+        id={String(props.id)}
+        value={String(props.id)}
         checked={props.checked}
         onChange={handleSelectItem}
       />
@@ -63,7 +69,7 @@ export default function ItemListCart(props: IItemListCartProps) {
       >
         <div className={clsx("flex gap-x-[1.25rem] w-full")}>
           <img
-            src={item.image}
+            src={props.image}
             width={126}
             className={clsx(
               "object-cover",
@@ -75,7 +81,7 @@ export default function ItemListCart(props: IItemListCartProps) {
           {/* description */}
           <div
             className={clsx(
-              "grid gap-y-[0.25rem] sm:gap-y-[0.75rem] grid-cols-1 items-start content-start"
+              "grid gap-y-[0.25rem] sm:gap-y-[0.25rem] grid-cols-1 items-start content-start"
             )}
           >
             <div
@@ -86,32 +92,31 @@ export default function ItemListCart(props: IItemListCartProps) {
               <p
                 className={clsx("text-[0.75rem] text-taupe-gray font-regular")}
               >
-                {item.category_name}
+                {props.categoryName}
               </p>
               <p
                 className={clsx(
                   "text-[0.875rem] sm:text-[1rem] text-dark-charcoal font-regular"
                 )}
               >
-                {item.name}
+                {props.name}
               </p>
             </div>
-            {item.variant?.length > 0 && (
-              <p
-                className={clsx(
-                  "text-[0.75rem] sm:text-[0.875rem] text-taupe-gray font-regular"
-                )}
-              >
-                {item.variant}
-              </p>
-            )}
 
             <p
               className={clsx(
-                "text-[0.875rem] sm:text-[1.75rem] text-dark-charcoal font-bold"
+                "text-[0.75rem] sm:text-[0.875rem] text-taupe-gray font-regular"
               )}
             >
-              {thousandSeparator(item.price)}
+              {props.variant}
+            </p>
+
+            <p
+              className={clsx(
+                "text-[0.875rem] sm:text-[0.875rem] text-dark-charcoal font-bold"
+              )}
+            >
+              {props.price}
             </p>
 
             {/* notes */}
@@ -128,16 +133,16 @@ export default function ItemListCart(props: IItemListCartProps) {
                 }
               </p>
               <NotesComponent
-                id={String(item.id)}
-                value={item.note}
+                id={String(props.id)}
+                value={props.note}
                 onSave={handleSaveNote}
               />
             </div>
           </div>
           {/* end description */}
-          <div className={clsx("hidden sm:block")}>
+          <div className={clsx("hidden sm:grid")}>
             <CounterComponent
-              quantity={item.amount}
+              quantity={props.quantity}
               onSummation={handleAdd}
               onSubstract={handleSubstract}
             />
@@ -158,13 +163,13 @@ export default function ItemListCart(props: IItemListCartProps) {
             )}
           >
             <NotesComponent
-              id={String(item.id)}
-              value={item.note}
+              id={String(props.id)}
+              value={props.note}
               onSave={handleSaveNote}
             />
           </div>
           <CounterComponent
-            quantity={item.amount}
+            quantity={props.quantity}
             onSummation={handleAdd}
             onSubstract={handleSubstract}
           />

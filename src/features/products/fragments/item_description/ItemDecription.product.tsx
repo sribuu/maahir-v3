@@ -5,7 +5,7 @@ import AvailableStockProduct from "../available_stock/AvailableStock.product";
 import clsx from "clsx";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import AvailableVariantProduct from "../available_variant/AvailableVariant.product";
-import { useProductAddItemToCart } from "../../hooks/useProductCart";
+import { useProductAddItemToCart } from "../../hooks/useProductSaveCart";
 import { ProductContext } from "../../contexts/product/Product.context";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import { ProductActionEnum } from "../../contexts/product/Product.types";

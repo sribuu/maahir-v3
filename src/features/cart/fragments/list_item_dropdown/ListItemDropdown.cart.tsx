@@ -1,26 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import clsx from "clsx";
-import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
-import { ICart } from "@/src/core/lib/models";
-import { thousandSeparator } from "@/src/core/utils/formatters";
+import DropdownItemCart from "../dropdown_item/DropdownItem.cart";
 import { RouterPathName } from "@/src/core/lib/constants";
+import { useGlobalCartGetCartItems } from "../../hooks/useGetCartItems";
+
+import { ResellerCartContext } from "../../contexts/cart/Cart.context";
 
 export interface IListItemDropdownCartProps {
   variant?: "transparent" | "normal";
-  cartData?: ICart[];
 }
 
 ListItemDropdownCart.defaultProps = {
   variant: "normal",
-  cartData: [],
 };
 
 export default function ListItemDropdownCart(
   props: IListItemDropdownCartProps
 ) {
   const router = useRouter();
+  useGlobalCartGetCartItems();
+  const { state, dispatch } = useContext(ResellerCartContext);
 
   const [open, setOpen] = useState(false);
   const handleMouseOver = (e?: React.MouseEvent<HTMLDivElement>) => {
@@ -59,7 +60,7 @@ export default function ListItemDropdownCart(
           loading={"lazy"}
         />
 
-        {props.cartData !== undefined && props.cartData.length > 0 && (
+        {!state.is_empty && (
           <div
             className={clsx(
               "absolute top-[-8px] right-[-8px] z-30",
@@ -69,7 +70,7 @@ export default function ListItemDropdownCart(
             )}
           >
             <p className={clsx("text-[0.625rem] text-white font-medium")}>
-              {props.cartData?.reduce((acc, item) => acc + item.amount, 0)}
+              {state.total_number}
             </p>
           </div>
         )}
@@ -78,7 +79,7 @@ export default function ListItemDropdownCart(
       {/* body */}
 
       {/* cart non empty */}
-      {props.cartData !== undefined && props.cartData.length > 0 && (
+      {!state.is_empty && (
         <div
           className={clsx(
             "absolute top-[4.5rem] right-[0px]",
@@ -94,75 +95,20 @@ export default function ListItemDropdownCart(
               "text-[1.25rem] text-charleston-green font-regular"
             )}
           >
-            {`Pesanan Kamu (${props.cartData.length})`}
+            {`Pesanan Kamu (${state.total_number})`}
           </p>
 
           {/* items */}
-          {props.cartData
-            .filter((_, index) => index < 3)
-            .map((item, index) => (
-              <div
+          {state.items?.length > 0 &&
+            state.items?.map((item, index) => (
+              <DropdownItemCart
                 key={index}
-                className={clsx(
-                  "flex gap-x-[1.5rem] items-center content-start",
-                  "w-full"
-                )}
-              >
-                <img
-                  src={item.image}
-                  className={clsx(
-                    "object-cover",
-                    "w-[5rem] h-[5rem] rounded-[0.5rem]"
-                  )}
-                />
-
-                {/* description */}
-                <div
-                  className={clsx("grid grid-cols-1", "w-full gap-y-[0.5rem]")}
-                >
-                  <div className={clsx("grid grid-cols-1", "w-full")}>
-                    <p
-                      className={clsx(
-                        "text-[0.75rem] text-taupe-gray font-regular"
-                      )}
-                    >
-                      {item.category_name}
-                    </p>
-
-                    {/* TODO: techdebt ellipsis */}
-                    <div
-                      className={clsx(
-                        "h-[1.5rem] overflow-hidden text-ellipsis"
-                      )}
-                    >
-                      <p
-                        className={clsx(
-                          "text-[0.875rem] text-dark-charcoal font-regular text-ellipsis"
-                        )}
-                      >
-                        {item.name}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
-                    className={clsx(
-                      "flex justify-between items-center",
-                      "w-full"
-                    )}
-                  >
-                    <p
-                      className={clsx(
-                        "text-[1rem] text-charleston-green font-bold"
-                      )}
-                    >
-                      {thousandSeparator(item.price)}
-                    </p>
-                    <CounterComponent quantity={item.amount} />
-                  </div>
-                </div>
-                {/* end description */}
-              </div>
+                id={String(item?.variant_id)}
+                productName={item?.name}
+                categoryName={item?.category_name}
+                quantity={item?.quantity}
+                image={item?.image}
+              />
             ))}
 
           {/* end items */}
@@ -186,7 +132,7 @@ export default function ListItemDropdownCart(
       {/* end non empty cart */}
 
       {/* empty cart */}
-      {props.cartData !== undefined && !props.cartData.length && (
+      {state.is_empty && (
         <div
           className={clsx(
             "absolute top-[4.5rem] right-[0px]",
