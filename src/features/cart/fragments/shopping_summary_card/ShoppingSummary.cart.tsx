@@ -100,14 +100,6 @@ export default function ShoppingSummaryCardCart(
     );
     return acc + supplierItemTotal;
   }, 0);
-  console.log(
-    state.cart.items
-      .map((item) =>
-        item.supplier.data.filter((supplierItem) => supplierItem.selected)
-      )
-      .flat(1),
-    "ini selected"
-  );
 
   const selectedItems = state.cart.items
     .map((item) =>

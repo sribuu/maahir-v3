@@ -7,6 +7,7 @@ import ListItemCardCart from "../../fragments/list_item_card/ListItemCard.cart";
 import ShoppingSummaryCardCart from "../../fragments/shopping_summary_card/ShoppingSummary.cart";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import NavigationIcon from "@/src/core/ui/icons/navigation/Navigation.icon";
+import FloatingActionBuyCart from "../../fragments/floating_action_buy/FloatingActionBuy.cart";
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { RouterPathName } from "@/src/core/lib/constants";
 import { useMyCartGetCartItems } from "../../hooks/useGetCartItems";
@@ -64,6 +65,22 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
     router.back();
   };
 
+  const totalSelectedQuantity: number = state.cart.items?.reduce(
+    (acc, item) => {
+      const supplierItemTotal = item?.supplier?.data.reduce(
+        (accSupplierItem, supplierItem) => {
+          accSupplierItem = supplierItem.selected
+            ? supplierItem.quantity + accSupplierItem
+            : accSupplierItem;
+          return accSupplierItem;
+        },
+        0
+      );
+      return acc + supplierItemTotal;
+    },
+    0
+  );
+  const quantityIsNotZero = totalSelectedQuantity > 0;
   return (
     <MainLayout>
       <div
@@ -119,8 +136,13 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
             )}
           >
             <ListItemCardCart />
-            <div>
+            <div className={clsx("hidden sm:grid")}>
               <ShoppingSummaryCardCart />
+            </div>
+            <div
+              className={clsx(quantityIsNotZero ? "grid sm:hidden" : "hidden")}
+            >
+              <FloatingActionBuyCart />
             </div>
           </div>
         </div>

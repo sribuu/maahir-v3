@@ -67,14 +67,23 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
     saveCartItemQuantities({ variantId: data.id, quantity: data.value });
   };
 
-  // useEffect(() => {
-  //   if (isSuccessRemoveCartItem) {
-  //     // dispatch({
-  //     //   type: ResellerMyCartActionsEnum.ClearSelectedItem,
-  //     // });
-  //   }
-  // }, [removeCartItemData]);
+  const totalSelectedQuantity: number = state.cart.items?.reduce(
+    (acc, item) => {
+      const supplierItemTotal = item?.supplier?.data.reduce(
+        (accSupplierItem, supplierItem) => {
+          accSupplierItem = supplierItem.selected
+            ? supplierItem.quantity + accSupplierItem
+            : accSupplierItem;
+          return accSupplierItem;
+        },
+        0
+      );
+      return acc + supplierItemTotal;
+    },
+    0
+  );
 
+  const noSelectedItems = totalSelectedQuantity <= 0
   return (
     <div
       className={clsx(
@@ -91,7 +100,10 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
             onChange={handleSelectAll}
           />
 
-          <button onClick={handleDelete}>
+          <button
+            className={clsx(noSelectedItems ? "hidden" : "block")}
+            onClick={handleDelete}
+          >
             <p className={clsx("text-[1rem] text-ocean-boat-blue font-bold")}>
               {"Hapus"}
             </p>
