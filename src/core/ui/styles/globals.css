@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "DM Sans";
+    margin: 0 auto;
+    width:100%;
+    /* min-width: 100vh; */
+  }
+}
