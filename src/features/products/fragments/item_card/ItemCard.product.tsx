@@ -11,7 +11,6 @@ export interface IItemCardProductProps {
   price?: string;
   productSrc?: string;
   productAlt?: string;
-
   onClickBuyNow?: (data: number) => void;
   onClickItem?: (data: number) => void;
   onAddToCart?: (data: number) => void;
@@ -32,7 +31,7 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
       props.onAddToCart(parseInt(e.currentTarget.value));
     }
   };
-  
+
   const handleClickItem = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (props.onClickItem) {
