@@ -8,13 +8,16 @@ import {
 
 const initialState: InitialStateType = {
   price: 0,
-  item: {
-    name: "",
-    image: "",
-    price: "",
-    quantity: 0,
-    notes: "",
-  },
+  // item: [
+  //   {
+  //     name: "",
+  //     image: "",
+  //     price: "",
+  //     quantity: 0,
+  //     notes: "",
+  //   },
+  // ],
+  item: [],
   summary: {
     quantity: 0,
     sub_total_price: "",

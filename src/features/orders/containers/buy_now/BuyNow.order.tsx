@@ -9,11 +9,14 @@ import { ResellerOrderBuyNowContext } from "../../contexts/buy_now/BuyNow.contex
 import { useBuyNowGetProductById } from "../../hooks/useGetProductById";
 import { ResellerOrderBuyNowActionEnum } from "../../contexts/buy_now/BuyNow.types";
 import { useBuyNowSaveOrderProcess } from "../../hooks/usePostSaveOrderProcess";
+import { useResellerCheckoutGetCheckoutItems } from "../../hooks/useGetCheckoutItems";
 
 export interface IBuyNowContainerProps {}
 
 export default function BuyNowContainer(props: IBuyNowContainerProps) {
   const { isLoading: isLoadingGetProductById } = useBuyNowGetProductById();
+  const { isLoading: isLoadingGetCheckoutItems } =
+    useResellerCheckoutGetCheckoutItems();
   const { mutate: saveOrderProcess } = useBuyNowSaveOrderProcess();
   const { state, dispatch } = useContext(ResellerOrderBuyNowContext);
   const router = useRouter();
@@ -58,11 +61,11 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
     });
   };
 
-  const handleChangeNotes = (data: string) => {
-    dispatch({
-      type: ResellerOrderBuyNowActionEnum.SetItemNotes,
-      payload: data,
-    });
+  const handleSaveNotes = (data: { id: number; value: string }) => {
+    // dispatch({
+    //   type: ResellerOrderBuyNowActionEnum.SetItemNotes,
+    //   payload: data,
+    // });
   };
 
   return (
@@ -77,7 +80,8 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
         <div
           className={clsx(
             "grid grid-cols-1 justify-start content-start justify-items-start items-start",
-            "gap-y-[1.5rem] max-w-[1200px] w-full"
+            "gap-y-[1.5rem] max-w-[1200px] w-full",
+            "px-[1rem] sm:px-[0rem]"
           )}
         >
           <p
@@ -91,21 +95,24 @@ export default function BuyNowContainer(props: IBuyNowContainerProps) {
 
           <div
             className={clsx(
-              "grid grid-cols-[1fr_352px] gap-[2rem]",
+              "grid gap-[2rem]",
+              "grid-cols-1 sm:grid-cols-[1fr_352px]",
               "box-border max-w-[1200px] w-full"
             )}
           >
             <div>
-              <BuyNowItemCardOrder
-                name={state.item.name}
-                productSrc={state.item.image}
-                price={state.item.price}
-                quantity={state.item.quantity}
-                notes={state.item.notes}
-                onSubstract={handleSubstract}
-                onAdd={handleAdd}
-                onChangeNotes={handleChangeNotes}
-              />
+              {state.item.map((item) => (
+                <BuyNowItemCardOrder
+                  // name={item.name}
+                  // productSrc={item.image}
+                  // price={item.price}
+                  // quantity={item.quantity}
+                  // note={item.notes}
+                  onSubstract={handleSubstract}
+                  onAdd={handleAdd}
+                  onSaveNote={handleSaveNotes}
+                />
+              ))}
             </div>
 
             <ShoppingSummaryCardOrder

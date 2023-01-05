@@ -254,7 +254,7 @@ export default function ShoppingSummaryCardCart(
           disabled={false}
           onClick={handleSelectPaymentMethod}
         >
-          {"Pilih Metode Pembayaran"}
+          {"Beli Sekarang"}
         </ButtonComponent>
 
         <ButtonComponent

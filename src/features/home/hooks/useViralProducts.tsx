@@ -32,7 +32,7 @@ export const useResellerHomeGetViralProducts = () => {
           name: item.name,
           image: item.image,
           profit: thousandSeparator(item.profit_value),
-          price: thousandSeparator(item.price),
+          price: thousandSeparator(item.variants[0].price),
         };
       });
       dispatch({

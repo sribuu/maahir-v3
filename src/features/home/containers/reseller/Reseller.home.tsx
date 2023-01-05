@@ -13,6 +13,8 @@ import { ResellerHomeContext } from "../../contexts/Home.context";
 import HighlightProductCardHome from "../../fragments/highlight_item_card/HighlightItemCard.home";
 import { ResellerHomeIdNames } from "../../constants";
 import { useResellerHomeAddToCart } from "../../hooks/useHomeAddToCart";
+import { useResellerCheckoutGetCheckoutItems } from "@/src/features/orders/hooks/useGetCheckoutItems";
+import { useResellerHomeAddToCheckout } from "../../hooks/useHomeAddToCheckout";
 
 export interface IHomeContainerProps {}
 
@@ -36,16 +38,18 @@ export default function HomeContainer(props: IHomeContainerProps) {
 
   // add to cart
   const { mutate: addToCart } = useResellerHomeAddToCart();
+  const { mutate: checkoutItem } = useResellerHomeAddToCheckout();
 
   const handleAddToCart = (data: number) => {
     addToCart(data);
   };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
-    router.push({
-      pathname: RouterPathName.OrderProduct,
-      query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.value) },
-    });
+    // router.push({
+    //   pathname: RouterPathName.OrderProduct,
+    //   query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.value) },
+    // });
+    checkoutItem(parseInt(String(e.currentTarget.value)));
   };
 
   const handleClickItem = (data: number) => {

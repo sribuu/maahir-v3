@@ -3,8 +3,6 @@ import clsx from "clsx";
 import NotesComponent from "@/src/core/ui/components/notes/Notes.component";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
 import CounterComponent from "@/src/core/ui/components/counter/Counter.component";
-import { thousandSeparator } from "@/src/core/utils/formatters";
-import { ICart } from "@/src/core/lib/models";
 
 export interface IItemListCartProps {
   id?: string;
@@ -27,8 +25,6 @@ ItemListCart.defaultProps = {
 };
 
 export default function ItemListCart(props: IItemListCartProps) {
-  // const { item } = props;
-
   const handleSaveNote = (data: { id: string; value: string }) => {
     if (props.onSaveNote) {
       props.onSaveNote({ id: parseInt(props.id), value: data.value });
