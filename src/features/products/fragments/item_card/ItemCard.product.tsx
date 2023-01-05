@@ -52,47 +52,57 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
     <div
       id={ResellerProductsIdNames.SeeDetailProduct}
       className={clsx(
-        "grid",
-        "gap-y-[0.625rem] sm:gap-y-[1rem] p-[0.625rem] sm:p-4 rounded-2xl shadow-1",
+        "flex",
+        "flex-col gap-[0.625rem] sm:gap-y-[1rem] justify-between",
+        "w-full",
+        "p-[0.625rem] sm:p-4 rounded-2xl",
+        "shadow-1",
         "bg-white",
         "cursor-pointer"
       )}
       title={props.value}
       onClick={handleClickItem}
     >
-      <img
-        src={props.productSrc}
-        loading={"lazy"}
+      <div
         className={clsx(
-          "object-cover rounded-lg",
-          "w-[100%] md:w-[176px] h-[104px] sm:h-[132px]"
+          "grid",
+          "gap-y-[0.625rem] sm:gap-y-[1rem] items-start content-start"
         )}
-      />
+      >
+        <img
+          src={props.productSrc}
+          loading={"lazy"}
+          className={clsx(
+            "object-cover rounded-lg",
+            "w-[100%] md:w-[176px] h-[104px] sm:h-[132px]"
+          )}
+        />
 
-      <div className={clsx("grid gap-y-[0.25rem]")}>
-        <p className={clsx("text-base text-dark-charcoal font-regular")}>
-          {props.name}
-        </p>
-        <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
-          {props.price}
-        </p>
-      </div>
-
-      {isShowProfitValue && (
-        <div className={clsx("flex gap-x-[0.375rem] items-start")}>
-          <img
-            src={"/icons/verified.svg"}
-            width={20}
-            height={20}
-            loading={"lazy"}
-          />
-          <p
-            className={clsx(
-              "text-[0.75rem] font-regular text-independence text-start"
-            )}
-          >{`Potensi keuntungan mulai dari ${props.profitValue}`}</p>
+        <div className={clsx("grid gap-y-[0.25rem] items-start content-start")}>
+          <p className={clsx("text-base text-dark-charcoal font-regular")}>
+            {props.name}
+          </p>
+          <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
+            {props.price}
+          </p>
         </div>
-      )}
+
+        {isShowProfitValue && (
+          <div className={clsx("flex gap-x-[0.375rem] items-start")}>
+            <img
+              src={"/icons/verified.svg"}
+              width={20}
+              height={20}
+              loading={"lazy"}
+            />
+            <p
+              className={clsx(
+                "text-[0.75rem] font-regular text-independence text-start"
+              )}
+            >{`Potensi keuntungan mulai dari ${props.profitValue}`}</p>
+          </div>
+        )}
+      </div>
 
       <div
         className={clsx(
