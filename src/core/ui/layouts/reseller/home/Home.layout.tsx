@@ -1,15 +1,9 @@
 import * as React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
-
-import NavigationBarComponent from "../../../components/navigation_bar/NavigationBar.component";
-import FooterComponent from "../../../components/footer/Footer.component";
-import { ReactQueryKey } from "@/src/core/lib/constants";
-import { ICart } from "@/src/core/lib/models";
-import { fetchCartItem } from "@/src/core/lib/storage";
+import { socialMedia, resellerMenu } from "@/src/core/data/reseller/static";
+import NavigationBarComponent from "@/src/core/ui/components/navigation_bar/NavigationBar.component";
+import FooterComponent from "@/src/core/ui/components/footer/Footer.component";
 import clsx from "clsx";
 import { ResellerCartProvider } from "@/src/features/cart/contexts/cart/Cart.context";
-import { useGlobalCartGetCartItems } from "@/src/features/cart/hooks/useGetCartItems";
 
 export interface IHomeLayoutProps {
   children?: React.ReactNode;
@@ -17,15 +11,6 @@ export interface IHomeLayoutProps {
 }
 
 export default function HomeLayout(props: IHomeLayoutProps) {
-  const { data: menuData } = useQuery({
-    queryKey: [ReactQueryKey.GetMenu],
-    queryFn: fetchMaahirMenu,
-  });
-  const { data: socialMediaData } = useQuery({
-    queryKey: [ReactQueryKey.GetSocialMedia],
-    queryFn: fetchMaahirSocialMedia,
-  });
-
   return (
     <ResellerCartProvider>
       <main
@@ -36,10 +21,10 @@ export default function HomeLayout(props: IHomeLayoutProps) {
           "relative"
         )}
       >
-        <NavigationBarComponent menus={menuData} variant={props.variant} />
+        <NavigationBarComponent menus={resellerMenu} variant={props.variant} />
         {props.children}
 
-        <FooterComponent menus={menuData} socialMedia={socialMediaData} />
+        <FooterComponent menus={resellerMenu} socialMedia={socialMedia} />
       </main>
     </ResellerCartProvider>
   );

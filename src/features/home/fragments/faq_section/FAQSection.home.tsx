@@ -1,22 +1,16 @@
 import * as React from "react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { fetchMaahirFAQ } from "@/src/core/lib/api";
-import { FAQ_LINK, ReactQueryKey } from "@/src/core/lib/constants";
-import { IFAQ } from "@/src/core/lib/models/faq";
+import { FAQ_LINK } from "@/src/core/lib/constants";
 import { ResellerHomeIdNames } from "../../constants";
-
+import { resellerFAQ } from "@/src/core/data/reseller/static";
 export interface IFAQSectionHomeProps {}
 
 export default function FAQSectionHome(props: IFAQSectionHomeProps) {
-  const { data: faqData } = useQuery<IFAQ[]>({
-    queryKey: [ReactQueryKey.GetFAQ],
-    queryFn: fetchMaahirFAQ,
-  });
-
   const faqTopThreeData =
-    faqData !== undefined ? faqData.filter((_, index) => index < 3) : [];
+    resellerFAQ !== undefined
+      ? resellerFAQ.filter((_, index) => index < 3)
+      : [];
 
   return (
     <div

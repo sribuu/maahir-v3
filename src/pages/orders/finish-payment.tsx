@@ -11,20 +11,8 @@ export async function getServerSideProps(context) {
   let isError = false;
 
   try {
-    // STATIC
-    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
-    await queryClient.prefetchQuery(
-      [ReactQueryKey.GetSocialMedia],
-      fetchMaahirSocialMedia
-    );
-
     // DYNAMIC
-    // product
-    // await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
-    //   fetchProductById(
-    //     parseInt(String(context.query[RouterQueryKey.ProductId]))
-    //   )
-    // );
+
     // payment-method
     await queryClient.prefetchQuery([ReactQueryKey.GetPaymentMethod], () =>
       fetchPaymentMethod()

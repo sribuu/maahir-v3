@@ -45,10 +45,6 @@ export default function HomeContainer(props: IHomeContainerProps) {
   };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // router.push({
-    //   pathname: RouterPathName.OrderProduct,
-    //   query: { [RouterQueryKey.ProductId]: parseInt(e.currentTarget.value) },
-    // });
     checkoutItem(parseInt(String(e.currentTarget.value)));
   };
 

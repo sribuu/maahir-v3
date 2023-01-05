@@ -12,12 +12,6 @@ export async function getServerSideProps(context) {
   let isError = false;
 
   try {
-    await queryClient.prefetchQuery([ReactQueryKey.GetMenu], fetchMaahirMenu);
-    await queryClient.prefetchQuery(
-      [ReactQueryKey.GetSocialMedia],
-      fetchMaahirSocialMedia
-    );
-
     await queryClient.prefetchQuery([ReactQueryKey.GetProductById], () =>
       fetchProductById({
         id: parseInt(String(context.query[RouterQueryKey.ProductId])),

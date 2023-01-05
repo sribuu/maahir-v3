@@ -32,18 +32,22 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
       props.onAddToCart(parseInt(e.currentTarget.value));
     }
   };
+  
   const handleClickItem = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (props.onClickItem) {
       props.onClickItem(parseInt(e.currentTarget.title));
     }
   };
+
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (props.onAddToCart) {
       props.onAddToCart(parseInt(e.currentTarget.value));
     }
   };
+
+  const isShowProfitValue = props.profitValue !== "Rp0";
 
   return (
     <div
@@ -75,19 +79,21 @@ export default function ItemCardProduct(props: IItemCardProductProps) {
         </p>
       </div>
 
-      <div className={clsx("flex gap-x-[0.375rem] items-start")}>
-        <img
-          src={"/icons/verified.svg"}
-          width={20}
-          height={20}
-          loading={"lazy"}
-        />
-        <p
-          className={clsx(
-            "text-[0.75rem] font-regular text-independence text-start"
-          )}
-        >{`Potensi keuntungan mulai dari ${props.profitValue}`}</p>
-      </div>
+      {isShowProfitValue && (
+        <div className={clsx("flex gap-x-[0.375rem] items-start")}>
+          <img
+            src={"/icons/verified.svg"}
+            width={20}
+            height={20}
+            loading={"lazy"}
+          />
+          <p
+            className={clsx(
+              "text-[0.75rem] font-regular text-independence text-start"
+            )}
+          >{`Potensi keuntungan mulai dari ${props.profitValue}`}</p>
+        </div>
+      )}
 
       <div
         className={clsx(

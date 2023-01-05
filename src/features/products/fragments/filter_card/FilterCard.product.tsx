@@ -1,22 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
 import SkeletonFilterCardProduct from "../skeleton_filter_card/SkeletonFilterCard.product";
 import { useProductsGetCategoryList } from "../../hooks/useProductCategory";
-import { useProductsGetPriceList } from "../../hooks/usePriceCategory";
 import { ProductsContext } from "../../contexts/products/Products.context";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
 import { ResellerProductsIdNames } from "../../constants/id_names";
+import { resellerPriceCategory } from "@/src/core/data/reseller/static";
 
 export interface IFilterCardProductProps {}
 
 export default function FilterCardProduct(props: IFilterCardProductProps) {
   const { isLoading: isLoadingCategoryFilterList } =
     useProductsGetCategoryList();
-  const { isLoading: isLoadingPriceFilterList } = useProductsGetPriceList();
   const { state, dispatch } = useContext(ProductsContext);
 
-  if (isLoadingCategoryFilterList || isLoadingPriceFilterList) {
+  useEffect(() => {
+    dispatch({
+      type: ProductsActionEnum.SetPriceFilterList,
+      payload: resellerPriceCategory.map((item) => item.name),
+    });
+  }, []);
+
+  if (isLoadingCategoryFilterList) {
     return <SkeletonFilterCardProduct />;
   }
 

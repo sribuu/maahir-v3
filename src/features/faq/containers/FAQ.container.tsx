@@ -1,18 +1,12 @@
 import * as React from "react";
 import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
 import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import FAQCardComponent from "@/src/core/ui/components/faq_card/FAQCard.component";
-import { fetchMaahirFAQ } from "@/src/core/lib/api";
-import { IFAQ } from "@/src/core/lib/models/faq";
+import { resellerFAQ } from "@/src/core/data/reseller/static";
 
 export interface IFAQContainerProps {}
 
 export default function FAQContainer(props: IFAQContainerProps) {
-  const { data: faqData } = useQuery<IFAQ[]>({
-    queryKey: ["maahir-faq"],
-    queryFn: fetchMaahirFAQ,
-  });
   return (
     <MainLayout>
       <div
@@ -50,7 +44,7 @@ export default function FAQContainer(props: IFAQContainerProps) {
             "px-[1rem] sm:px-[0rem]"
           )}
         >
-          <FAQCardComponent lists={faqData} />
+          <FAQCardComponent lists={resellerFAQ} />
         </div>
       </div>
     </MainLayout>

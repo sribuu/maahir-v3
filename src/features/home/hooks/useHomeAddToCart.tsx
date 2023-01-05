@@ -60,7 +60,7 @@ export const useResellerHomeAddToCart = () => {
               new_cart[i].supplier.data.some(
                 (item) =>
                   item.product_id === selectedProduct.id &&
-                  item.variant_id === selectedProduct.id_variant
+                  item.variant_id === selectedProduct.variants[0].id
               )
             ) {
               condition = "kondisi 3";
@@ -68,7 +68,7 @@ export const useResellerHomeAddToCart = () => {
               new_cart[i].supplier.data.some(
                 (item) =>
                   item.product_id === selectedProduct.id &&
-                  item.variant_id !== selectedProduct.id_variant
+                  item.variant_id !== selectedProduct.variants[0].id
               )
             ) {
               condition = "kondisi 4";
@@ -127,10 +127,10 @@ export const useResellerHomeAddToCart = () => {
                   profit_value: selectedProduct.profit_value,
                   retail_price_max: selectedProduct.retail_price_max,
                   retail_price_min: selectedProduct.retail_price_min,
-                  variant_name: selectedProduct.variant_name,
-                  variant_id: selectedProduct.id_variant,
-                  price: selectedProduct.price,
-                  stock: selectedProduct.stock,
+                  variant_name: selectedProduct.variants[0].name,
+                  variant_id: selectedProduct.variants[0].id,
+                  price: selectedProduct.variants[0].price,
+                  stock: selectedProduct.variants[0].stock,
                   quantity: 1,
                   note: "",
                   selected: false,
@@ -187,10 +187,10 @@ export const useResellerHomeAddToCart = () => {
                   profit_value: selectedProduct.profit_value,
                   retail_price_max: selectedProduct.retail_price_max,
                   retail_price_min: selectedProduct.retail_price_min,
-                  variant_name: selectedProduct.variant_name,
-                  variant_id: selectedProduct.id_variant,
-                  price: selectedProduct.price,
-                  stock: selectedProduct.stock,
+                  variant_name: selectedProduct.variants[0].name,
+                  variant_id: selectedProduct.variants[0].id,
+                  price: selectedProduct.variants[0].price,
+                  stock: selectedProduct.variants[0].stock,
                   quantity: 1,
                   note: "",
                   selected: false,
@@ -218,7 +218,8 @@ export const useResellerHomeAddToCart = () => {
                       ...supplierItem,
                       quantity:
                         supplierItem.product_id === selectedProduct.id &&
-                        supplierItem.variant_id === selectedProduct.id_variant
+                        supplierItem.variant_id ===
+                          selectedProduct.variants[0].id
                           ? supplierItem.quantity + 1
                           : supplierItem.quantity,
                     };
@@ -254,10 +255,10 @@ export const useResellerHomeAddToCart = () => {
                       profit_value: selectedProduct.profit_value,
                       retail_price_max: selectedProduct.retail_price_max,
                       retail_price_min: selectedProduct.retail_price_min,
-                      variant_name: selectedProduct.variant_name,
-                      variant_id: selectedProduct.id_variant,
-                      price: selectedProduct.price,
-                      stock: selectedProduct.stock,
+                      variant_name: selectedProduct.variants[0].name,
+                      variant_id: selectedProduct.variants[0].id,
+                      price: selectedProduct.variants[0].price,
+                      stock: selectedProduct.variants[0].stock,
                       quantity: 1,
                       note: "",
                       selected: false,
@@ -294,11 +295,11 @@ export const useResellerHomeAddToCart = () => {
                       profit_value: selectedProduct.profit_value,
                       retail_price_max: selectedProduct.retail_price_max,
                       retail_price_min: selectedProduct.retail_price_min,
-                      variant_name: selectedProduct.variant_name,
-                      variant_id: selectedProduct.id_variant,
-                      price: selectedProduct.price,
+                      variant_name: selectedProduct.variants[0].name,
+                      variant_id: selectedProduct.variants[0].id,
+                      price: selectedProduct.variants[0].price,
                       quantity: 1,
-                      stock: selectedProduct.stock,
+                      stock: selectedProduct.variants[0].stock,
                       note: "",
                       selected: false,
                     },
@@ -310,9 +311,6 @@ export const useResellerHomeAddToCart = () => {
       }
 
       const payload = new_cart;
-
-      console.log(cartData, "ini cart awal");
-      console.log(payload, "ini cart akhir");
 
       return fetchAddViralProductToCart(payload);
     },

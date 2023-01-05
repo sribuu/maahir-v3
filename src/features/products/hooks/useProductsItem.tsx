@@ -21,6 +21,7 @@ import {
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { limitPayload, offsetPayload } from "@/src/core/utils/calculation";
 import { mobileDetector } from "@/src/core/utils/helper";
+import { resellerPriceCategory } from "@/src/core/data/reseller/static";
 
 // PRODUCTS
 export const useProductsGetProductItems = () => {
@@ -39,9 +40,7 @@ export const useProductsGetProductItems = () => {
   const categoryList: IProductGetProductCategory[] = queryClient.getQueryData([
     ProductReactQueryKey.GetProductCategory,
   ]);
-  const priceList: IProductGetPriceCategory[] = queryClient.getQueryData([
-    ProductReactQueryKey.GetPriceCategory,
-  ]);
+  const priceList: IProductGetPriceCategory[] = resellerPriceCategory;
 
   const [payload, setPayload] = useState<IProductGetProductsItemRequest>({
     limit: limitPayload(state.pagination.current_page),
@@ -148,7 +147,7 @@ export const useProductsGetProductItems = () => {
             name: item?.name,
             image: item?.image,
             profit: thousandSeparator(item?.profit_value),
-            price: thousandSeparator(item?.price),
+            price: thousandSeparator(item?.variants[0]?.price),
           };
         }
       );
@@ -222,9 +221,7 @@ export const useProductsInfinityListGetProductItems = () => {
   const categoryList: IProductGetProductCategory[] = queryClient.getQueryData([
     ProductReactQueryKey.GetProductCategory,
   ]);
-  const priceList: IProductGetPriceCategory[] = queryClient.getQueryData([
-    ProductReactQueryKey.GetPriceCategory,
-  ]);
+  const priceList: IProductGetPriceCategory[] = resellerPriceCategory;
 
   const [payload, setPayload] = useState<IProductGetProductsItemRequest>({
     limit: limitPayload(state.pagination.current_page),
@@ -335,7 +332,7 @@ export const useProductsInfinityListGetProductItems = () => {
                 query?.data?.pages[i]?.products[j]?.profit_value
               ),
               price: thousandSeparator(
-                query?.data?.pages[i]?.products[j]?.price
+                query?.data?.pages[i]?.products[j]?.variants[0].price
               ),
             },
           ];

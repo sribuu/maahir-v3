@@ -6,9 +6,9 @@ import FilterIcon from "@/src/core/ui/icons/filter/Filter.icon";
 import { useProductsGetCategoryList } from "../../hooks/useProductCategory";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
 import { ProductsContext } from "../../contexts/products/Products.context";
-import { useProductsGetPriceList } from "../../hooks/usePriceCategory";
 import CloseIcon from "@/src/core/ui/icons/close/Close.icon";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
+import { resellerPriceCategory } from "@/src/core/data/reseller/static";
 
 export interface IFilterDrawerProductProps {
   variant?: string;
@@ -26,7 +26,6 @@ FilterDrawerProduct.defaultProps = {
 export default function FilterDrawerProduct(props: IFilterDrawerProductProps) {
   const { isLoading: isLoadingCategoryFilterList } =
     useProductsGetCategoryList();
-  const { isLoading: isLoadingPriceFilterList } = useProductsGetPriceList();
   const { state, dispatch } = useContext(ProductsContext);
 
   const [open, setOpen] = useState(false);
@@ -42,7 +41,14 @@ export default function FilterDrawerProduct(props: IFilterDrawerProductProps) {
     setOpen(props.open);
   }, [props.open]);
 
-  if (isLoadingCategoryFilterList || isLoadingPriceFilterList) {
+  useEffect(() => {
+    dispatch({
+      type: ProductsActionEnum.SetPriceFilterList,
+      payload: resellerPriceCategory.map((item) => item.name),
+    });
+  }, []);
+
+  if (isLoadingCategoryFilterList) {
     return <div></div>;
   }
 

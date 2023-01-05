@@ -84,12 +84,12 @@ export const useResellerHomeAddToCheckout = () => {
 
                 variants: [
                   {
-                    variant_id: selectedProduct.id_variant,
+                    variant_id: selectedProduct.variants[0].id,
                     note: "",
                     quantity: 1,
                     // additional information variant
-                    price: selectedProduct.price,
-                    stock: selectedProduct.stock,
+                    price: selectedProduct.variants[0].price,
+                    stock: selectedProduct.variants[0].stock,
                     selected: false,
                   },
                 ],
