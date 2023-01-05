@@ -12,9 +12,6 @@ export interface IHeroSectionHomeProps {
 }
 
 export default function HeroSectionHome(props: IHeroSectionHomeProps) {
-  const router = useRouter();
-  const { state } = useContext(ResellerHomeContext);
-
   const { isLoading: isLoadingGetViralProducts } =
     useResellerHomeGetViralProducts();
 

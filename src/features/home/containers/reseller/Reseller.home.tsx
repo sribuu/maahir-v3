@@ -45,7 +45,19 @@ export default function HomeContainer(props: IHomeContainerProps) {
   };
 
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
-    checkoutItem(parseInt(String(e.currentTarget.value)));
+    const isHasVariant = state.viral_products.filter(
+      (item) => item.id === e.currentTarget.value
+    )[0].haveVariant;
+    if (isHasVariant) {
+      router.push({
+        pathname: RouterPathName.ProductDetail,
+        query: {
+          [RouterQueryKey.ProductId]: e.currentTarget.value,
+        },
+      });
+    } else {
+      checkoutItem(parseInt(String(e.currentTarget.value)));
+    }
   };
 
   const handleClickItem = (data: number) => {

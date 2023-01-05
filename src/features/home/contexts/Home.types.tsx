@@ -21,6 +21,7 @@ export interface IResellerHomeViralProducts {
   image: string;
   profit: string;
   price: string;
+  haveVariant: boolean;
 }
 
 export enum ResellerHomeActionEnum {

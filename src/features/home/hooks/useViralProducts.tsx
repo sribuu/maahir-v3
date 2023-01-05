@@ -33,6 +33,7 @@ export const useResellerHomeGetViralProducts = () => {
           image: item.image,
           profit: thousandSeparator(item.profit_value),
           price: thousandSeparator(item.variants[0].price),
+          haveVariant: item.variants.length > 1,
         };
       });
       dispatch({
