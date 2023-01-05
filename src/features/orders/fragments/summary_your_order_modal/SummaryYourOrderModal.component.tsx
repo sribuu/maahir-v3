@@ -35,7 +35,7 @@ export default function SummaryYourOrderModalComponent(
   const { data: orderItem, isLoading } = useOrderItemQuery();
   const onSubstract = () => {};
   const onAdd = () => {};
-  const onChangeNotes = () => {};
+  const onSaveNote = () => {};
   return (
     <ModalComponent open={props.open} onClose={props.onClose}>
       <div
@@ -62,10 +62,10 @@ export default function SummaryYourOrderModalComponent(
             productSrc={item?.image}
             price={thousandSeparator(item?.price)}
             quantity={item?.quantity}
-            notes={item?.notes}
+            note={item?.notes}
             onSubstract={onSubstract}
             onAdd={onAdd}
-            onChangeNotes={onChangeNotes}
+            onSaveNote={onSaveNote}
           />
         ))}
 

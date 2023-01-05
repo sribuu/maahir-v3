@@ -21,18 +21,18 @@ export const useBuyNowSaveOrderProcess = () => {
     () => {
       const payload: IOrderRequest = {
         order_id: orderId,
-        orders: [
-          {
-            name: state.item.name,
-            product_id: parseInt(
-              String(router.query[RouterQueryKey.ProductId])
-            ),
-            quantity: state.item.quantity,
-            notes: state.item.notes,
-            price: state.price,
-            image: state.item.image,
-          },
-        ],
+        // orders: [
+        //   {
+        //     name: state.item.name,
+        //     product_id: parseInt(
+        //       String(router.query[RouterQueryKey.ProductId])
+        //     ),
+        //     quantity: state.item.quantity,
+        //     notes: state.item.notes,
+        //     price: state.price,
+        //     image: state.item.image,
+        //   },
+        // ],
       };
       return fetchSaveOrderItem(payload);
     }
