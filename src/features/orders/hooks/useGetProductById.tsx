@@ -32,20 +32,23 @@ export const useBuyNowGetProductById = () => {
     }
   }, [query.isFetching]);
 
-  useEffect(() => {
-    if (!query.isFetching) {
-      dispatch({
-        type: ResellerOrderBuyNowActionEnum.SetItem,
-        payload: {
-          ...state.item,
-          name: query.data.name,
-          image: query.data.image,
-          price: thousandSeparator(query.data.price),
-          quantity: 1,
-        },
-      });
-    }
-  }, [query.isFetching]);
+  // useEffect(() => {
+  //   if (!query.isFetching) {
+  //     dispatch({
+  //       type: ResellerOrderBuyNowActionEnum.SetItem,
+  //       payload: [
+  //         ...state.item,
+  //         {
+  //           name: query.data.name,
+  //           image: query.data.image,
+  //           price: thousandSeparator(query.data.price),
+  //           quantity: 1,
+  //           notes: "",
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }, [query.isFetching]);
 
   useEffect(() => {
     if (!query.isFetching) {

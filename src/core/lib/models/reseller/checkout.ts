@@ -1,4 +1,4 @@
-export interface IResellerOrder {
+export interface IResellerCheckout {
   payment_method_id: number;
   reseller: {
     name: string;

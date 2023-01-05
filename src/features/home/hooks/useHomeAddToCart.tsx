@@ -1,9 +1,7 @@
 import { IResellerProducts } from "@/src/core/lib/models/reseller";
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
 import { CartReactQueryKey } from "../../cart/constants";
-import { ProductsContext } from "../../products/contexts/products/Products.context";
 import { ResellerHomeReactQueryKey } from "../constants";
 import { fetchAddViralProductToCart } from "../services";
 import { useResellerHomeGetCart } from "./useHomeGetCart";
@@ -37,14 +35,14 @@ export const useResellerHomeAddToCart = () => {
       const selectedProduct = test;
 
       let new_cart: IResellerCart[] = cartData;
-      console.log(
-        selectedProduct.supplier.id,
-        "supplier id",
-        selectedProduct.id,
-        "product id",
-        selectedProduct.id_variant,
-        "variant id"
-      );
+      // console.log(
+      //   selectedProduct.supplier.id,
+      //   "supplier id",
+      //   selectedProduct.id,
+      //   "product id",
+      //   selectedProduct.id_variant,
+      //   "variant id"
+      // );
 
       let condition: string = "";
       if (!new_cart.length) {
@@ -80,7 +78,7 @@ export const useResellerHomeAddToCart = () => {
           }
         }
       }
-      console.log(condition, "ini kondisi berapa");
+      // console.log(condition, "ini kondisi berapa");
 
       //   CASE 1: Cart kosong
       if (condition === "kondisi 1") {

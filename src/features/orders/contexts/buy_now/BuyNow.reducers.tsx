@@ -22,16 +22,16 @@ export const resellerOrderBuyNowPriceReducer = (
 
 // Item
 export const resellerOrderBuyNowItemReducer = (
-  state: IResellerOrderBuyNowItem,
+  state: IResellerOrderBuyNowItem[],
   action: ResellerOrderBuyNowActions
 ) => {
   switch (action.type) {
     case ResellerOrderBuyNowActionEnum.SetItem:
       return action.payload;
-    case ResellerOrderBuyNowActionEnum.SetItemQuantity:
-      return { ...state, quantity: action.payload };
-    case ResellerOrderBuyNowActionEnum.SetItemNotes:
-      return { ...state, notes: action.payload };
+    // case ResellerOrderBuyNowActionEnum.SetItemQuantity:
+    //   return { ...state, quantity: action.payload };
+    // case ResellerOrderBuyNowActionEnum.SetItemNotes:
+    //   return { ...state, notes: action.payload };
     default:
       return state;
   }

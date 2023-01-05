@@ -12,17 +12,22 @@ type ActionMap<M extends { [index: string]: any }> = {
 // State Collection Types
 export interface InitialStateType {
   price: number;
-  item: IResellerOrderBuyNowItem;
+  item: IResellerOrderBuyNowItem[];
   summary: IResellerOrderBuyNowSummary;
 }
 
 // State Collection Types consist of:
 export interface IResellerOrderBuyNowItem {
-  name: string;
-  image: string;
-  price: string;
-  quantity: number;
-  notes: string;
+  supplier_name: string;
+  supplier_initial: string;
+  supplier_location: string;
+  data: {
+    name: string;
+    image: string;
+    price: string;
+    quantity: number;
+    notes: string;
+  }[];
 }
 
 export interface IResellerOrderBuyNowSummary {
@@ -61,7 +66,7 @@ export type ResellerOrderBuyNowPriceActions =
 
 // Item
 type ResellerOrderBuyNowItemPayload = {
-  [ResellerOrderBuyNowActionEnum.SetItem]: IResellerOrderBuyNowItem;
+  [ResellerOrderBuyNowActionEnum.SetItem]: IResellerOrderBuyNowItem[];
   [ResellerOrderBuyNowActionEnum.SetItemQuantity]: number;
   [ResellerOrderBuyNowActionEnum.SetItemNotes]: string;
 };
