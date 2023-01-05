@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
-import LoginAuthContainer from "@/src/features/auth/containers/login/Login.auth";
-import { SupplierLoginProvider } from "@/src/features/auth/contexts/login/Login.context";
+import LoginAuthContainer from "@/src/features/supplier/auth/containers/login/Login.auth";
+import { SupplierLoginProvider } from "@/src/features/supplier/auth/contexts/login/Login.context";
 
 export interface ILoginPageProps {}
 

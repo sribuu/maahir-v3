@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
-import ManagementProfileContainer from "@/src/features/profile/containers/management/Management.profile";
-import { ProfileUpdateProvider } from "@/src/features/profile/contexts/update/ProfileUpdate.context";
+import ManagementProfileContainer from "@/src/features/supplier/profile/containers/management/Management.profile";
+import { ProfileUpdateProvider } from "@/src/features/supplier/profile/contexts/update/ProfileUpdate.context";
 
 export interface ISupplierProfileManagementPageProps {}
 

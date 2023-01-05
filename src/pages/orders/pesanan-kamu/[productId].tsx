@@ -2,10 +2,10 @@ import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
-import BuyNowContainer from "@/src/features/orders/containers/buy_now";
+import BuyNowContainer from "@/src/features/reseller/orders/containers/buy_now";
 import { fetchProductById } from "@/src/core/lib/api/dynamic";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
-import { ResellerOrderBuyNowProvider } from "@/src/features/orders/contexts/buy_now/BuyNow.context";
+import { ResellerOrderBuyNowProvider } from "@/src/features/reseller/orders/contexts/buy_now/BuyNow.context";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();

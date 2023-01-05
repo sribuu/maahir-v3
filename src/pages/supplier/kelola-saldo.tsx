@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
-import ManagementBalanceContainer from "@/src/features/balance/containers/management/Management.balance";
-import { WithdrawBalanceProvider } from "@/src/features/balance/contexts/withdraw/Withdraw.context";
+import ManagementBalanceContainer from "@/src/features/supplier/balance/containers/management/Management.balance";
+import { WithdrawBalanceProvider } from "@/src/features/supplier/balance/contexts/withdraw/Withdraw.context";
 
 export interface ISupplierBalanceManagementPageProps {}
 

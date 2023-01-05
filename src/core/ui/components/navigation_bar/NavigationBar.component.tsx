@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import Link from "next/link";
 import clsx from "clsx";
-import ListItemDropdownCart from "@/src/features/cart/fragments/list_item_dropdown/ListItemDropdown.cart";
+import ListItemDropdownCart from "@/src/features/reseller/cart/fragments/list_item_dropdown/ListItemDropdown.cart";
 import { ICart } from "@/src/core/lib/models";
 import SidebarDrawerComponent from "../sidebar_drawer/SidebarDrawer.component";
 

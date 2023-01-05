@@ -1,6 +1,6 @@
 import Head from "next/head";
-import DetailProductContainer from "@/src/features/products/containers/detail/Detail.product";
-import { ProductProvider } from "@/src/features/products/contexts/product/Product.context";
+import DetailProductContainer from "@/src/features/reseller/products/containers/detail/Detail.product";
+import { ProductProvider } from "@/src/features/reseller/products/contexts/product/Product.context";
 
 export default function DetailProductsPage() {
   const header = {

@@ -3,9 +3,9 @@ import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 import { fetchPaymentMethod } from "@/src/core/lib/api/dynamic";
-import DetailOrderContainer from "@/src/features/orders/containers/fill_detail/FillDetail.order";
+import DetailOrderContainer from "@/src/features/reseller/orders/containers/fill_detail/FillDetail.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
-import { FillDetailOrderContextProvider } from "@/src/features/orders/contexts/useFillDetailContext";
+import { FillDetailOrderContextProvider } from "@/src/features/reseller/orders/contexts/useFillDetailContext";
 
 export async function getServerSideProps(context) {
   const queryClient = new QueryClient();

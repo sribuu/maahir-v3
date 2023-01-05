@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
-import SupplierHomeContainer from "@/src/features/home_supplier/containers/supplier/Supplier.home";
-import { SupplierHomeProvider } from "@/src/features/home_supplier/contexts/HomeSupplier.context";
+import SupplierHomeContainer from "@/src/features/supplier/home/containers/supplier/Supplier.home";
+import { SupplierHomeProvider } from "@/src/features/supplier/home/contexts/HomeSupplier.context";
 
 export interface ISupplierHomePageProps {}
 

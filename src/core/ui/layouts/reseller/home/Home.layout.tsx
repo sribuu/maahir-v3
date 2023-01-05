@@ -1,9 +1,9 @@
 import * as React from "react";
-import { socialMedia, resellerMenu } from "@/src/core/data/reseller/static";
+import { socialMedia, resellerMenu } from "@/src/data/reseller/static";
 import NavigationBarComponent from "@/src/core/ui/components/navigation_bar/NavigationBar.component";
 import FooterComponent from "@/src/core/ui/components/footer/Footer.component";
 import clsx from "clsx";
-import { ResellerCartProvider } from "@/src/features/cart/contexts/cart/Cart.context";
+import { ResellerCartProvider } from "@/src/features/reseller/cart/contexts/cart/Cart.context";
 
 export interface IHomeLayoutProps {
   children?: React.ReactNode;

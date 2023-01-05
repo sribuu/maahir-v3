@@ -1,6 +1,6 @@
 import * as React from "react";
 import Head from "next/head";
-import FAQContainer from "@/src/features/faq/containers/FAQ.container";
+import FAQContainer from "@/src/features/reseller/faq/containers/FAQ.container";
 
 export interface IFAQPageProps {}
 

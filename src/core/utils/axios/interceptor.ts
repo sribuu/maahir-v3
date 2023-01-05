@@ -1,12 +1,12 @@
 import {
   IRefreshTokenSuccessResponse,
   IToken,
-} from "@/src/features/auth/models";
+} from "@/src/features/supplier/auth/models";
 import {
   fetchGetSupplierCredentials,
   fetchRefreshToken,
   fetchSetSupplierCredentials,
-} from "@/src/features/auth/services";
+} from "@/src/features/supplier/auth/services";
 import axios, { AxiosResponse } from "axios";
 import moment from "moment";
 

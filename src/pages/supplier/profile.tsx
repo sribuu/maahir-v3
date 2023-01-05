@@ -1,7 +1,7 @@
 import * as React from "react";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
-import ManagementProfileContainer from "@/src/features/profile/containers/management/Management.profile";
+import ManagementProfileContainer from "@/src/features/supplier/profile/containers/management/Management.profile";
 import { ReactQueryKey } from "@/src/core/lib/constants";
 import { fetchBankList } from "@/src/core/lib/api/dynamic";
 

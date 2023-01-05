@@ -3,7 +3,7 @@ import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchMaahirMenu, fetchMaahirSocialMedia } from "@/src/core/lib/api";
 import { fetchOrderById, fetchPaymentMethod } from "@/src/core/lib/api/dynamic";
-import FinishPaymentOrderContainer from "@/src/features/orders/containers/finish_payment/FinishPayment.order";
+import FinishPaymentOrderContainer from "@/src/features/reseller/orders/containers/finish_payment/FinishPayment.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 
 export async function getServerSideProps(context) {

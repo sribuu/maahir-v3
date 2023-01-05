@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IProducts } from "../lib/models";
-import { IOrderResponse } from "../../features/orders/models";
+import { IOrderResponse } from "../../features/reseller/orders/models";
 
 export const useGetOrderById = (params: { order_code: string }) => {
   return useQuery<IOrderResponse, Error>(

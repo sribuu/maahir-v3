@@ -2,7 +2,7 @@ import * as React from "react";
 import Head from "next/head";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 
-import SearchOrderContainer from "@/src/features/orders/containers/search/Search.order";
+import SearchOrderContainer from "@/src/features/reseller/orders/containers/search/Search.order";
 import { ReactQueryKey, RouterQueryKey } from "@/src/core/lib/constants";
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
 import { NextPageContext } from "next";
