@@ -19,24 +19,28 @@ export default function InformationPaymentContainer(
       <div
         className={clsx(
           "grid grid-cols-1 justify-center content-start justify-items-center",
-          "gap-y-[1.5rem] w-full pt-[8.875rem] pb-[10rem]",
+          "gap-y-[1.5rem] w-full pb-[10rem]",
+          "pt-[88px] sm:pt-[8.875rem]",
           "bg-gradient-to-r from-white to-mint-cream"
         )}
       >
         <div
           className={clsx(
             "grid grid-cols-1 justify-start justify-items-start content-start items-start",
-            "gap-y-[1.5rem] max-w-[678px] w-full"
+            "max-w-[678px] w-full",
+            "gap-y-[1rem] sm:gap-y-[1.5rem]",
+            "px-[1rem] sm:px-[0rem]"
           )}
         >
-          <p
+          <h2
             className={clsx(
-              "text-[1.75rem] font-bold",
+              "text-[1rem] sm:text-[1.75rem]",
+              "font-bold",
               "text-charleston-green"
             )}
           >
             {title}
-          </p>
+          </h2>
 
           <InformationInstructionCardPayment />
 

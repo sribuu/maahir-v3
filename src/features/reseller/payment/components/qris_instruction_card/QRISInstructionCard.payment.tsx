@@ -47,15 +47,27 @@ export default function QRISInstructionCardPayment(
       <div
         className={clsx(
           "grid grid-cols-1 place-items-center place-center",
-          "gap-y-[1rem] p-[1.5rem] rounded-[0.75rem]",
+          "rounded-[0.75rem]",
+          "p-[0.75rem] sm:p-[1.5rem]",
+          "gap-y-[0.375rem] sm:gap-y-[1rem]",
           "border border-ocean-boat-blue",
           "bg-alice-blue"
         )}
       >
-        <p className={clsx("text-[1.5rem] text-charleston-green font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.75rem] sm:text-[1.5rem]",
+            "text-charleston-green font-bold"
+          )}
+        >
           {props.finishPaymentBeforeText}
         </p>
-        <p className={clsx("text-[1.5rem] text-tart-orange font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.875rem] sm:text-[1.5rem]",
+            "text-tart-orange font-bold"
+          )}
+        >
           {props.expiredDate}
         </p>
       </div>
@@ -64,7 +76,12 @@ export default function QRISInstructionCardPayment(
       <div className={clsx("grid grid-cols-1 gap-y-[0.75rem]", "w-full")}>
         {/* payment method */}
         <div className={clsx("flex justify-between items-center", "w-full")}>
-          <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
+          <p
+            className={clsx(
+              "text-[0.875rem] sm:text-[1rem]",
+              "text-charleston-green font-bold"
+            )}
+          >
             {props.name}
           </p>
 
@@ -79,12 +96,18 @@ export default function QRISInstructionCardPayment(
         <div className={clsx("flex items-center justify-between", "w-full")}>
           <div>
             <p
-              className={clsx("text-[0.875rem] text-independence font-regular")}
+              className={clsx(
+                "text-[0.75rem] sm:text-[0.875rem]",
+                "text-independence font-regular"
+              )}
             >
               {props.totalBillText}
             </p>
             <p
-              className={clsx("text-[1.25rem] text-charleston-green font-bold")}
+              className={clsx(
+                "text-[0.875rem] sm:text-[1.25rem]",
+                "text-charleston-green font-bold"
+              )}
             >
               {props.totalBill}
             </p>
@@ -114,7 +137,8 @@ export default function QRISInstructionCardPayment(
 
           <p
             className={clsx(
-              "text-[0.875rem] text-charleston-green font-regular"
+              "text-[0.75rem] sm:text-[0.875rem]",
+              "text-charleston-green font-regular"
             )}
           >
             {

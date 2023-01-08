@@ -39,7 +39,8 @@ export default function ShipmentAddressCardPayment(
       <div
         className={clsx(
           "grid grid-cols-1 justify-start",
-          "gap-y-[1.5rem] p-[1.5rem]"
+          "p-[1.5rem]",
+          "gap-y-[1.25rem] sm:gap-y-[1.5rem]"
         )}
       >
         <div className={clsx("flex justify-between items-center", "w-full")}>
@@ -50,7 +51,8 @@ export default function ShipmentAddressCardPayment(
 
         <div
           className={clsx(
-            "grid grid-cols-1 place-content-start place-items-start gap-y-[1.25rem]",
+            "grid grid-cols-1 place-content-start place-items-start",
+            "gap-y-[1rem] sm:gap-y-[1.25rem]",
             "w-full"
           )}
         >
@@ -66,12 +68,19 @@ export default function ShipmentAddressCardPayment(
                 "w-full"
               )}
             >
-              <p className={clsx("text-[1rem] text-independence font-regular")}>
+              <p
+                className={clsx(
+                  "text-independence",
+                  "font-medium sm:font-regular",
+                  "text-[0.75rem] sm:text-[1rem]"
+                )}
+              >
                 {props.nameText}
               </p>
               <p
                 className={clsx(
-                  "text-[1.25rem] text-dark-charcoal font-regular"
+                  "text-dark-charcoal font-regular",
+                  "text-[0.875rem] sm:text-[1.25rem]"
                 )}
               >
                 {props.name}
@@ -79,19 +88,32 @@ export default function ShipmentAddressCardPayment(
             </div>
           </div>
 
-          <div className={clsx("flex items-center justify-between", "w-full")}>
+          <div
+            className={clsx(
+              "grid items-center justify-start justify-items-start content-center gap-y-[1rem]",
+              "grid-cols-1 sm:grid-cols-2",
+              "w-full"
+            )}
+          >
             <div
               className={clsx(
                 "grid grid-cols-1 place-content-start place-items-start gap-y-[0.125rem]",
                 "w-full"
               )}
             >
-              <p className={clsx("text-[1rem] text-independence font-regular")}>
+              <p
+                className={clsx(
+                  "font-regular",
+                  "font-medium sm:font-regular",
+                  "text-[0.75rem] sm:text-[1rem]"
+                )}
+              >
                 {props.emailText}
               </p>
               <p
                 className={clsx(
-                  "text-[1.25rem] text-dark-charcoal font-regular"
+                  "text-dark-charcoal font-regular",
+                  "text-[0.875rem] sm:text-[1.25rem]"
                 )}
               >
                 {props.email}
@@ -104,12 +126,19 @@ export default function ShipmentAddressCardPayment(
                 "w-full"
               )}
             >
-              <p className={clsx("text-[1rem] text-independence font-regular")}>
+              <p
+                className={clsx(
+                  "text-independence",
+                  "font-medium sm:font-regular",
+                  "text-[0.75rem] sm:text-[1rem]"
+                )}
+              >
                 {props.mobileText}
               </p>
               <p
                 className={clsx(
-                  "text-[1.25rem] text-dark-charcoal font-regular"
+                  "text-dark-charcoal font-regular",
+                  "text-[0.875rem] sm:text-[1.25rem]"
                 )}
               >
                 {props.mobile}
@@ -129,12 +158,19 @@ export default function ShipmentAddressCardPayment(
                 "w-full"
               )}
             >
-              <p className={clsx("text-[1rem] text-independence font-regular")}>
+              <p
+                className={clsx(
+                  "text-independence",
+                  "font-medium sm:font-regular",
+                  "text-[0.75rem] sm:text-[1rem]"
+                )}
+              >
                 {props.addressText}
               </p>
               <p
                 className={clsx(
-                  "text-[1.25rem] text-dark-charcoal font-regular"
+                  "text-dark-charcoal font-regular",
+                  "text-[0.875rem] sm:text-[1.25rem]"
                 )}
               >
                 {props.address}
@@ -154,12 +190,19 @@ export default function ShipmentAddressCardPayment(
                 "w-full"
               )}
             >
-              <p className={clsx("text-[1rem] text-independence font-regular")}>
+              <p
+                className={clsx(
+                  "text-independence",
+                  "font-medium sm:font-regular",
+                  "text-[0.75rem] sm:text-[1rem]"
+                )}
+              >
                 {props.detailAddressText}
               </p>
               <p
                 className={clsx(
-                  "text-[1.25rem] text-dark-charcoal font-regular"
+                  "text-dark-charcoal font-regular",
+                  "text-[0.875rem] sm:text-[1.25rem]"
                 )}
               >
                 {props.detailAddress}

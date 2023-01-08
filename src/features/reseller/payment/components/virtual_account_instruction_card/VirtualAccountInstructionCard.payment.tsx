@@ -69,24 +69,37 @@ export default function VirtualAccountInstructionCardPayment(
       )}
     >
       <div className={clsx("flex justify-between items-center", "w-full")}>
-        <p className={clsx("text-base text-dark-charcoal font-bold")}>
+        <h3 className={clsx("text-base text-dark-charcoal font-bold")}>
           {props.title}
-        </p>
+        </h3>
       </div>
 
       {/* payment expired date */}
       <div
         className={clsx(
           "grid grid-cols-1 place-items-center place-center",
-          "gap-y-[1rem] p-[1.5rem] rounded-[0.75rem]",
+          "rounded-[0.75rem]",
+          "p-[0.75rem] sm:p-[1.5rem]",
+          "gap-y-[0.375rem] sm:gap-y-[1rem]",
           "border border-ocean-boat-blue",
           "bg-alice-blue"
         )}
       >
-        <p className={clsx("text-[1.5rem] text-charleston-green font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.75rem] sm:text-[1.5rem]",
+            "text-charleston-green font-bold"
+          )}
+        >
           {props.finishPaymentBeforeText}
         </p>
-        <p className={clsx("text-[1.5rem] text-tart-orange font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.875rem] sm:text-[1.5rem]",
+            "text-tart-orange",
+            "font-medium sm:font-bold"
+          )}
+        >
           {props.expiredDate}
         </p>
       </div>
@@ -94,7 +107,12 @@ export default function VirtualAccountInstructionCardPayment(
 
       {/* payment method */}
       <div className={clsx("flex justify-between items-center", "w-full")}>
-        <p className={clsx("text-base text-charleston-green font-regular")}>
+        <p
+          className={clsx(
+            "text-[0.875rem] sm:text-[1rem]",
+            "text-charleston-green font-bold"
+          )}
+        >
           {props.name}
         </p>
 
@@ -111,12 +129,18 @@ export default function VirtualAccountInstructionCardPayment(
         >
           <div className={clsx("grid grid-cols-1", "gap-y-2")}>
             <p
-              className={clsx("text-[0.875rem] text-independence font-regular")}
+              className={clsx(
+                "text-[0.75rem] sm:text-[0.875rem]",
+                "text-independence font-regular"
+              )}
             >
               {props.virtualAccountNumberText}
             </p>
             <p
-              className={clsx("text-[1.25rem] text-charleston-green font-bold")}
+              className={clsx(
+                "text-[0.875rem] sm:text-[1.25rem]",
+                "text-charleston-green font-bold"
+              )}
             >
               {props.paymentAccount}
             </p>
@@ -126,7 +150,12 @@ export default function VirtualAccountInstructionCardPayment(
             className={clsx("flex justify-end items-center", "gap-x-4")}
             onClick={handleClickCopyPaymentAccount}
           >
-            <p className={clsx("text-[1rem] text-ocean-boat-blue font-medium")}>
+            <p
+              className={clsx(
+                "text-[0.875rem] sm:text-[1rem]",
+                "text-ocean-boat-blue font-medium"
+              )}
+            >
               {props.copyText}
             </p>
             <img
@@ -144,12 +173,18 @@ export default function VirtualAccountInstructionCardPayment(
         >
           <div className={clsx("grid grid-cols-1", "gap-y-2")}>
             <p
-              className={clsx("text-[0.875rem] text-independence font-regular")}
+              className={clsx(
+                "text-[0.75rem] sm:text-[0.875rem]",
+                "text-independence font-regular"
+              )}
             >
               {props.totalBillText}
             </p>
             <p
-              className={clsx("text-[1.25rem] text-charleston-green font-bold")}
+              className={clsx(
+                "text-[0.875rem] sm:text-[1.25rem]",
+                "text-charleston-green font-bold"
+              )}
             >
               {props.totalBillFormatted}
             </p>
@@ -159,7 +194,12 @@ export default function VirtualAccountInstructionCardPayment(
             className={clsx("flex justify-end items-center", "gap-x-4")}
             onClick={handleClickCopyTotalPrice}
           >
-            <p className={clsx("text-[1rem] text-ocean-boat-blue font-medium")}>
+            <p
+              className={clsx(
+                "text-[0.75rem] sm:text-[1rem]",
+                "text-ocean-boat-blue font-medium"
+              )}
+            >
               {props.copyText}
             </p>
             <img

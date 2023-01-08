@@ -49,15 +49,28 @@ export default function EWalletInstructionCardPayment(
       <div
         className={clsx(
           "grid grid-cols-1 place-items-center place-center",
-          "gap-y-[1rem] p-[1.5rem] rounded-[0.75rem]",
+          "rounded-[0.75rem]",
+          "p-[0.75rem] sm:p-[1.5rem]",
+          "gap-y-[0.375rem] sm:gap-y-[1rem]",
           "border border-ocean-boat-blue",
           "bg-alice-blue"
         )}
       >
-        <p className={clsx("text-[1.5rem] text-charleston-green font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.75rem] sm:text-[1.5rem]",
+            "text-charleston-green font-bold"
+          )}
+        >
           {props.finishPaymentBeforeText}
         </p>
-        <p className={clsx("text-[1.5rem] text-tart-orange font-bold")}>
+        <p
+          className={clsx(
+            "text-[0.875rem] sm:text-[1.5rem]",
+            "text-tart-orange",
+            "font-medium sm:font-bold"
+          )}
+        >
           {props.expiredDate}
         </p>
       </div>
@@ -66,7 +79,12 @@ export default function EWalletInstructionCardPayment(
       <div className={clsx("grid grid-cols-1 gap-y-[0.75rem]", "w-full")}>
         {/* payment method */}
         <div className={clsx("flex justify-between items-center", "w-full")}>
-          <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
+          <p
+            className={clsx(
+              "text-[0.875rem] sm:text-[1rem]",
+              "text-charleston-green font-bold"
+            )}
+          >
             {props.name}
           </p>
 
@@ -81,19 +99,28 @@ export default function EWalletInstructionCardPayment(
         <div className={clsx("flex items-center justify-between", "w-full")}>
           <div>
             <p
-              className={clsx("text-[0.875rem] text-independence font-regular")}
+              className={clsx(
+                "text-[0.75rem] sm:text-[0.875rem]",
+                "text-independence font-regular"
+              )}
             >
               {props.totalBillText}
             </p>
             <p
-              className={clsx("text-[1.25rem] text-charleston-green font-bold")}
+              className={clsx(
+                "text-[0.875rem] sm:text-[1.25rem]",
+                "text-charleston-green font-bold"
+              )}
             >
               {props.totalBill}
             </p>
           </div>
 
           <button
-            className={clsx("text-[1rem] text-ocean-boat-blue font-medium")}
+            className={clsx(
+              "text-[0.875rem] sm:text-[1rem]",
+              "text-ocean-boat-blue font-medium"
+            )}
           >
             {props.orderDetailText}
           </button>
@@ -102,7 +129,12 @@ export default function EWalletInstructionCardPayment(
         {/* explanation */}
         <div className={clsx("grid grid-cols-1", "gap-y-[0.75rem] w-full")}>
           {/* description */}
-          <p className={clsx("text-[0.875rem] text-independence font-regular")}>
+          <p
+            className={clsx(
+              "text-[0.75rem] sm:text-[0.875rem]",
+              "text-independence font-regular"
+            )}
+          >
             {props.instructionText}
           </p>
 
@@ -110,7 +142,8 @@ export default function EWalletInstructionCardPayment(
 
           <button
             className={clsx(
-              "text-[0.875rem] text-ocean-boat-blue font-bold text-left"
+              "text-[0.75rem] sm:text-[0.875rem]",
+              "text-ocean-boat-blue font-bold text-left"
             )}
           >
             {props.openEWalletText}

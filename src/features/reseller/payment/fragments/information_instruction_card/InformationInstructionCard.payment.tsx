@@ -12,7 +12,7 @@ export default function InformationInstructionCardPayment(
   const { state } = useContext(PaymentInformationContext);
   return (
     <>
-      <VirtualAccountInstructionCardPayment
+      {/* <VirtualAccountInstructionCardPayment
         expiredDate={state.instruction.payment_deadline}
         name={state.instruction.payment_name}
         paymentAccount={state.instruction.payment_account}
@@ -21,14 +21,14 @@ export default function InformationInstructionCardPayment(
         logo={state.instruction.logo}
         paymentGuide={state.instruction.payment_guide.guide}
         paymentOptions={state.instruction.payment_guide.payment_options}
-      />
-      {/* <EWalletInstructionCardPayment
+      /> */}
+      <EWalletInstructionCardPayment
         expiredDate={state.instruction.payment_deadline}
         name={state.instruction.payment_name}
         totalBill={state.instruction.total_payment_formatted}
         logo={state.instruction.logo}
       />
-      <QRISInstructionCardPayment
+      {/* <QRISInstructionCardPayment
         expiredDate={state.instruction.payment_deadline}
         name={state.instruction.payment_name}
         paymentAccount={state.instruction.payment_account}
