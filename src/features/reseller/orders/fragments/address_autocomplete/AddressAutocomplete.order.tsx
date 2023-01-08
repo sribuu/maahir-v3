@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AutocompleteComponent from "@/src/core/ui/components/autocomplete/Autocomplete.component";
 import { useProvinceListData } from "../../hooks/useProvinceList";
 
@@ -9,22 +9,31 @@ export const errorAddressValidationMessage = (invalidStatus: boolean) =>
 
 export interface IAddressAutocompleteOrderProps {
   value?: string;
+  list?: string[];
   onSelect?: (data: string) => void;
+  onChange?: (data: string) => void;
   onError?: (error: { status: boolean; message: string }) => void;
 }
 
 AddressAutocompleteOrder.defaultProps = {
   value: "",
+  list: [],
 };
 
 export default function AddressAutocompleteOrder(
   props: IAddressAutocompleteOrderProps
 ) {
-  const addressList = useProvinceListData();
-
   const [address, setAddress] = useState("");
-  const handleChangeAddress = (data: string) => {
+  const handleSelectAddress = (data: string) => {
     setAddress(data);
+    if (props.onSelect) {
+      props.onSelect(data);
+    }
+  };
+  const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(e.currentTarget.value);
+    }
   };
   useEffect(() => {
     if (props.onSelect) {
@@ -64,10 +73,11 @@ export default function AddressAutocompleteOrder(
     <AutocompleteComponent
       label={"Alamat"}
       placeholder={"Input alamat disini"}
-      options={addressList}
+      options={props.list}
       disabled={false}
       selected={address}
-      onSelect={handleChangeAddress}
+      onChange={handleChangeAddress}
+      onSelect={handleSelectAddress}
     />
   );
 }

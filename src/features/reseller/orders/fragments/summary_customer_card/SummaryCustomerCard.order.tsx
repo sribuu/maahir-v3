@@ -1,7 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
-import PersonalInformationForm from "../personal_information_form/PersonalInformationForm.order";
+import PersonalInformationForm from "../../../shipment/components/personal_information_form/PersonalInformationForm.shipment";
 import DeliveryAddressListCardComponent from "@/src/features/reseller/orders/fragments/delivery_address_list_card/DeliveryAddressListCard.component";
 import { useOrderItemQuery } from "../../hooks/useOrderItem";
 export interface ISummaryCustomerOrderCardProps {

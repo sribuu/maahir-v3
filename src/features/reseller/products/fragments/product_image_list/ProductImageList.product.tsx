@@ -16,9 +16,6 @@ export default function ProductImageListProduct(
   props: IProductImageListProductProps
 ) {
   const [active, setActive] = useState("");
-  //   const handleMouseEnterImageList = (e: React.MouseEvent<HTMLImageElement>) => {
-  //     setActive(e.currentTarget.id);
-  //   };
 
   const handleClickImageList = (e: React.MouseEvent<HTMLImageElement>) => {
     setActive(e.currentTarget.id);
@@ -29,6 +26,7 @@ export default function ProductImageListProduct(
       props.onSelect(active);
     }
   }, [active]);
+
   return (
     <div className={clsx("relative", "max-w-[30rem]")}>
       <div
@@ -50,7 +48,6 @@ export default function ProductImageListProduct(
               item === active && "border-[0.125rem] border-ocean-boat-blue"
             )}
             onClick={handleClickImageList}
-            // onMouseEnter={handleMouseEnterImageList}
           />
         ))}
       </div>

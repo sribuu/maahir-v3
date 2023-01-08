@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import CheckboxComponent from "@/src/core/ui/components/checkbox/Checkbox.component";
-import AvatarComponent from "@/src/core/ui/components/avatar/Avatar.component";
 
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { ResellerMyCartActionsEnum } from "../../contexts/my_cart/MyCart.types";
@@ -34,13 +33,6 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: ResellerMyCartActionsEnum.SelectAll,
-    });
-  };
-
-  const handleSelectSupplier = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: ResellerMyCartActionsEnum.SelectSupplier,
-      payload: parseInt(String(e.currentTarget.value)),
     });
   };
 
@@ -117,37 +109,6 @@ export default function ListItemCardCart(props: IListItemCardCartProps) {
             key={index}
             className={clsx("grid grid-cols-1 gap-y-[1rem]", "w-full")}
           >
-            <div
-              className={clsx("flex items-center justify-start gap-x-[1rem]")}
-            >
-              <CheckboxComponent
-                value={String(item.supplier.id)}
-                checked={item.supplier.selected}
-                onChange={handleSelectSupplier}
-              />
-              <AvatarComponent text={item.supplier.name_initial} />
-              <div
-                className={clsx(
-                  "grid grid-cols-1 justify-start justify-items-start gap-y-[0.125rem]"
-                )}
-              >
-                <p
-                  className={clsx(
-                    "text-[1rem] font-bold text-charleston-green text-start"
-                  )}
-                >
-                  {item.supplier.name}
-                </p>
-                <p
-                  className={clsx(
-                    "text-[0.75rem] font-regular text-charleston-green text-start"
-                  )}
-                >
-                  {item.supplier.address.administrative_division_level_2_name}
-                </p>
-              </div>
-            </div>
-
             {item.supplier.data.map((supplierItem, supplierIndex) => (
               <ItemListCart
                 key={supplierIndex}

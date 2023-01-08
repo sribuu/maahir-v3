@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import clsx from "clsx";
 import ProductImageListProduct from "../product_image_list/ProductImageList.product";
-import ZoomImageProduct from "../zoom_image/ZoomImage.product";
 import { ProductContext } from "../../contexts/product/Product.context";
 import { useProductGetProductById } from "../../hooks/useGetProductById";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
@@ -65,7 +64,12 @@ export default function ItemImageCardProduct(
         "min-w-[276px] gap-y-[1rem]"
       )}
     >
-      <ZoomImageProduct coverImage={state.images.large} />
+      <img
+        src={state.images.large}
+        className={clsx(
+          "w-[30rem] h-[30rem] rounded-[1rem] hover:opacity-0 object-cover"
+        )}
+      />
 
       <ProductImageListProduct
         active={state.images.large}

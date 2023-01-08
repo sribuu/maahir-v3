@@ -28,7 +28,7 @@ export const productImagesReducer = (
     case ProductActionEnum.ChangeZoomImage:
       return {
         ...state,
-        zoom: action.payload,
+        large: action.payload,
       };
     default:
       return state;
