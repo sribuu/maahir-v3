@@ -39,17 +39,17 @@ export const useProductGetProductById = () => {
   );
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (!query.isFetching) {
       dispatch({
         type: ProductActionEnum.SetImage,
         payload: {
-          large: query.data.image,
+          large: query.data.detail_images[0],
           // TODO: change this when push
           list: query.data.detail_images,
         },
       });
     }
-  }, [query.isSuccess]);
+  }, [query.isFetching]);
 
   useEffect(() => {
     if (!query.isFetching) {

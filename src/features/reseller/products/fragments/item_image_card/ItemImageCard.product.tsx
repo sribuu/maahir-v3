@@ -66,9 +66,7 @@ export default function ItemImageCardProduct(
     >
       <img
         src={state.images.large}
-        className={clsx(
-          "w-[30rem] h-[30rem] rounded-[1rem] hover:opacity-0 object-cover"
-        )}
+        className={clsx("w-[30rem] h-[30rem] rounded-[1rem]  object-cover")}
       />
 
       <ProductImageListProduct
