@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
 import useOrderIdForm from "@/src/core/hooks/form/useOrderIdForm";
 import HeroSearchOrder from "../../fragments/hero_search/HeroSearch.order";
 import { fetchOrderById } from "@/src/core/lib/api/dynamic";
-import CheckOrderCardComponent from "@/src/core/ui/components/check_order_card/CheckOrderCard.component";
+import CheckOrderCardOrder from "@/src/features/reseller/orders/fragments/check_order_card/CheckOrderCard.order";
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import { IOrderResponse } from "@/src/features/reseller/orders/models";
 import {
@@ -146,7 +141,7 @@ export default function SearchOrderContainer(
             )}
 
             {isSuccessOrder && (
-              <CheckOrderCardComponent
+              <CheckOrderCardOrder
                 name={orderData.product.title}
                 productImage={orderData.product.image}
                 price={thousandSeparator(orderData.price)}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
-import NameInputComponent from "@/src/features/reseller/shipment/components/name_input/NameInput.shipment";
-import PhoneNumberInputComponent from "@/src/features/reseller/shipment/components/phonenumber_input";
+import NameInputShipment from "@/src/features/reseller/shipment/components/name_input";
+import PhoneNumberInputShipment from "@/src/features/reseller/shipment/components/phonenumber_input";
 
 export interface IDropshipperFormShipmentProps {
   name?: string;
@@ -34,7 +34,7 @@ export default function DropshipperFormShipment(
           "w-full py-6"
         )}
       >
-        <NameInputComponent
+        <NameInputShipment
           value={props.name}
           onChange={props.onChangeName}
           onError={props.onErrrorName}
@@ -46,7 +46,7 @@ export default function DropshipperFormShipment(
           "w-full"
         )}
       >
-        <PhoneNumberInputComponent
+        <PhoneNumberInputShipment
           value={props.phonenumber}
           onChange={props.onChangePhonenumber}
           onError={props.onErrorPhonenumber}

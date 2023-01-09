@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 import MainLayout from "@/src/core/ui/layouts/reseller/main/Main.layout";
-import FAQCardComponent from "@/src/core/ui/components/faq_card/FAQCard.component";
+import AccordionListCardFAQ from "@/src/features/reseller/faq/components/accordion_list_card/AccordionListCard.faq";
 import { resellerFAQ } from "@/src/data/reseller/static";
 
 export interface IFAQContainerProps {}
@@ -44,7 +44,7 @@ export default function FAQContainer(props: IFAQContainerProps) {
             "px-[1rem] sm:px-[0rem]"
           )}
         >
-          <FAQCardComponent lists={resellerFAQ} />
+          <AccordionListCardFAQ lists={resellerFAQ} />
         </div>
       </div>
     </MainLayout>

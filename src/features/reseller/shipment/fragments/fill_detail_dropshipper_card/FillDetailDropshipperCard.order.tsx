@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import clsx from "clsx";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
-import DropshipperOptionOrder from "../../../orders/fragments/dropshipper_option/DropshipperOption.order";
-import DropshipperFormOrder from "../../components/dropshipper_form/DropshipperForm.shipment";
+import DropshipperOptionShipment from "../../components/dropshipper_option/DropshipperOption.shipment";
+import DropshipperFormShipment from "../../components/dropshipper_form/DropshipperForm.shipment";
 import { SingleShipmentContext } from "../../contexts/single/SingleShipment.context";
 import { SingleShipmentActionEnum } from "../../contexts/single/SingleShipment.types";
 export interface IFillDetailDropshipperCardOrderProps {}
@@ -28,9 +28,9 @@ export default function FillDetailDropshipperCardOrder(
   };
   return (
     <CardComponent className={clsx("p-[1.5rem]")}>
-      <DropshipperOptionOrder onSwitch={setOpen} />
+      <DropshipperOptionShipment onSwitch={setOpen} />
       {open && (
-        <DropshipperFormOrder
+        <DropshipperFormShipment
           name={state.dropshipper.name.value}
           phonenumber={state.dropshipper.mobile.value}
           onChangeName={handleChangeName}

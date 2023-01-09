@@ -1,7 +1,7 @@
 import * as React from "react";
 import clsx from "clsx";
 
-export interface ICheckOrderCardComponentProps {
+export interface ICheckOrderCardOrderProps {
   orderId?: string;
   orderDate?: string;
   name?: string;
@@ -15,7 +15,7 @@ export interface ICheckOrderCardComponentProps {
   statusColor?: string;
 }
 
-CheckOrderCardComponent.defaultProps = {
+CheckOrderCardOrder.defaultProps = {
   orderId: "ID077325",
   orderDate: "26 Oktober 2022 - 22:12 WIB",
   name: "Paket Reseller Parfum",
@@ -29,9 +29,7 @@ CheckOrderCardComponent.defaultProps = {
   statusColor: "dark-charcoal",
 };
 
-export default function CheckOrderCardComponent(
-  props: ICheckOrderCardComponentProps
-) {
+export default function CheckOrderCardOrder(props: ICheckOrderCardOrderProps) {
   const description: string = `Harga jual satuan ${props.minPrice} - ${props.maxPrice}`;
   const quantity = `Qty: ${props.quantity} ${
     props.quantity > 1 ? "items" : "item"

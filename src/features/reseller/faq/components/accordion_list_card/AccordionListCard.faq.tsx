@@ -1,17 +1,19 @@
 import * as React from "react";
 import clsx from "clsx";
-import AccordionComponent from "../accordion/Accordion.component";
+import AccordionComponent from "../../../../../core/ui/components/accordion/Accordion.component";
 
-export interface IFAQCardComponentProps {
+export interface IAccordionListCardFAQProps {
   open?: string[];
   lists?: { question: string; answer: string }[];
 }
-FAQCardComponent.defaultProps = {
+AccordionListCardFAQ.defaultProps = {
   open: [],
   lists: [],
 };
 
-export default function FAQCardComponent(props: IFAQCardComponentProps) {
+export default function AccordionListCardFAQ(
+  props: IAccordionListCardFAQProps
+) {
   return (
     <div
       className={clsx(
