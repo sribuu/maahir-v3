@@ -3,7 +3,7 @@ import { IProducts } from "@/src/core/lib/models";
 import { IResellerProducts } from "@/src/core/lib/models/reseller";
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
 import { limitPayload, offsetPayload } from "@/src/core/utils/calculation";
-import { useMutation, useQueryClient, QueryKey } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { CartReactQueryKey } from "../../cart/constants";
 import { ProductReactQueryKey, ProductsReactQueryKey } from "../constants";
@@ -14,11 +14,11 @@ import {
   IProductGetProductCategory,
   IProductGetProductsItemRequest,
 } from "../models";
-import { fetchStorageSaveCart } from "../services";
 import {
   useResellerProductGetCart,
   useResellerProductsGetCart,
 } from "./useProductGetCart";
+import { setCart } from "@/src/storage/reseller/cart";
 
 // new
 // PRODUCTS
@@ -385,7 +385,7 @@ export const useProductsAddItemToCart = () => {
       }
 
       const payload = new_cart;
-      return fetchStorageSaveCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {
@@ -681,7 +681,7 @@ export const useProductAddItemToCart = () => {
       }
 
       const payload = new_cart;
-      return fetchStorageSaveCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {

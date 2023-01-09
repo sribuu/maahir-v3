@@ -1,9 +1,9 @@
 import { IResellerProducts } from "@/src/core/lib/models/reseller";
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
+import { setCart } from "@/src/storage/reseller/cart";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { CartReactQueryKey } from "../../cart/constants";
 import { ResellerHomeReactQueryKey } from "../constants";
-import { fetchAddViralProductToCart } from "../services";
 import { useResellerHomeGetCart } from "./useHomeGetCart";
 
 export const useResellerHomeAddToCart = () => {
@@ -312,7 +312,7 @@ export const useResellerHomeAddToCart = () => {
 
       const payload = new_cart;
 
-      return fetchAddViralProductToCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {

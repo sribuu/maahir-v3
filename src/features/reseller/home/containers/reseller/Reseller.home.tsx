@@ -12,7 +12,7 @@ import { useResellerHomeGetViralProducts } from "../../hooks/useHomeGetProducts"
 import { ResellerHomeContext } from "../../contexts/Home.context";
 import HighlightProductCardHome from "../../fragments/highlight_item_card/HighlightItemCard.home";
 import { ResellerHomeIdNames } from "../../constants";
-import { useResellerHomeAddToCart } from "../../hooks/useHomeAddToCart";
+import { useResellerHomeAddToCart } from "../../hooks/useSetCart.home";
 import { useResellerHomeAddToCheckout } from "../../hooks/useHomeAddToCheckout";
 
 export interface IHomeContainerProps {}
