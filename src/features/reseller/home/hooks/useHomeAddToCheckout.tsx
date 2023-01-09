@@ -2,9 +2,9 @@ import {
   IResellerCheckout,
   IResellerProducts,
 } from "@/src/core/lib/models/reseller";
+import { setCheckout } from "@/src/storage/reseller/checkout";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { ResellerHomeReactQueryKey } from "../constants";
-import { fetchAddViralProductToCheckout } from "../services";
 
 export const useResellerHomeAddToCheckout = () => {
   const queryClient = useQueryClient();
@@ -45,7 +45,7 @@ export const useResellerHomeAddToCheckout = () => {
         },
         cart: [
           {
-            supplier_id: -1,
+            supplier_id: selectedProduct.supplier.id,
             // additional information supplier
             supplier_name: selectedProduct.supplier.name,
             supplier_initial: selectedProduct.supplier.name_initial,
@@ -81,25 +81,20 @@ export const useResellerHomeAddToCheckout = () => {
                 profit_value: selectedProduct.profit_value,
                 retail_price_max: selectedProduct.retail_price_max,
                 retail_price_min: selectedProduct.retail_price_min,
-
-                variants: [
-                  {
-                    variant_id: selectedProduct.variants[0].id,
-                    note: "",
-                    quantity: 1,
-                    // additional information variant
-                    price: selectedProduct.variants[0].price,
-                    stock: selectedProduct.variants[0].stock,
-                    selected: false,
-                  },
-                ],
+                variant_id: selectedProduct.variants[0].id,
+                variant_note: "",
+                variant_quantity: 1,
+                variant_name: selectedProduct.variants[0].name,
+                // additional information variant
+                variant_price: selectedProduct.variants[0].price,
+                variant_stock: selectedProduct.variants[0].stock,
               },
             ],
           },
         ],
       };
 
-      return fetchAddViralProductToCheckout(payload);
+      return setCheckout(payload);
     },
     {
       onSuccess: (data) => {

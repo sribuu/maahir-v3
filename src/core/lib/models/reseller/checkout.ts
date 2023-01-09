@@ -56,15 +56,13 @@ export interface IResellerCheckout {
       profit_value: number;
       retail_price_max: number;
       retail_price_min: number;
-      variants: {
-        variant_id: number;
-        note: string;
-        quantity: number;
-        // additional variant
-        price: number;
-        stock: number;
-        selected: boolean;
-      }[];
+      variant_id: number;
+      variant_note: string;
+      variant_quantity: number;
+      variant_name: string;
+      // additional variant
+      variant_price: number;
+      variant_stock: number;
     }[];
   }[];
 }

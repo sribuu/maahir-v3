@@ -4,7 +4,4 @@ export enum ResellerHomeReactQueryKey {
   GetCart = "reseller-home_get-cart",
   AddViralProductToCheckout = "reseller-home_add-viral-product-to-checkout",
   GetViralProductFromCheckout = "reseller-home_get-viral-product-from-checkout",
-
-  // will be delete
-  SaveHighlightProductToCart = "reseller-home_save-highlight-product-to-cart",
 }
