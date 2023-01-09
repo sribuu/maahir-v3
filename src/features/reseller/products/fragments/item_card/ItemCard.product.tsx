@@ -28,7 +28,7 @@ ItemCardProduct.defaultProps = {
 export default function ItemCardProduct(props: IItemCardProductProps) {
   const handleClickBuyNow = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.onClickBuyNow) {
-      props.onAddToCart(parseInt(e.currentTarget.value));
+      props.onClickBuyNow(parseInt(e.currentTarget.value));
     }
   };
 

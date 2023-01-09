@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 export interface IAvailableVariantProductProps {
-  selected?: string;
+  selected?: number;
   variants?: string[];
-  onSelect?: (data: string) => void;
+  onSelect?: (data: number) => void;
 }
 
 AvailableVariantProduct.defaultProps = {
@@ -14,10 +14,10 @@ AvailableVariantProduct.defaultProps = {
 export default function AvailableVariantProduct(
   props: IAvailableVariantProductProps
 ) {
-  const [activeVariant, setActiveVariant] = useState("");
+  const [activeVariant, setActiveVariant] = useState(-1);
 
   const handleActiveVariant = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setActiveVariant(e.currentTarget.value);
+    setActiveVariant(parseInt(e.currentTarget.value));
   };
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function AvailableVariantProduct(
   }, [props.selected]);
 
   useEffect(() => {
-    if (props.onSelect !== undefined) {
+    if (props.onSelect !== undefined && activeVariant !== -1) {
       props.onSelect(activeVariant);
     }
   }, [activeVariant]);
@@ -52,20 +52,20 @@ export default function AvailableVariantProduct(
               "px-[1.5rem] py-[0.25rem] border rounded-[0.5rem]",
               "hover:border-ocean-boat-blue",
               "hover:bg-ocean-boat-blue-4",
-              item === activeVariant
+              index === activeVariant
                 ? "border-ocean-boat-blue"
                 : " border-gainsboro",
-              item === activeVariant ? "bg-ocean-boat-blue-4" : "bg-white"
+              index === activeVariant ? "bg-ocean-boat-blue-4" : "bg-white"
             )}
             onClick={handleActiveVariant}
-            value={item}
+            value={String(index)}
           >
             <p
               className={clsx(
                 "text-[0.75rem] sm:text-[1rem]",
                 "font-regular",
                 "hover:text-ocean-boat-blue",
-                item === activeVariant
+                index === activeVariant
                   ? "text-ocean-boat-blue"
                   : "text-taupe-gray"
               )}

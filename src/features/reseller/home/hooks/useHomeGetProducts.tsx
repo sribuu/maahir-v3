@@ -33,6 +33,7 @@ export const useResellerHomeGetViralProducts = () => {
           haveVariant: item.variants.length > 1,
         };
       });
+
       dispatch({
         type: ResellerHomeActionEnum.SetViralProducts,
         payload: payload,

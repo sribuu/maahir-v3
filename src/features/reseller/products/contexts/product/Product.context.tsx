@@ -25,6 +25,7 @@ const initialState: InitialStateType = {
     max_price: "",
     min_price: "",
     variant: {
+      selected_index: 0,
       name: {
         selected: "",
         list: [],

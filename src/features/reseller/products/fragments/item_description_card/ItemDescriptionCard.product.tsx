@@ -5,12 +5,11 @@ import CounterComponent from "@/src/core/ui/components/counter/Counter.component
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import AvailableStockProduct from "../available_stock/AvailableStock.product";
 import AvailableVariantProduct from "../available_variant/AvailableVariant.product";
-import AvatarComponent from "@/src/core/ui/components/avatar/Avatar.component";
-import DividerComponent from "@/src/core/ui/components/divider/Divider.component";
 import { ProductContext } from "../../contexts/product/Product.context";
 import { ProductActionEnum } from "../../contexts/product/Product.types";
 import { RouterPathName, RouterQueryKey } from "@/src/core/lib/constants";
 import { useProductAddItemToCart } from "../../hooks/useProductSaveCart";
+import { useProductSetCheckout } from "../../hooks/useSetCheckout.product";
 
 export interface IItemDescriptionCardProductProps {
   onAddToCart?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -25,6 +24,7 @@ export default function ItemDescriptionCardProduct(
   const router = useRouter();
   const { state, dispatch } = useContext(ProductContext);
   const { mutate: addItemToCart } = useProductAddItemToCart();
+  const { mutate: setCheckout } = useProductSetCheckout();
 
   const handleSumItem = () => {
     dispatch({
@@ -38,7 +38,7 @@ export default function ItemDescriptionCardProduct(
     });
   };
 
-  const handleSelectVariant = (data: string) => {
+  const handleSelectVariant = (data: number) => {
     dispatch({
       type: ProductActionEnum.ChangeVariant,
       payload: data,
@@ -46,14 +46,7 @@ export default function ItemDescriptionCardProduct(
   };
 
   const handleClickBuyNow = () => {
-    router.replace({
-      pathname: RouterPathName.OrderProduct,
-      query: {
-        [RouterQueryKey.ProductId]: parseInt(
-          String(router.query[RouterQueryKey.ProductId])
-        ),
-      },
-    });
+    setCheckout();
   };
 
   const handleClickAddToCart = () => {
@@ -145,7 +138,7 @@ export default function ItemDescriptionCardProduct(
       </div>
 
       <AvailableVariantProduct
-        selected={state.detail.variant.name.selected}
+        selected={state.detail.variant.selected_index}
         variants={state.detail.variant.name.list}
         onSelect={handleSelectVariant}
       />

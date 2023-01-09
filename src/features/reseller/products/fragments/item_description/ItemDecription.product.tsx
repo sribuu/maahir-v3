@@ -33,7 +33,7 @@ export default function ItemDescriptionProduct(
     });
   };
 
-  const handleSelectVariant = (data: string) => {
+  const handleSelectVariant = (data: number) => {
     dispatch({
       type: ProductActionEnum.ChangeVariant,
       payload: data,
@@ -92,7 +92,7 @@ export default function ItemDescriptionProduct(
           </div>
 
           <AvailableVariantProduct
-            selected={state.detail.variant.name.selected}
+            selected={state.detail.variant.selected_index}
             variants={state.detail.variant.name.list}
             onSelect={handleSelectVariant}
           />

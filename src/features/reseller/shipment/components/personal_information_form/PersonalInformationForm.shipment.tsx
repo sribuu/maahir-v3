@@ -2,7 +2,7 @@ import * as React from "react";
 import clsx from "clsx";
 import NameInputShipment from "@/src/features/reseller/shipment/components/name_input/NameInput.shipment";
 import EmailInputShipment from "@/src/features/reseller/shipment/components/email_input/EmailInput.shipment";
-import AddressAutocompleteOrder from "../../../orders/fragments/address_autocomplete/AddressAutocomplete.order";
+import AddressAutocompleteOrder from "../address_autocomplete/AddressAutocomplete.shipment";
 import PhoneNumberInputShipment from "@/src/features/reseller/shipment/components/phonenumber_input";
 import DetailAddressInputShipment from "../detail_address_input/DetailAddressInput.shipment";
 

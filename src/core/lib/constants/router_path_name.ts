@@ -3,7 +3,8 @@ export enum RouterPathName {
   AllProducts = "/products",
   ProductDetail = "/products/detail/[productId]",
   OrderProduct = "/orders/pesanan-kamu/[productId]",
-  // OrderFillDetail = "/orders/fill-detail-order",
+  Buy = "/buy",
+
   FillOrderDetail = "/orders/isi-detail-pesanan/[productId]",
   OrderSummary = "/orders/ringkasan-pesanan/[productId]",
   OrderCheckByCode = "/orders/check-order",

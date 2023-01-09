@@ -16,6 +16,7 @@ import {
 export const useProductGetProductById = () => {
   const router = useRouter();
   const id = parseInt(String(router.query[RouterQueryKey.ProductId]));
+
   const { state, dispatch } = useContext(ProductContext);
 
   const [payload, setPayload] = useState<IProductGetProductByIdRequest>({
@@ -39,7 +40,7 @@ export const useProductGetProductById = () => {
   );
 
   useEffect(() => {
-    if (!query.isFetching) {
+    if (!query.isFetching && query.data !== undefined) {
       dispatch({
         type: ProductActionEnum.SetImage,
         payload: {
@@ -49,10 +50,10 @@ export const useProductGetProductById = () => {
         },
       });
     }
-  }, [query.isFetching]);
+  }, [query.isFetching, query.data]);
 
   useEffect(() => {
-    if (!query.isFetching) {
+    if (!query.isFetching && query.data !== undefined) {
       dispatch({
         type: ProductActionEnum.SetSupplier,
         payload: {
@@ -63,10 +64,10 @@ export const useProductGetProductById = () => {
         },
       });
     }
-  }, [query.isFetching]);
+  }, [query.isFetching, query.data]);
 
   useEffect(() => {
-    if (query.isSuccess) {
+    if (!query.isFetching && query.data !== undefined) {
       dispatch({
         type: ProductActionEnum.SetDetail,
         payload: {
@@ -75,45 +76,33 @@ export const useProductGetProductById = () => {
           category: query.data.category_name,
           description: query.data.description,
           profit: thousandSeparator(query.data.profit_value),
-
           max_price: thousandSeparator(query.data.retail_price_max),
           min_price: thousandSeparator(query.data.retail_price_min),
           variant: {
             ...state.detail.variant,
+            selected_index: 0,
             name: {
               ...state.detail.variant,
-              selected: !query.data.variants.length
-                ? query.data.variant_name
-                : query.data.variants[0].name,
-              list: !query.data.variants.length
-                ? [query.data.variant_name]
-                : query.data.variants.map((item) => item.name),
+              selected: query.data.variants[0].name,
+              list: query.data.variants.map((item) => item.name),
             },
             stock: {
               ...state.detail.variant.stock,
-              selected: !query.data.variants.length
-                ? query.data.stock
-                : query.data.variants[0].stock,
-              list: !query.data.variants.length
-                ? [query.data.stock]
-                : query.data.variants.map((item) => item.stock),
+              selected: query.data.variants[0].stock,
+              list: query.data.variants.map((item) => item.stock),
             },
             price: {
               ...state.detail.variant.price,
-              selected: !query.data.variants.length
-                ? thousandSeparator(query.data.price)
-                : thousandSeparator(query.data.variants[0].price),
-              list: !query.data.variants.length
-                ? [thousandSeparator(query.data.price)]
-                : query.data.variants.map((item) =>
-                    thousandSeparator(item.price)
-                  ),
+              selected: thousandSeparator(query.data.variants[0].price),
+              list: query.data.variants.map((item) =>
+                thousandSeparator(item.price)
+              ),
             },
           },
           quantity: 1,
         },
       });
     }
-  }, [query.isSuccess]);
+  }, [query.isFetching, query.data]);
   return query;
 };

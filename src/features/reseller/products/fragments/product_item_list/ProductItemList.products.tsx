@@ -11,6 +11,7 @@ import ItemNotFoundProduct from "../item_not_found/ItemNotFound.product";
 import ItemCountPaginationComponent from "@/src/core/ui/components/item_count_pagination/ItemCountPagination.component";
 import { ProductsActionEnum } from "../../contexts/products/Products.types";
 import { useProductsAddItemToCart } from "../../hooks/useProductSaveCart";
+import { useProductsSetCheckout } from "../../hooks/useSetCheckout.product";
 export interface IProductItemListProductsProps {}
 
 export default function ProductItemListProducts(
@@ -20,6 +21,7 @@ export default function ProductItemListProducts(
   const { isLoading: isLoadingGetProductItems } = useProductsGetProductItems();
   const { mutate: addProductToCart } = useProductsAddItemToCart();
   const { state, dispatch } = useContext(ProductsContext);
+  const { mutate: setCheckout } = useProductsSetCheckout();
 
   if (isLoadingGetProductItems) {
     const itemsCount = Array.from({ length: 16 }, (_, i) => i + 1);
@@ -53,10 +55,19 @@ export default function ProductItemListProducts(
   }
 
   const handleClickBuyNow = (data: number) => {
-    router.push({
-      pathname: RouterPathName.OrderProduct,
-      query: { [RouterQueryKey.ProductId]: data },
-    });
+    const isHasVariant = state.items.filter(
+      (item) => item.id === String(data)
+    )[0].hasVariant;
+    if (isHasVariant) {
+      router.push({
+        pathname: RouterPathName.ProductDetail,
+        query: {
+          [RouterQueryKey.ProductId]: data,
+        },
+      });
+    } else {
+      setCheckout(data);
+    }
   };
 
   const handleClickItem = (data: number) => {

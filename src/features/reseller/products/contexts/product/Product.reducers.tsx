@@ -47,27 +47,18 @@ export const productDetailReducer = (
         ...state,
         variant: {
           ...state.variant,
+          selected_index: action.payload,
           name: {
             ...state.variant.name,
-            selected: action.payload,
+            selected: state.variant.name.list[action.payload],
           },
           price: {
             ...state.variant.price,
-            selected:
-              state.variant.price.list[
-                state.variant.name.list.findIndex(
-                  (item) => item === action.payload
-                )
-              ],
+            selected: state.variant.price.list[action.payload],
           },
           stock: {
             ...state.variant.stock,
-            selected:
-              state.variant.stock.list[
-                state.variant.name.list.findIndex(
-                  (item) => item === action.payload
-                )
-              ],
+            selected: state.variant.stock.list[action.payload],
           },
         },
       };

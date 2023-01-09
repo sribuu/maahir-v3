@@ -31,6 +31,7 @@ export interface IProductDetail {
   max_price: string;
   min_price: string;
   variant: {
+    selected_index: number;
     name: {
       selected: string;
       list: string[];
@@ -94,7 +95,7 @@ export type ProductImagesActions =
 // Product Detail
 type ProductDetailPayload = {
   [ProductActionEnum.SetDetail]: IProductDetail;
-  [ProductActionEnum.ChangeVariant]: string;
+  [ProductActionEnum.ChangeVariant]: number;
   [ProductActionEnum.AddQuantity]: undefined;
   [ProductActionEnum.SubstractQuantity]: undefined;
 };

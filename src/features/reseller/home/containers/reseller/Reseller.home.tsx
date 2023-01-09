@@ -13,7 +13,6 @@ import { ResellerHomeContext } from "../../contexts/Home.context";
 import HighlightProductCardHome from "../../fragments/highlight_item_card/HighlightItemCard.home";
 import { ResellerHomeIdNames } from "../../constants";
 import { useResellerHomeAddToCart } from "../../hooks/useHomeAddToCart";
-import { useResellerCheckoutGetCheckoutItems } from "@/src/features/reseller/orders/hooks/useGetCheckoutItems";
 import { useResellerHomeAddToCheckout } from "../../hooks/useHomeAddToCheckout";
 
 export interface IHomeContainerProps {}

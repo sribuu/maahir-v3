@@ -1,6 +1,6 @@
 import * as React from "react";
 import clsx from "clsx";
-import PaymentMethodOptionComponent from "../payment_method_option/PaymentMethodOption.order";
+import PaymentMethodOptionComponent from "../../../shipment/components/payment_method_option/PaymentMethodOption.shipment";
 
 export interface IEditPaymentSummaryCardOrderProps {
   title?: string;

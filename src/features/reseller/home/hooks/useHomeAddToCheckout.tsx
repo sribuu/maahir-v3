@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   IResellerCheckout,
   IResellerProducts,
@@ -5,9 +6,11 @@ import {
 import { setCheckout } from "@/src/storage/reseller/checkout";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { ResellerHomeReactQueryKey } from "../constants";
+import { RouterPathName } from "@/src/core/lib/constants";
 
 export const useResellerHomeAddToCheckout = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const viralProducts: { total: number; products: IResellerProducts[] } =
     queryClient.getQueryData([ResellerHomeReactQueryKey.GetHighlightProducts]);
@@ -98,10 +101,7 @@ export const useResellerHomeAddToCheckout = () => {
     },
     {
       onSuccess: (data) => {
-        // invalidate get query client inside the function
-        // queryClient.setQueryData([ResellerHomeReactQueryKey.GetCart], data);
-        // invalidate outside the function
-        // queryClient.invalidateQueries([CartReactQueryKey.GetCartItems]);
+        router.push(RouterPathName.Buy);
       },
     }
   );

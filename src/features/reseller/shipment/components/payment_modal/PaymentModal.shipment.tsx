@@ -5,7 +5,7 @@ import ModalComponent, {
 } from "@/src/core/ui/components/modal/Modal.component";
 import CardComponent from "@/src/core/ui/components/card/Card.component";
 import CloseIcon from "@/src/core/ui/icons/close/Close.icon";
-import PaymentMethodOptionOrder from "../../../orders/fragments/payment_method_option/PaymentMethodOption.order";
+import PaymentMethodOptionOrder from "../payment_method_option/PaymentMethodOption.shipment";
 
 export interface IPaymentModalShipmentProps extends IModalComponentProps {
   title?: string;

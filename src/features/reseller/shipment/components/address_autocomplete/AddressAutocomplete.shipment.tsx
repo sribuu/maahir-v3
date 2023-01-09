@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AutocompleteComponent from "@/src/core/ui/components/autocomplete/Autocomplete.component";
-import { useProvinceListData } from "../../hooks/useProvinceList";
 
 export const invalidAddressValidation = (value: string) => !value.length;
 
 export const errorAddressValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Alamat tidak valid" : "";
 
-export interface IAddressAutocompleteOrderProps {
+export interface IAddressAutocompleteShipmentProps {
   value?: string;
   list?: string[];
   onSelect?: (data: string) => void;
@@ -15,13 +14,13 @@ export interface IAddressAutocompleteOrderProps {
   onError?: (error: { status: boolean; message: string }) => void;
 }
 
-AddressAutocompleteOrder.defaultProps = {
+AddressAutocompleteShipment.defaultProps = {
   value: "",
   list: [],
 };
 
-export default function AddressAutocompleteOrder(
-  props: IAddressAutocompleteOrderProps
+export default function AddressAutocompleteShipment(
+  props: IAddressAutocompleteShipmentProps
 ) {
   const [address, setAddress] = useState("");
   const handleSelectAddress = (data: string) => {

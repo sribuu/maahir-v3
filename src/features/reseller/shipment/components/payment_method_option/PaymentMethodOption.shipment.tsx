@@ -1,22 +1,22 @@
 import { useState } from "react";
 import clsx from "clsx";
 
-export interface IPaymentMethodOptionOrderProps {
+export interface IPaymentMethodOptionShipmentProps {
   id?: string;
   logo?: string;
   name?: string;
   selected?: boolean;
   onSelect?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-PaymentMethodOptionOrder.defaultProps = {
+PaymentMethodOptionShipment.defaultProps = {
   id: "",
   logo: "",
   name: "",
   selected: false,
 };
 
-export default function PaymentMethodOptionOrder(
-  props: IPaymentMethodOptionOrderProps
+export default function PaymentMethodOptionShipment(
+  props: IPaymentMethodOptionShipmentProps
 ) {
   const [hoverItem, setHoverItem] = useState("");
   const handleClickItem = (e: React.MouseEvent<HTMLButtonElement>) => {
