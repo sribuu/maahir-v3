@@ -1,10 +1,10 @@
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
+import { setCart } from "@/src/storage/reseller/cart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect } from "react";
 import { CartReactQueryKey, MyCartReactQueryKey } from "../constants";
 import { ResellerMyCartContext } from "../contexts/my_cart/MyCart.context";
 import { ResellerMyCartActionsEnum } from "../contexts/my_cart/MyCart.types";
-import { fetchSaveCart } from "../services";
 
 // MyCart
 export const useMyCartRemoveCartItems = () => {
@@ -28,7 +28,7 @@ export const useMyCartRemoveCartItems = () => {
           };
         });
 
-      return fetchSaveCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {

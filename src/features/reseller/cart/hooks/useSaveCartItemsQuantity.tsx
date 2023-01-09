@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CartReactQueryKey, MyCartReactQueryKey } from "../constants";
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
-import { fetchSaveCart } from "../services";
+import { setCart } from "@/src/storage/reseller/cart";
 
 // Global
 export const useGlobalCartSaveCartItemsQuantity = () => {
@@ -27,7 +27,7 @@ export const useGlobalCartSaveCartItemsQuantity = () => {
         }
       }
 
-      return fetchSaveCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {
@@ -63,7 +63,7 @@ export const useMyCartSaveCartItemsQuantity = () => {
         }
       }
 
-      return fetchSaveCart(payload);
+      return setCart(payload);
     },
     {
       onSuccess: (data) => {

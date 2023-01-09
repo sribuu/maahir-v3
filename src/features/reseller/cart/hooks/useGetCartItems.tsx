@@ -3,19 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { CartReactQueryKey, MyCartReactQueryKey } from "../constants";
 import { ResellerCartContext } from "../contexts/cart/Cart.context";
-import { fetchGetCart } from "../services/fetchGetCart";
 import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { ResellerCartItemsActionEnum } from "../contexts/cart/Cart.types";
 import { ResellerMyCartContext } from "../contexts/my_cart/MyCart.context";
 import { ResellerMyCartActionsEnum } from "../contexts/my_cart/MyCart.types";
+import { getCart } from "@/src/storage/reseller/cart";
 
 // Global
 export const useGlobalCartGetCartItems = () => {
   const { dispatch } = useContext(ResellerCartContext);
   const query = useQuery<IResellerCart[]>(
     [CartReactQueryKey.GetCartItems],
-    fetchGetCart
+    getCart
   );
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export const useMyCartGetCartItems = () => {
   const { state, dispatch } = useContext(ResellerMyCartContext);
   const query = useQuery<IResellerCart[]>(
     [MyCartReactQueryKey.GetCartItems],
-    fetchGetCart
+    getCart
   );
 
   useEffect(() => {
