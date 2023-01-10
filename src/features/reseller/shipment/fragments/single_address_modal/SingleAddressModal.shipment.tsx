@@ -37,6 +37,19 @@ export default function SingleAddressModalShipment(
     });
   };
 
+  const handleSelectAddress = (data: string) => {
+    dispatch({
+      type: SingleShipmentActionEnum.SelectAddressValue,
+      payload: data,
+    });
+  };
+
+  const handleClearAddress = () => {
+    dispatch({
+      type: SingleShipmentActionEnum.ClearAddressValue,
+    });
+  };
+
   const handleChangeDetailAddress = (data: string) => {
     dispatch({
       type: SingleShipmentActionEnum.SetDetailAddressValue,
@@ -56,26 +69,6 @@ export default function SingleAddressModalShipment(
     });
   };
 
-  const handleErrorName = (error: { status: boolean; message: string }) => {
-    // dispatch({
-    //   type
-    // })
-  };
-
-  const handleErrorEmail = (error: { status: boolean; message: string }) => {
-    //
-  };
-
-  const handleErrorMobile = (error: { status: boolean; message: string }) => {
-    //
-  };
-
-  const handleErrorDetailAddress = (error: {
-    status: boolean;
-    message: string;
-  }) => {
-    //
-  };
   return (
     <AddressModalShipment
       open={state.personal_information.modal.open}
@@ -89,14 +82,12 @@ export default function SingleAddressModalShipment(
       addressList={state.personal_information.address.list}
       onClose={handleCloseAddAddress}
       onChangeName={handleChangeName}
-      onErrorName={handleErrorName}
       onChangeEmail={handleChangeEmail}
-      onErrorEmail={handleErrorEmail}
       onChangePhonenumber={handleChangeMobile}
-      onErrorPhonenumber={handleErrorMobile}
       onChangeAddress={handleChangeAddress}
+      onSelectAddress={handleSelectAddress}
+      onClearAddress={handleClearAddress}
       onChangeDetailAddress={handleChangeDetailAddress}
-      onErrorDetailAddress={handleErrorDetailAddress}
       onSaveChange={handleSaveChange}
     />
   );

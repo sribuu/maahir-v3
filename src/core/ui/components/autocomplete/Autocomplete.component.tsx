@@ -8,7 +8,8 @@ export interface AutocompleteFunctionProps {
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSelect?: (value: string) => void;
+  // onSelect?: (value: string) => void;
+  onSelect?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClear?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -75,10 +76,15 @@ export default function AutocompleteComponent(
 
   useOnClickOutside(ref, () => setState({ ...state, open: false }));
 
-  const handleClickSelect = (result: string) => {
-    setState({ ...state, open: false, selected: result, value: result });
+  const handleClickSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setState({
+      ...state,
+      open: false,
+      selected: e.currentTarget.value,
+      value: e.currentTarget.value,
+    });
     if (props.onSelect) {
-      props.onSelect(result);
+      props.onSelect(e);
     }
   };
   const handleFocusTextfield = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -214,13 +220,14 @@ export default function AutocompleteComponent(
               return (
                 <button
                   key={index}
-                  id={`options-${item}`}
+                  id={String(index)}
+                  value={item}
                   className={clsx(
                     "grid grid-cols-1 justify-start justify-items-start",
                     "w-full p-[1rem]",
                     "border-b border-b-bright-gray"
                   )}
-                  onClick={() => handleClickSelect(item)}
+                  onClick={handleClickSelect}
                 >
                   <p
                     className={clsx(

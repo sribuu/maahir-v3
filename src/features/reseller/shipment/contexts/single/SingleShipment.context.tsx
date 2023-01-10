@@ -14,56 +14,76 @@ const initialState: InitialStateType = {
     modal: {
       open: false,
     },
-    // filled: {
-    //   status: false,
-    // },
-    // name: {
-    //   change_value: "",
-    //   save_value: "",
-    // },
-    // email: {
-    //   change_value: "",
-    //   save_value: "",
-    // },
-    // mobile: {
-    //   change_value: "",
-    //   save_value: "",
-    // },
-    // address: {
-    //   change_value: "",
-    //   save_value: "",
-    // },
-    // detail_address: {
-    //   change_value: "",
-    //   save_value: "",
-    // },
     filled: {
       status: false,
     },
     name: {
       change_value: "",
-      save_value: "Nina Nursita",
+      save_value: "",
+      error: true,
     },
     email: {
       change_value: "",
-      save_value: "ninanurita99@gmail.com",
+      save_value: "",
+      error: true,
     },
     mobile: {
       change_value: "",
-      save_value: "08111773208",
+      save_value: "",
+      error: true,
     },
     address: {
       change_value: "",
-      save_value: "Gambir, Jakarta Pusat, DKI Jakarta. 10130",
+      save_value: "",
+      selected_index: "-1",
+      selected_value: "",
       list: [],
+      error: true,
     },
     detail_address: {
       change_value: "",
-      save_value: "Jln. Agus Salim, Haji, No. Ganjil 3 - 11A - Kel. Gambir",
+      save_value: "",
+      error: true,
     },
     disabled_save_change: {
-      status: false,
+      status: true,
     },
+
+    // sample
+    // filled: {
+    //   status: false,
+    // },
+    // name: {
+    //   change_value: "",
+    //   save_value: "Nina Nursita",
+    //   error: true,
+    // },
+    // email: {
+    //   change_value: "",
+    //   save_value: "ninanurita99@gmail.com",
+    //   error: true,
+    // },
+    // mobile: {
+    //   change_value: "",
+    //   save_value: "08111773208",
+    //   error: true,
+    // },
+    // address: {
+    //   change_value: "",
+    //   save_value: "Gambir, Jakarta Pusat, DKI Jakarta. 10130",
+    //   selected_index: "-1",
+    //   selected_value: "",
+    //   list: [],
+    //   error: true,
+    // },
+    // detail_address: {
+    //   change_value: "",
+    //   save_value: "Jln. Agus Salim, Haji, No. Ganjil 3 - 11A - Kel. Gambir",
+    //   error: true,
+    // },
+    // disabled_save_change: {
+    //   status: true,
+    // },
   },
   dropshipper: {
     name: {

@@ -28,23 +28,30 @@ export interface ISingleShipmentPersonalInformation {
   name: {
     change_value: string;
     save_value: string;
+    error: boolean;
   };
   email: {
     change_value: string;
     save_value: string;
+    error: boolean;
   };
   mobile: {
     change_value: string;
     save_value: string;
+    error: boolean;
   };
   address: {
     change_value: string;
     save_value: string;
+    selected_value: string;
+    selected_index: string;
     list: string[];
+    error: boolean;
   };
   detail_address: {
     change_value: string;
     save_value: string;
+    error: boolean;
   };
   disabled_save_change: {
     status: boolean;
@@ -117,9 +124,12 @@ export enum SingleShipmentActionEnum {
   SetEmailValue = "SetEmailValue",
   SetMobileValue = "SetMobileValue",
   SetAddressValue = "SetAddressValue",
+  SelectAddressValue = "SelectAddressValue",
+  ClearAddressValue = "ClearAddressValue",
   SetAddressList = "SetAddressList",
   SetDetailAddressValue = "SetDetailAddressValue",
   SaveChangeValue = "SaveChangeValue",
+  CheckButtonState = "CheckButtonState",
 
   // Dropshipper
   SetDropshipper = "SetDropshipper",
@@ -152,6 +162,8 @@ type SingleShipmentPersonalInformationPayload = {
   [SingleShipmentActionEnum.SetEmailValue]: string;
   [SingleShipmentActionEnum.SetMobileValue]: string;
   [SingleShipmentActionEnum.SetAddressValue]: string;
+  [SingleShipmentActionEnum.SelectAddressValue]: string;
+  [SingleShipmentActionEnum.ClearAddressValue]: undefined;
   [SingleShipmentActionEnum.SetAddressList]: string[];
   [SingleShipmentActionEnum.SetDetailAddressValue]: string;
   [SingleShipmentActionEnum.SaveChangeValue]: undefined;

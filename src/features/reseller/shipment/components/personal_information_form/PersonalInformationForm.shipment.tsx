@@ -21,6 +21,7 @@ export interface IPersonalInformationFormShipmentProps {
   onChangeAddress?: (data: string) => void;
   onSelectAddress?: (data: string) => void;
   onErrorAddress?: (error: { status: boolean; message: string }) => void;
+  onClearAddress?: () => void;
   onChangeDetailAddress?: (data: string) => void;
   onErrorDetailAddress?: (error: { status: boolean; message: string }) => void;
 }
@@ -84,6 +85,7 @@ export default function PersonalInformationFormShipment(
           onChange={props.onChangeAddress}
           onSelect={props.onSelectAddress}
           onError={props.onErrorAddress}
+          onClear={props.onClearAddress}
         />
       </div>
       <div

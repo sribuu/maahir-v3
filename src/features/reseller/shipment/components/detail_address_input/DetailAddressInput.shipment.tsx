@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import TextfieldComponent from "../../../../../core/ui/components/textfield/Textfield.component";
+import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
+import { invalidDetailAddressValidation } from "@/src/core/utils/validation";
 
-export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-export const trailingSlashRegex = /\s+$/;
-
-export const invalidNameValidation = (value: string) => value.length <= 0;
-
-export const errorNameValidationMessage = (invalidStatus: boolean) =>
+export const errorDetailAddressValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Detail Alamat tidak valid" : "";
 
 export interface IDetailAddressInputShipmentProps {
@@ -42,13 +38,13 @@ export default function DetailAddressInputShipment(
     if (detailAddress.length > 0) {
       setDetailAddressValidation({
         ...detailAddressValidation,
-        invalid: invalidNameValidation(detailAddress),
-        message: errorNameValidationMessage(
-          invalidNameValidation(detailAddress)
+        invalid: invalidDetailAddressValidation(detailAddress),
+        message: errorDetailAddressValidationMessage(
+          invalidDetailAddressValidation(detailAddress)
         ),
       });
     }
-  }, [name]);
+  }, [detailAddress]);
 
   useEffect(() => {
     if (props.onError) {

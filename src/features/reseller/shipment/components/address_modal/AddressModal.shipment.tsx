@@ -40,6 +40,7 @@ export default function AddressModalShipment(
       props.onSaveChange();
     }
   };
+
   return (
     <ModalComponent open={props.open} onClose={props.onClose}>
       <CardComponent>
@@ -76,6 +77,7 @@ export default function AddressModalShipment(
             onErrorName={props.onErrorName}
             onChangeEmail={props.onChangeEmail}
             onErrorEmail={props.onErrorEmail}
+            onSelectAddress={props.onSelectAddress}
             onChangeAddress={props.onChangeAddress}
             onErrorAddress={props.onErrorAddress}
             onChangeDetailAddress={props.onChangeDetailAddress}

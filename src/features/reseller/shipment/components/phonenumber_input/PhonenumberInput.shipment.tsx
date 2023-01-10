@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
-
-export const indonesianPhonenumberRegex =
-  /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/;
+import { invalidPhonenumberValidation } from "@/src/core/utils/validation";
 
 export const replaceStringInPhonenumber = (data: string) => {
   const result = data.replace(/[^\d]/g, "");
   return result;
 };
-
-export const invalidPhonenumberValidation = (value: string) =>
-  !indonesianPhonenumberRegex.test(value);
 
 export const errorPhonenumberValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Nomor HP tidak valid" : "";

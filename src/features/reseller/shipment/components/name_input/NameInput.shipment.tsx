@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import TextfieldComponent from "../../../../../core/ui/components/textfield/Textfield.component";
-
-export const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-export const trailingSlashRegex = /\s+$/;
-
-export const invalidNameValidation = (value: string) =>
-  !nameRegex.test(value) && !trailingSlashRegex.test(value);
+import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
+import { invalidNameValidation } from "@/src/core/utils/validation";
 
 export const errorNameValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Nama tidak valid" : "";

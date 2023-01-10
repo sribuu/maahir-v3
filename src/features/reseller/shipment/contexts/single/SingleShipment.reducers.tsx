@@ -1,5 +1,11 @@
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import {
+  invalidDetailAddressValidation,
+  invalidEmailValidation,
+  invalidNameValidation,
+  invalidPhonenumberValidation,
+} from "@/src/core/utils/validation";
+import {
   ISingleShipmentDropshipper,
   ISingleShipmentOrders,
   ISingleShipmentPersonalInformation,
@@ -30,6 +36,42 @@ export const singleShipmentPersonalInformationReducer = (
           ...state.modal,
           open: false,
         },
+        filled: {
+          ...state.filled,
+          status: false,
+        },
+        name: {
+          ...state.name,
+          change_value: "",
+          save_value: "",
+          error: true,
+        },
+        email: {
+          change_value: "",
+          save_value: "",
+          error: true,
+        },
+        mobile: {
+          change_value: "",
+          save_value: "",
+          error: true,
+        },
+        address: {
+          change_value: "",
+          save_value: "",
+          selected_index: "-1",
+          selected_value: "",
+          list: [],
+          error: true,
+        },
+        detail_address: {
+          change_value: "",
+          save_value: "",
+          error: true,
+        },
+        disabled_save_change: {
+          status: true,
+        },
       };
     case SingleShipmentActionEnum.SetNameValue:
       return {
@@ -37,30 +79,106 @@ export const singleShipmentPersonalInformationReducer = (
         name: {
           ...state.name,
           change_value: action.payload,
+          error: invalidNameValidation(action.payload),
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            invalidNameValidation(action.payload) ||
+            state.email.error ||
+            state.mobile.error ||
+            state.address.error ||
+            state.detail_address.error,
         },
       };
+
     case SingleShipmentActionEnum.SetEmailValue:
       return {
         ...state,
         email: {
           ...state.email,
           change_value: action.payload,
+          error: invalidEmailValidation(action.payload),
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            state.name.error ||
+            invalidEmailValidation(action.payload) ||
+            state.mobile.error ||
+            state.address.error ||
+            state.detail_address.error,
         },
       };
+
     case SingleShipmentActionEnum.SetMobileValue:
       return {
         ...state,
         mobile: {
           ...state.mobile,
           change_value: action.payload,
+          error: invalidPhonenumberValidation(action.payload),
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            state.name.error ||
+            state.email.error ||
+            invalidPhonenumberValidation(action.payload) ||
+            state.address.error ||
+            state.detail_address.error,
         },
       };
+
     case SingleShipmentActionEnum.SetAddressValue:
       return {
         ...state,
         address: {
           ...state.address,
           change_value: action.payload,
+        },
+      };
+    case SingleShipmentActionEnum.ClearAddressValue:
+      return {
+        ...state,
+        address: {
+          ...state.address,
+          change_value: "",
+          selected_index: "-1",
+          selected_value: "",
+          save_value: "",
+          error: true,
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            state.name.error ||
+            state.email.error ||
+            state.mobile.error ||
+            true ||
+            state.detail_address.error,
+        },
+      };
+
+    case SingleShipmentActionEnum.SelectAddressValue:
+      return {
+        ...state,
+        address: {
+          ...state.address,
+          selected_index: action.payload,
+          selected_value: state.address.list.filter(
+            (_, index) => String(index) === action.payload
+          )[0],
+          error: false,
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            state.name.error ||
+            state.email.error ||
+            state.mobile.error ||
+            false ||
+            state.detail_address.error,
         },
       };
     case SingleShipmentActionEnum.SetAddressList:
@@ -77,8 +195,19 @@ export const singleShipmentPersonalInformationReducer = (
         detail_address: {
           ...state.detail_address,
           change_value: action.payload,
+          error: invalidDetailAddressValidation(action.payload),
+        },
+        disabled_save_change: {
+          ...state.disabled_save_change,
+          status:
+            state.name.error ||
+            state.email.error ||
+            state.mobile.error ||
+            state.address.error ||
+            invalidDetailAddressValidation(action.payload),
         },
       };
+
     case SingleShipmentActionEnum.SaveChangeValue:
       return {
         ...state,
@@ -104,7 +233,7 @@ export const singleShipmentPersonalInformationReducer = (
         },
         address: {
           ...state.address,
-          save_value: state.address.change_value,
+          save_value: state.address.selected_value,
         },
         detail_address: {
           ...state.detail_address,

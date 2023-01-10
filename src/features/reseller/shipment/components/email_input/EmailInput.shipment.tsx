@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TextfieldComponent from "../../../../../core/ui/components/textfield/Textfield.component";
-
-export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-export const invalidEmailValidation = (value: string) =>
-  !emailRegex.test(value);
+import TextfieldComponent from "@/src/core/ui/components/textfield/Textfield.component";
+import { invalidEmailValidation } from "@/src/core/utils/validation";
 
 export const errorEmailValidationMessage = (invalidStatus: boolean) =>
   invalidStatus ? "Alamat email tidak valid" : "";
