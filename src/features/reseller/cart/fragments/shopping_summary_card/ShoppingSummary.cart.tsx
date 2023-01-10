@@ -5,7 +5,6 @@ import DividerComponent from "@/src/core/ui/components/divider/Divider.component
 import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { thousandSeparator } from "@/src/core/utils/formatters";
-import { v4 as uuid } from "uuid";
 import { RouterPathName } from "@/src/core/lib/constants";
 
 export interface IShoppingSummaryCardCartProps {
@@ -26,7 +25,6 @@ export default function ShoppingSummaryCardCart(
   // const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
   //   useMutateOrderProduct();
 
-  const orderId = String(uuid());
   const handleSelectPaymentMethod = () => {
     // mutateOrderItem({
     //   order_id: orderId,
@@ -59,53 +57,25 @@ export default function ShoppingSummaryCardCart(
   //   }
   // }, [isSuccessMutateOrderItem]);
 
-  const totalQuantity: number = state.cart.items?.reduce((acc, item) => {
-    const supplierItemTotal = item?.supplier?.data.reduce(
-      (accSupplierItem, supplierItem) => {
-        accSupplierItem = supplierItem.quantity + accSupplierItem;
-        return accSupplierItem;
-      },
-      0
-    );
-    return acc + supplierItemTotal;
-  }, 0);
-
+  const totalQuantity =
+    state.cart.items.length + state.cart.unavailable_items.length;
   const cartIsNotEmpty = totalQuantity > 0;
 
-  const totalSelectedQuantity: number = state.cart.items?.reduce(
-    (acc, item) => {
-      const supplierItemTotal = item?.supplier?.data.reduce(
-        (accSupplierItem, supplierItem) => {
-          accSupplierItem = supplierItem.selected
-            ? supplierItem.quantity + accSupplierItem
-            : accSupplierItem;
-          return accSupplierItem;
-        },
-        0
-      );
-      return acc + supplierItemTotal;
-    },
-    0
+  const totalSelectedQuantity = state.cart.items
+    .filter((item) => item.selected)
+    .reduce((acc, item) => {
+      return acc + item.quantity;
+    }, 0);
+
+  const totalSelectedPrice = thousandSeparator(
+    state.cart.items
+      .filter((item) => item.selected)
+      .reduce((acc, item) => {
+        return acc + item.price;
+      }, 0)
   );
 
-  const totalSelectedPrice: number = state.cart.items?.reduce((acc, item) => {
-    const supplierItemTotal = item?.supplier?.data.reduce(
-      (accSupplierItem, supplierItem) => {
-        accSupplierItem = supplierItem.selected
-          ? supplierItem.price + accSupplierItem
-          : accSupplierItem;
-        return accSupplierItem;
-      },
-      0
-    );
-    return acc + supplierItemTotal;
-  }, 0);
-
-  const selectedItems = state.cart.items
-    .map((item) =>
-      item.supplier.data.filter((supplierItem) => supplierItem.selected)
-    )
-    .flat(1);
+  const selectedItems = state.cart.items.filter((item) => item.selected);
 
   return (
     <div
@@ -209,7 +179,8 @@ export default function ShoppingSummaryCardCart(
           </p>
         </div>
         <p className={clsx("text-[1rem] text-charleston-green font-bold")}>
-          {thousandSeparator(totalSelectedPrice)}
+          {/* {thousandSeparator(totalSelectedPrice)} */}
+          {totalSelectedPrice}
         </p>
       </div>
       {/* end total price */}
@@ -235,7 +206,8 @@ export default function ShoppingSummaryCardCart(
           </p>
         </div>
         <p className={clsx("text-[1.25rem] text-charleston-green font-bold")}>
-          {thousandSeparator(totalSelectedPrice)}
+          {/* {thousandSeparator(totalSelectedPrice)} */}
+          {totalSelectedPrice}
         </p>
       </div>
 

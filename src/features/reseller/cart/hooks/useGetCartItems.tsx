@@ -9,6 +9,7 @@ import { ResellerCartItemsActionEnum } from "../contexts/cart/Cart.types";
 import { ResellerMyCartContext } from "../contexts/my_cart/MyCart.context";
 import { ResellerMyCartActionsEnum } from "../contexts/my_cart/MyCart.types";
 import { getCart } from "@/src/storage/reseller/cart";
+import { useHomePostCheckProducts } from "./usePostCheckProducts.product";
 
 // Global
 export const useGlobalCartGetCartItems = () => {
@@ -91,6 +92,7 @@ export const useGlobalCartGetCartItems = () => {
 // MyCart
 export const useMyCartGetCartItems = () => {
   const { state, dispatch } = useContext(ResellerMyCartContext);
+  const { mutate: checkProducts } = useHomePostCheckProducts();
   const query = useQuery<IResellerCart[]>(
     [MyCartReactQueryKey.GetCartItems],
     getCart
@@ -138,14 +140,49 @@ export const useMyCartGetCartItems = () => {
     }
   }, [query.isFetching]);
 
+  // useEffect(() => {
+  //   if (!query.isFetching && query?.data?.length > 0) {
+  //     dispatch({
+  //       type: ResellerMyCartActionsEnum.SetItems,
+  //       payload: query?.data
+  //         ?.map((item) => {
+  //           return {
+  //             ...item,
+  //             supplier: {
+  //               ...item.supplier,
+  //               data: item.supplier.data.map((itemData) => {
+  //                 return {
+  //                   ...itemData,
+  //                   variant_name: `Variant: ${itemData.variant_name}`,
+  //                 };
+  //               }),
+  //             },
+  //           };
+  //         })
+  //         .flat(1),
+  //     });
+  //   }
+  // }, [query.isFetching]);
+
+  // check products
   useEffect(() => {
-    if (!query.isFetching && query?.data?.length > 0) {
-      dispatch({
-        type: ResellerMyCartActionsEnum.SetItems,
-        payload: query?.data,
+    if (!query.isFetching && query.data !== undefined) {
+      checkProducts({
+        product: query.data
+          .map((item) => {
+            return item.supplier.data.map((supplierItem) => {
+              return {
+                id: supplierItem.product_id,
+                variant_id: supplierItem.variant_id,
+                notes: supplierItem.note,
+                quantity: supplierItem.quantity,
+              };
+            });
+          })
+          .flat(1),
       });
     }
-  }, [query.isFetching]);
+  }, [query.isFetching, query.data]);
 
   return query;
 };

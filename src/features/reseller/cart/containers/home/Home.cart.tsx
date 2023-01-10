@@ -11,6 +11,7 @@ import FloatingActionBuyCart from "../../fragments/floating_action_buy/FloatingA
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { RouterPathName } from "@/src/core/lib/constants";
 import { useMyCartGetCartItems } from "../../hooks/useGetCartItems";
+import UnavailableListItemCardCart from "../../fragments/unavailable_list_item_card/UnavailableListItemCard.cart";
 export interface IHomeCartContainerProps {}
 
 export default function HomeCartContainer(props: IHomeCartContainerProps) {
@@ -65,22 +66,8 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
     router.back();
   };
 
-  const totalSelectedQuantity: number = state.cart.items?.reduce(
-    (acc, item) => {
-      const supplierItemTotal = item?.supplier?.data.reduce(
-        (accSupplierItem, supplierItem) => {
-          accSupplierItem = supplierItem.selected
-            ? supplierItem.quantity + accSupplierItem
-            : accSupplierItem;
-          return accSupplierItem;
-        },
-        0
-      );
-      return acc + supplierItemTotal;
-    },
-    0
-  );
-  const quantityIsNotZero = totalSelectedQuantity > 0;
+  const quantityIsNotZero =
+    state.cart.items.length + state.cart.unavailable_items.length > 0;
   return (
     <MainLayout>
       <div
@@ -135,8 +122,18 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
               "box-border max-w-[1200px] w-full"
             )}
           >
-            <ListItemCardCart />
-            <div className={clsx("hidden sm:grid")}>
+            <div
+              className={clsx(
+                "grid grid-cols-1 place-content-start place-items-start",
+                "gap-y-[36px]",
+                "w-full"
+              )}
+            >
+              <ListItemCardCart />
+              <UnavailableListItemCardCart />
+            </div>
+
+            <div className={clsx("hidden sm:block")}>
               <ShoppingSummaryCardCart />
             </div>
             <div

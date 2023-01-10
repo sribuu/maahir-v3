@@ -13,6 +13,28 @@ const initialState: InitialStateType = {
     is_empty: false,
     select_all: false,
     items: [],
+    is_any_unavailable_items: true,
+    show_unavailable_items: false,
+    unavailable_items: [],
+    // sample
+    // unavailable_items: [
+    //   {
+    //     category_name: "fashion",
+    //     product_name: "Kaos Polos",
+    //     variant_name: "Putih",
+    //     price: "Rp30.000",
+    //     image:
+    //       "https://lzd-img-global.slatic.net/g/p/040ef8a16f39d3e3b098f8872a50f4af.jpg_720x720q80.jpg_.webp",
+    //   },
+    //   {
+    //     category_name: "fashion",
+    //     product_name: "Kaos Polos",
+    //     variant_name: "Hitam",
+    //     price: "Rp30.000",
+    //     image:
+    //       "https://lzd-img-global.slatic.net/g/p/b41d8df69c202b44970baae372113916.jpg_720x720q80.jpg_.webp",
+    //   },
+    // ],
   },
 };
 

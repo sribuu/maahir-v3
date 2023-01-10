@@ -16,8 +16,33 @@ export type InitialStateType = {
   total_number: number;
   cart: {
     is_empty: boolean;
+    // available items
     select_all: boolean;
-    items: IResellerCart[];
+    // items: IResellerCart[];
+    items: {
+      variant_id: string;
+      selected: boolean;
+      image: string;
+      category_name: string;
+      product_name: string;
+      variant_name: string;
+      price: number;
+      formatted_price: string;
+      note: string;
+      quantity: number;
+    }[];
+    // unavailable items
+    is_any_unavailable_items: boolean;
+    show_unavailable_items: boolean;
+    unavailable_items: {
+      variant_id: string;
+      category_name: string;
+      product_name: string;
+      variant_name: string;
+      price: number;
+      formatted_price: string;
+      image: string;
+    }[];
   };
 };
 
@@ -32,11 +57,12 @@ export enum ResellerMyCartActionsEnum {
   SetItems = "SetItems",
   CheckItemIsEmpty = "CheckItemIsEmpty",
   SelectAll = "SelectAll",
-  SelectSupplier = "SelectSupplier",
   SelectItem = "SelectItem",
-  // ChangeNoteItem = "ChangeNoteItem",
 
-  // ClearSelectedItem = "ClearSelectedItems",
+  // unavailable items
+  SetUnavailableItems = "SetUnavailableItems",
+  SetIsAnyUnavailableItems = "SetIsAnyUnavailableItems",
+  ShowUnavailableItems = "ShowUnavailableItems",
 }
 
 // total number
@@ -49,14 +75,35 @@ export type ResellerMyCartTotalNumberActions =
 
 // Items
 type ResellerMyCartItemsPayload = {
-  [ResellerMyCartActionsEnum.SetItems]: IResellerCart[];
   [ResellerMyCartActionsEnum.CheckItemIsEmpty]: boolean;
+  // available
+  // [ResellerMyCartActionsEnum.SetItems]: IResellerCart[];
+  [ResellerMyCartActionsEnum.SetItems]: {
+    variant_id: string;
+    selected: boolean;
+    image: string;
+    category_name: string;
+    product_name: string;
+    variant_name: string;
+    price: number;
+    formatted_price: string;
+    note: string;
+    quantity: number;
+  }[];
   [ResellerMyCartActionsEnum.SelectAll]: undefined;
-  [ResellerMyCartActionsEnum.SelectSupplier]: number;
   [ResellerMyCartActionsEnum.SelectItem]: number;
-  // [ResellerMyCartActionsEnum.SelectAllItems]: undefined;
-  // [ResellerMyCartActionsEnum.ChangeNoteItem]: { id: number; note: string };
-  // [ResellerMyCartActionsEnum.ClearSelectedItem]: undefined;
+  // unavailable items
+  [ResellerMyCartActionsEnum.SetIsAnyUnavailableItems]: boolean;
+  [ResellerMyCartActionsEnum.ShowUnavailableItems]: undefined;
+  [ResellerMyCartActionsEnum.SetUnavailableItems]: {
+    variant_id: string;
+    category_name: string;
+    product_name: string;
+    variant_name: string;
+    price: number;
+    formatted_price: string;
+    image: string;
+  }[];
 };
 
 export type ResellerMyCartItemsActions =

@@ -67,6 +67,7 @@ module.exports = {
       "pastel-orange": "#FFB74A",
       "lavender-gray": "#C4CDD5",
       "alice-blue": "#F2F5FC",
+      "lavender-blush": "#FCF2F2",
     },
 
     extend: {

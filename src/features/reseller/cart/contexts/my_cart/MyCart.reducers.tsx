@@ -1,4 +1,3 @@
-import { IResellerCart } from "@/src/core/lib/models/reseller/cart";
 import {
   ResellerMyCartActions,
   ResellerMyCartActionsEnum,
@@ -22,7 +21,31 @@ export const resellerMyCartItemsReducer = (
   state: {
     is_empty: boolean;
     select_all: boolean;
-    items: IResellerCart[];
+    // items: IResellerCart[];
+    items: {
+      variant_id: string;
+      selected: boolean;
+      image: string;
+      category_name: string;
+      product_name: string;
+      variant_name: string;
+      price: number;
+      formatted_price: string;
+      note: string;
+      quantity: number;
+    }[];
+    // unavailable items
+    is_any_unavailable_items: boolean;
+    show_unavailable_items: boolean;
+    unavailable_items: {
+      variant_id: string;
+      category_name: string;
+      product_name: string;
+      variant_name: string;
+      price: number;
+      formatted_price: string;
+      image: string;
+    }[];
   },
   action: ResellerMyCartActions
 ) => {
@@ -37,59 +60,15 @@ export const resellerMyCartItemsReducer = (
         ...state,
         items: action.payload,
       };
+    // new
     case ResellerMyCartActionsEnum.SelectAll:
-      const selectAllCondition = !state.select_all;
       return {
         ...state,
-        select_all: selectAllCondition,
+        select_all: !state.select_all,
         items: state.items.map((item) => {
           return {
             ...item,
-            supplier: {
-              ...item.supplier,
-              selected: selectAllCondition,
-              data: item.supplier.data.map((itemData) => {
-                return {
-                  ...itemData,
-                  selected: selectAllCondition,
-                };
-              }),
-            },
-          };
-        }),
-      };
-    case ResellerMyCartActionsEnum.SelectSupplier:
-      return {
-        ...state,
-        select_all:
-          state.items.reduce((acc, item) => {
-            return (
-              acc +
-              (item.supplier.selected && action.payload !== item.supplier.id
-                ? 1
-                : !item.supplier.selected && action.payload === item.supplier.id
-                ? 1
-                : 0)
-            );
-          }, 0) === state.items.length,
-        items: state.items.map((item) => {
-          const result =
-            item.supplier.id === action.payload
-              ? !item.supplier.selected
-              : item.supplier.selected;
-
-          return {
-            ...item,
-            supplier: {
-              ...item.supplier,
-              selected: result,
-              data: item.supplier.data.map((itemData) => {
-                return {
-                  ...itemData,
-                  selected: result,
-                };
-              }),
-            },
+            selected: !state.select_all,
           };
         }),
       };
@@ -98,88 +77,40 @@ export const resellerMyCartItemsReducer = (
         ...state,
         select_all:
           state.items.reduce((acc, item) => {
-            const supplierItemTotal = item.supplier.data.reduce(
-              (accData, itemData) => {
-                return (
-                  accData +
-                  (itemData.selected && action.payload !== itemData.variant_id
-                    ? 1
-                    : !itemData.selected &&
-                      action.payload === itemData.variant_id
-                    ? 1
-                    : 0)
-                );
-              },
-              0
-            );
-            return acc + supplierItemTotal;
-          }, 0) ===
-          state.items.reduce((acc, item) => {
-            const supplierItemTotal = item?.supplier?.data.reduce(
-              (accSupplierItem, supplierItem) => {
-                accSupplierItem = supplierItem.quantity + accSupplierItem;
-                return accSupplierItem;
-              },
-              0
-            );
-            return acc + supplierItemTotal;
-          }, 0),
+            const counter =
+              item.selected && String(action.payload) !== item.variant_id
+                ? 1
+                : !item.selected && String(action.payload) === item.variant_id
+                ? 1
+                : 0;
+            return acc + counter;
+          }, 0) === state.items.length,
         items: state.items.map((item) => {
           return {
             ...item,
-            supplier: {
-              ...item.supplier,
-              selected:
-                item.supplier.data.reduce((acc, itemData) => {
-                  return (
-                    acc +
-                    (itemData.selected && action.payload !== itemData.variant_id
-                      ? 1
-                      : !itemData.selected &&
-                        action.payload === itemData.variant_id
-                      ? 1
-                      : 0)
-                  );
-                }, 0) === item.supplier.data.length,
-              data: item.supplier.data.map((itemData) => {
-                return {
-                  ...itemData,
-                  selected:
-                    itemData.variant_id === action.payload
-                      ? !itemData.selected
-                      : itemData.selected,
-                };
-              }),
-            },
+            selected:
+              item.variant_id === String(action.payload)
+                ? !item.selected
+                : item.selected,
           };
         }),
       };
 
-    // case ResellerMyCartActionsEnum.SelectAllItems:
-    //   return {
-    //     ...state,
-    //     selected_items:
-    //       state.selected_items.length !== state.items.length
-    //         ? state.items.map((item) => item.id)
-    //         : [],
-    //   };
-    // case ResellerMyCartActionsEnum.ChangeNoteItem:
-    //   return {
-    //     ...state,
-    //     items: state.items.map((item) => {
-    //       return {
-    //         ...item,
-    //         note:
-    //           item.id === action.payload.id ? action.payload.note : item.note,
-    //       };
-    //     }),
-    //   };
-    // case ResellerMyCartActionsEnum.ClearSelectedItem:
-    //   return {
-    //     ...state,
-    //     selected_items: [],
-    //   };
-
+    case ResellerMyCartActionsEnum.SetUnavailableItems:
+      return {
+        ...state,
+        unavailable_items: action.payload,
+      };
+    case ResellerMyCartActionsEnum.SetIsAnyUnavailableItems:
+      return {
+        ...state,
+        is_any_unavailable_items: action.payload,
+      };
+    case ResellerMyCartActionsEnum.ShowUnavailableItems:
+      return {
+        ...state,
+        show_unavailable_items: true,
+      };
     default:
       return state;
   }
