@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import clsx from "clsx";
 import UnavailableItemListCart from "../unavailable_item_list/UnavailableItemList.cart";
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
+import { useMyCartUnavailableItemsRemoveCart } from "../../hooks/useRemoveCart.cart";
 
 export interface IUnavailableListItemCardCartProps {}
 
@@ -9,13 +10,16 @@ export default function UnavailableListItemCardCart(
   props: IUnavailableListItemCardCartProps
 ) {
   const { state } = useContext(ResellerMyCartContext);
+  const { mutate: removeUnavailableItemsCart } =
+    useMyCartUnavailableItemsRemoveCart();
   const totalQuantity = 1;
   const title = `Barang tidak bisa di proses (${totalQuantity})`;
   const deleteText = "Hapus";
 
   const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // TODO: dispatch delete unavailable items
+    removeUnavailableItemsCart();
   };
+  
   return (
     <div
       className={clsx(

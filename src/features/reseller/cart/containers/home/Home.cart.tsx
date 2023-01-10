@@ -12,12 +12,14 @@ import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { RouterPathName } from "@/src/core/lib/constants";
 import { useMyCartGetCartItems } from "../../hooks/useGetCartItems";
 import UnavailableListItemCardCart from "../../fragments/unavailable_list_item_card/UnavailableListItemCard.cart";
+import InformationCircleIcon from "@/src/core/ui/icons/information_circle/InformationCircle.icon";
+import { ResellerMyCartActionsEnum } from "../../contexts/my_cart/MyCart.types";
 export interface IHomeCartContainerProps {}
 
 export default function HomeCartContainer(props: IHomeCartContainerProps) {
   const query = useMyCartGetCartItems();
   const router = useRouter();
-  const { state } = useContext(ResellerMyCartContext);
+  const { state, dispatch } = useContext(ResellerMyCartContext);
   if (state.cart.is_empty) {
     return (
       <MainLayout>
@@ -66,8 +68,18 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
     router.back();
   };
 
+  const handleSeeUnavailableItem = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch({
+      type: ResellerMyCartActionsEnum.ShowUnavailableItems,
+    });
+  };
+
   const quantityIsNotZero =
     state.cart.items.length + state.cart.unavailable_items.length > 0;
+
+  const unavailableItemText = "Ada barang yang tidak bisa di proses nih";
+  const seeUnavailableItemText = "Lihat Barang";
+
   return (
     <MainLayout>
       <div
@@ -129,6 +141,46 @@ export default function HomeCartContainer(props: IHomeCartContainerProps) {
                 "w-full"
               )}
             >
+              {/* badge */}
+              <div
+                className={clsx(
+                  state.cart.is_any_unavailable_items ? "flex" : "hidden",
+                  "items-center justify-between",
+                  "w-full",
+                  "px-[18px] py-[14px]",
+                  "bg-lavender-blush",
+                  "border border-tart-orange",
+                  "rounded-[0.75rem]"
+                )}
+              >
+                <div
+                  className={clsx(
+                    "flex items-center justify-start gap-x-[0.625rem]"
+                  )}
+                >
+                  <InformationCircleIcon
+                    className={clsx("w-[1.5rem] h-[1.5rem] fill-tart-orange")}
+                  />
+                  <p
+                    className={clsx(
+                      "text-[1rem] text-charleston-green font-medium"
+                    )}
+                  >
+                    {unavailableItemText}
+                  </p>
+                </div>
+
+                <button
+                  className={clsx(
+                    "text-[0.875rem] text-ocean-boat-blue font-bold"
+                  )}
+                  onClick={handleSeeUnavailableItem}
+                >
+                  {seeUnavailableItemText}
+                </button>
+              </div>
+              {/* end badge */}
+
               <ListItemCardCart />
               <UnavailableListItemCardCart />
             </div>

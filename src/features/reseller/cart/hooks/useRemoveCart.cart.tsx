@@ -7,6 +7,7 @@ import { ResellerMyCartContext } from "../contexts/my_cart/MyCart.context";
 import { ResellerMyCartActionsEnum } from "../contexts/my_cart/MyCart.types";
 
 // MyCart
+// Available Items
 export const useMyCartAvailableItemsRemoveCart = () => {
   const { state, dispatch } = useContext(ResellerMyCartContext);
   const queryClient = useQueryClient();
@@ -58,7 +59,7 @@ export const useMyCartAvailableItemsRemoveCart = () => {
   return mutation;
 };
 
-// MyCart
+// Unavailable Items
 export const useMyCartUnavailableItemsRemoveCart = () => {
   const { state, dispatch } = useContext(ResellerMyCartContext);
   const queryClient = useQueryClient();
