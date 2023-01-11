@@ -10,6 +10,7 @@ export interface IShoppingSummaryCardBuyProps {
   totalQuantity?: string;
   totalPrice?: string;
   totalPayment?: string;
+  onBuy?: () => void;
 }
 
 ShoppingSummaryCardBuy.defaultProps = {
@@ -26,7 +27,9 @@ export default function ShoppingSummaryCardBuy(
   const router = useRouter();
 
   const handleClickBuy = () => {
-    //
+    if (props.onBuy) {
+      props.onBuy();
+    }
   };
 
   const handleClickCancel = () => {

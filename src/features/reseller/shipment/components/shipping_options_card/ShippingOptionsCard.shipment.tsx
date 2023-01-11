@@ -6,32 +6,38 @@ import OptionsDropdownShipment from "../options_dropdown/OptionsDropdown.shipmen
 
 export interface IShippingOptionsCardShipmentProps {
   title?: string;
-  disabled?: boolean;
   informationText?: string;
   orders?: {
     name: string;
     shipping_options: {
+      cta: {
+        disabled: boolean;
+      };
       list: {
         name: string;
         eta: string;
-        price: string;
+        price: number;
+        formatted_price: string;
+        selected: boolean;
       }[];
     };
+
     sub_total_price: string;
     items: {
       category: string;
       name: string;
       quantity: string;
-      price: string;
+      price: number;
+      formatted_price: string;
       photo: string;
       variant: string;
     }[];
   }[];
+  onSelect?: (value: string, index: number) => void;
 }
 
 ShippingOptionsCardShipment.defaultProps = {
   title: "Pilih Pengiriman",
-  disabled: true,
   informationText:
     "Barang yang kamu pesan akan dikirim dari gudang yang berbeda ya",
 
@@ -125,16 +131,17 @@ export default function ShippingOptionsCardShipment(
                         "text-[1rem] text-charleston-green font-bold"
                       )}
                     >
-                      {item.price}
+                      {item.formatted_price}
                     </p>
                   </div>
 
                   {/* shipment options */}
 
                   <OptionsDropdownShipment
-                    disabled={props.disabled}
+                    disabled={order.shipping_options.cta.disabled}
                     index={itemIndex}
                     options={order.shipping_options.list}
+                    onSelect={props.onSelect}
                   />
                 </div>
               ))}

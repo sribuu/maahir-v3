@@ -6,6 +6,7 @@ import ButtonComponent from "@/src/core/ui/components/button/Button.component";
 import { ResellerMyCartContext } from "../../contexts/my_cart/MyCart.context";
 import { thousandSeparator } from "@/src/core/utils/formatters";
 import { RouterPathName } from "@/src/core/lib/constants";
+import { useMyCartSetShipment } from "../../hooks/useSetShipment.cart";
 
 export interface IShoppingSummaryCardCartProps {
   id?: string;
@@ -22,10 +23,12 @@ export default function ShoppingSummaryCardCart(
 ) {
   const router = useRouter();
   const { state } = useContext(ResellerMyCartContext);
+  const { mutate: setShipment } = useMyCartSetShipment();
   // const { mutate: mutateOrderItem, isSuccess: isSuccessMutateOrderItem } =
   //   useMutateOrderProduct();
 
   const handleSelectPaymentMethod = () => {
+    setShipment();
     // mutateOrderItem({
     //   order_id: orderId,
     //   orders: state.cart.items

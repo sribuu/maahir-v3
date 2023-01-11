@@ -66,6 +66,13 @@ export interface ISingleShipmentOrders {
     service_cost: string;
     shipment_cost: string;
     total_price: string;
+    order_confirmation: {
+      show: boolean;
+      disabled: boolean;
+    };
+    continue_payment: {
+      show: boolean;
+    };
   };
   payment: {
     modal: {
@@ -88,10 +95,17 @@ export interface ISingleShipmentOrders {
   detail: {
     name: string;
     shipping_options: {
+      cta: {
+        disabled: boolean;
+      };
       list: {
+        courier_code: string;
+        courier_service_code: string;
         name: string;
         eta: string;
-        price: string;
+        price: number;
+        formatted_price: string;
+        selected: boolean;
       }[];
     };
     sub_total_price: string;
@@ -99,7 +113,8 @@ export interface ISingleShipmentOrders {
       category: string;
       name: string;
       quantity: string;
-      price: string;
+      price: number;
+      formatted_price: string;
       photo: string;
       variant: string;
     }[];
@@ -107,6 +122,7 @@ export interface ISingleShipmentOrders {
 }
 
 export interface ISingleShipmentDropshipper {
+  is_dropshipper: boolean;
   name: {
     value: string;
   };
@@ -133,11 +149,13 @@ export enum SingleShipmentActionEnum {
 
   // Dropshipper
   SetDropshipper = "SetDropshipper",
+  SwitchDropshipperOption = "SwitchDropshipperOption",
   SetDropshipperNameValue = "SetDropshipperNameValue",
   SetDropshipperMobileValue = "SetDropshipperMobileValue",
 
   // Orders
   SetOrders = "SetOrders",
+  SetShippingValue = "SetShippingValue",
   SetPaymentList = "SetPaymentList",
   OpenModalPayment = "OpenModalPayment",
   CloseModalPayment = "CloseModalPayment",
@@ -175,6 +193,7 @@ export type SingleShipmentPersonalInformationActions =
 // Dropshipper
 type SingleShipmentDropshipperPayload = {
   [SingleShipmentActionEnum.SetDropshipper]: ISingleShipmentDropshipper;
+  [SingleShipmentActionEnum.SwitchDropshipperOption]: undefined;
   [SingleShipmentActionEnum.SetDropshipperNameValue]: string;
   [SingleShipmentActionEnum.SetDropshipperMobileValue]: string;
 };
@@ -192,7 +211,12 @@ type SingleShipmentOrdersPayload = {
     selected: boolean;
     fee: number;
   }[];
+
   [SingleShipmentActionEnum.OpenModalPayment]: undefined;
+  [SingleShipmentActionEnum.SetShippingValue]: {
+    id: string;
+    index: number;
+  };
   [SingleShipmentActionEnum.CloseModalPayment]: undefined;
   [SingleShipmentActionEnum.ClickOrderConfirmation]: undefined;
   [SingleShipmentActionEnum.SelectPaymentMethod]: string;

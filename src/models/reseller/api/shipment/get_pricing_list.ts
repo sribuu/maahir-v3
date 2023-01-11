@@ -1,14 +1,17 @@
 export type GetPricingListRequestInterface = {
   orders: {
-    product_id: number;
-    quantity: number;
+    supplier_id: number;
+    products: {
+      id: number;
+      quantity: number;
+      variant_id: number;
+    }[];
   }[];
   destination_area_id: string;
 };
 
 export type GetPricingListResponseInterface = {
-  name: string;
-  service_type: string;
+  supplier_id: number;
   data: {
     available_for_cash_on_delivery: boolean;
     available_for_proof_of_delivery: boolean;
@@ -27,5 +30,6 @@ export type GetPricingListResponseInterface = {
     shipping_type: string;
     price: number;
     type: string;
+    eta: string;
   }[];
 };

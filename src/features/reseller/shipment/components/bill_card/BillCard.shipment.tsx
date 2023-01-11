@@ -13,12 +13,12 @@ export interface IBillCardShipmentProps {
   shipmentPrice?: string;
   totalPaymentText?: string;
   totalPayment?: string;
-  ctaConfirmationText?: string;
-  ctaContinuePaymentText?: string;
-  actionEnabled?: boolean;
 
-  onConfirm?: () => void;
-  onPayment?: () => void;
+  disableOrderConfirmation?: boolean;
+  orderConfirmation?: boolean;
+  continuePayment?: boolean;
+  onOrderConfirmation?: () => void;
+  onContinuePayment?: () => void;
 }
 
 BillCardShipment.defaultProps = {
@@ -32,21 +32,21 @@ BillCardShipment.defaultProps = {
   shipmentPrice: "Rp10.0000",
   totalPaymentText: "Total Pembayaran",
   totalPayment: "Rp2.012.000",
-  ctaConfirmationText: "Konfirmasi Pesanan",
-  ctaContinuePaymentText: "Lanjutkan Pembayaran",
 
-  actionEnabled: false,
+  disableOrderConfirmation: true,
+  orderConfirmation: true,
+  continuePayment: false,
 };
 
 export default function BillCardShipment(props: IBillCardShipmentProps) {
   const handleClickConfirmation = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onConfirm) {
-      props.onConfirm();
+    if (props.onOrderConfirmation) {
+      props.onOrderConfirmation();
     }
   };
   const handleClickPayment = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (props.onPayment) {
-      props.onPayment();
+    if (props.onContinuePayment) {
+      props.onContinuePayment();
     }
   };
   return (
@@ -114,29 +114,31 @@ export default function BillCardShipment(props: IBillCardShipmentProps) {
 
         <button
           className={clsx(
+            props.orderConfirmation ? "block" : "hidden",
             "bg-ocean-boat-blue",
             "p-[0.875rem]",
             "rounded-[0.75rem]",
-            props.actionEnabled ? "opacity-100" : "opacity-40",
+            props.disableOrderConfirmation ? "opacity-40" : "opacity-100",
             "text-[1rem] text-white font-bold"
           )}
+          disabled={props.disableOrderConfirmation}
           onClick={handleClickConfirmation}
         >
-          {props.ctaConfirmationText}
+          {"Konfirmasi Pesanan"}
         </button>
 
-        {/* <button
+        <button
           className={clsx(
+            props.continuePayment ? "block" : "hidden",
             "bg-ocean-boat-blue",
             "p-[0.875rem]",
             "rounded-[0.75rem]",
-            props.actionEnabled ? "opacity-100" : "opacity-40",
             "text-[1rem] text-white font-bold"
           )}
           onClick={handleClickPayment}
         >
-          {props.ctaContinuePaymentText}
-        </button> */}
+          {"Lanjutkan Pembayaran"}
+        </button>
       </div>
     </CardComponent>
   );

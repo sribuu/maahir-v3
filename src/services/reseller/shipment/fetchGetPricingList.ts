@@ -3,13 +3,11 @@ import { APIUrlPath } from "@/src/core/lib/constants";
 import { GetPricingListRequestInterface } from "@/src/models/reseller/api/shipment";
 
 export const fetchGetPricingList = async (
-  params: GetPricingListRequestInterface
+  data: GetPricingListRequestInterface
 ) =>
   await axios
-    .get(
-      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}${APIUrlPath.GetProductById}`,
-      {
-        params: params,
-      }
+    .post(
+      `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}/api/v1/maahir/shipping/rates/couriers`,
+      data
     )
     .then((res) => res.data);

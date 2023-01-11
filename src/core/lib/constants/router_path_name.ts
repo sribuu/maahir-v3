@@ -4,6 +4,7 @@ export enum RouterPathName {
   ProductDetail = "/products/detail/[productId]",
   OrderProduct = "/orders/pesanan-kamu/[productId]",
   Buy = "/buy",
+  Shipment = "/shipment/single",
 
   FillOrderDetail = "/orders/isi-detail-pesanan/[productId]",
   OrderSummary = "/orders/ringkasan-pesanan/[productId]",

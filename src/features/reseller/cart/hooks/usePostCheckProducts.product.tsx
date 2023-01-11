@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { CartReactQueryKey } from "../constants";
+import { MyCartReactQueryKey } from "../constants";
 import {
   PostCheckProductsRequestInterface,
   PostCheckProductsResponseInterface,
@@ -18,8 +18,9 @@ export const useHomePostCheckProducts = () => {
     any,
     PostCheckProductsRequestInterface
   >(
-    [CartReactQueryKey.SaveCartItems],
+    [MyCartReactQueryKey.SetCheckout],
     (payload: PostCheckProductsRequestInterface) => {
+      console.log(payload, "kepanggil ga");
       return fetchPostCheckProducts(payload);
     },
     {
@@ -48,7 +49,11 @@ export const useHomePostCheckProducts = () => {
           };
         }),
       });
+    }
+  }, [mutation.isSuccess]);
 
+  useEffect(() => {
+    if (mutation.isSuccess) {
       dispatch({
         type: ResellerMyCartActionsEnum.SetUnavailableItems,
         payload: mutation.data.products.is_not_available.map((item) => {
@@ -65,7 +70,15 @@ export const useHomePostCheckProducts = () => {
       });
     }
   }, [mutation.isSuccess]);
-  // console.log(mutation.data, "ini data mutation");
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      dispatch({
+        type: ResellerMyCartActionsEnum.SetIsAnyUnavailableItems,
+        payload: mutation.data.products.is_not_available.length > 0,
+      });
+    }
+  }, [mutation.isSuccess]);
 
   return mutation;
 };

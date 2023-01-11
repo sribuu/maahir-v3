@@ -86,6 +86,7 @@ const initialState: InitialStateType = {
     // },
   },
   dropshipper: {
+    is_dropshipper: false,
     name: {
       value: "",
     },
@@ -103,6 +104,13 @@ const initialState: InitialStateType = {
       // shipment_cost: "Rp10.0000",
       service_cost: "-",
       shipment_cost: "-",
+      order_confirmation: {
+        show: true,
+        disabled: true,
+      },
+      continue_payment: {
+        show: false,
+      },
     },
     payment: {
       modal: {
@@ -127,16 +135,27 @@ const initialState: InitialStateType = {
       {
         name: "Pesanan 1",
         shipping_options: {
+          cta: {
+            disabled: false,
+          },
           list: [
             {
+              courier_code: "",
+              courier_service_code: "",
               name: "J&T",
               eta: "Estimasi 3 - 7 Desember",
-              price: "Rp43.000",
+              price: 43000,
+              formatted_price: "Rp43.000",
+              selected: false,
             },
             {
+              courier_code: "",
+              courier_service_code: "",
               name: "Tiki",
               eta: "Estimasi 3 - 7 Desember",
-              price: "Rp30.000",
+              price: 30000,
+              formatted_price: "Rp30.000",
+              selected: false,
             },
           ],
         },
@@ -147,7 +166,8 @@ const initialState: InitialStateType = {
               "https://image.uniqlo.com/UQ/ST3/id/imagesgoods/445174/item/idgoods_09_445174.jpg?width=1600&impolicy=quality_75",
             category: "fashion",
             quantity: "1 Barang",
-            price: "Rp649.999",
+            price: 649999,
+            formatted_price: "Rp649.999",
             name: "Paket Reseller Kaos Polos",
             variant: "Hitam",
           },
@@ -156,7 +176,8 @@ const initialState: InitialStateType = {
               "https://image.uniqlo.com/UQ/ST3/id/imagesgoods/445174/item/idgoods_09_445174.jpg?width=1600&impolicy=quality_75",
             category: "fashion",
             quantity: "1 Barang",
-            price: "Rp649.999",
+            price: 649999,
+            formatted_price: "Rp649.999",
             name: "Paket Reseller Kaos Polos",
             variant: "Putih",
           },
@@ -165,16 +186,27 @@ const initialState: InitialStateType = {
       {
         name: "Pesanan 2",
         shipping_options: {
+          cta: {
+            disabled: true,
+          },
           list: [
             {
+              courier_code: "",
+              courier_service_code: "",
               name: "J&T",
               eta: "Estimasi 3 - 7 Desember",
-              price: "Rp43.000",
+              price: 43000,
+              formatted_price: "Rp43.000",
+              selected: false,
             },
             {
+              courier_code: "",
+              courier_service_code: "",
               name: "Tiki",
               eta: "Estimasi 3 - 7 Desember",
-              price: "Rp30.000",
+              price: 30000,
+              formatted_price: "Rp30.000",
+              selected: false,
             },
           ],
         },
@@ -185,7 +217,8 @@ const initialState: InitialStateType = {
               "https://image.uniqlo.com/UQ/ST3/id/imagesgoods/445174/item/idgoods_09_445174.jpg?width=1600&impolicy=quality_75",
             category: "fashion",
             quantity: "1 Barang",
-            price: "Rp649.999",
+            price: 649999,
+            formatted_price: "Rp649.999",
             name: "Paket Reseller Kaos Polos",
             variant: "Hijau",
           },

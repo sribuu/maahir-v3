@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import AddressModalShipment from "../../components/address_modal/AddressModal.shipment";
 import { SingleShipmentContext } from "../../contexts/single/SingleShipment.context";
 import { SingleShipmentActionEnum } from "../../contexts/single/SingleShipment.types";
+import { useSingleGetPricingList } from "../../hooks/useGetPricingList.shipment";
 
 export interface ISingleAddressModalShipmentProps {}
 
 export default function SingleAddressModalShipment(
   props: ISingleAddressModalShipmentProps
 ) {
+  const { mutate: getPricingList } = useSingleGetPricingList();
   const { state, dispatch } = useContext(SingleShipmentContext);
   const handleChangeName = (data: string) => {
     dispatch({
@@ -67,6 +69,7 @@ export default function SingleAddressModalShipment(
     dispatch({
       type: SingleShipmentActionEnum.SaveChangeValue,
     });
+    getPricingList();
   };
 
   return (
@@ -80,6 +83,7 @@ export default function SingleAddressModalShipment(
       phonenumber={state.personal_information.mobile.change_value}
       address={state.personal_information.address.change_value}
       addressList={state.personal_information.address.list}
+      detailAddress={state.personal_information.detail_address.change_value}
       onClose={handleCloseAddAddress}
       onChangeName={handleChangeName}
       onChangeEmail={handleChangeEmail}

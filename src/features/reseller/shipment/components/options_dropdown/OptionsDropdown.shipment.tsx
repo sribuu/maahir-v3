@@ -8,8 +8,11 @@ export interface IOptionsDropdownShipmentProps {
   options?: {
     name: string;
     eta: string;
-    price: string;
+    price: number;
+    formatted_price: string;
+    selected: boolean;
   }[];
+  onSelect?: (value: string, index: number) => void;
 }
 OptionsDropdownShipment.defaultProps = {
   index: -1,
@@ -33,6 +36,9 @@ export default function OptionsDropdownShipment(
   const handleSelectOptions = (e: React.MouseEvent<HTMLButtonElement>) => {
     setOpen(false);
     setOptionsButtonText(e.currentTarget.value);
+    if (props.onSelect) {
+      props.onSelect(e.currentTarget.id, props.index);
+    }
   };
   return (
     <div
@@ -71,8 +77,11 @@ export default function OptionsDropdownShipment(
           "p-[0.5rem]",
           "shadow-options",
           open ? "grid" : "hidden",
+          "gap-y-[0.5rem]",
           "w-full",
-          "absolute top-[4.5rem]"
+          "absolute top-[4.5rem]",
+          "max-h-[200px]",
+          "overflow-scroll"
         )}
       >
         {props.options.length > 0 &&
@@ -82,19 +91,25 @@ export default function OptionsDropdownShipment(
               className={clsx("grid grid-cols-1 gap-y-[0.5rem]", "w-full")}
             >
               <button
+                id={String(index)}
                 className={clsx(
                   "p-[0.5rem]",
                   "cursor-pointer",
                   "grid items-center content-center justify-start justify-items-start",
-                  "bg-white hover:bg-ocean-boat-blue",
-                  "opacity-100 hover:bg-opacity-5"
+                  item.selected
+                    ? "bg-ocean-boat-blue"
+                    : "bg-white hover:bg-ocean-boat-blue",
+                  item.selected
+                    ? "bg-opacity-5"
+                    : "opacity-100 hover:bg-opacity-5",
+                  "rounded-[0.625rem]"
                 )}
                 value={item.name}
                 onClick={handleSelectOptions}
               >
                 <p
                   className={clsx(
-                    "text-[1rem] text-charleston-green font-medium"
+                    "text-[1rem] text-charleston-green font-medium text-left"
                   )}
                 >
                   {item.name}
@@ -111,7 +126,7 @@ export default function OptionsDropdownShipment(
                     "text-[0.75rem] text-charleston-green font-medium"
                   )}
                 >
-                  {item.price}
+                  {item.formatted_price}
                 </p>
               </button>
 

@@ -231,7 +231,7 @@ export default function AutocompleteComponent(
                 >
                   <p
                     className={clsx(
-                      "text-[0.875rem] text-independence font-regular"
+                      "text-[0.875rem] text-independence font-regular text-left"
                     )}
                   >
                     {item}

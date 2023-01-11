@@ -1,5 +1,5 @@
 export type PostCheckProductsRequestInterface = {
-  product: {
+  products: {
     id: number;
     variant_id: number;
     notes: string;

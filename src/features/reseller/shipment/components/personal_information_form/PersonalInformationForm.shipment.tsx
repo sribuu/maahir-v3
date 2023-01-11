@@ -12,6 +12,7 @@ export interface IPersonalInformationFormShipmentProps {
   phonenumber?: string;
   address?: string;
   addressList?: string[];
+  detailAddress?: string;
   onChangeName?: (data: string) => void;
   onErrorName?: (error: { status: boolean; message: string }) => void;
   onChangeEmail?: (data: string) => void;
@@ -31,6 +32,7 @@ PersonalInformationFormShipment.defaultProps = {
   phonenumber: "",
   address: "",
   addressList: [],
+  detailAddress: "",
 };
 
 export default function PersonalInformationFormShipment(
@@ -95,7 +97,7 @@ export default function PersonalInformationFormShipment(
         )}
       >
         <DetailAddressInputShipment
-          value={props.address}
+          value={props.detailAddress}
           onChange={props.onChangeDetailAddress}
           onError={props.onErrorAddress}
         />

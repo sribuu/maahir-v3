@@ -10,7 +10,6 @@ export interface IFillDetailDropshipperCardOrderProps {}
 export default function FillDetailDropshipperCardOrder(
   props: IFillDetailDropshipperCardOrderProps
 ) {
-  const [open, setOpen] = useState(false);
   const { state, dispatch } = useContext(SingleShipmentContext);
 
   const handleChangeName = (data: string) => {
@@ -26,10 +25,16 @@ export default function FillDetailDropshipperCardOrder(
       payload: data,
     });
   };
+
+  const handleSwitchDropshipperOption = (_: boolean) => {
+    dispatch({
+      type: SingleShipmentActionEnum.SwitchDropshipperOption,
+    });
+  };
   return (
     <CardComponent className={clsx("p-[1.5rem]")}>
-      <DropshipperOptionShipment onSwitch={setOpen} />
-      {open && (
+      <DropshipperOptionShipment onSwitch={handleSwitchDropshipperOption} />
+      {state.dropshipper.is_dropshipper && (
         <DropshipperFormShipment
           name={state.dropshipper.name.value}
           phonenumber={state.dropshipper.mobile.value}

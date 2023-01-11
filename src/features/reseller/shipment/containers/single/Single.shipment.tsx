@@ -9,8 +9,8 @@ import { SingleShipmentContext } from "../../contexts/single/SingleShipment.cont
 import SingleFilledAddressCardShipment from "../../fragments/single_filled_address_card/SingleFilledAddressCard.shipment";
 import SingleShippingOptionscardShipment from "../../fragments/single_shipping_options_card/SingleShippingOptionsCard.shipment";
 import SinglePaymentModalShipment from "../../fragments/single_payment_modal/SinglePaymentModal.shipment";
-import { useSinglePaymentGetPayment } from "../../hooks/useGetPayment";
-import { useSinglePaymentGetMaps } from "../../hooks/useGetMaps";
+import { useSinglePaymentGetPayment } from "../../hooks/useGetPayment.shipment";
+import { useSinglePaymentGetMaps } from "../../hooks/useGetMaps.shipment";
 
 export interface ISingleShipmentContainerProps {}
 

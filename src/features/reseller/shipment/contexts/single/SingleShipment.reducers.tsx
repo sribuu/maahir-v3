@@ -253,6 +253,11 @@ export const singleShipmentDropshipperReducer = (
   switch (action.type) {
     case SingleShipmentActionEnum.SetDropshipper:
       return action.payload;
+    case SingleShipmentActionEnum.SwitchDropshipperOption:
+      return {
+        ...state,
+        is_dropshipper: !state.is_dropshipper,
+      };
     case SingleShipmentActionEnum.SetDropshipperNameValue:
       return {
         ...state,
@@ -282,6 +287,84 @@ export const singleShipmentOrdersReducer = (
   switch (action.type) {
     case SingleShipmentActionEnum.SetOrders:
       return action.payload;
+    case SingleShipmentActionEnum.SetShippingValue:
+      return {
+        ...state,
+        summary: {
+          ...state.summary,
+          shipment_cost: thousandSeparator(
+            state.detail.reduce((acc, item, index) => {
+              const totalShipmentCost = item.shipping_options.list
+                .map((optionItem, optionsIndex) => {
+                  return {
+                    ...optionItem,
+                    selected:
+                      action.payload.index === index &&
+                      parseInt(action.payload.id) === optionsIndex
+                        ? !optionItem.selected
+                        : action.payload.index === index &&
+                          parseInt(action.payload.id) !== optionsIndex
+                        ? false
+                        : optionItem.selected,
+                  };
+                })
+                .filter((shippingItem) => shippingItem.selected)
+                .reduce((shippingAcc, shippingItem) => {
+                  return shippingItem.price + shippingAcc;
+                }, 0);
+              return acc + totalShipmentCost;
+            }, 0)
+          ),
+          order_confirmation: {
+            ...state.summary.order_confirmation,
+
+            disabled: !(
+              state.detail.reduce((acc, item, index) => {
+                const total = item.shipping_options.list
+                  .map((optionItem, optionsIndex) => {
+                    return {
+                      ...optionItem,
+                      selected:
+                        action.payload.index === index &&
+                        parseInt(action.payload.id) === optionsIndex
+                          ? !optionItem.selected
+                          : action.payload.index === index &&
+                            parseInt(action.payload.id) !== optionsIndex
+                          ? false
+                          : optionItem.selected,
+                    };
+                  })
+                  .filter((optionItem) => optionItem.selected).length;
+                return total;
+              }, 0) === state.detail.length
+            ),
+            // disabled: false,
+          },
+        },
+        detail: state.detail.map((item, itemIndex) => {
+          return {
+            ...item,
+            shipping_options: {
+              ...item.shipping_options,
+              list: item.shipping_options.list.map(
+                (shippingList, shippingListIndex) => {
+                  return {
+                    ...shippingList,
+                    selected:
+                      action.payload.index === itemIndex &&
+                      parseInt(action.payload.id) === shippingListIndex
+                        ? !shippingList.selected
+                        : action.payload.index === itemIndex &&
+                          parseInt(action.payload.id) !== shippingListIndex
+                        ? false
+                        : shippingList.selected,
+                  };
+                }
+              ),
+            },
+          };
+        }),
+      };
     case SingleShipmentActionEnum.SetPaymentList:
       return {
         ...state,
@@ -364,6 +447,14 @@ export const singleShipmentOrdersReducer = (
           service_cost: thousandSeparator(
             state.payment.list.filter((item) => item.selected)[0].fee
           ),
+          order_confirmation: {
+            ...state.summary.order_confirmation,
+            show: false,
+          },
+          continue_payment: {
+            ...state.summary.continue_payment,
+            show: true,
+          },
         },
         payment: {
           ...state.payment,

@@ -11,13 +11,14 @@ export const fetchPostCheckProducts = async (
   data: PostCheckProductsRequestInterface
 ) => {
   const url = `${process.env.NEXT_PUBLIC_WEB_URL}${process.env.NEXT_PUBLIC_REMOTE_API}/api/v1/maahir/products/check`;
-  if (process.env.NEXT_PUBLIC_MOCK_API === "true") {
-    const mock = new MockAdapter(axios);
-    mock
-      .onPost(url, PostCheckProducts200Request)
-      .reply(200, PostCheckProduct200Response);
-  }
-  return await axios
-    .post(url, PostCheckProducts200Request)
-    .then((res) => res.data);
+  // if (process.env.NEXT_PUBLIC_MOCK_API === "true") {
+  //   const mock = new MockAdapter(axios);
+  //   // mock
+  //   //   .onPost(url, PostCheckProducts200Request)
+  //   //   .reply(200, PostCheckProduct200Response);
+  // }
+  // return await axios
+  //   .post(url, PostCheckProducts200Request)
+  //   .then((res) => res.data);
+  return await axios.post(url, data).then((res) => res.data);
 };

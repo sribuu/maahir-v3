@@ -140,35 +140,11 @@ export const useMyCartGetCartItems = () => {
     }
   }, [query.isFetching]);
 
-  // useEffect(() => {
-  //   if (!query.isFetching && query?.data?.length > 0) {
-  //     dispatch({
-  //       type: ResellerMyCartActionsEnum.SetItems,
-  //       payload: query?.data
-  //         ?.map((item) => {
-  //           return {
-  //             ...item,
-  //             supplier: {
-  //               ...item.supplier,
-  //               data: item.supplier.data.map((itemData) => {
-  //                 return {
-  //                   ...itemData,
-  //                   variant_name: `Variant: ${itemData.variant_name}`,
-  //                 };
-  //               }),
-  //             },
-  //           };
-  //         })
-  //         .flat(1),
-  //     });
-  //   }
-  // }, [query.isFetching]);
-
   // check products
   useEffect(() => {
     if (!query.isFetching && query.data !== undefined) {
       checkProducts({
-        product: query.data
+        products: query.data
           .map((item) => {
             return item.supplier.data.map((supplierItem) => {
               return {
@@ -183,6 +159,34 @@ export const useMyCartGetCartItems = () => {
       });
     }
   }, [query.isFetching, query.data]);
+
+  // DOCS: sample when there is unavailable cart
+  // useEffect(() => {
+  //   if (!query.isFetching && query.data !== undefined) {
+  //     checkProducts({
+  //       products: [
+  //         ...query.data
+  //           .map((item) => {
+  //             return item.supplier.data.map((supplierItem) => {
+  //               return {
+  //                 id: supplierItem.product_id,
+  //                 variant_id: supplierItem.variant_id,
+  //                 notes: supplierItem.note,
+  //                 quantity: supplierItem.quantity,
+  //               };
+  //             });
+  //           })
+  //           .flat(1),
+  //         {
+  //           id: 30,
+  //           variant_id: 113,
+  //           notes: "asdsadsa",
+  //           quantity: 2,
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }, [query.isFetching, query.data]);
 
   return query;
 };

@@ -6,7 +6,6 @@ export enum CartReactQueryKey {
   SaveCartNoteItems = "cart_save-cart-note-items",
   SaveCartQuantityItems = "cart_save-cart-quantity-items",
   CreateOrderItem = "cart_create-order-item",
-  CheckProducts = "cart_check_products",
 }
 
 export enum MyCartReactQueryKey {
@@ -16,4 +15,6 @@ export enum MyCartReactQueryKey {
   SaveCartNoteItems = "cart_save-cart-note-items",
   SaveCartQuantityItems = "cart_save-cart-quantity-items",
   CreateOrderItem = "cart_create-order-item",
+  CheckProducts = "cart_check_products",
+  SetCheckout = "cart_set_checkout",
 }

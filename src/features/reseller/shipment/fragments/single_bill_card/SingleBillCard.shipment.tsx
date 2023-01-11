@@ -2,17 +2,23 @@ import React, { useContext } from "react";
 import BillCardShipment from "@/src/features/reseller/shipment/components/bill_card/BillCard.shipment";
 import { SingleShipmentContext } from "../../contexts/single/SingleShipment.context";
 import { SingleShipmentActionEnum } from "../../contexts/single/SingleShipment.types";
+import { useSinglePostCreateOrder } from "../../hooks/usePostCreateOrder.shipment";
 
 export interface ISingleBillCardShipmentProps {}
 
 export default function SingleBillCardShipment(
   props: ISingleBillCardShipmentProps
 ) {
+  const { mutate: createOrder } = useSinglePostCreateOrder();
   const { state, dispatch } = useContext(SingleShipmentContext);
-  const handleConfirm = () => {
+  const handleOrderConfirm = () => {
     dispatch({
       type: SingleShipmentActionEnum.ClickOrderConfirmation,
     });
+  };
+
+  const handleContinuePayment = () => {
+    createOrder();
   };
   return (
     <BillCardShipment
@@ -26,9 +32,13 @@ export default function SingleBillCardShipment(
       shipmentPrice={state.orders.summary.shipment_cost}
       totalPaymentText={"Total Pembayaran"}
       totalPayment={state.orders.summary.total_payment}
-      ctaConfirmationText={state.orders.cta}
-      actionEnabled={true}
-      onConfirm={handleConfirm}
+      orderConfirmation={state.orders.summary.order_confirmation.show}
+      continuePayment={state.orders.summary.continue_payment.show}
+      disableOrderConfirmation={
+        state.orders.summary.order_confirmation.disabled
+      }
+      onOrderConfirmation={handleOrderConfirm}
+      onContinuePayment={handleContinuePayment}
     />
   );
 }

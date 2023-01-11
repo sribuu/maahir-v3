@@ -13,7 +13,7 @@ const initialState: InitialStateType = {
     is_empty: false,
     select_all: false,
     items: [],
-    is_any_unavailable_items: true,
+    is_any_unavailable_items: false,
     show_unavailable_items: false,
     unavailable_items: [],
     // sample

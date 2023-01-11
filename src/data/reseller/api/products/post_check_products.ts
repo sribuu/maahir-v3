@@ -4,7 +4,7 @@ import {
 } from "@/src/models/reseller/api/products";
 
 export const PostCheckProducts200Request: PostCheckProductsRequestInterface = {
-  product: [
+  products: [
     { id: 30, variant_id: 45, notes: "", quantity: 1 },
     { id: 26, variant_id: 36, notes: "", quantity: 1 },
   ],
